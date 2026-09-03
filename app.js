@@ -1,6 +1,6 @@
 ﻿// 🚨 ALAN ADI KİLİDİ (DOMAIN BINDING) 🚨
 // Sadece bdemir1499.github.io adresinde, EBA sunucularında ve yerel bilgisayarda çalışır!
-const gecerliAdresler = ["bdemir1499.github.io", "127.0.0.1", "localhost", "eba.gov.tr"];
+const gecerliAdresler = ["bdemir1499.github.io", "127.0.0.1", "localhost", "eba.gov.tr", "vercel.app"];
 const mevcutAdres = window.location.hostname;
 
 const kacakKullanimMi = !gecerliAdresler.some(adres => mevcutAdres.includes(adres));
