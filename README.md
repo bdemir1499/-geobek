@@ -1,24 +1,58 @@
-# -geobek
-1.)KALEM BUTONU İLE İSTEDİĞİNİZ RENKTE AKICI ŞEKİLDE YAZABİLİR VE ÇİZDİĞİNİZ BELLİ ŞEKİLLERİ UYGULAMA AKILLI TAHMİNLE DÜZELTEBİLİR.
-2.) SİLGİ BUTONU İLE İLK TEMASTA TÜM TEMAS EDİLEN ŞEKLİ SİLEBİLİRSİNİZ.
-3.) ÇİZGİ BUTONU İLE ALT ÇİZGİ SEÇENEKLERİ BUTONLARINI GÖRÜNÜR YAPABİLİRSİNİZ. ÖNCE RENGİ SEÇİP (VARSAYILAN RENK BEYAZDIR),SONRA ŞEKLİ SEÇEBİLİR VE ÖNİZLEMELİ ÇİZİMİ YAPABİLİRSİNİZ. 
-4.) SAĞ TARAFTAKİ CANLANDIR BUTONUNU ALT BUTONLARINDAN BİRİ OLAN KUTU İLE  ORTAMA YÜKLEDİĞİN PDF VEYA RESİMDEN İSTEDİĞİN ŞEKLİ VEYA SORUYU ÇERÇEVE İÇİNE ALARAK ANINDA AYNI RENK VE BOYUTTA KOPYASINI OLUŞTURABİLİR İSTEDİĞİN YERE TAŞIYABİLİR DÖNDÜRÜP YENİDEN BOYUTLANDIRABİLİRSİN. YİNE CANLANDIR BUTONU ALT BUTONLARINDAN SERBEST BUTONU İLE MİLİMETRİK İSTEDİĞİN BİÇİM VE BOYUTTA KESME YAPABİLİRSİN,BU SIRADA OLUŞAN BOŞLUK AKILLI BOYAMA İLE HEMEN ALTINDAKİ RENGE BOYANIR.
-5.) CETVEL,GÖNYE,AÇIÖLÇER VE PERGEL BUTONLARI İLE İLGİLİ ARACA ERİŞEBİLİRSİNİZ. PEMBE BUTONLARDAN CETVELİ UZATABİLİR, AÇIÖLÇER VE GÖNYEYİ BÜYÜTÜP KÜÇÜLTEBİLİRSİNİZ, PERGELİN YARIÇAP AYARINI YAPABİLİRSİNİZ. KIRMIZI BUTONLARLA CETVEL (CETVELİN ALTINDA) VE GÖNYEDE SAYI ETİKETİ OLAN KENARINA BİTİŞİK, GERÇEK ZAMANLI MEVCUT UZUNLUĞU GÖSTEREN ETİKETİ TAKİP EDEREK ÇİZİM YAPABİLİRSİNİZ, AÇI ÖLÇER MERKEZİNDEKİ KIRMIZI BUTON İLE DE İSTEDİĞİN AÇIDA, İSTEDİĞİN ADETTE İSTEDİĞİN YÖNE IŞIN ÇİZEBİLİRSİN.
-6.) PERGEL BUTONUYLA PERGELE ERİŞEBİLİRSİNİZ. TEPESİNDEN TUTARAK İSTEDİĞİNİZ YÖNDE DÖNDÜREBİLİRSİN. SİVRİ UÇ OTOMATİK OLARAK KİLİTLENECEKTİR. TEPESİNE İKİ KERE TIKLAYARAK SİVRİ UÇ VE KALEM UCUN YERİNİ İHTİYAÇ HALİNDE DEĞİŞTİREBİLİRSİN. TURUNCU BUTON İLE PERGELİN BİÇİMSEL KENDİ BÜYÜKLÜĞÜNÜ AYARLAYABİLİRSİN. PEMBE BUTON İLE AYAKLAR ARASI YARIÇAP GENİŞİLİĞİNİ AYARLAYABİLİRSİN.
-8.) TÜM BU FİZİKİ ARAÇLARI (CETVEL,GÖNYE,AÇIÖLÇER VE PERGELİ) ÇİZİM ALANINDA GÖVDELERİNDEN TUTARAK İSTEDİĞİN YERE TAŞIYABİLİRSİN.
-9.) AYNI ANDA BİRDEN FAZLA ARACI AYNI ÇİZİM ALANINDA KULLANABİLİRSİN. ARAÇLAR ÜST ÜSTE GELİRSE EKRANDA ALTTA KALANA TIKLADIĞINIZDA ÜSTE GELECEKTİR.
-10.) ÇOKGENLER BUTONUYLA ÖNCE RENGİ SONRA ÇİZECEĞİN ÇOKGENİ SEÇEREK ÖZİZLEMELİ OLARAK VE BÜYÜKLÜĞÜ GERÇEK ZAMANLI YANINDAKİ ETİKETTEN TAKİP EDEREK ÇİZMEYE BAŞLAYABİLİRSİN.  
-12.) ÇOKGENLER SEÇENEĞİYLE OLUŞTURDUĞUNUZ ÇOKGENİN DURUŞU VEYA BÜYÜKLÜĞÜ HOŞUNA GİTMEZSE, SAĞ TARAFTAKİ TAŞI BUTONU İLE ÇOKGENİ MERKEZİNDEN SÜRÜKLEYEBİLİR, ORTAYA ÇIKAN PEMBE BUTONLA BÜYÜKLÜĞÜNÜ ŞEKLİN YANINDAKİ ETİKETTEN GERÇEK ZAMANLI TEKRAR AYARLAYABİLİR,YEŞİL BUTONLA ÇOKGENİ DÖNDÜREBİLİRSİN.
-13.) ÇOKGEN ÇEŞİTLERİYLE ÇOKGENİ OLUŞTURDUKTAN SONRA SAĞ TARAFTAKİ TAŞI BUTONUNA BASIP KENARINA TIKLARSANIZ KENAR UZUNLUĞUNU , KÖŞESİNE TIKLARSANIZ AÇI ÖLÇÜSÜNÜ GÖREBİLİRSİN. ÇEMBERDE İSE TAŞI BUTONUNDAN SONRA ÇEMBER YAYINA TIKLARSANIZ, YARIÇAP VE ÇEVRE ALAN HESAPLAMALARINI, FORMÜLÜ VE GERÇEK ZAMANLI VERİNİN FORMÜLDE YERİNE YAZILMIŞ VE HESAPLANMIŞ HALİNİ GÖREBİLİRSİN. Pİ SAYISI 3 ALINMIŞ OLARAK AYARLANDI .
-14.) SAĞ TARAFTAKİ GERİ AL TUŞU HER TIKLAMADA SON YAPILAN ÇİZİMİ GERİ ALIR VE TIKLAMAYA DEVAM ETTİKÇE GERİ ALMAYA DEVAM EDER.
-15) SAĞ TARAFTAKİ HEPSİNİ SİL BUTONU TEK TIKLAMADA TÜM ÇİZİM ALANINI TEMİZLER.
-16) SAĞ TARAFTAKİ ARAÇ RENGİ BUTONU TEK TIKLAMA İLE ÇİZİM YAPTIĞINIZ CETVEL,GÖNYE,AÇIÖLÇER VE PERGEL RENGİNİ VE BUNLARIN YAPTIĞI ÇİZİM RENGİNİ, ÜZERİNDE ÇİZİM YAPTIĞIN ZEMİN RENGİNE GÖRE DEĞİŞTİRİR. İKİ RENK SEÇENEĞİ VARDIR NEON VE SİYAH. 
-17.) EN ÖNEMLİ ÖZELLİĞİMİZ. SAĞ TARAFTAKİ YÜKLE BUTONUYLA İSTEDİĞİNİZ BİR RESMİ VEYA PDF KİTABIN TAMAMINI TEK SEFERDE ULTRA YÜKSEK ÇÖZÜNÜRLÜKLE ÇİZİM ALANINA YÜKLEYEBİLİRSİN. YÜKLE BUTONUNA TIKLAYIN, AÇILAN PENCEREDE RESMİN VEYA KİTABIN OLDUĞU KLASÖRE GİDİN VE RESMİ VEYA KİTABI SEÇİN. TAMAM DİYİP, SEÇTİĞİN KİTAPSA EĞER ÜSTTE YENİ GELEN KUTUCUĞA GİTMEK İSTEDİĞİN SAYFA NUMARASINI YAZIN. TAMAM DİYİN VE O SAYFAYA GİDİN. SAĞ TARAFTAKİ TAŞI BUTONUNA TIKLAYARAK TEK PARMAKLA SAYFAYI YUKARI AŞAĞI SAĞA SOLA KAYDIRABİLİR,İKİ PARMAKLA ZOOM YAPABİLİRSİNİZ. 
-18)  YÜKLE BUTONU ALTINDAKİ İLERİ GERİ TUŞLARIYLA SAYFALAR ARASI GEÇİŞ YAPABİLİRSİNİZ.
-19) OYUNLAR BUTONUYLA ÇİZİM ALANINDA ANLATTIĞINIZ KONUNUN OYUNUNA TEK TIKLA ULAŞABLİRSİNİZ, BU MENÜDE MAARİF MODELİYLE UYUMLU 34 TANE ETKİLEŞİMLİ OYUN BULUNMAKTADIR. 
-20) 3D ŞEKİLLER BUTONUYLA KÜRE,PRİZMA ÇEŞİTLERİ, PİRAMİT ÇEŞİTLERİ VE KONİ ÇİZİMİNİ BAŞLATABİLİR,SOL PANEL ALTINDA ORTAYA ÇIKAN SÜRGÜ İLE SEÇTİĞİN 3 D ŞEKLİN AÇINIMINI ANİMASYON İLE GERÇEK ZAMANLI GÖZLEMLEYEBİLİRSİN. 
-21) 3D ŞEKİLLERİ DE SOL TARAFTAKİ TAŞI BUTONUNA TIKLAYIP EKRANDA İSTEDİĞİN YERE TAŞIYABİLİR YANINDA OLUŞAN PEMBE VE YEŞİL BUTONLA BU ŞEKLİ YENİDEN BOYUTLANDIRABİLİR VEYA DÖNDÜREBİLİRSİN.
-22) UYGULAMAYI İSTER SADECE TAHTADA TEK LİNKE TIKLAYARAK (linki birkez yazıp sık kullanılanlara eklemek süreci oldukça hızlandırır) İSTER TABLET VE TAHTA ARASINDA TAHTADAN GELEN ODA KODU VE ŞİFREYİ TABLETE GİREREK SENKRONİZE BİR ŞEKİLDE KULLANABİLİRSİN. TABLET VE TAHTA ARASINDAKİ VERİ AKTARIMI SADECE AYNI WİFİ AĞI ÜZERİNE BAĞLI OLAN TABLET VE TAHTA ARASINDA GERÇEKLEŞECEKL ŞEKİLDE AYARLANMIŞTIR. AKTARILABİLİECEK VERİLER İSE TABLETTE ORTAMA YÜKLEDİĞİNİZ, ÇİZDİĞİNİZ HERŞEYDİR.
-23) TABLET TAHTA VERİ AKTARIMI SIRASINDA AKTARILAN TÜM VERİ İÇERDE KALIR VE DIŞ SUNUCULARA YÜKLENMEZ. BU SEBEPLE KİŞİSEL VERİ İHLALİ SÖZ KONUSU OLAMAZ.
-24) KULLANICI BİLGİSİ VE KULLANICIYA AİT ÇİZİMLER YÜKLENEN DOSYALAR HİÇ BİR VERİ TABANINDA KAYDEDİLMEZ. AKTARIM SADECE TABLET,MODEM VE TAHTA ARASINDA BAĞLI OLDUKLARI MODEM ÜZERİNDEN GERÇEKLEŞİR. BU SEBEPLE DE KİŞİSEL VERİ İHLALİ SÖZ KONUSU OLAMAZ.
+📐 Geometri Araç Seti (tab-that-aktarim)
+Dijital Geometri Laboratuvarı ve Etkileşimli Sınıf Platformu
 
+Bu yazılım, geometri öğretimini somutlaştırmak, etkileşimi artırmak ve geleneksel ölçüm araçlarını dijital dünyanın hızıyla birleştirmek amacıyla geliştirilmiş, gönüllü bir eğitim platformudur.
+
+🌟 Öne Çıkan Özellikler
+1. Çizim ve Şekil Araçları
+Akıllı Çizim: Kalem ve silgi ile akıcı not alma. Silgi, temas ettiği tüm objeyi tek dokunuşta siler.
+
+Gelişmiş Çizim Araçları: Çizgi, doğru parçası ve ışın çizimi. İkinci tıklama/parmak çekme ile onaylanan önizlemeli çizim mekanizması.
+
+Geometrik Şekiller: Çokgenler (3gen, 5gen vb.) ve çemberler. Çizim esnasında gerçek zamanlı boyut takibi ve çokgen kenar/açı ölçümleri.
+
+Matematiksel Hesaplama: Çember ve çokgenlerde, taştı butonuna basıp şekle tıklandığında Pİ=3 kabulüyle hesaplanmış çevre, alan ve yarıçap formüllerinin gösterimi.
+
+2. Etkileşimli Fiziksel Araçlar
+Cetvel, Gönye, Açıölçer ve Pergel: Gerçek zamanlı uzunluk/açı etiketleri.
+
+Akıllı Pergel: Otomatik kilitlenen sivri uç, uç değiştirme (tepeye çift tıklama) ve turuncu/pembe butonlarla boyutlandırma.
+
+Dinamik Etiketleme: Araçların üzerine entegre edilen etiketler sayesinde, çizim yaparken değerleri anlık takip edebilirsiniz.
+
+3. PDF/Resim Desteği ve "Canlandırma" (Snapshot)
+Ultra Yüksek Çözünürlük: Tek tıkla PDF kitapları veya görselleri sisteme yükleme.
+
+Sayfa Yönetimi: Kitap modunda sayfa numarası ile doğrudan erişim ve ileri/geri navigasyon.
+
+Snapshot Özelliği: Yüklü PDF/Resim üzerindeki bir soruyu veya şekli çerçeve içine alıp kopyalama. Kopyalanan parçayı döndürme, taşıma ve yeniden boyutlandırma.
+
+Arka Sıra Görünürlüğü: İki parmakla zoom özelliği sayesinde en arkadaki öğrencinin bile içeriği net görmesini sağlama.
+
+4. Özelleştirme ve Kontrol
+Renk Paleti: Beyaz veya Siyah zemin seçeneği (Kitap arka planına göre hızlı geçiş).
+
+Kontrol Paneli: Geri al, hepsini sil ve araç gövdelerinden serbestçe taşıma özellikleri.
+
+Eğitim Oyunları: 5. Sınıf Maarif Modeli ile uyumlu 14 adet etkileşimli oyun (Restorasyon aşamasında).
+
+🔒 Güvenlik Mimarisi
+Uygulama, Merkeziyetsiz P2P (Peer-to-Peer) mimarisiyle tasarlanmıştır.
+
+Yerel Ağ (Wi-Fi) Zorunluluğu: Dışarıdan veya farklı lokasyonlardan izinsiz erişimleri engellemek için bağlantı, aynı yerel ağ (Aynı modem/okul ağı) ile sınırlandırılmıştır.
+
+Veri Gizliliği: Uygulama hiçbir kişisel veri toplamaz, depolamaz veya sunucuya yüklemez. Tüm oturum verileri geçicidir ve tarayıcılar arası doğrudan (P2P) aktarılır.
+
+PIN Korumalı Bağlantı: Oda kodu ve her ders için üretilen 4 haneli PIN kodu sayesinde, sınıf içindeki bağlantılar sadece yetkili tabletlerle mühürlenir.
+
+⚠️ Yasal Uyarı ve Sorumluluk Reddi
+Eğitim Amaçlıdır: Bu yazılım, yalnızca sınıf içi eğitim faaliyetlerini desteklemek amacıyla tasarlanmıştır. Yazılımın amacı dışında kullanımı yasaktır ve kullanıcı sorumluluğundadır.
+
+Sorumluluk Reddi: Bu yazılım "olduğu gibi" sunulmuştur. Geliştirici, yazılımın kullanımından kaynaklanan veya kullanım amacı dışında kullanılmasıyla ortaya çıkabilecek hiçbir hukuki, cezai veya idari sorumluluğu kabul etmez. Kullanıcı, yazılımı kullanmaya başladığı andan itibaren tüm sorumluluğu üstlenmiş sayılır.
+
+Bağımsızlık: Bu proje, herhangi bir resmi kurumla organik bağ içermeyen, öğretmen tarafından geliştirilmiş kişisel bir hobi projesidir.
+
+Lisans: MIT Lisansı ile korunmaktadır.
+
+ℹ️ Disclaimer (English)
+This software is an independent educational tool developed voluntarily by a teacher. It is intended solely for classroom educational purposes. It does not collect, store, or upload any personal data. It is provided "as is" under the MIT License. The developer accepts no liability for misuse.
