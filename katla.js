@@ -21,24 +21,40 @@ function screenToCanvasCoords(screenObj) {
     const canvasElm = document.getElementById('drawing-canvas');
     if (!canvasElm) return screenObj;
     const cr = canvasElm.getBoundingClientRect();
-    const scaleX = canvasElm.width / cr.width;
-    const scaleY = canvasElm.height / cr.height;
+    // AĞ SENKRONİZASYONU İÇİN KESİN ÇÖZÜM:
+    // Farklı ekran çözünürlükleri (PC vs Tablet) ve farklı DPI'lar arasında uyumsuzluk olmaması için
+    // koordinatları Yüzdelik Oran (0.0 - 1.0) olarak gönderiyoruz!
     if (screenObj.w !== undefined) {
-        return { x: (screenObj.x - cr.left) * scaleX, y: (screenObj.y - cr.top) * scaleY, w: screenObj.w * scaleX, h: screenObj.h * scaleY };
+        return { 
+            x: (screenObj.x - cr.left) / cr.width, 
+            y: (screenObj.y - cr.top) / cr.height, 
+            w: screenObj.w / cr.width, 
+            h: screenObj.h / cr.height 
+        };
     }
-    return { x: (screenObj.x - cr.left) * scaleX, y: (screenObj.y - cr.top) * scaleY };
+    return { 
+        x: (screenObj.x - cr.left) / cr.width, 
+        y: (screenObj.y - cr.top) / cr.height 
+    };
 }
 
-function canvasToScreenCoords(canvasObj) {
+function canvasToScreenCoords(networkObj) {
     const canvasElm = document.getElementById('drawing-canvas');
-    if (!canvasElm) return canvasObj;
+    if (!canvasElm) return networkObj;
     const cr = canvasElm.getBoundingClientRect();
-    const scaleX = canvasElm.width / cr.width;
-    const scaleY = canvasElm.height / cr.height;
-    if (canvasObj.w !== undefined) {
-        return { x: canvasObj.x / scaleX + cr.left, y: canvasObj.y / scaleY + cr.top, w: canvasObj.w / scaleX, h: canvasObj.h / scaleY };
+    // Gelen yüzdelik oranı, bu cihazın kendi ekran çözünürlüğüne (pikseline) geri çeviriyoruz!
+    if (networkObj.w !== undefined) {
+        return { 
+            x: (networkObj.x * cr.width) + cr.left, 
+            y: (networkObj.y * cr.height) + cr.top, 
+            w: networkObj.w * cr.width, 
+            h: networkObj.h * cr.height 
+        };
     }
-    return { x: canvasObj.x / scaleX + cr.left, y: canvasObj.y / scaleY + cr.top };
+    return { 
+        x: (networkObj.x * cr.width) + cr.left, 
+        y: (networkObj.y * cr.height) + cr.top 
+    };
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -425,7 +441,16 @@ function cizKatlamaAnimasyonu(bgImg, fgImg, rect, foldStart, foldCurrent) {
     ctx.shadowOffsetY = -ny * 10;
     
     ctx.drawImage(fgImg, rect.x, rect.y, rect.w, rect.h);
+    
+    // Gölgeyi kapat (sonraki çizimleri etkilememesi için)
+    ctx.shadowColor = "transparent";
+    
+    // SİYAH KUTU HATASI ÇÖZÜMÜ: fillRect'in rengini vermediğim için varsayılan siyaha boyuyordu!
+    // Arka yüz buzlu cam efekti (Sadece kağıdın arka yüzeyine uygulanır)
+    ctx.globalCompositeOperation = 'source-atop';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
     ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
+    ctx.globalCompositeOperation = 'source-over'; // Eski haline getir
     
     ctx.restore();
 }
