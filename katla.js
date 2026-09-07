@@ -343,12 +343,12 @@ function cizKatlamaAnimasyonu(bgImg, fgImg, rect, p1, p2) {
     const angle = Math.atan2(ny, nx);
     
     // 1. FİZİKSEL GERÇEKÇİLİK: KALKAN KAĞIDIN BOŞLUĞU (Zemini Geri Yükle)
-    // Kalkan kısmın altındaki kırmızı şekli örtmek için bgImg'yi (sadece zemin) çiziyoruz!
+    // Kalkan kısım (P1 tarafı, x < 0). Buradaki kırmızı şekli örtmek için sadece bgImg çiziyoruz!
     ctx.save();
     ctx.beginPath();
     ctx.translate(midX, midY);
     ctx.rotate(angle);
-    ctx.rect(0, -ch*2, cw*2, ch*4); // P2 tarafı (Kalkan taraf)
+    ctx.rect(-cw*2, -ch*2, cw*2, ch*4); // P1 tarafı (Kalkan taraf)
     ctx.clip();
     ctx.rotate(-angle);
     ctx.translate(-midX, -midY);
@@ -357,11 +357,12 @@ function cizKatlamaAnimasyonu(bgImg, fgImg, rect, p1, p2) {
     ctx.restore();
 
     // 2. KATLANAN (HAREKETLİ) KISMI ÇİZ
+    // Katlanan kısım P2 tarafına (x > 0) düşer!
     ctx.save();
     ctx.beginPath();
     ctx.translate(midX, midY);
     ctx.rotate(angle);
-    ctx.rect(-cw*2, -ch*2, cw*2, ch*4); // Flip edildiği için P1 tarafına geçecek
+    ctx.rect(0, -ch*2, cw*2, ch*4); // P2 tarafı (Flap buraya inecek)
     ctx.clip();
     ctx.rotate(-angle);
     ctx.translate(-midX, -midY);
