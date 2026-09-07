@@ -6093,6 +6093,11 @@ function setupConnectionEvents() {
         function veriyiIsle(d) {
             if (!d) return;
 
+            if (d.type && d.type.startsWith('katlama_')) {
+                window.dispatchEvent(new CustomEvent('katlama_sistemi', { detail: d }));
+                return;
+            }
+
             // --- EKRANLAR ARASI ÇÖZÜNÜRLÜK ADAPTASYONU ---
             const canvasElm = document.getElementById('drawing-canvas');
             const myCw = canvasElm ? canvasElm.width : window.innerWidth;
