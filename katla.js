@@ -166,11 +166,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const sh = rect.height * scaleY;
 
             if (bgCanvas) {
+                tempBg.getContext('2d').fillStyle = document.body.style.backgroundColor || '#ffffff';
+                tempBg.getContext('2d').fillRect(0, 0, rect.width, rect.height);
                 tempBg.getContext('2d').drawImage(bgCanvas, sx, sy, sw, sh, 0, 0, rect.width, rect.height);
             } else {
                 tempBg.getContext('2d').fillStyle = document.body.style.backgroundColor || '#ffffff';
                 tempBg.getContext('2d').fillRect(0, 0, rect.width, rect.height);
             }
+            
+            // OPAQUE FLAP: Kağıdın arkasını görebilmemiz için şeffaf değil, opak olması lazım!
+            // Zemin rengini ve PDF'i kağıdın bazı olarak alıyoruz:
+            tempFg.getContext('2d').drawImage(tempBg, 0, 0);
+            // Sonra üzerine çizimleri ekliyoruz:
             tempFg.getContext('2d').drawImage(canvasElm, sx, sy, sw, sh, 0, 0, rect.width, rect.height);
 
             const bgStr = tempBg.toDataURL('image/png');
@@ -246,8 +253,16 @@ function baslatKatlamaEkrani(isRemote = false) {
     const dpr = window.devicePixelRatio || 1;
     katlamaOverlayCanvas.width = window.innerWidth * dpr;
     katlamaOverlayCanvas.height = window.innerHeight * dpr;
+    
+    // PDF ve diğer nesnelerin altında kalmaması için css z-index ayarı:
+    katlamaOverlayCanvas.style.position = 'absolute';
+    katlamaOverlayCanvas.style.top = '0';
+    katlamaOverlayCanvas.style.left = '0';
     katlamaOverlayCanvas.style.width = window.innerWidth + 'px';
     katlamaOverlayCanvas.style.height = window.innerHeight + 'px';
+    katlamaOverlayCanvas.style.zIndex = '10000';
+    katlamaOverlayCanvas.style.pointerEvents = 'auto';
+    katlamaOverlayCanvas.style.touchAction = 'none';
     
     document.body.appendChild(katlamaOverlayCanvas);
     katlamaOverlayCtx = katlamaOverlayCanvas.getContext('2d');
@@ -355,66 +370,61 @@ function getReflectionMatrix(p1, p2) {
     return [a, b, b, -a, tx, ty];
 }
 
-function cizKatlamaAnimasyonu(bgImg, fgImg, rect, p1, p2) {
-    if (!katlamaOverlayCtx || !bgImg || !fgImg) return;
+function cizKatlamaAnimasyonu(bgImg, fgImg, rect, foldStart, foldCurrent) {
+    if (!katlamaOverlayCtx) return;
     const ctx = katlamaOverlayCtx;
-    const cw = ctx.canvas.width;
-    const ch = ctx.canvas.height;
-    
-    ctx.clearRect(0, 0, cw, ch);
+    const cw = katlamaOverlayCanvas.width;
+    const ch = katlamaOverlayCanvas.height;
 
-    const dx = p2.x - p1.x;
-    const dy = p2.y - p1.y;
-    if (Math.abs(dx) < 2 && Math.abs(dy) < 2) {
+    ctx.clearRect(0, 0, cw, ch);
+    
+    const dx = foldCurrent.x - foldStart.x;
+    const dy = foldCurrent.y - foldStart.y;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if (dist < 1) {
+        ctx.drawImage(fgImg, rect.x, rect.y, rect.w, rect.h);
         return;
     }
 
-    const midX = (p1.x + p2.x) / 2;
-    const midY = (p1.y + p2.y) / 2;
-    const nx = dx;
-    const ny = dy;
+    const midX = foldStart.x + dx / 2;
+    const midY = foldStart.y + dy / 2;
+    const nx = dx / dist;
+    const ny = dy / dist;
     const angle = Math.atan2(ny, nx);
     
-    // 1. FİZİKSEL GERÇEKÇİLİK: KALKAN KAĞIDIN BOŞLUĞU (Zemini Geri Yükle)
-    // P1 tarafı (x < 0) kalkan kısımdır. Kağıt buradan kalktığı için altındaki boşluk/zemin burada görünür!
+    // 1. ZEMİN (Delik / P1 Tarafı)
     ctx.save();
     ctx.beginPath();
     ctx.translate(midX, midY);
     ctx.rotate(angle);
-    ctx.rect(-cw*2, -ch*2, cw*2, ch*4); // P1 tarafı (Boşluk/Delik)
+    ctx.rect(-cw*2, -ch*2, cw*2, ch*4); // P1 (kalkan kısım boşluğu)
     ctx.clip();
     ctx.rotate(-angle);
     ctx.translate(-midX, -midY);
-    
     ctx.drawImage(bgImg, rect.x, rect.y, rect.w, rect.h);
     ctx.restore();
 
-    // 2. KATLANAN (HAREKETLİ) KISMI ÇİZ
-    // P1'den kalkan kağıt, katlanarak P2 tarafına (x > 0) düşer! Bu yüzden Flap maskesi P2'dir!
+    // 2. KATLANAN YAPRAK (Flap / P2 Tarafı)
     ctx.save();
     ctx.beginPath();
     ctx.translate(midX, midY);
     ctx.rotate(angle);
-    ctx.rect(0, -ch*2, cw*2, ch*4); // P2 tarafı (Flap buraya inecek)
+    ctx.rect(0, -ch*2, cw*2, ch*4); // P2 (yaprağın düştüğü kısım)
     ctx.clip();
     ctx.rotate(-angle);
     ctx.translate(-midX, -midY);
 
-    const [a, b, c, d, tx, ty] = getReflectionMatrix(p1, p2);
+    // Yansıma (Flip)
+    const [a, b, c, d, tx, ty] = getReflectionMatrix(foldStart, foldCurrent);
     ctx.transform(a, b, c, d, tx, ty);
     
-    // Gölge efekti
-    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+    // 3D Gölge (Katlanan yaprağın havada durduğunu belli eder)
+    ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
     ctx.shadowBlur = 20;
-    ctx.shadowOffsetX = -nx * 0.05;
-    ctx.shadowOffsetY = -ny * 0.05;
-
-    // Şeffaf arka planlı sadece ön planı (fgImg) çiz
-    ctx.drawImage(fgImg, rect.x, rect.y, rect.w, rect.h);
+    ctx.shadowOffsetX = -nx * 10;
+    ctx.shadowOffsetY = -ny * 10;
     
-    // Arka yüz buzlu cam efekti
-    ctx.globalCompositeOperation = 'source-atop';
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    ctx.drawImage(fgImg, rect.x, rect.y, rect.w, rect.h);
     ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
     
     ctx.restore();
