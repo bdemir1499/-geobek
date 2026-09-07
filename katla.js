@@ -40,9 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.isKatlaActive) {
             katlaBtn.classList.add('btn-katla-active');
             document.body.classList.add('katla-active');
-            // Reset other tools by simulating a click on Move tool (or just resetting)
-            const moveBtn = document.getElementById('btn-move') || document.querySelector('[title="Taşı"]');
-            if (moveBtn) moveBtn.click();
+            // GÜVENLİK: Eğer global setActiveTool varsa aracı sıfırla
+            if (typeof window.setActiveTool === 'function') {
+                window.setActiveTool('none');
+            }
         } else {
             katlaBtn.classList.remove('btn-katla-active');
             document.body.classList.remove('katla-active');
@@ -54,6 +55,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('pointerdown', (e) => {
         if (!window.isKatlaActive || e.target.closest('.toolbar') || e.target.closest('.fold-container')) return;
+        
+        // Tahta panlamasını ve çizimleri KESİN OLARAK engelle
+        e.stopPropagation(); 
+        
         isDrawingBox = true;
         startX = e.clientX;
         startY = e.clientY;
@@ -63,10 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
         currentBox.style.left = startX + 'px';
         currentBox.style.top = startY + 'px';
         document.body.appendChild(currentBox);
-    });
+    }, { capture: true }); // Önce biz yakalayacağız
 
     document.addEventListener('pointermove', (e) => {
         if (!isDrawingBox || !currentBox) return;
+        
+        e.stopPropagation();
+        
         const currentX = e.clientX;
         const currentY = e.clientY;
         const width = Math.abs(currentX - startX);
@@ -75,10 +83,13 @@ document.addEventListener('DOMContentLoaded', () => {
         currentBox.style.height = height + 'px';
         currentBox.style.left = Math.min(startX, currentX) + 'px';
         currentBox.style.top = Math.min(startY, currentY) + 'px';
-    });
+    }, { capture: true });
 
     document.addEventListener('pointerup', async (e) => {
         if (!isDrawingBox || !currentBox) return;
+        
+        e.stopPropagation();
+        
         isDrawingBox = false;
         
         const rect = currentBox.getBoundingClientRect();
