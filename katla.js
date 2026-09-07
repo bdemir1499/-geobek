@@ -19,18 +19,17 @@ let syncImgId = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Katla Butonunu Ekle
-    const toolGroup = document.createElement('div');
-    toolGroup.className = 'tool-group';
+    // (Kaldırıldı)
+    // 1. Katla Butonunu Canlandır Menüsüne Ekle
     const katlaBtn = document.createElement('button');
     katlaBtn.id = 'btn-katla';
-    katlaBtn.className = 'tool-button';
+    katlaBtn.className = 'tool-button-sub';
     katlaBtn.title = 'Akıllı Katlama';
     katlaBtn.innerHTML = 'Katla ✂️';
-    toolGroup.appendChild(katlaBtn);
     
-    const snapshotMain = document.getElementById('btn-snapshot-main');
-    if (snapshotMain) {
-        snapshotMain.parentElement.insertAdjacentElement('afterend', toolGroup);
+    const snapshotOptions = document.getElementById('snapshot-options');
+    if (snapshotOptions) {
+        snapshotOptions.appendChild(katlaBtn);
     }
 
     // 2. Stilleri Ekle
