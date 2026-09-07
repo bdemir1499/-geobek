@@ -131,13 +131,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const tempFg = document.createElement('canvas');
             tempFg.width = rect.width; tempFg.height = rect.height;
 
+            const dpr = window.devicePixelRatio || 1;
+            const canvasRect = canvasElm.getBoundingClientRect();
+            const sx = (rect.left - canvasRect.left) * dpr;
+            const sy = (rect.top - canvasRect.top) * dpr;
+            const sw = rect.width * dpr;
+            const sh = rect.height * dpr;
+
             if (bgCanvas) {
-                tempBg.getContext('2d').drawImage(bgCanvas, rect.left, rect.top, rect.width, rect.height, 0, 0, rect.width, rect.height);
+                tempBg.getContext('2d').drawImage(bgCanvas, sx, sy, sw, sh, 0, 0, rect.width, rect.height);
             } else {
                 tempBg.getContext('2d').fillStyle = document.body.style.backgroundColor || '#ffffff';
                 tempBg.getContext('2d').fillRect(0, 0, rect.width, rect.height);
             }
-            tempFg.getContext('2d').drawImage(canvasElm, rect.left, rect.top, rect.width, rect.height, 0, 0, rect.width, rect.height);
+            tempFg.getContext('2d').drawImage(canvasElm, sx, sy, sw, sh, 0, 0, rect.width, rect.height);
 
             const bgStr = tempBg.toDataURL('image/png');
             const fgStr = tempFg.toDataURL('image/png');
