@@ -155,12 +155,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const tempFg = document.createElement('canvas');
             tempFg.width = rect.width; tempFg.height = rect.height;
 
-            const dpr = window.devicePixelRatio || 1;
             const canvasRect = canvasElm.getBoundingClientRect();
-            const sx = (rect.left - canvasRect.left) * dpr;
-            const sy = (rect.top - canvasRect.top) * dpr;
-            const sw = rect.width * dpr;
-            const sh = rect.height * dpr;
+            // CROP FIX: Zoom ve Pan durumlarında doğru pikseli almak için dpr yerine gerçek canvas oranını (scaleX/Y) kullanıyoruz!
+            const scaleX = canvasElm.width / canvasRect.width;
+            const scaleY = canvasElm.height / canvasRect.height;
+            
+            const sx = (rect.left - canvasRect.left) * scaleX;
+            const sy = (rect.top - canvasRect.top) * scaleY;
+            const sw = rect.width * scaleX;
+            const sh = rect.height * scaleY;
 
             if (bgCanvas) {
                 tempBg.getContext('2d').drawImage(bgCanvas, sx, sy, sw, sh, 0, 0, rect.width, rect.height);
@@ -373,12 +376,12 @@ function cizKatlamaAnimasyonu(bgImg, fgImg, rect, p1, p2) {
     const angle = Math.atan2(ny, nx);
     
     // 1. FİZİKSEL GERÇEKÇİLİK: KALKAN KAĞIDIN BOŞLUĞU (Zemini Geri Yükle)
-    // P2 tarafı (x > 0) kağıdın asıl yeridir, kalkan kısmın altı burada kalır.
+    // P1 tarafı (x < 0) kalkan kısımdır. Kağıt buradan kalktığı için altındaki boşluk/zemin burada görünür!
     ctx.save();
     ctx.beginPath();
     ctx.translate(midX, midY);
     ctx.rotate(angle);
-    ctx.rect(0, -ch*2, cw*2, ch*4); // P2 tarafı (Boşluk/Delik)
+    ctx.rect(-cw*2, -ch*2, cw*2, ch*4); // P1 tarafı (Boşluk/Delik)
     ctx.clip();
     ctx.rotate(-angle);
     ctx.translate(-midX, -midY);
@@ -387,12 +390,12 @@ function cizKatlamaAnimasyonu(bgImg, fgImg, rect, p1, p2) {
     ctx.restore();
 
     // 2. KATLANAN (HAREKETLİ) KISMI ÇİZ
-    // P1 tarafı (x < 0) kalkan kısımdır. Flip edildiği için P2'ye düşer, ama maskesi P1'dir.
+    // P1'den kalkan kağıt, katlanarak P2 tarafına (x > 0) düşer! Bu yüzden Flap maskesi P2'dir!
     ctx.save();
     ctx.beginPath();
     ctx.translate(midX, midY);
     ctx.rotate(angle);
-    ctx.rect(-cw*2, -ch*2, cw*2, ch*4); // P1 tarafı (Flap)
+    ctx.rect(0, -ch*2, cw*2, ch*4); // P2 tarafı (Flap buraya inecek)
     ctx.clip();
     ctx.rotate(-angle);
     ctx.translate(-midX, -midY);
