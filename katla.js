@@ -17,6 +17,30 @@ let foldCurrent = null;
 // Ağ parçalama (chunking) için ID
 let syncImgId = null;
 
+function screenToCanvasCoords(screenObj) {
+    const canvasElm = document.getElementById('drawing-canvas');
+    if (!canvasElm) return screenObj;
+    const cr = canvasElm.getBoundingClientRect();
+    const scaleX = canvasElm.width / cr.width;
+    const scaleY = canvasElm.height / cr.height;
+    if (screenObj.w !== undefined) {
+        return { x: (screenObj.x - cr.left) * scaleX, y: (screenObj.y - cr.top) * scaleY, w: screenObj.w * scaleX, h: screenObj.h * scaleY };
+    }
+    return { x: (screenObj.x - cr.left) * scaleX, y: (screenObj.y - cr.top) * scaleY };
+}
+
+function canvasToScreenCoords(canvasObj) {
+    const canvasElm = document.getElementById('drawing-canvas');
+    if (!canvasElm) return canvasObj;
+    const cr = canvasElm.getBoundingClientRect();
+    const scaleX = canvasElm.width / cr.width;
+    const scaleY = canvasElm.height / cr.height;
+    if (canvasObj.w !== undefined) {
+        return { x: canvasObj.x / scaleX + cr.left, y: canvasObj.y / scaleY + cr.top, w: canvasObj.w / scaleX, h: canvasObj.h / scaleY };
+    }
+    return { x: canvasObj.x / scaleX + cr.left, y: canvasObj.y / scaleY + cr.top };
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Katla Butonunu Ekle
     // (Kaldırıldı)
@@ -185,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (cObj.isFg) {
                     currentFgImg = new Image();
                     currentFgImg.onload = () => {
-                        currentCaptureRect = d.rect;
+                        currentCaptureRect = canvasToScreenCoords(d.rect);
                         // Fg (ön plan) en son gelir, gelince ekranı başlat
                         baslatKatlamaEkrani(true); 
                     };
@@ -195,14 +219,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         else if (d.type === 'katlama_guncelle') {
             if (katlamaOverlayCanvas) {
-                cizKatlamaAnimasyonu(currentBgImg, currentFgImg, currentCaptureRect, d.foldStart, d.foldCurrent);
+                cizKatlamaAnimasyonu(currentBgImg, currentFgImg, currentCaptureRect, canvasToScreenCoords(d.foldStart), canvasToScreenCoords(d.foldCurrent));
             }
         }
         else if (d.type === 'katlama_iptal') {
             iptalEt(true);
         }
         else if (d.type === 'katlama_tamamla') {
-            katIziBirak(d.foldStart, d.foldCurrent);
+            katIziBirak(canvasToScreenCoords(d.foldStart), canvasToScreenCoords(d.foldCurrent));
             iptalEt(true);
         }
     });
@@ -349,12 +373,12 @@ function cizKatlamaAnimasyonu(bgImg, fgImg, rect, p1, p2) {
     const angle = Math.atan2(ny, nx);
     
     // 1. FİZİKSEL GERÇEKÇİLİK: KALKAN KAĞIDIN BOŞLUĞU (Zemini Geri Yükle)
-    // Kalkan kısım (P1 tarafı, x < 0). Buradaki kırmızı şekli örtmek için sadece bgImg çiziyoruz!
+    // P2 tarafı (x > 0) kağıdın asıl yeridir, kalkan kısmın altı burada kalır.
     ctx.save();
     ctx.beginPath();
     ctx.translate(midX, midY);
     ctx.rotate(angle);
-    ctx.rect(-cw*2, -ch*2, cw*2, ch*4); // P1 tarafı (Kalkan taraf)
+    ctx.rect(0, -ch*2, cw*2, ch*4); // P2 tarafı (Boşluk/Delik)
     ctx.clip();
     ctx.rotate(-angle);
     ctx.translate(-midX, -midY);
@@ -363,12 +387,12 @@ function cizKatlamaAnimasyonu(bgImg, fgImg, rect, p1, p2) {
     ctx.restore();
 
     // 2. KATLANAN (HAREKETLİ) KISMI ÇİZ
-    // Katlanan kısım P2 tarafına (x > 0) düşer!
+    // P1 tarafı (x < 0) kalkan kısımdır. Flip edildiği için P2'ye düşer, ama maskesi P1'dir.
     ctx.save();
     ctx.beginPath();
     ctx.translate(midX, midY);
     ctx.rotate(angle);
-    ctx.rect(0, -ch*2, cw*2, ch*4); // P2 tarafı (Flap buraya inecek)
+    ctx.rect(-cw*2, -ch*2, cw*2, ch*4); // P1 tarafı (Flap)
     ctx.clip();
     ctx.rotate(-angle);
     ctx.translate(-midX, -midY);
@@ -395,6 +419,10 @@ function cizKatlamaAnimasyonu(bgImg, fgImg, rect, p1, p2) {
 
 function agSenkronizeEt(action, p1 = null, p2 = null, bgStr = null, fgStr = null, rect = null) {
     if (typeof isConnected !== 'undefined' && isConnected && typeof sendNetworkData === 'function') {
+        let logicalP1 = p1 ? screenToCanvasCoords(p1) : null;
+        let logicalP2 = p2 ? screenToCanvasCoords(p2) : null;
+        let logicalRect = rect ? screenToCanvasCoords(rect) : null;
+
         if (action === 'basla' && bgStr && fgStr) {
             const chunkSize = 16000;
             
@@ -405,7 +433,7 @@ function agSenkronizeEt(action, p1 = null, p2 = null, bgStr = null, fgStr = null
                 window.sendNetworkData({
                     type: 'katlama_basla_chunk', imgId: bgId,
                     chunk: bgStr.substring(i * chunkSize, (i + 1) * chunkSize),
-                    index: i, total: totalBg, rect: rect, isBg: true
+                    index: i, total: totalBg, rect: logicalRect, isBg: true
                 });
             }
             
@@ -416,14 +444,14 @@ function agSenkronizeEt(action, p1 = null, p2 = null, bgStr = null, fgStr = null
                 window.sendNetworkData({
                     type: 'katlama_basla_chunk', imgId: fgId,
                     chunk: fgStr.substring(i * chunkSize, (i + 1) * chunkSize),
-                    index: i, total: totalFg, rect: rect, isFg: true
+                    index: i, total: totalFg, rect: logicalRect, isFg: true
                 });
             }
         } else {
             window.sendNetworkData({
                 type: 'katlama_' + action,
-                foldStart: p1,
-                foldCurrent: p2
+                foldStart: logicalP1,
+                foldCurrent: logicalP2
             });
         }
     }
