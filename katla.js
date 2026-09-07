@@ -215,10 +215,16 @@ function baslatKatlamaEkrani(isRemote = false) {
 
     katlamaOverlayCanvas = document.createElement('canvas');
     katlamaOverlayCanvas.id = 'katlama-overlay';
-    katlamaOverlayCanvas.width = window.innerWidth;
-    katlamaOverlayCanvas.height = window.innerHeight;
+    
+    const dpr = window.devicePixelRatio || 1;
+    katlamaOverlayCanvas.width = window.innerWidth * dpr;
+    katlamaOverlayCanvas.height = window.innerHeight * dpr;
+    katlamaOverlayCanvas.style.width = window.innerWidth + 'px';
+    katlamaOverlayCanvas.style.height = window.innerHeight + 'px';
+    
     document.body.appendChild(katlamaOverlayCanvas);
     katlamaOverlayCtx = katlamaOverlayCanvas.getContext('2d');
+    katlamaOverlayCtx.scale(dpr, dpr);
 
     // İlk anda hiçbir şey çizmene gerek yok, çünkü alttaki canvaslar zaten gösteriyor.
     // Kullanıcı ekrana dokunup hareket ettirdiğinde cizKatlamaAnimasyonu çağrılacak.
