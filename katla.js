@@ -1,10 +1,11 @@
-// Akıllı Katlama v3.0 - Geobek
-// Çapraz Katlama, Fiziksel Gerçekçilik ve Gerçek Zamanlı Senkronizasyon
+// Akıllı Katlama v3.1 - Geobek
+// Çapraz Katlama, Arka Plan / Ön Plan Ayrımı ve Gerçek Zamanlı Senkronizasyon
 
 window.isKatlaActive = false;
 let katlamaOverlayCanvas = null;
 let katlamaOverlayCtx = null;
-let currentCapturedImg = null;
+let currentBgImg = null;
+let currentFgImg = null;
 let currentCaptureRect = null;
 
 let isDrawingBox = false;
@@ -88,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isFolding && katlamaOverlayCanvas) {
             e.stopPropagation();
             foldCurrent = { x: e.clientX, y: e.clientY };
-            cizKatlamaAnimasyonu(currentCapturedImg, currentCaptureRect, foldStart, foldCurrent);
+            cizKatlamaAnimasyonu(currentBgImg, currentFgImg, currentCaptureRect, foldStart, foldCurrent);
             agSenkronizeEt('guncelle', foldStart, foldCurrent);
             return;
         }
@@ -120,24 +121,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (rect.width < 50 || rect.height < 50) return;
 
-        // html2canvas ile bölgeyi yakala
+        // Html2Canvas yerine anında Canvas Cropping kullanıyoruz (Çok daha performanslı ve Katmanları ayırabiliyoruz!)
         const canvasElm = document.getElementById('drawing-canvas');
+        const bgCanvas = document.getElementById('bg-canvas');
         if (!canvasElm) return;
 
         try {
-            const h2c = await html2canvas(document.body, {
-                x: rect.left, y: rect.top, width: rect.width, height: rect.height,
-                backgroundColor: null, scale: 2
-            });
+            const tempBg = document.createElement('canvas');
+            tempBg.width = rect.width; tempBg.height = rect.height;
+            const tempFg = document.createElement('canvas');
+            tempFg.width = rect.width; tempFg.height = rect.height;
 
-            currentCapturedImg = new Image();
-            currentCapturedImg.src = h2c.toDataURL('image/png');
+            if (bgCanvas) {
+                tempBg.getContext('2d').drawImage(bgCanvas, rect.left, rect.top, rect.width, rect.height, 0, 0, rect.width, rect.height);
+            } else {
+                tempBg.getContext('2d').fillStyle = document.body.style.backgroundColor || '#ffffff';
+                tempBg.getContext('2d').fillRect(0, 0, rect.width, rect.height);
+            }
+            tempFg.getContext('2d').drawImage(canvasElm, rect.left, rect.top, rect.width, rect.height, 0, 0, rect.width, rect.height);
+
+            const bgStr = tempBg.toDataURL('image/png');
+            const fgStr = tempFg.toDataURL('image/png');
+            
             currentCaptureRect = { x: rect.left, y: rect.top, w: rect.width, h: rect.height };
 
-            currentCapturedImg.onload = () => {
+            // İki resmi paralel yükle
+            Promise.all([
+                new Promise(res => { currentBgImg = new Image(); currentBgImg.onload = res; currentBgImg.src = bgStr; }),
+                new Promise(res => { currentFgImg = new Image(); currentFgImg.onload = res; currentFgImg.src = fgStr; })
+            ]).then(() => {
                 baslatKatlamaEkrani();
-                agSenkronizeEt('basla', null, null, currentCapturedImg.src, currentCaptureRect);
-            };
+                agSenkronizeEt('basla', null, null, bgStr, fgStr, currentCaptureRect);
+            });
         } catch (err) {
             console.error("Kesim hatası:", err);
         }
@@ -148,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const d = e.detail;
         if (d.type === 'katlama_basla_chunk') {
             if (!window.kChunks) window.kChunks = {};
-            if (!window.kChunks[d.imgId]) window.kChunks[d.imgId] = { chunks: new Array(d.total), count: 0 };
+            if (!window.kChunks[d.imgId]) window.kChunks[d.imgId] = { chunks: new Array(d.total), count: 0, isBg: d.isBg, isFg: d.isFg };
             const cObj = window.kChunks[d.imgId];
             if (!cObj.chunks[d.index]) {
                 cObj.chunks[d.index] = d.chunk;
@@ -158,17 +173,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 const fullImg = cObj.chunks.join('');
                 delete window.kChunks[d.imgId];
                 
-                currentCapturedImg = new Image();
-                currentCapturedImg.onload = () => {
-                    currentCaptureRect = d.rect;
-                    baslatKatlamaEkrani(true); // isRemote = true
-                };
-                currentCapturedImg.src = fullImg;
+                if (cObj.isBg) {
+                    currentBgImg = new Image();
+                    currentBgImg.src = fullImg;
+                } else if (cObj.isFg) {
+                    currentFgImg = new Image();
+                    currentFgImg.onload = () => {
+                        currentCaptureRect = d.rect;
+                        // Fg (ön plan) en son gelir, gelince ekranı başlat
+                        baslatKatlamaEkrani(true); 
+                    };
+                    currentFgImg.src = fullImg;
+                }
             }
         }
         else if (d.type === 'katlama_guncelle') {
             if (katlamaOverlayCanvas) {
-                cizKatlamaAnimasyonu(currentCapturedImg, currentCaptureRect, d.foldStart, d.foldCurrent);
+                cizKatlamaAnimasyonu(currentBgImg, currentFgImg, currentCaptureRect, d.foldStart, d.foldCurrent);
             }
         }
         else if (d.type === 'katlama_iptal') {
@@ -193,8 +214,8 @@ function baslatKatlamaEkrani(isRemote = false) {
     document.body.appendChild(katlamaOverlayCanvas);
     katlamaOverlayCtx = katlamaOverlayCanvas.getContext('2d');
 
-    // İlk çizim (sadece resim)
-    katlamaOverlayCtx.drawImage(currentCapturedImg, currentCaptureRect.x, currentCaptureRect.y, currentCaptureRect.w, currentCaptureRect.h);
+    // İlk anda hiçbir şey çizmene gerek yok, çünkü alttaki canvaslar zaten gösteriyor.
+    // Kullanıcı ekrana dokunup hareket ettirdiğinde cizKatlamaAnimasyonu çağrılacak.
 
     if (!isRemote) {
         const uiDiv = document.createElement('div');
@@ -229,7 +250,8 @@ function iptalEt(isRemote = false) {
     }
     const ui = document.querySelector('.katlama-ui');
     if (ui) ui.remove();
-    currentCapturedImg = null;
+    currentBgImg = null;
+    currentFgImg = null;
     currentCaptureRect = null;
     foldStart = null;
     foldCurrent = null;
@@ -257,7 +279,7 @@ function katIziBirak(p1, p2) {
     const lineEndX = midX - nx * 1000;
     const lineEndY = midY - ny * 1000;
 
-    // Çizgiyi sisteme stroke olarak ekle (eğer app.js kullanıyorsa)
+    // Çizgiyi sisteme stroke olarak ekle
     if (window.drawnStrokes) {
         const bgLayerObj = {
             type: 'line',
@@ -274,7 +296,6 @@ function katIziBirak(p1, p2) {
     }
 }
 
-// Yansıma Matrisi Formülü
 function getReflectionMatrix(p1, p2) {
     const dx = p2.x - p1.x;
     const dy = p2.y - p1.y;
@@ -295,8 +316,8 @@ function getReflectionMatrix(p1, p2) {
     return [a, b, b, -a, tx, ty];
 }
 
-function cizKatlamaAnimasyonu(img, rect, p1, p2) {
-    if (!katlamaOverlayCtx || !img) return;
+function cizKatlamaAnimasyonu(bgImg, fgImg, rect, p1, p2) {
+    if (!katlamaOverlayCtx || !bgImg || !fgImg) return;
     const ctx = katlamaOverlayCtx;
     const cw = ctx.canvas.width;
     const ch = ctx.canvas.height;
@@ -306,46 +327,17 @@ function cizKatlamaAnimasyonu(img, rect, p1, p2) {
     const dx = p2.x - p1.x;
     const dy = p2.y - p1.y;
     if (Math.abs(dx) < 2 && Math.abs(dy) < 2) {
-        ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h);
         return;
     }
 
     const midX = (p1.x + p2.x) / 2;
     const midY = (p1.y + p2.y) / 2;
-
-    // p2 noktasının bulunduğu taraf (hareket eden taraf)
-    // Katlama izinin formülü: (x - midX)*dx + (y - midY)*dy = 0
-    // p1 noktası hareketsiz kalan zemin tarafıdır. (p1 için dx*dx + dy*dy < 0 normalde? Hayır, p1 için (p1.x-midX)*dx + (p1.y-midY)*dy = (-dx/2)*dx + (-dy/2)*dy = -(dx^2+dy^2)/2 < 0
-    // Yani p1 tarafı (sabit) için denklem < 0 olmalı.
-    
-    // --- 1. SABİT (ZEMİN) KISMI ÇİZ ---
-    ctx.save();
-    ctx.beginPath();
-    // Ekranı kaplayan dev bir dikdörtgen
-    ctx.rect(-cw, -ch, cw*3, ch*3);
-    // Kalkan kısmın kesilmesi için clip
-    // Sabit olan alan: P1 tarafı.
     const nx = dx;
     const ny = dy;
-    
-    // Yarı düzlemi (p1 tarafı) belirle
     const angle = Math.atan2(ny, nx);
-    ctx.translate(midX, midY);
-    ctx.rotate(angle);
-    // x eksenine paralel hale geldi. nx,ny yönü +x yönüdür. p1 noktası -x yönündedir.
-    // Yani x < 0 olan kısım SABİT kısımdır.
-    ctx.rect(-cw*2, -ch*2, cw*2, ch*4);
-    ctx.clip("evenodd"); // Dışını kes
     
-    ctx.rotate(-angle);
-    ctx.translate(-midX, -midY);
-    
-    ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h);
-    ctx.restore();
-
-    // --- 2. FİZİKSEL GERÇEKÇİLİK: KALKAN KAĞIDIN BOŞLUĞU ---
-    // Eğer zemin rengi belliyse (örneğin tahta rengi), onu boyayalım. 
-    // Veya sadece boş (beyaz) bir leke bırakalım ki şekil oradan sökülmüş gibi dursun.
+    // 1. FİZİKSEL GERÇEKÇİLİK: KALKAN KAĞIDIN BOŞLUĞU (Zemini Geri Yükle)
+    // Kalkan kısmın altındaki kırmızı şekli örtmek için bgImg'yi (sadece zemin) çiziyoruz!
     ctx.save();
     ctx.beginPath();
     ctx.translate(midX, midY);
@@ -355,16 +347,12 @@ function cizKatlamaAnimasyonu(img, rect, p1, p2) {
     ctx.rotate(-angle);
     ctx.translate(-midX, -midY);
     
-    // Kalkan kısmın altını temizle veya zemin rengine boya (saydam olan app.js tuvaline uyması için)
-    const bgColor = document.body.style.backgroundColor || '#ffffff';
-    ctx.fillStyle = window.currentBoardColor || '#ffffff'; // Tahta rengi
-    ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
+    ctx.drawImage(bgImg, rect.x, rect.y, rect.w, rect.h);
     ctx.restore();
 
-    // --- 3. KATLANAN (HAREKETLİ) KISMI ÇİZ ---
+    // 2. KATLANAN (HAREKETLİ) KISMI ÇİZ
     ctx.save();
     ctx.beginPath();
-    // Sadece p2 tarafında görünmesi için clip
     ctx.translate(midX, midY);
     ctx.rotate(angle);
     ctx.rect(-cw*2, -ch*2, cw*2, ch*4); // Flip edildiği için P1 tarafına geçecek
@@ -372,7 +360,6 @@ function cizKatlamaAnimasyonu(img, rect, p1, p2) {
     ctx.rotate(-angle);
     ctx.translate(-midX, -midY);
 
-    // Yansıma matrisini uygula (Tam dikey ortaya göre aynalama)
     const [a, b, c, d, tx, ty] = getReflectionMatrix(p1, p2);
     ctx.transform(a, b, c, d, tx, ty);
     
@@ -382,11 +369,10 @@ function cizKatlamaAnimasyonu(img, rect, p1, p2) {
     ctx.shadowOffsetX = -nx * 0.05;
     ctx.shadowOffsetY = -ny * 0.05;
 
-    // Resmi ters olarak çiz
-    ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h);
+    // Şeffaf arka planlı sadece ön planı (fgImg) çiz
+    ctx.drawImage(fgImg, rect.x, rect.y, rect.w, rect.h);
     
-    // FİZİKSEL GERÇEKÇİLİK: Arka yüz (Buzlu cam / silüet efekti)
-    // Şeklin katlanan arka yüzünü %80 beyaz ile kapla
+    // Arka yüz buzlu cam efekti
     ctx.globalCompositeOperation = 'source-atop';
     ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
     ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
@@ -394,20 +380,30 @@ function cizKatlamaAnimasyonu(img, rect, p1, p2) {
     ctx.restore();
 }
 
-function agSenkronizeEt(action, p1 = null, p2 = null, imgStr = null, rect = null) {
+function agSenkronizeEt(action, p1 = null, p2 = null, bgStr = null, fgStr = null, rect = null) {
     if (typeof isConnected !== 'undefined' && isConnected && typeof sendNetworkData === 'function') {
-        if (action === 'basla' && imgStr) {
-            syncImgId = Date.now().toString();
+        if (action === 'basla' && bgStr && fgStr) {
             const chunkSize = 16000;
-            const totalChunks = Math.ceil(imgStr.length / chunkSize);
-            for (let i = 0; i < totalChunks; i++) {
+            
+            // BG Gönder
+            let bgId = 'bg_' + Date.now();
+            let totalBg = Math.ceil(bgStr.length / chunkSize);
+            for (let i = 0; i < totalBg; i++) {
                 window.sendNetworkData({
-                    type: 'katlama_basla_chunk',
-                    imgId: syncImgId,
-                    chunk: imgStr.substring(i * chunkSize, (i + 1) * chunkSize),
-                    index: i,
-                    total: totalChunks,
-                    rect: rect
+                    type: 'katlama_basla_chunk', imgId: bgId,
+                    chunk: bgStr.substring(i * chunkSize, (i + 1) * chunkSize),
+                    index: i, total: totalBg, rect: rect, isBg: true
+                });
+            }
+            
+            // FG Gönder
+            let fgId = 'fg_' + Date.now();
+            let totalFg = Math.ceil(fgStr.length / chunkSize);
+            for (let i = 0; i < totalFg; i++) {
+                window.sendNetworkData({
+                    type: 'katlama_basla_chunk', imgId: fgId,
+                    chunk: fgStr.substring(i * chunkSize, (i + 1) * chunkSize),
+                    index: i, total: totalFg, rect: rect, isFg: true
                 });
             }
         } else {
