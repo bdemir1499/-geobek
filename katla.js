@@ -282,6 +282,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Ağ Dinleyicisi (PC veya diğer tabletler için)
     window.addEventListener('katlama_sistemi', (e) => {
         const d = e.detail;
+        // YANKI (ECHO) KORUMASI: Kendi gönderdiğimiz veriyi işlemeyiz!
+        if (!d || (d.senderId && window.mySessionId && d.senderId === window.mySessionId)) return;
+        
         if (d.type === 'katlama_basla_chunk') {
             if (!window.kChunks) window.kChunks = {};
             if (!window.kChunks[d.imgId]) window.kChunks[d.imgId] = { chunks: new Array(d.total), count: 0, isBg: d.isBg, isFg: d.isFg };
