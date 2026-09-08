@@ -420,11 +420,11 @@ function katIziBirak(p1, p2) {
     // Çizgiyi sisteme stroke olarak ekle
     if (window.drawnStrokes) {
         const bgLayerObj = {
-            type: 'line',
-            points: [{x: lineStartX, y: lineStartY}, {x: lineEndX, y: lineEndY}],
+            type: 'segment',
+            p1: {x: lineStartX, y: lineStartY},
+            p2: {x: lineEndX, y: lineEndY},
             color: '#aaaaaa',
             width: 3,
-            isDashed: true,
             id: Date.now() + Math.random()
         };
         window.drawnStrokes.push(bgLayerObj);
