@@ -470,12 +470,15 @@ function katIziBirak(p1, p2) {
 
     // Çizgiyi sisteme stroke olarak ekle
     if (window.drawnStrokes) {
+        const dpr = window.devicePixelRatio || 1;
         const bgLayerObj = {
             type: 'segment',
-            p1: {x: lineStartX, y: lineStartY},
-            p2: {x: lineEndX, y: lineEndY},
+            p1: {x: lineStartX * dpr, y: lineStartY * dpr},
+            p2: {x: lineEndX * dpr, y: lineEndY * dpr},
             color: '#aaaaaa',
-            width: 3,
+            width: 3 * dpr, // Çizgi kalınlığını da dpr ile çarpalım ki tablette ince kalmasın
+            label1: '',
+            label2: '',
             id: Date.now() + Math.random()
         };
         window.drawnStrokes.push(bgLayerObj);
