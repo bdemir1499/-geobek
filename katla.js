@@ -411,11 +411,62 @@ function katIziBirak(p1, p2) {
     const nx = -dy;
     const ny = dx;
 
-    // Uzun bir çizgi çiz (10000px her iki yöne)
-    const lineStartX = midX + nx * 1000;
-    const lineStartY = midY + ny * 1000;
-    const lineEndX = midX - nx * 1000;
-    const lineEndY = midY - ny * 1000;
+    let lineStartX = midX + nx * 1000;
+    let lineStartY = midY + ny * 1000;
+    let lineEndX = midX - nx * 1000;
+    let lineEndY = midY - ny * 1000;
+
+    // KESİN ÇÖZÜM: Kat izini sadece seçili alanın (currentCaptureRect) içinde kalacak şekilde sınırla!
+    if (currentCaptureRect) {
+        const left = currentCaptureRect.x;
+        const right = currentCaptureRect.x + currentCaptureRect.w;
+        const top = currentCaptureRect.y;
+        const bottom = currentCaptureRect.y + currentCaptureRect.h;
+
+        let points = [];
+        
+        // 1. Sol kenar kesişimi (x = left)
+        if (nx !== 0) {
+            let t = (left - midX) / nx;
+            let y = midY + ny * t;
+            if (y >= top && y <= bottom) points.push({x: left, y: y});
+        }
+        // 2. Sağ kenar kesişimi (x = right)
+        if (nx !== 0) {
+            let t = (right - midX) / nx;
+            let y = midY + ny * t;
+            if (y >= top && y <= bottom) points.push({x: right, y: y});
+        }
+        // 3. Üst kenar kesişimi (y = top)
+        if (ny !== 0) {
+            let t = (top - midY) / ny;
+            let x = midX + nx * t;
+            if (x >= left && x <= right) points.push({x: x, y: top});
+        }
+        // 4. Alt kenar kesişimi (y = bottom)
+        if (ny !== 0) {
+            let t = (bottom - midY) / ny;
+            let x = midX + nx * t;
+            if (x >= left && x <= right) points.push({x: x, y: bottom});
+        }
+
+        // Aynı noktaları temizle (köşelerden geçerse çift nokta çıkabilir)
+        let uniquePoints = [];
+        for (let p of points) {
+            if (!uniquePoints.some(up => Math.abs(up.x - p.x) < 0.1 && Math.abs(up.y - p.y) < 0.1)) {
+                uniquePoints.push(p);
+            }
+        }
+
+        if (uniquePoints.length === 2) {
+            lineStartX = uniquePoints[0].x;
+            lineStartY = uniquePoints[0].y;
+            lineEndX = uniquePoints[1].x;
+            lineEndY = uniquePoints[1].y;
+        } else {
+            return; // Eğer çizgi kutunun dışındaysa (veya kesişmiyorsa) hiç iz çizme!
+        }
+    }
 
     // Çizgiyi sisteme stroke olarak ekle
     if (window.drawnStrokes) {
