@@ -212,18 +212,52 @@ document.addEventListener('DOMContentLoaded', () => {
             const sw = rect.width * scaleX;
             const sh = rect.height * scaleY;
 
-            if (bgCanvas) {
-                tempBg.getContext('2d').fillStyle = document.body.style.backgroundColor || '#ffffff';
-                tempBg.getContext('2d').fillRect(0, 0, rect.width, rect.height);
-                tempBg.getContext('2d').drawImage(bgCanvas, sx, sy, sw, sh, 0, 0, rect.width, rect.height);
-            } else {
-                tempBg.getContext('2d').fillStyle = document.body.style.backgroundColor || '#ffffff';
-                tempBg.getContext('2d').fillRect(0, 0, rect.width, rect.height);
+            // AKILLI BAKMA (Smart Sampling): Zemin rengini bulmak için kutunun 5px dışından 4 farklı noktaya bak!
+            let detectedBgColor = document.body.style.backgroundColor || '#ffffff';
+            try {
+                const ctxD = canvasElm.getContext('2d');
+                const pts = [
+                    { x: rect.left + rect.width / 2, y: rect.top - 5 }, // Üst orta
+                    { x: rect.left + rect.width / 2, y: rect.top + rect.height + 5 }, // Alt orta
+                    { x: rect.left - 5, y: rect.top + rect.height / 2 }, // Sol orta
+                    { x: rect.left + rect.width + 5, y: rect.top + rect.height / 2 } // Sağ orta
+                ];
+                
+                for (let pt of pts) {
+                    const sx_s = (pt.x - canvasRect.left) * scaleX * dpr;
+                    const sy_s = (pt.y - canvasRect.top) * scaleY * dpr;
+                    if (sx_s >= 0 && sx_s < canvasElm.width && sy_s >= 0 && sy_s < canvasElm.height) {
+                        const p = ctxD.getImageData(sx_s, sy_s, 1, 1).data;
+                        if (p[3] > 250) { 
+                            detectedBgColor = `rgba(${p[0]}, ${p[1]}, ${p[2]}, 1)`;
+                            break;
+                        } else if (bgCanvas) {
+                            const bgP = bgCanvas.getContext('2d').getImageData(sx_s, sy_s, 1, 1).data;
+                            if (bgP[3] > 250) {
+                                detectedBgColor = `rgba(${bgP[0]}, ${bgP[1]}, ${bgP[2]}, 1)`;
+                                break;
+                            }
+                        }
+                    }
+                }
+            } catch (e) {
+                console.warn("Akıllı renk okuma başarısız:", e);
             }
+
+            // ZEMİNİ (Delik kısmını) AKILLI RENK İLE DOLDUR
+            tempBg.getContext('2d').fillStyle = detectedBgColor;
+            tempBg.getContext('2d').fillRect(0, 0, rect.width, rect.height);
+            // PDF vs. çizmeyi iptal ediyoruz çünkü kullanıcı "o renge boyasın" dedi, yani DÜZ RENK istiyor!
             
             // OPAQUE FLAP: Kağıdın arkasını görebilmemiz için şeffaf değil, opak olması lazım!
-            // Zemin rengini ve PDF'i kağıdın bazı olarak alıyoruz:
-            tempFg.getContext('2d').drawImage(tempBg, 0, 0);
+            // Zemin rengini kağıdın bazı olarak alıyoruz (beyaz/akıllı renk):
+            tempFg.getContext('2d').fillStyle = detectedBgColor;
+            tempFg.getContext('2d').fillRect(0, 0, rect.width, rect.height);
+            
+            // Eğer varsa, PDF kalıntılarını (veya arka planı) yaprağa bas (sadece yaprakta kalsın)
+            if (bgCanvas) {
+                tempFg.getContext('2d').drawImage(bgCanvas, sx, sy, sw, sh, 0, 0, rect.width, rect.height);
+            }
             // Sonra üzerine çizimleri ekliyoruz:
             tempFg.getContext('2d').drawImage(canvasElm, sx, sy, sw, sh, 0, 0, rect.width, rect.height);
 
