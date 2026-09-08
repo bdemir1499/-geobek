@@ -20,41 +20,72 @@ let syncImgId = null;
 function screenToCanvasCoords(screenObj) {
     const canvasElm = document.getElementById('drawing-canvas');
     if (!canvasElm) return screenObj;
-    const cr = canvasElm.getBoundingClientRect();
-    // AĞ SENKRONİZASYONU İÇİN KESİN ÇÖZÜM:
-    // Farklı ekran çözünürlükleri (PC vs Tablet) ve farklı DPI'lar arasında uyumsuzluk olmaması için
-    // koordinatları Yüzdelik Oran (0.0 - 1.0) olarak gönderiyoruz!
-    if (screenObj.w !== undefined) {
-        return { 
-            x: (screenObj.x - cr.left) / cr.width, 
-            y: (screenObj.y - cr.top) / cr.height, 
-            w: screenObj.w / cr.width, 
-            h: screenObj.h / cr.height 
+    
+    // AĞ SENKRONİZASYONU İÇİN NİHAİ KUSURSUZ ÇÖZÜM:
+    // Geobek, PC ve Tablet'te resmi farklı x,y noktalarına merkezler. 
+    // Bu yüzden koordinatları ekranın sol üst köşesine göre değil, 
+    // ARKA PLAN RESMİNE (Zemine) göre hesaplamalıyız!
+    const myBg = window.drawnStrokes ? window.drawnStrokes.find(s => s.isBackground === true && !s.isPatch) : null;
+    const dpr = window.devicePixelRatio || 1;
+    
+    if (myBg && myBg.width > 0) {
+        // Çizim tuvalindeki değerler dpr ile çarpılmış halde tutuluyor, bu yüzden dpr'a bölerek CSS piksellerini buluyoruz:
+        const bgX = myBg.x / dpr;
+        const bgY = myBg.y / dpr;
+        const bgW = myBg.width / dpr;
+        const bgH = myBg.height / dpr;
+        
+        let netObj = {
+            relX: (screenObj.x - bgX) / bgW,
+            relY: (screenObj.y - bgY) / bgH,
+            isRel: true
         };
+        if (screenObj.w !== undefined) {
+            netObj.relW = screenObj.w / bgW;
+            netObj.relH = screenObj.h / bgH;
+        }
+        return netObj;
+    } else {
+        // Arka plan yoksa, zorunlu olarak doğrudan CSS piksellerini gönder
+        let netObj = { x: screenObj.x, y: screenObj.y, isRel: false };
+        if (screenObj.w !== undefined) {
+            netObj.w = screenObj.w;
+            netObj.h = screenObj.h;
+        }
+        return netObj;
     }
-    return { 
-        x: (screenObj.x - cr.left) / cr.width, 
-        y: (screenObj.y - cr.top) / cr.height 
-    };
 }
 
 function canvasToScreenCoords(networkObj) {
     const canvasElm = document.getElementById('drawing-canvas');
     if (!canvasElm) return networkObj;
-    const cr = canvasElm.getBoundingClientRect();
-    // Gelen yüzdelik oranı, bu cihazın kendi ekran çözünürlüğüne (pikseline) geri çeviriyoruz!
-    if (networkObj.w !== undefined) {
-        return { 
-            x: (networkObj.x * cr.width) + cr.left, 
-            y: (networkObj.y * cr.height) + cr.top, 
-            w: networkObj.w * cr.width, 
-            h: networkObj.h * cr.height 
+    
+    const myBg = window.drawnStrokes ? window.drawnStrokes.find(s => s.isBackground === true && !s.isPatch) : null;
+    const dpr = window.devicePixelRatio || 1;
+    
+    if (networkObj.isRel && myBg && myBg.width > 0) {
+        const bgX = myBg.x / dpr;
+        const bgY = myBg.y / dpr;
+        const bgW = myBg.width / dpr;
+        const bgH = myBg.height / dpr;
+        
+        let screenObj = {
+            x: bgX + (networkObj.relX * bgW),
+            y: bgY + (networkObj.relY * bgH)
         };
+        if (networkObj.relW !== undefined) {
+            screenObj.w = networkObj.relW * bgW;
+            screenObj.h = networkObj.relH * bgH;
+        }
+        return screenObj;
+    } else {
+        let screenObj = { x: networkObj.x || 0, y: networkObj.y || 0 };
+        if (networkObj.w !== undefined) {
+            screenObj.w = networkObj.w;
+            screenObj.h = networkObj.h;
+        }
+        return screenObj;
     }
-    return { 
-        x: (networkObj.x * cr.width) + cr.left, 
-        y: (networkObj.y * cr.height) + cr.top 
-    };
 }
 
 document.addEventListener('DOMContentLoaded', () => {
