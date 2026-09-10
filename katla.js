@@ -398,7 +398,7 @@ function baslatKatlamaEkrani(isRemote = false) {
         document.getElementById('btn-katla-kalici').addEventListener('click', () => {
             if (foldStart && foldCurrent) {
                 katlanmisBirak(foldStart, foldCurrent);
-                // agSenkronizeEt('kalici', ...) ağ tarafında kalıcıyı senkronize etmeli veya yama stroke'u ağa yollamalı
+                agSenkronizeEt('iptal'); // PC'de açık kalan katlama arayüzünü (overlay) temizle
                 iptalEt();
             } else {
                 iptalEt();
