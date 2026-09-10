@@ -1,4 +1,4 @@
-﻿// 🚨 ALAN ADI KİLİDİ (DOMAIN BINDING) 🚨
+// 🚨 ALAN ADI KİLİDİ (DOMAIN BINDING) 🚨
 // Sadece bdemir1499.github.io adresinde, EBA sunucularında ve yerel bilgisayarda çalışır!
 const gecerliAdresler = ["bdemir1499.github.io", "127.0.0.1", "localhost", "eba.gov.tr", "vercel.app"];
 const mevcutAdres = window.location.hostname;
@@ -3101,7 +3101,6 @@ canvas.addEventListener('touchmove', (e) => {
     }
 }, { passive: false });
 canvas.addEventListener('pointerdown', (e) => {
-    document.body.classList.add('ghost-mode');
     // 🚨 SİHİRLİ DOKUNUŞ 1: Ne olursa olsun ÖNCE tarayıcının yerleşik kaydırmasını (titremeyi) kilitliyoruz!
     if (e.cancelable) e.preventDefault();
 
@@ -3545,10 +3544,9 @@ canvas.addEventListener('pointermove', (e) => {
 }, { passive: false });
 
 
-// --- POINTER UP (TÜM ÇİZİM VE ARAÇ İŞLEMLERİNİN BİTİŞİ) ---
+// --- POINTERUP (TÜM ÇİZİM VE ARAÇ İŞLEMLERİNİN BİTİŞİ) ---
 
 canvas.addEventListener('pointerup', (e) => {
-    setTimeout(() => { if (!isDrawing) document.body.classList.remove('ghost-mode'); }, 300);
     isDrawing = false;
 
     // Kilitleri serbest bırak
@@ -4024,7 +4022,6 @@ canvas.addEventListener('wheel', (e) => {
 
 // --- POINTERCANCEL (KESİNTİ DURUMUNDA SIFIRLAMA) ---
 canvas.addEventListener('pointercancel', (e) => {
-    document.body.classList.remove('ghost-mode');
     // --- BUNLARI EKLE ---
     pointers.delete(e.pointerId);
     lastDist = 0;
@@ -4056,8 +4053,8 @@ canvas.addEventListener('pointercancel', (e) => {
 
 
 // --- BUNLARI EKLE: Tablet ekranından dışarı taşan parmakları zorla sil ---
-canvas.addEventListener('pointerout', (e) => { document.body.classList.remove('ghost-mode'); pointers.delete(e.pointerId); if (pointers.size < 2) lastDist = 0; });
-canvas.addEventListener('pointerleave', (e) => { document.body.classList.remove('ghost-mode'); pointers.delete(e.pointerId); if (pointers.size < 2) lastDist = 0; });
+canvas.addEventListener('pointerout', (e) => { pointers.delete(e.pointerId); if (pointers.size < 2) lastDist = 0; });
+canvas.addEventListener('pointerleave', (e) => { pointers.delete(e.pointerId); if (pointers.size < 2) lastDist = 0; });
 
 
 // --- YAPIŞTIRMA (PASTE) DESTEĞİ (CTRL+V) ---
