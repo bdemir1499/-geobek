@@ -198,6 +198,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isFolding) {
             e.stopPropagation();
             isFolding = false;
+            // KULLANICI İSTEĞİ: Kalemi kaldırdığı an onay beklemeden doğrudan katlanmış bırak ve art arda katlama için sıfırla!
+            if (foldStart && foldCurrent) {
+                katlanmisBirak(foldStart, foldCurrent);
+                if (typeof agSenkronizeEt === 'function') agSenkronizeEt('iptal');
+                // Art arda katlama yapabilmesi için tool'u kapatmadan sadece overlay'i sıfırla
+                sifirlaKatlama();
+            } else {
+                iptalEt();
+            }
             return;
         }
 
@@ -374,42 +383,25 @@ function baslatKatlamaEkrani(isRemote = false) {
 
     // İlk anda hiçbir şey çizmene gerek yok, çünkü alttaki canvaslar zaten gösteriyor.
     // Kullanıcı ekrana dokunup hareket ettirdiğinde cizKatlamaAnimasyonu çağrılacak.
+    // DİKKAT: Yeni UI kuralları gereği, onay ekranı (.katlama-ui) oluşturulmuyor. 
+    // Katlama doğrudan pointerup ile uygulanacak.
+}
 
-    if (!isRemote) {
-        const uiDiv = document.createElement('div');
-        uiDiv.className = 'katlama-ui';
-        uiDiv.innerHTML = `
-            <button id="btn-katla-iptal">İptal / Sil</button>
-            <button id="btn-katla-tamam">Aç ve İz Bırak</button>
-            <button id="btn-katla-kalici" style="background-color: #ff9800; color: white;">Katlanmış Bırak</button>
-        `;
-        document.body.appendChild(uiDiv);
-
-        document.getElementById('btn-katla-iptal').addEventListener('click', () => {
-            iptalEt();
-            agSenkronizeEt('iptal');
-        });
-        document.getElementById('btn-katla-tamam').addEventListener('click', () => {
-            if (foldStart && foldCurrent) {
-                katIziBirak(foldStart, foldCurrent);
-                agSenkronizeEt('tamamla', foldStart, foldCurrent);
-                iptalEt();
-            } else {
-                iptalEt();
-                agSenkronizeEt('iptal');
-            }
-        });
-
-        document.getElementById('btn-katla-kalici').addEventListener('click', () => {
-            if (foldStart && foldCurrent) {
-                katlanmisBirak(foldStart, foldCurrent);
-                agSenkronizeEt('iptal'); // PC'de açık kalan katlama arayüzünü (overlay) temizle
-                iptalEt();
-            } else {
-                iptalEt();
-                agSenkronizeEt('iptal');
-            }
-        });
+function sifirlaKatlama() {
+    if (katlamaOverlayCanvas) {
+        katlamaOverlayCanvas.remove();
+        katlamaOverlayCanvas = null;
+    }
+    currentBgImg = null;
+    currentFgImg = null;
+    currentCaptureRect = null;
+    foldStart = null;
+    foldCurrent = null;
+    isFolding = false;
+    isDrawingBox = false;
+    if (currentBox) {
+        currentBox.remove();
+        currentBox = null;
     }
 }
 
@@ -539,16 +531,13 @@ function katlanmisBirak(p1, p2) {
     if (!mainCanvas) return;
 
     // Resim yaması (patch) oluştur
-    const patchObj = {
-        type: 'image',
-        imgData: dataUrl,
-        x: 0,
-        y: 0,
-        width: mainCanvas.width,
-        height: mainCanvas.height,
-        isBackground: false,
+    const patchObj = { 
+        type: 'image', imgData: dataUrl, 
+        x: 0, y: 0, width: mainCanvas.width, height: mainCanvas.height, rotation: 0, 
+        isBackground: false, 
         isPatch: true,
-        id: Date.now() + Math.random().toString()
+        foldLine: [p1, p2], // GERİ AL (UNDO) tuşu için katlama izi koordinatları
+        id: Date.now() + Math.random().toString() 
     };
     
     // Geobek çizim geçmişine ekle

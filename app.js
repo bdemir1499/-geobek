@@ -1970,9 +1970,9 @@ function undoLastStroke() {
         if (window.audio_undo) { window.audio_undo.currentTime = 0; window.audio_undo.play(); }
 
         // 1. Kendi listenden son çizgiyi sil
-        const popped = drawnStrokes.pop();
+                const popped = drawnStrokes.pop();
 
-        // 🚨 3D ŞEKİLSE GERİ ALIRKEN SAHNEDEN DE KALDIR
+        // 3D ŞEKİLSE GERİ ALIRKEN SAHNEDEN DE KALDIR
         if (popped && popped.type === '3d_shape' && window.Scene3D && window.Scene3D.scene) {
             const meshToRemove = window.Scene3D.scene.children.find(m => m.userData && m.userData.strokeData && m.userData.strokeData.id === popped.id);
             if (meshToRemove) {
@@ -1991,6 +1991,23 @@ function undoLastStroke() {
             }
         }
 
+        // YENİ: KAT İZİ BIRAK (Undo sırasında katlamaları açarken iz bırak)
+        if (popped && popped.isPatch === true && popped.foldLine) {
+            const p1 = popped.foldLine[0];
+            const p2 = popped.foldLine[1];
+            // İz stroke'u oluştur (Daha ince ve daha az dikkat dağıtıcı)
+            const izStroke = {
+                type: 'line', 
+                points: [p1, p2],
+                color: 'rgba(0, 0, 0, 0.2)', // Daha şeffaf (dikkat dağıtmaz)
+                width: 1.5, // Daha ince
+                isDash: true, 
+                dashPattern: [6, 6], // Kesikli
+                isBackground: false
+            };
+            drawnStrokes.push(izStroke);
+        }
+
         // --- CANLI SINIF: TAHTAYA "SON ÇİZİMİ SİL" MESAJI GÖNDER ---
         if (typeof isConnected !== 'undefined' && isConnected) {
             window.sendNetworkData({ type: 'geri_al' });
@@ -1998,6 +2015,7 @@ function undoLastStroke() {
         // ---------------------------------------------------------
 
         redrawAllStrokes();
+
     }
 }
 
@@ -6712,7 +6730,7 @@ if (!data || !data.type) return;
             if (window.redrawAllStrokes) window.redrawAllStrokes();
         }
 
-        if (data.type === 'geri_al') {
+                if (data.type === 'geri_al') {
             const popped = window.drawnStrokes.pop();
             // 🚨 3D ŞEKİLSE GERİ ALIRKEN PC SAHNESİNDEN DE KALDIR
             if (popped && popped.type === '3d_shape' && window.Scene3D && window.Scene3D.scene) {
@@ -6732,8 +6750,26 @@ if (!data || !data.type) return;
                     window.Scene3D.updateHandlePositions();
                 }
             }
+
+            // YENİ: PC EKRANINDA DA KAT İZİ BIRAK
+            if (popped && popped.isPatch === true && popped.foldLine) {
+                const p1 = popped.foldLine[0];
+                const p2 = popped.foldLine[1];
+                const izStroke = {
+                    type: 'line', 
+                    points: [p1, p2],
+                    color: 'rgba(0, 0, 0, 0.2)',
+                    width: 1.5,
+                    isDash: true, 
+                    dashPattern: [6, 6],
+                    isBackground: false
+                };
+                window.drawnStrokes.push(izStroke);
+            }
+
             if (window.redrawAllStrokes) window.redrawAllStrokes();
         }
+
         else if (data.type === 'sil_belirli' && data.id) {
             const index = window.drawnStrokes.findIndex(s => s.id === data.id);
             if (index !== -1) {
