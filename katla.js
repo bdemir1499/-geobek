@@ -122,11 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const originalSetActiveTool = window.setActiveTool;
         window.setActiveTool = function(toolId) {
             if (toolId !== 'none' && toolId !== 'snapshot' && window.isKatlaActive) {
-                // Katla modundan çık
-                window.isKatlaActive = false;
-                const katlaBtn = document.getElementById('btn-katla');
-                if (katlaBtn) katlaBtn.classList.remove('btn-katla-active');
-                document.body.classList.remove('katla-active');
                 iptalEt();
             }
             originalSetActiveTool(toolId);
@@ -414,6 +409,11 @@ function baslatKatlamaEkrani(isRemote = false) {
 }
 
 function iptalEt(isRemote = false) {
+    window.isKatlaActive = false;
+    const katlaBtn = document.getElementById('btn-katla');
+    if (katlaBtn) katlaBtn.classList.remove('btn-katla-active');
+    document.body.classList.remove('katla-active');
+
     if (katlamaOverlayCanvas) {
         katlamaOverlayCanvas.remove();
         katlamaOverlayCanvas = null;
