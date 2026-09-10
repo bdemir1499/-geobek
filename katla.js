@@ -381,6 +381,7 @@ function baslatKatlamaEkrani(isRemote = false) {
         uiDiv.innerHTML = `
             <button id="btn-katla-iptal">İptal / Sil</button>
             <button id="btn-katla-tamam">Aç ve İz Bırak</button>
+            <button id="btn-katla-kalici" style="background-color: #ff9800; color: white;">Katlanmış Bırak</button>
         `;
         document.body.appendChild(uiDiv);
 
@@ -392,6 +393,17 @@ function baslatKatlamaEkrani(isRemote = false) {
             if (foldStart && foldCurrent) {
                 katIziBirak(foldStart, foldCurrent);
                 agSenkronizeEt('tamamla', foldStart, foldCurrent);
+                iptalEt();
+            } else {
+                iptalEt();
+                agSenkronizeEt('iptal');
+            }
+        });
+
+        document.getElementById('btn-katla-kalici').addEventListener('click', () => {
+            if (foldStart && foldCurrent) {
+                katlanmisBirak(foldStart, foldCurrent);
+                // agSenkronizeEt('kalici', ...) ağ tarafında kalıcıyı senkronize etmeli veya yama stroke'u ağa yollamalı
                 iptalEt();
             } else {
                 iptalEt();
@@ -510,6 +522,40 @@ function katIziBirak(p1, p2) {
         if (typeof window.redrawAllStrokes === 'function') {
             window.redrawAllStrokes();
         }
+    }
+}
+
+function katlanmisBirak(p1, p2) {
+    if (!katlamaOverlayCanvas || !window.drawnStrokes) return;
+    
+    // Overlay canvas'taki (tam ekran) görüntüyü al
+    const dataUrl = katlamaOverlayCanvas.toDataURL('image/png');
+    const mainCanvas = document.getElementById('drawing-canvas');
+    if (!mainCanvas) return;
+
+    // Resim yaması (patch) oluştur
+    const patchObj = {
+        type: 'image',
+        imgData: dataUrl,
+        x: 0,
+        y: 0,
+        width: mainCanvas.width,
+        height: mainCanvas.height,
+        isBackground: false,
+        id: Date.now() + Math.random().toString()
+    };
+    
+    // Geobek çizim geçmişine ekle
+    window.drawnStrokes.push(patchObj);
+    
+    // Diğer cihazlarla senkronize et
+    if (typeof window.sendNetworkData === 'function') {
+        window.sendNetworkData({ type: 'yeni_cizim', stroke: patchObj });
+    }
+    
+    // Ekranı tazele
+    if (typeof window.redrawAllStrokes === 'function') {
+        window.redrawAllStrokes();
     }
 }
 
