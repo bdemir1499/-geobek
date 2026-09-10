@@ -542,6 +542,7 @@ function katlanmisBirak(p1, p2) {
         width: mainCanvas.width,
         height: mainCanvas.height,
         isBackground: false,
+        isPatch: true,
         id: Date.now() + Math.random().toString()
     };
     
