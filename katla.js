@@ -122,6 +122,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const originalSetActiveTool = window.setActiveTool;
         window.setActiveTool = function(toolId) {
             if (toolId !== 'none' && toolId !== 'snapshot' && window.isKatlaActive) {
+                // Kullanıcı katlamayı bitirmeden (örn: Serbest Kesim) başka araca geçerse, otomatik olarak 'Katlanmış Bırak' yap.
+                if (typeof foldStart !== 'undefined' && foldStart && typeof foldCurrent !== 'undefined' && foldCurrent) {
+                    katlanmisBirak(foldStart, foldCurrent);
+                    if (typeof agSenkronizeEt === 'function') agSenkronizeEt('iptal');
+                }
                 iptalEt();
             }
             originalSetActiveTool(toolId);
