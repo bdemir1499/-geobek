@@ -117,7 +117,27 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 
+    // 1.5. Geobek araç değişimini dinleyip Katla'yı kapatma (Başka araca geçilirse Katla iptal olsun)
+    if (typeof window.setActiveTool === 'function' && !window.katlaHooked) {
+        const originalSetActiveTool = window.setActiveTool;
+        window.setActiveTool = function(toolId) {
+            if (toolId !== 'none' && toolId !== 'snapshot' && window.isKatlaActive) {
+                // Katla modundan çık
+                window.isKatlaActive = false;
+                const katlaBtn = document.getElementById('btn-katla');
+                if (katlaBtn) katlaBtn.classList.remove('btn-katla-active');
+                document.body.classList.remove('katla-active');
+                iptalEt();
+            }
+            originalSetActiveTool(toolId);
+        };
+        window.katlaHooked = true;
+    }
+
     katlaBtn.addEventListener('click', () => {
+        if (!window.isKatlaActive && typeof window.setActiveTool === 'function') {
+            window.setActiveTool('snapshot');
+        }
         window.isKatlaActive = !window.isKatlaActive;
         if (window.isKatlaActive) {
             katlaBtn.classList.add('btn-katla-active');
@@ -132,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Etkileşimler (Kutu Çizimi)
     document.addEventListener('pointerdown', (e) => {
-        if (!window.isKatlaActive || e.target.closest('.toolbar') || e.target.closest('.katlama-ui')) return;
+        if (!window.isKatlaActive || e.target.closest('.ui-container') || e.target.closest('.panel') || e.target.closest('.katlama-ui')) return;
         
         // Eğer zaten katlama ekranındaysak, katlama hareketini başlat
         if (katlamaOverlayCanvas) {
@@ -393,9 +413,14 @@ function iptalEt(isRemote = false) {
     currentCaptureRect = null;
     foldStart = null;
     foldCurrent = null;
-    if (!isRemote && window.isKatlaActive) {
-        const btn = document.getElementById('btn-katla');
-        if(btn) btn.click();
+    
+    // GÜVENLİK (KİLİTLENMEYİ ÖNLEME): Katlama işlemi bittiğinde veya iptal edildiğinde state değişkenlerini sıfırla.
+    // Aksi halde pointerup event'leri e.stopPropagation() ile yutulur ve "tüm butonlar kilitlenir".
+    isFolding = false;
+    isDrawingBox = false;
+    if (currentBox) {
+        currentBox.remove();
+        currentBox = null;
     }
 }
 
