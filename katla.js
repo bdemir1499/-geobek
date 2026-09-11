@@ -584,10 +584,14 @@ function katlanmisBirak(p1, p2) {
     // Resim yaması (patch) oluştur
     const patchObj = { 
         type: 'image', imgData: dataUrl, 
-        x: cropX, y: cropY, width: cropW, height: cropH, rotation: 0, 
+        x: cropX * dpr, 
+        y: cropY * dpr, 
+        width: cropW * dpr, 
+        height: cropH * dpr, 
+        rotation: 0, 
         isBackground: false, 
         isPatch: true,
-        foldLine: [p1, p2],
+        foldLine: [{x: p1.x * dpr, y: p1.y * dpr}, {x: p2.x * dpr, y: p2.y * dpr}],
         id: Date.now() + Math.random().toString() 
     };
     
