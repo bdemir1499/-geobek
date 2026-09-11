@@ -525,18 +525,69 @@ function katIziBirak(p1, p2) {
 function katlanmisBirak(p1, p2) {
     if (!katlamaOverlayCanvas || !window.drawnStrokes) return;
     
-    // Overlay canvas'taki (tam ekran) görüntüyü al
-    const dataUrl = katlamaOverlayCanvas.toDataURL('image/png');
-    const mainCanvas = document.getElementById('drawing-canvas');
-    if (!mainCanvas) return;
+    let cropX = 0;
+    let cropY = 0;
+    let cropW = window.innerWidth;
+    let cropH = window.innerHeight;
+
+    // Kırpma alanı hesapla: Orijinal kutu ve katlama eksenine göre yansımasının sınırlarını bul
+    if (currentCaptureRect && p1 && p2) {
+        const reflectPoint = (x, y, pA, pB) => {
+            const dx = pB.x - pA.x;
+            const dy = pB.y - pA.y;
+            const a = (dx * dx - dy * dy) / (dx * dx + dy * dy);
+            const b = 2 * dx * dy / (dx * dx + dy * dy);
+            return {
+                x: a * (x - pA.x) + b * (y - pA.y) + pA.x,
+                y: b * (x - pA.x) - a * (y - pA.y) + pA.y
+            };
+        };
+
+        const r = currentCaptureRect;
+        const pts = [
+            {x: r.x, y: r.y}, {x: r.x + r.w, y: r.y},
+            {x: r.x + r.w, y: r.y + r.h}, {x: r.x, y: r.y + r.h}
+        ];
+
+        for (let i = 0; i < 4; i++) {
+            pts.push(reflectPoint(pts[i].x, pts[i].y, p1, p2));
+        }
+
+        let minX = Math.min(...pts.map(p => p.x));
+        let maxX = Math.max(...pts.map(p => p.x));
+        let minY = Math.min(...pts.map(p => p.y));
+        let maxY = Math.max(...pts.map(p => p.y));
+
+        minX = Math.floor(Math.max(0, minX - 20)); // Padding
+        minY = Math.floor(Math.max(0, minY - 20));
+        maxX = Math.ceil(Math.min(window.innerWidth, maxX + 20));
+        maxY = Math.ceil(Math.min(window.innerHeight, maxY + 20));
+
+        cropX = minX;
+        cropY = minY;
+        cropW = maxX - minX;
+        cropH = maxY - minY;
+    }
+
+    // YENİ: Sadece katlanan bölgeyi (crop box) kapsayan minik bir canvas oluştur
+    const dpr = window.devicePixelRatio || 1;
+    const cropCanvas = document.createElement('canvas');
+    cropCanvas.width = cropW * dpr;
+    cropCanvas.height = cropH * dpr;
+    const cCtx = cropCanvas.getContext('2d');
+    cCtx.scale(dpr, dpr);
+    
+    // Tüm ekranı çiz ama -cropX ve -cropY ofseti ile kaydır, böylece sadece istediğimiz alan canvas'a sığar
+    cCtx.drawImage(katlamaOverlayCanvas, -cropX, -cropY, window.innerWidth, window.innerHeight);
+    const dataUrl = cropCanvas.toDataURL('image/png');
 
     // Resim yaması (patch) oluştur
     const patchObj = { 
         type: 'image', imgData: dataUrl, 
-        x: 0, y: 0, width: mainCanvas.width, height: mainCanvas.height, rotation: 0, 
+        x: cropX, y: cropY, width: cropW, height: cropH, rotation: 0, 
         isBackground: false, 
         isPatch: true,
-        foldLine: [p1, p2], // GERİ AL (UNDO) tuşu için katlama izi koordinatları
+        foldLine: [p1, p2],
         id: Date.now() + Math.random().toString() 
     };
     
