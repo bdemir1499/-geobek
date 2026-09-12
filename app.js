@@ -8685,3 +8685,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+// --- MOBİL CİHAZLARDA BOŞLUĞA (ÇİZİM ALANINA) DOKUNUNCA PANELİ KESİN OLARAK KAPATMA YAMASI ---
+document.addEventListener('pointerdown', (e) => {
+    if (window.innerWidth <= 1024) { // Daha geniş tabletleri de kapsasın diye 1024 yapıldı
+        const lp = document.querySelector('.left-panel');
+        const rp = document.querySelector('.right-panel');
+        const lFab = document.getElementById('mobile-drawer-left');
+        const rFab = document.getElementById('mobile-drawer-right');
+
+        if (lp && lp.classList.contains('drawer-open')) {
+            if (!lp.contains(e.target) && (!lFab || !lFab.contains(e.target))) {
+                lp.classList.remove('drawer-open');
+            }
+        }
+        if (rp && rp.classList.contains('drawer-open')) {
+            if (!rp.contains(e.target) && (!rFab || !rFab.contains(e.target))) {
+                rp.classList.remove('drawer-open');
+            }
+        }
+    }
+}, { capture: true }); // capture: true sayesinde diğer elemanların engellemesini (stopPropagation) aşar
