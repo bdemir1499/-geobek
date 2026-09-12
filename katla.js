@@ -101,30 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const snapshotOptions = document.getElementById('snapshot-options');
     if (snapshotOptions) {
         snapshotOptions.appendChild(katlaBtn);
-        
-        // Şeffaf Katla Butonunu da ekle
-        const seffafBtn = document.createElement('button');
-        seffafBtn.id = 'btn-seffaf-katla';
-        seffafBtn.className = 'tool-button-sub';
-        seffafBtn.title = 'Şeffaf Katla (Arkaplansız)';
-        seffafBtn.innerHTML = 'Şeffaf Katla 👻';
-        snapshotOptions.appendChild(seffafBtn);
-        
-        seffafBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (window.isKatlaActive && window.isKatlaSeffaf) {
-                iptalEt();
-            } else {
-                iptalEt(); 
-                window.isKatlaActive = true;
-                window.isKatlaSeffaf = true; if (typeof window.setActiveTool === 'function') { window.setActiveTool('snapshot'); }
-                seffafBtn.classList.add('btn-katla-active');
-                document.body.classList.add('katla-active');
-                if (typeof window.hideAllMenus === 'function') window.hideAllMenus();
-                console.log("Şeffaf Katla modu aktif (Arkaplan silinecek)");
-            }
-        });
-    }
+        }
 
     // 2. Stilleri Ekle
     const style = document.createElement('style');
@@ -163,8 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.setActiveTool('snapshot');
             }
             window.isKatlaActive = !window.isKatlaActive;
-            window.isKatlaSeffaf = window.isKatlaActive;
-            
+                        
             if (window.isKatlaActive) {
                 seffafBtn.classList.add('btn-katla-active');
                 katlaBtn.classList.remove('btn-katla-active');
@@ -177,8 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     katlaBtn.addEventListener('click', () => {
-        window.isKatlaSeffaf = false;
-        if (typeof seffafBtn !== 'undefined') {
+                if (typeof seffafBtn !== 'undefined') {
             seffafBtn.classList.remove('btn-katla-active');
         }
         if (!window.isKatlaActive && typeof window.setActiveTool === 'function') {
@@ -320,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // ZEMİNİ (Delik kısmını) AKILLI RENK İLE DOLDUR
-            if (!window.isKatlaSeffaf) {
+            {
                 tempBg.getContext('2d').fillStyle = detectedBgColor;
             tempBg.getContext('2d').fillRect(0, 0, rect.width, rect.height);
             }
@@ -328,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // OPAQUE FLAP: Kağıdın arkasını görebilmemiz için şeffaf değil, opak olması lazım!
             // Zemin rengini kağıdın bazı olarak alıyoruz (beyaz/akıllı renk):
-            if (!window.isKatlaSeffaf) {
+            {
                 tempFg.getContext('2d').fillStyle = detectedBgColor;
             tempFg.getContext('2d').fillRect(0, 0, rect.width, rect.height);
             
@@ -461,8 +436,7 @@ function iptalEt(isRemote = false) {
     if (katlaBtn) katlaBtn.classList.remove('btn-katla-active');
     const seffafBtn = document.getElementById('btn-seffaf-katla');
     if (seffafBtn) seffafBtn.classList.remove('btn-katla-active');
-    window.isKatlaSeffaf = false;
-    document.body.classList.remove('katla-active');
+        document.body.classList.remove('katla-active');
 
     if (katlamaOverlayCanvas) {
         katlamaOverlayCanvas.remove();
