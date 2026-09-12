@@ -1346,3 +1346,18 @@ body.cursor-eraser #drawing-canvas {
     top: 15px !important;
     transform: translateY(0) !important;
 }
+
+/* --- SAĞ PANEL PDF BUTONLARI GENİŞLEME YAMASI --- */
+#prev-page, #next-page {
+    width: 35px !important;
+    min-width: 35px !important;
+    padding: 2px !important;
+}
+
+/* --- PDF KAPAT BUTONU KONUM YAMASI --- */
+#btn-close-pdf {
+    top: auto !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    transform: none !important;
+}
