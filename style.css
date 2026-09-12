@@ -94,6 +94,8 @@ html, body {
 /* Sol Panel Konumu */
 .left-panel {
     left: 15px;
+    top: 15px;
+    transform: translateY(0);
 }
 
 /* Premium Buton Stili (İnatçı Eski Renkleri Ezen Zırhlı Versiyon) */
@@ -1171,7 +1173,7 @@ body.ghost-mode .right-panel {
 @media (max-width: 1024px) {
     /* Butonlari Goster */
     .mobile-fab {
-    display: none;
+    display: flex;
         justify-content: center;
         align-items: center;
     }
@@ -1356,9 +1358,9 @@ body.cursor-eraser #drawing-canvas {
 
 /* --- PDF KAPAT BUTONU KONUM YAMASI --- */
 #btn-close-pdf {
-    top: auto !important;
-    bottom: 20px !important;
-    right: 20px !important;
+    top: 15px !important;
+    bottom: auto !important;
+    right: 140px !important;
     transform: none !important;
 }
 
