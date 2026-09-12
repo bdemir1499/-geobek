@@ -1,5 +1,5 @@
-﻿// AkÄ±llÄ± Katlama v3.1 - Geobek
-// Ã‡apraz Katlama, Arka Plan / Ã–n Plan AyrÄ±mÄ± ve GerÃ§ek ZamanlÄ± Senkronizasyon
+﻿// Akıllı Katlama v3.1 - Geobek
+// Çapraz Katlama, Arka Plan / Ön Plan Ayrımı ve Gerçek Zamanlı Senkronizasyon
 
 window.isKatlaActive = false;
 let katlamaOverlayCanvas = null;
@@ -14,22 +14,22 @@ let startX, startY, currentBox = null;
 let foldStart = null;
 let foldCurrent = null;
 
-// AÄŸ parÃ§alama (chunking) iÃ§in ID
+// Ağ parçalama (chunking) için ID
 let syncImgId = null;
 
 function screenToCanvasCoords(screenObj) {
     const canvasElm = document.getElementById('drawing-canvas');
     if (!canvasElm) return screenObj;
     
-    // AÄ SENKRONÄ°ZASYONU Ä°Ã‡Ä°N NÄ°HAÄ° KUSURSUZ Ã‡Ã–ZÃœM:
-    // Geobek, PC ve Tablet'te resmi farklÄ± x,y noktalarÄ±na merkezler. 
-    // Bu yÃ¼zden koordinatlarÄ± ekranÄ±n sol Ã¼st kÃ¶ÅŸesine gÃ¶re deÄŸil, 
-    // ARKA PLAN RESMÄ°NE (Zemine) gÃ¶re hesaplamalÄ±yÄ±z!
+    // AĞ SENKRONİZASYONU İÇİN NİHAİ KUSURSUZ ÇÖZÜM:
+    // Geobek, PC ve Tablet'te resmi farklı x,y noktalarına merkezler. 
+    // Bu yüzden koordinatları ekranın sol üst köşesine göre değil, 
+    // ARKA PLAN RESMİNE (Zemine) göre hesaplamalıyız!
     const myBg = window.drawnStrokes ? window.drawnStrokes.find(s => s.isBackground === true && !s.isPatch) : null;
     const dpr = window.devicePixelRatio || 1;
     
     if (myBg && myBg.width > 0) {
-        // Ã‡izim tuvalindeki deÄŸerler dpr ile Ã§arpÄ±lmÄ±ÅŸ halde tutuluyor, bu yÃ¼zden dpr'a bÃ¶lerek CSS piksellerini buluyoruz:
+        // Çizim tuvalindeki değerler dpr ile çarpılmış halde tutuluyor, bu yüzden dpr'a bölerek CSS piksellerini buluyoruz:
         const bgX = myBg.x / dpr;
         const bgY = myBg.y / dpr;
         const bgW = myBg.width / dpr;
@@ -46,7 +46,7 @@ function screenToCanvasCoords(screenObj) {
         }
         return netObj;
     } else {
-        // Arka plan yoksa, zorunlu olarak doÄŸrudan CSS piksellerini gÃ¶nder
+        // Arka plan yoksa, zorunlu olarak doğrudan CSS piksellerini gönder
         let netObj = { x: screenObj.x, y: screenObj.y, isRel: false };
         if (screenObj.w !== undefined) {
             netObj.w = screenObj.w;
@@ -90,13 +90,13 @@ function canvasToScreenCoords(networkObj) {
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Katla Butonunu Ekle
-    // (KaldÄ±rÄ±ldÄ±)
-    // 1. Katla Butonunu CanlandÄ±r MenÃ¼sÃ¼ne Ekle
+    // (Kaldırıldı)
+    // 1. Katla Butonunu Canlandır Menüsüne Ekle
     const katlaBtn = document.createElement('button');
     katlaBtn.id = 'btn-katla';
     katlaBtn.className = 'tool-button-sub';
-    katlaBtn.title = 'AkÄ±llÄ± Katlama';
-    katlaBtn.innerHTML = 'Katla âœ‚ï¸';
+    katlaBtn.title = 'Akıllı Katlama';
+    katlaBtn.innerHTML = 'Katla ✂️';
     
     const snapshotOptions = document.getElementById('snapshot-options');
     if (snapshotOptions) {
@@ -117,12 +117,12 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 
-    // 1.5. Geobek araÃ§ deÄŸiÅŸimini dinleyip Katla'yÄ± kapatma (BaÅŸka araca geÃ§ilirse Katla iptal olsun)
+    // 1.5. Geobek araç değişimini dinleyip Katla'yı kapatma (Başka araca geçilirse Katla iptal olsun)
     if (typeof window.setActiveTool === 'function' && !window.katlaHooked) {
         const originalSetActiveTool = window.setActiveTool;
         window.setActiveTool = function(toolId) {
             if (toolId !== 'none' && toolId !== 'snapshot' && window.isKatlaActive) {
-                // KullanÄ±cÄ± katlamayÄ± bitirmeden (Ã¶rn: Serbest Kesim) baÅŸka araca geÃ§erse, otomatik olarak 'KatlanmÄ±ÅŸ BÄ±rak' yap.
+                // Kullanıcı katlamayı bitirmeden (örn: Serbest Kesim) başka araca geçerse, otomatik olarak 'Katlanmış Bırak' yap.
                 if (typeof foldStart !== 'undefined' && foldStart && typeof foldCurrent !== 'undefined' && foldCurrent) {
                     katlanmisBirak(foldStart, foldCurrent);
                     if (typeof agSenkronizeEt === 'function') agSenkronizeEt('iptal');
@@ -173,11 +173,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 3. EtkileÅŸimler (Kutu Ã‡izimi)
+    // 3. Etkileşimler (Kutu Çizimi)
     document.addEventListener('pointerdown', (e) => {
         if (!window.isKatlaActive || e.target.closest('.ui-container') || e.target.closest('.panel') || e.target.closest('.katlama-ui')) return;
         
-        // EÄŸer zaten katlama ekranÄ±ndaysak, katlama hareketini baÅŸlat
+        // Eğer zaten katlama ekranındaysak, katlama hareketini başlat
         if (katlamaOverlayCanvas) {
             e.stopPropagation();
             isFolding = true;
@@ -221,11 +221,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isFolding) {
             e.stopPropagation();
             isFolding = false;
-            // KULLANICI Ä°STEÄÄ°: Kalemi kaldÄ±rdÄ±ÄŸÄ± an onay beklemeden doÄŸrudan katlanmÄ±ÅŸ bÄ±rak ve art arda katlama iÃ§in sÄ±fÄ±rla!
+            // KULLANICI İSTEĞİ: Kalemi kaldırdığı an onay beklemeden doğrudan katlanmış bırak ve art arda katlama için sıfırla!
             if (foldStart && foldCurrent) {
                 katlanmisBirak(foldStart, foldCurrent);
                 if (typeof agSenkronizeEt === 'function') agSenkronizeEt('iptal');
-                // Art arda katlama yapabilmesi iÃ§in tool'u kapatmadan sadece overlay'i sÄ±fÄ±rla
+                // Art arda katlama yapabilmesi için tool'u kapatmadan sadece overlay'i sıfırla
                 sifirlaKatlama();
             } else {
                 iptalEt();
@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (rect.width < 50 || rect.height < 50) return;
 
-        // Html2Canvas yerine anÄ±nda Canvas Cropping kullanÄ±yoruz (Ã‡ok daha performanslÄ± ve KatmanlarÄ± ayÄ±rabiliyoruz!)
+        // Html2Canvas yerine anında Canvas Cropping kullanıyoruz (Çok daha performanslı ve Katmanları ayırabiliyoruz!)
         const canvasElm = document.getElementById('drawing-canvas');
         const bgCanvas = document.getElementById('bg-canvas');
         if (!canvasElm) return;
@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tempFg.width = rect.width; tempFg.height = rect.height;
 
             const canvasRect = canvasElm.getBoundingClientRect();
-            // CROP FIX: Zoom ve Pan durumlarÄ±nda doÄŸru pikseli almak iÃ§in dpr yerine gerÃ§ek canvas oranÄ±nÄ± (scaleX/Y) kullanÄ±yoruz!
+            // CROP FIX: Zoom ve Pan durumlarında doğru pikseli almak için dpr yerine gerçek canvas oranını (scaleX/Y) kullanıyoruz!
             const scaleX = canvasElm.width / canvasRect.width;
             const scaleY = canvasElm.height / canvasRect.height;
             
@@ -264,15 +264,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const sw = rect.width * scaleX;
             const sh = rect.height * scaleY;
 
-            // AKILLI BAKMA (Smart Sampling): Zemin rengini bulmak iÃ§in kutunun 5px dÄ±ÅŸÄ±ndan 4 farklÄ± noktaya bak!
+            // AKILLI BAKMA (Smart Sampling): Zemin rengini bulmak için kutunun 5px dışından 4 farklı noktaya bak!
             let detectedBgColor = document.body.style.backgroundColor || '#ffffff';
             try {
                 const ctxD = canvasElm.getContext('2d');
                 const pts = [
-                    { x: rect.left + rect.width / 2, y: rect.top - 5 }, // Ãœst orta
+                    { x: rect.left + rect.width / 2, y: rect.top - 5 }, // Üst orta
                     { x: rect.left + rect.width / 2, y: rect.top + rect.height + 5 }, // Alt orta
                     { x: rect.left - 5, y: rect.top + rect.height / 2 }, // Sol orta
-                    { x: rect.left + rect.width + 5, y: rect.top + rect.height / 2 } // SaÄŸ orta
+                    { x: rect.left + rect.width + 5, y: rect.top + rect.height / 2 } // Sağ orta
                 ];
                 
                 for (let pt of pts) {
@@ -293,24 +293,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             } catch (e) {
-                console.warn("AkÄ±llÄ± renk okuma baÅŸarÄ±sÄ±z:", e);
+                console.warn("Akıllı renk okuma başarısız:", e);
             }
 
-            // ZEMÄ°NÄ° (Delik kÄ±smÄ±nÄ±) AKILLI RENK Ä°LE DOLDUR
+            // ZEMİNİ (Delik kısmını) AKILLI RENK İLE DOLDUR
             tempBg.getContext('2d').fillStyle = detectedBgColor;
             tempBg.getContext('2d').fillRect(0, 0, rect.width, rect.height);
-            // PDF vs. Ã§izmeyi iptal ediyoruz Ã§Ã¼nkÃ¼ kullanÄ±cÄ± "o renge boyasÄ±n" dedi, yani DÃœZ RENK istiyor!
+            // PDF vs. çizmeyi iptal ediyoruz çünkü kullanıcı "o renge boyasın" dedi, yani DÜZ RENK istiyor!
             
-            // OPAQUE FLAP: KaÄŸÄ±dÄ±n arkasÄ±nÄ± gÃ¶rebilmemiz iÃ§in ÅŸeffaf deÄŸil, opak olmasÄ± lazÄ±m!
-            // Zemin rengini kaÄŸÄ±dÄ±n bazÄ± olarak alÄ±yoruz (beyaz/akÄ±llÄ± renk):
+            // OPAQUE FLAP: Kağıdın arkasını görebilmemiz için şeffaf değil, opak olması lazım!
+            // Zemin rengini kağıdın bazı olarak alıyoruz (beyaz/akıllı renk):
             tempFg.getContext('2d').fillStyle = detectedBgColor;
             tempFg.getContext('2d').fillRect(0, 0, rect.width, rect.height);
             
-            // EÄŸer varsa, PDF kalÄ±ntÄ±larÄ±nÄ± (veya arka planÄ±) yapraÄŸa bas (sadece yaprakta kalsÄ±n)
+            // Eğer varsa, PDF kalıntılarını (veya arka planı) yaprağa bas (sadece yaprakta kalsın)
             if (bgCanvas) {
                 tempFg.getContext('2d').drawImage(bgCanvas, sx, sy, sw, sh, 0, 0, rect.width, rect.height);
             }
-            // Sonra Ã¼zerine Ã§izimleri ekliyoruz:
+            // Sonra üzerine çizimleri ekliyoruz:
             tempFg.getContext('2d').drawImage(canvasElm, sx, sy, sw, sh, 0, 0, rect.width, rect.height);
 
             const bgStr = tempBg.toDataURL('image/png');
@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             currentCaptureRect = { x: rect.left, y: rect.top, w: rect.width, h: rect.height };
 
-            // Ä°ki resmi paralel yÃ¼kle
+            // İki resmi paralel yükle
             Promise.all([
                 new Promise(res => { currentBgImg = new Image(); currentBgImg.onload = res; currentBgImg.src = bgStr; }),
                 new Promise(res => { currentFgImg = new Image(); currentFgImg.onload = res; currentFgImg.src = fgStr; })
@@ -327,14 +327,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 agSenkronizeEt('basla', null, null, bgStr, fgStr, currentCaptureRect);
             });
         } catch (err) {
-            console.error("Kesim hatasÄ±:", err);
+            console.error("Kesim hatası:", err);
         }
     }, { capture: true });
 
-    // 4. AÄŸ Dinleyicisi (PC veya diÄŸer tabletler iÃ§in)
+    // 4. Ağ Dinleyicisi (PC veya diğer tabletler için)
     window.addEventListener('katlama_sistemi', (e) => {
         const d = e.detail;
-        // YANKI (ECHO) KORUMASI: Kendi gÃ¶nderdiÄŸimiz veriyi iÅŸlemeyiz!
+        // YANKI (ECHO) KORUMASI: Kendi gönderdiğimiz veriyi işlemeyiz!
         if (!d || (d.senderId && window.mySessionId && d.senderId === window.mySessionId)) return;
         
         if (d.type === 'katlama_basla_chunk') {
@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentFgImg = new Image();
                     currentFgImg.onload = () => {
                         currentCaptureRect = canvasToScreenCoords(d.rect);
-                        // Fg (Ã¶n plan) en son gelir, gelince ekranÄ± baÅŸlat
+                        // Fg (ön plan) en son gelir, gelince ekranı başlat
                         baslatKatlamaEkrani(true); 
                     };
                     currentFgImg.src = fullImg;
@@ -390,7 +390,7 @@ function baslatKatlamaEkrani(isRemote = false) {
     katlamaOverlayCanvas.width = window.innerWidth * dpr;
     katlamaOverlayCanvas.height = window.innerHeight * dpr;
     
-    // PDF ve diÄŸer nesnelerin altÄ±nda kalmamasÄ± iÃ§in css z-index ayarÄ±:
+    // PDF ve diğer nesnelerin altında kalmaması için css z-index ayarı:
     katlamaOverlayCanvas.style.position = 'absolute';
     katlamaOverlayCanvas.style.top = '0';
     katlamaOverlayCanvas.style.left = '0';
@@ -404,10 +404,10 @@ function baslatKatlamaEkrani(isRemote = false) {
     katlamaOverlayCtx = katlamaOverlayCanvas.getContext('2d');
     katlamaOverlayCtx.scale(dpr, dpr);
 
-    // Ä°lk anda hiÃ§bir ÅŸey Ã§izmene gerek yok, Ã§Ã¼nkÃ¼ alttaki canvaslar zaten gÃ¶steriyor.
-    // KullanÄ±cÄ± ekrana dokunup hareket ettirdiÄŸinde cizKatlamaAnimasyonu Ã§aÄŸrÄ±lacak.
-    // DÄ°KKAT: Yeni UI kurallarÄ± gereÄŸi, onay ekranÄ± (.katlama-ui) oluÅŸturulmuyor. 
-    // Katlama doÄŸrudan pointerup ile uygulanacak.
+    // İlk anda hiçbir şey çizmene gerek yok, çünkü alttaki canvaslar zaten gösteriyor.
+    // Kullanıcı ekrana dokunup hareket ettirdiğinde cizKatlamaAnimasyonu çağrılacak.
+    // DİKKAT: Yeni UI kuralları gereği, onay ekranı (.katlama-ui) oluşturulmuyor. 
+    // Katlama doğrudan pointerup ile uygulanacak.
 }
 
 function sifirlaKatlama() {
@@ -449,8 +449,8 @@ function iptalEt(isRemote = false) {
     foldStart = null;
     foldCurrent = null;
     
-    // GÃœVENLÄ°K (KÄ°LÄ°TLENMEYÄ° Ã–NLEME): Katlama iÅŸlemi bittiÄŸinde veya iptal edildiÄŸinde state deÄŸiÅŸkenlerini sÄ±fÄ±rla.
-    // Aksi halde pointerup event'leri e.stopPropagation() ile yutulur ve "tÃ¼m butonlar kilitlenir".
+    // GÜVENLİK (KİLİTLENMEYİ ÖNLEME): Katlama işlemi bittiğinde veya iptal edildiğinde state değişkenlerini sıfırla.
+    // Aksi halde pointerup event'leri e.stopPropagation() ile yutulur ve "tüm butonlar kilitlenir".
     isFolding = false;
     isDrawingBox = false;
     if (currentBox) {
@@ -476,7 +476,7 @@ function katIziBirak(p1, p2) {
     let lineEndX = midX - nx * 1000;
     let lineEndY = midY - ny * 1000;
 
-    // KESÄ°N Ã‡Ã–ZÃœM: Kat izini sadece seÃ§ili alanÄ±n (currentCaptureRect) iÃ§inde kalacak ÅŸekilde sÄ±nÄ±rla!
+    // KESİN ÇÖZÜM: Kat izini sadece seçili alanın (currentCaptureRect) içinde kalacak şekilde sınırla!
     if (currentCaptureRect) {
         const left = currentCaptureRect.x;
         const right = currentCaptureRect.x + currentCaptureRect.w;
@@ -485,32 +485,32 @@ function katIziBirak(p1, p2) {
 
         let points = [];
         
-        // 1. Sol kenar kesiÅŸimi (x = left)
+        // 1. Sol kenar kesişimi (x = left)
         if (nx !== 0) {
             let t = (left - midX) / nx;
             let y = midY + ny * t;
             if (y >= top && y <= bottom) points.push({x: left, y: y});
         }
-        // 2. SaÄŸ kenar kesiÅŸimi (x = right)
+        // 2. Sağ kenar kesişimi (x = right)
         if (nx !== 0) {
             let t = (right - midX) / nx;
             let y = midY + ny * t;
             if (y >= top && y <= bottom) points.push({x: right, y: y});
         }
-        // 3. Ãœst kenar kesiÅŸimi (y = top)
+        // 3. Üst kenar kesişimi (y = top)
         if (ny !== 0) {
             let t = (top - midY) / ny;
             let x = midX + nx * t;
             if (x >= left && x <= right) points.push({x: x, y: top});
         }
-        // 4. Alt kenar kesiÅŸimi (y = bottom)
+        // 4. Alt kenar kesişimi (y = bottom)
         if (ny !== 0) {
             let t = (bottom - midY) / ny;
             let x = midX + nx * t;
             if (x >= left && x <= right) points.push({x: x, y: bottom});
         }
 
-        // AynÄ± noktalarÄ± temizle (kÃ¶ÅŸelerden geÃ§erse Ã§ift nokta Ã§Ä±kabilir)
+        // Aynı noktaları temizle (köşelerden geçerse çift nokta çıkabilir)
         let uniquePoints = [];
         for (let p of points) {
             if (!uniquePoints.some(up => Math.abs(up.x - p.x) < 0.1 && Math.abs(up.y - p.y) < 0.1)) {
@@ -524,11 +524,11 @@ function katIziBirak(p1, p2) {
             lineEndX = uniquePoints[1].x;
             lineEndY = uniquePoints[1].y;
         } else {
-            return; // EÄŸer Ã§izgi kutunun dÄ±ÅŸÄ±ndaysa (veya kesiÅŸmiyorsa) hiÃ§ iz Ã§izme!
+            return; // Eğer çizgi kutunun dışındaysa (veya kesişmiyorsa) hiç iz çizme!
         }
     }
 
-    // Ã‡izgiyi sisteme stroke olarak ekle
+    // Çizgiyi sisteme stroke olarak ekle
     if (window.drawnStrokes) {
         const dpr = window.devicePixelRatio || 1;
         const bgLayerObj = {
@@ -536,7 +536,7 @@ function katIziBirak(p1, p2) {
             p1: {x: lineStartX * dpr, y: lineStartY * dpr},
             p2: {x: lineEndX * dpr, y: lineEndY * dpr},
             color: '#aaaaaa',
-            width: 3 * dpr, // Ã‡izgi kalÄ±nlÄ±ÄŸÄ±nÄ± da dpr ile Ã§arpalÄ±m ki tablette ince kalmasÄ±n
+            width: 3 * dpr, // Çizgi kalınlığını da dpr ile çarpalım ki tablette ince kalmasın
             label1: '',
             label2: '',
             id: Date.now() + Math.random()
@@ -556,7 +556,7 @@ function katlanmisBirak(p1, p2) {
     let cropW = window.innerWidth;
     let cropH = window.innerHeight;
 
-    // KÄ±rpma alanÄ± hesapla: Orijinal kutu ve katlama eksenine gÃ¶re yansÄ±masÄ±nÄ±n sÄ±nÄ±rlarÄ±nÄ± bul
+    // Kırpma alanı hesapla: Orijinal kutu ve katlama eksenine göre yansımasının sınırlarını bul
     if (currentCaptureRect && p1 && p2) {
         const reflectPoint = (x, y, pA, pB) => {
             const dx = pB.x - pA.x;
@@ -595,7 +595,7 @@ function katlanmisBirak(p1, p2) {
         cropH = maxY - minY;
     }
 
-    // YENÄ°: Sadece katlanan bÃ¶lgeyi (crop box) kapsayan minik bir canvas oluÅŸtur
+    // YENİ: Sadece katlanan bölgeyi (crop box) kapsayan minik bir canvas oluştur
     const dpr = window.devicePixelRatio || 1;
     const cropCanvas = document.createElement('canvas');
     cropCanvas.width = cropW * dpr;
@@ -603,11 +603,11 @@ function katlanmisBirak(p1, p2) {
     const cCtx = cropCanvas.getContext('2d');
     cCtx.scale(dpr, dpr);
     
-    // TÃ¼m ekranÄ± Ã§iz ama -cropX ve -cropY ofseti ile kaydÄ±r, bÃ¶ylece sadece istediÄŸimiz alan canvas'a sÄ±ÄŸar
+    // Tüm ekranı çiz ama -cropX ve -cropY ofseti ile kaydır, böylece sadece istediğimiz alan canvas'a sığar
     cCtx.drawImage(katlamaOverlayCanvas, -cropX, -cropY, window.innerWidth, window.innerHeight);
     const dataUrl = cropCanvas.toDataURL('image/png');
 
-    // Resim yamasÄ± (patch) oluÅŸtur
+    // Resim yaması (patch) oluştur
     const patchObj = { 
         type: 'image', imgData: dataUrl, 
         x: cropX * dpr, 
@@ -621,15 +621,15 @@ function katlanmisBirak(p1, p2) {
         id: Date.now() + Math.random().toString() 
     };
     
-    // Geobek Ã§izim geÃ§miÅŸine ekle
+    // Geobek çizim geçmişine ekle
     window.drawnStrokes.push(patchObj);
     
-    // DiÄŸer cihazlarla senkronize et
+    // Diğer cihazlarla senkronize et
     if (typeof window.sendNetworkData === 'function') {
         window.sendNetworkData({ type: 'yeni_cizim', stroke: patchObj });
     }
     
-    // EkranÄ± tazele
+    // Ekranı tazele
     if (typeof window.redrawAllStrokes === 'function') {
         window.redrawAllStrokes();
     }
@@ -677,33 +677,33 @@ function cizKatlamaAnimasyonu(bgImg, fgImg, rect, foldStart, foldCurrent) {
     const ny = dy / dist;
     const angle = Math.atan2(ny, nx);
     
-    // 1. ZEMÄ°N (Delik / P1 TarafÄ±)
+    // 1. ZEMİN (Delik / P1 Tarafı)
     ctx.save();
     ctx.beginPath();
     ctx.translate(midX, midY);
     ctx.rotate(angle);
-    ctx.rect(-cw*2, -ch*2, cw*2, ch*4); // P1 (kalkan kÄ±sÄ±m boÅŸluÄŸu)
+    ctx.rect(-cw*2, -ch*2, cw*2, ch*4); // P1 (kalkan kısım boşluğu)
     ctx.clip();
     ctx.rotate(-angle);
     ctx.translate(-midX, -midY);
     ctx.drawImage(bgImg, rect.x, rect.y, rect.w, rect.h);
     ctx.restore();
 
-    // 2. KATLANAN YAPRAK (Flap / P2 TarafÄ±)
+    // 2. KATLANAN YAPRAK (Flap / P2 Tarafı)
     ctx.save();
     ctx.beginPath();
     ctx.translate(midX, midY);
     ctx.rotate(angle);
-    ctx.rect(0, -ch*2, cw*2, ch*4); // P2 (yapraÄŸÄ±n dÃ¼ÅŸtÃ¼ÄŸÃ¼ kÄ±sÄ±m)
+    ctx.rect(0, -ch*2, cw*2, ch*4); // P2 (yaprağın düştüğü kısım)
     ctx.clip();
     ctx.rotate(-angle);
     ctx.translate(-midX, -midY);
 
-    // YansÄ±ma (Flip)
+    // Yansıma (Flip)
     const [a, b, c, d, tx, ty] = getReflectionMatrix(foldStart, foldCurrent);
     ctx.transform(a, b, c, d, tx, ty);
     
-    // 3D GÃ¶lge (Katlanan yapraÄŸÄ±n havada durduÄŸunu belli eder)
+    // 3D Gölge (Katlanan yaprağın havada durduğunu belli eder)
     ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
     ctx.shadowBlur = 20;
     ctx.shadowOffsetX = -nx * 10;
@@ -711,11 +711,11 @@ function cizKatlamaAnimasyonu(bgImg, fgImg, rect, foldStart, foldCurrent) {
     
     ctx.drawImage(fgImg, rect.x, rect.y, rect.w, rect.h);
     
-    // GÃ¶lgeyi kapat (sonraki Ã§izimleri etkilememesi iÃ§in)
+    // Gölgeyi kapat (sonraki çizimleri etkilememesi için)
     ctx.shadowColor = "transparent";
     
-    // SÄ°YAH KUTU HATASI Ã‡Ã–ZÃœMÃœ: fillRect'in rengini vermediÄŸim iÃ§in varsayÄ±lan siyaha boyuyordu!
-    // Arka yÃ¼z buzlu cam efekti (Sadece kaÄŸÄ±dÄ±n arka yÃ¼zeyine uygulanÄ±r)
+    // SİYAH KUTU HATASI ÇÖZÜMÜ: fillRect'in rengini vermediğim için varsayılan siyaha boyuyordu!
+    // Arka yüz buzlu cam efekti (Sadece kağıdın arka yüzeyine uygulanır)
     ctx.globalCompositeOperation = 'source-atop';
     ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
     ctx.fillRect(rect.x, rect.y, rect.w, rect.h);
@@ -733,7 +733,7 @@ function agSenkronizeEt(action, p1 = null, p2 = null, bgStr = null, fgStr = null
         if (action === 'basla' && bgStr && fgStr) {
             const chunkSize = 16000;
             
-            // BG GÃ¶nder
+            // BG Gönder
             let bgId = 'bg_' + Date.now();
             let totalBg = Math.ceil(bgStr.length / chunkSize);
             for (let i = 0; i < totalBg; i++) {
@@ -744,7 +744,7 @@ function agSenkronizeEt(action, p1 = null, p2 = null, bgStr = null, fgStr = null
                 });
             }
             
-            // FG GÃ¶nder
+            // FG Gönder
             let fgId = 'fg_' + Date.now();
             let totalFg = Math.ceil(fgStr.length / chunkSize);
             for (let i = 0; i < totalFg; i++) {
