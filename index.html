@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -24,7 +24,7 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js?v=final')
-                    .then(reg => console.log('Uygulama Hazır'))
+                    .then(reg => console.log('Uygulama HazÄ±r'))
                     .catch(err => console.log('Hata:', err));
             });
         }
@@ -37,28 +37,28 @@
 
 
 <div id="network-mini-btn" style="display: none; position: fixed; bottom: 30px; right: 15px; background: #0d0d2b; color: #00ffcc; padding: 10px 15px; border-radius: 50px; z-index: 40000; font-family: 'Fredoka', sans-serif; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.5); border: 2px solid #00ffcc;">
-    📡 Sınıf
+    ğŸ“¡ SÄ±nÄ±f
 </div>
 
 
 
 <div id="network-panel" style="position: fixed; bottom: 30px; right: 15px; background: rgba(13, 13, 43, 0.9); color: white; padding: 15px; border-radius: 12px; z-index: 40000; font-family: 'Fredoka', sans-serif; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 2px solid #00ffcc; transition: all 0.3s ease;">
-    <div id="network-close-btn" style="position: absolute; top: 5px; right: 10px; cursor: pointer; font-size: 16px; color: #ff4444; font-weight: bold;">✕</div>
+    <div id="network-close-btn" style="position: absolute; top: 5px; right: 10px; cursor: pointer; font-size: 16px; color: #ff4444; font-weight: bold;">âœ•</div>
 
     <div style="font-size: 14px; margin-bottom: 10px; color: #fff;">
     Oda Kodun: <span id="my-peer-id" style="color: #00ffcc; font-weight: bold; font-size: 20px; letter-spacing: 2px;">...</span><br>
-    Tahta Şifresi: <span id="my-pin-code" style="color: #ff00ff; font-weight: bold; font-size: 20px; letter-spacing: 2px;">...</span>
+    Tahta Åifresi: <span id="my-pin-code" style="color: #ff00ff; font-weight: bold; font-size: 20px; letter-spacing: 2px;">...</span>
 </div>
     
     <div style="display: flex; flex-direction: column; gap: 8px;">
         <div style="display: flex; gap: 8px;">
             <input type="text" id="connect-input" maxlength="5" placeholder="Oda Kodu" style="padding: 8px; border-radius: 6px; border: none; width: 100px; font-weight: bold; text-align: center; outline: none;">
-            <button id="connect-btn" style="padding: 8px 15px; border-radius: 6px; border: none; background: #00ffcc; color: #000; font-weight: bold; cursor: pointer; flex-grow: 1;">Bağlan</button>
+            <button id="connect-btn" style="padding: 8px 15px; border-radius: 6px; border: none; background: #00ffcc; color: #000; font-weight: bold; cursor: pointer; flex-grow: 1;">BaÄŸlan</button>
         </div>
-        <input type="password" id="session-pass-input" placeholder="Ders Şifresi Belirle..." style="padding: 8px; border-radius: 6px; border: none; width: 100%; box-sizing: border-box; font-weight: bold; text-align: center; outline: none; font-family: 'Fredoka', sans-serif;">
+        <input type="password" id="session-pass-input" placeholder="Ders Åifresi Belirle..." style="padding: 8px; border-radius: 6px; border: none; width: 100%; box-sizing: border-box; font-weight: bold; text-align: center; outline: none; font-family: 'Fredoka', sans-serif;">
     </div>
     
-    <div id="connection-status" style="font-size: 13px; margin-top: 10px; color: #ffeb3b; text-align: center; font-weight: 600;">Bağlantı Bekleniyor...</div>
+    <div id="connection-status" style="font-size: 13px; margin-top: 10px; color: #ffeb3b; text-align: center; font-weight: 600;">BaÄŸlantÄ± Bekleniyor...</div>
 </div>
     
 <script>
@@ -66,7 +66,7 @@
     // --- PC / TABLET AYRIMLI CANLI SINIF PANEL MOTORU ---
     // =========================================================
     
-    // Global Panel Küçültme Fonksiyonu
+    // Global Panel KÃ¼Ã§Ã¼ltme Fonksiyonu
     window.kucultPanel = function() {
         const pnl = document.getElementById('network-panel');
         const mBtn = document.getElementById('network-mini-btn');
@@ -99,18 +99,18 @@
             mBtn.onclick = ac;
         }
 
-        // DİL BUTONLARINA TIKLANDIĞINDA
+        // DÄ°L BUTONLARINA TIKLANDIÄINDA
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                // 1. Dil seçim ekranını kapat
+                // 1. Dil seÃ§im ekranÄ±nÄ± kapat
                 const overlay = document.getElementById('language-overlay');
                 if (overlay) overlay.style.display = 'none';
 
-                // 🚨 YENİ EKLENEN KISIM: Yasal uyarı şeridini (footer) tamamen gizle!
+                // ğŸš¨ YENÄ° EKLENEN KISIM: Yasal uyarÄ± ÅŸeridini (footer) tamamen gizle!
                 const footer = document.getElementById('footer-container');
                 if (footer) footer.style.display = 'none';
 
-                // KRİTİK KONTROL: Tahtada paneli KÜÇÜLTMÜYORUZ, açık kalıyor!
+                // KRÄ°TÄ°K KONTROL: Tahtada paneli KÃœÃ‡ÃœLTMÃœYORUZ, aÃ§Ä±k kalÄ±yor!
                 if (typeof isConnected !== 'undefined' && isConnected) {
                     kucult();
                 }
@@ -120,19 +120,19 @@
 </script>
 
 <div id="language-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 20000; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; overflow-y: auto; padding: 20px;">
-    <h2 style="color: white; margin-bottom: 20px; text-align: center;">Dil Seçiniz / Select Language</h2>
+    <h2 style="color: white; margin-bottom: 20px; text-align: center;">Dil SeÃ§iniz / Select Language</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; width: 100%; max-width: 500px;">
-        <button onclick="setLanguage('tr')" class="lang-btn">Türkçe</button>
+        <button onclick="setLanguage('tr')" class="lang-btn">TÃ¼rkÃ§e</button>
         <button onclick="setLanguage('en')" class="lang-btn">English</button>
         <button onclick="setLanguage('de')" class="lang-btn">Deutsch</button>
-        <button onclick="setLanguage('fr')" class="lang-btn">Français</button>
-        <button onclick="setLanguage('es')" class="lang-btn">Español</button>
-        <button onclick="setLanguage('pt')" class="lang-btn">Português</button>
-        <button onclick="setLanguage('ru')" class="lang-btn">Русский</button>
-        <button onclick="setLanguage('ar')" class="lang-btn">العربية</button>
-        <button onclick="setLanguage('hi')" class="lang-btn">हिन्दी</button>
-        <button onclick="setLanguage('zh')" class="lang-btn">中文</button>
-        <button onclick="setLanguage('ja')" class="lang-btn">日本語</button>
+        <button onclick="setLanguage('fr')" class="lang-btn">FranÃ§ais</button>
+        <button onclick="setLanguage('es')" class="lang-btn">EspaÃ±ol</button>
+        <button onclick="setLanguage('pt')" class="lang-btn">PortuguÃªs</button>
+        <button onclick="setLanguage('ru')" class="lang-btn">Ğ ÑƒÑÑĞºĞ¸Ğ¹</button>
+        <button onclick="setLanguage('ar')" class="lang-btn">Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©</button>
+        <button onclick="setLanguage('hi')" class="lang-btn">à¤¹à¤¿à¤¨à¥à¤¦à¥€</button>
+        <button onclick="setLanguage('zh')" class="lang-btn">ä¸­æ–‡</button>
+        <button onclick="setLanguage('ja')" class="lang-btn">æ—¥æœ¬èª</button>
         <button onclick="setLanguage('ms')" class="lang-btn">Bahasa Melayu</button>
         <button onclick="setLanguage('id')" class="lang-btn">Bahasa Indonesia</button>
     </div>
@@ -159,8 +159,8 @@
 
     
     <!-- MOBIL CIHAZLAR ICIN CEKMECE BUTONLARI -->
-    <button id="mobile-drawer-left" class="mobile-fab left-fab">🛠️</button>
-    <button id="mobile-drawer-right" class="mobile-fab right-fab">⚙️</button>
+    <button id="mobile-drawer-left" class="mobile-fab left-fab">ğŸ› ï¸</button>
+    <button id="mobile-drawer-right" class="mobile-fab right-fab">âš™ï¸</button>
     
     <div class="panel left-panel">
         <button id="btn-silgi" class="tool-button">Silgi</button>
@@ -179,13 +179,13 @@
             <div class="color-box" style="background-color: #9400D3;"></div> 
         </div>
 
-        <button id="btn-cizgi" class="tool-button">Çizgi</button>
+        <button id="btn-cizgi" class="tool-button">Ã‡izgi</button>
         <div id="line-options" class="tool-options hidden">
             <button id="btn-nokta" class="tool-button-sub">Nokta</button>
-            <button id="btn-d_cizgi" class="tool-button-sub">Düz Çizgi</button>
-            <button id="btn-dogru" class="tool-button-sub">Doğru</button>
-            <button id="btn-dogru_parcasi" class="tool-button-sub">Doğru Parçası</button>
-            <button id="btn-isin" class="tool-button-sub">Işın</button>
+            <button id="btn-d_cizgi" class="tool-button-sub">DÃ¼z Ã‡izgi</button>
+            <button id="btn-dogru" class="tool-button-sub">DoÄŸru</button>
+            <button id="btn-dogru_parcasi" class="tool-button-sub">DoÄŸru ParÃ§asÄ±</button>
+            <button id="btn-isin" class="tool-button-sub">IÅŸÄ±n</button>
             <div id="line-color-options" class="color-palette">
                 <div class="color-box" style="background-color: #FFFFFF;" data-color="#FFFFFF"></div>
                 <div class="color-box" style="background-color: #000000;" data-color="#000000"></div>
@@ -202,20 +202,20 @@
         </div>
 
         <button id="btn-cetvel" class="tool-button">Cetvel</button>
-        <button id="btn-gonye" class="tool-button">Gönye</button>
-        <button id="btn-aciolcer" class="tool-button">Açı Ölçer</button>
+        <button id="btn-gonye" class="tool-button">GÃ¶nye</button>
+        <button id="btn-aciolcer" class="tool-button">AÃ§Ä± Ã–lÃ§er</button>
         <button id="btn-pergel" class="tool-button">Pergel</button>
-        <button id="btn-cokgenler" class="tool-button">Çokgenler</button> 
+        <button id="btn-cokgenler" class="tool-button">Ã‡okgenler</button> 
         
         <div id="polygon-options" class="tool-options hidden"> 
-            <button id="btn-cember" class="tool-button-sub">Çember</button>
-            <button id="btn-duzgun_ucgen" class="tool-button-sub" data-sides="3">Düzgün 3gen</button>
-            <button id="btn-duzgun_dortgen" class="tool-button-sub" data-sides="4">Düzgün 4gen</button>
-            <button id="btn-dikdortgen" class="tool-button-sub">Dikdörtgen</button>
-            <button id="btn-duzgun_besgen" class="tool-button-sub" data-sides="5">Düzgün 5gen</button>
-            <button id="btn-duzgun_altigen" class="tool-button-sub" data-sides="6">Düzgün 6gen</button>
-            <button id="btn-duzgun_yedigen" class="tool-button-sub" data-sides="7">Düzgün 7gen</button>
-            <button id="btn-duzgun_sekizgen" class="tool-button-sub" data-sides="8">Düzgün 8gen</button>
+            <button id="btn-cember" class="tool-button-sub">Ã‡ember</button>
+            <button id="btn-duzgun_ucgen" class="tool-button-sub" data-sides="3">DÃ¼zgÃ¼n 3gen</button>
+            <button id="btn-duzgun_dortgen" class="tool-button-sub" data-sides="4">DÃ¼zgÃ¼n 4gen</button>
+            <button id="btn-dikdortgen" class="tool-button-sub">DikdÃ¶rtgen</button>
+            <button id="btn-duzgun_besgen" class="tool-button-sub" data-sides="5">DÃ¼zgÃ¼n 5gen</button>
+            <button id="btn-duzgun_altigen" class="tool-button-sub" data-sides="6">DÃ¼zgÃ¼n 6gen</button>
+            <button id="btn-duzgun_yedigen" class="tool-button-sub" data-sides="7">DÃ¼zgÃ¼n 7gen</button>
+            <button id="btn-duzgun_sekizgen" class="tool-button-sub" data-sides="8">DÃ¼zgÃ¼n 8gen</button>
 
             <div id="polygon-color-options" class="color-palette" style="margin-top: 10px; justify-content: center;">
                 <div class="color-box" style="background-color: #FFFFFF;" data-color="#FFFFFF"></div>
@@ -235,29 +235,29 @@
         <button id="btn-oyunlar" class="tool-button">Oyunlar</button>
 <div id="oyunlar-options" class="tool-options hidden" style="max-height: 400px; overflow-y: auto; padding: 10px;">
     <div style="display: flex; flex-direction: column; gap: 5px;">
-        <!-- Linkler app.js tarafından buraya eklenecek -->
+        <!-- Linkler app.js tarafÄ±ndan buraya eklenecek -->
     </div>
 </div>
 </div> 
 <div class="panel right-panel">
-        <button id="btn-tool-color" class="tool-button">Araç Rengi: Siyah</button>
+        <button id="btn-tool-color" class="tool-button">AraÃ§ Rengi: Siyah</button>
         <button id="btn-undo" class="tool-button">Geri Al</button>
         <button id="btn-clear-all" class="tool-button">Hepsini Sil</button>
-        <button id="btn-move" class="tool-button">Taşı</button>
+        <button id="btn-move" class="tool-button">TaÅŸÄ±</button>
         
         <div style="position: relative; overflow: hidden; display: flex; width: 100%; margin-bottom: 5px;">
-            <button id="btn-camera" class="tool-button" style="width: 100%; margin: 0; background-color: #ffaa00; color: #000; font-weight: bold;">📸 Soru Çek</button>
+            <button id="btn-camera" class="tool-button" style="width: 100%; margin: 0; background-color: #ffaa00; color: #000; font-weight: bold;">ğŸ“¸ Soru Ã‡ek</button>
             <input type="file" id="camera-input" accept="image/*" capture="environment" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 10;">
         </div>
         <div style="position: relative; overflow: hidden; display: flex; width: 100%; margin-bottom: 5px;">
-            <button id="btn-upload" class="tool-button" style="width: 100%; margin: 0;">📁 Dosya Yükle</button>
+            <button id="btn-upload" class="tool-button" style="width: 100%; margin: 0;">ğŸ“ Dosya YÃ¼kle</button>
             <input type="file" id="file-input" accept="image/*, application/pdf" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 10;">
         </div>
 
 
         <div class="tool-group">
             <button id="btn-snapshot-main" class="tool-button" title="Kopyala / Kes">
-                Canlandır ✂️
+                CanlandÄ±r âœ‚ï¸
             </button>
             <div id="snapshot-options" class="tool-options hidden">
                 <button id="btn-snapshot-box" class="tool-button-sub">Kutu (Standart)</button>
@@ -275,19 +275,19 @@
         </div> 
     </div> 
     
-    <button id="btn-help">Video Yardım</button>
+    <button id="btn-help">Video YardÄ±m</button>
 
     <div id="help-modal" class="help-modal hidden">
         <div class="help-content">
             <div class="help-header">
-                <h2>Nasıl Kullanılır?</h2>
-                <button id="close-help" class="close-btn">×</button>
+                <h2>NasÄ±l KullanÄ±lÄ±r?</h2>
+                <button id="close-help" class="close-btn">Ã—</button>
             </div>
             <div class="help-body">
                 <div class="video-list" id="video-list-container"></div>
                 <div class="video-player-container">
-                    <video id="main-video-player" controls>Tarayıcınız desteklemiyor.</video>
-                    <div id="video-title-label" class="video-title">Bir video seçin</div>
+                    <video id="main-video-player" controls>TarayÄ±cÄ±nÄ±z desteklemiyor.</video>
+                    <div id="video-title-label" class="video-title">Bir video seÃ§in</div>
                 </div>
             </div>
         </div>
@@ -295,18 +295,18 @@
 
     <button id="btn-close-pdf" class="pdf-close-btn hidden">
         <span>X Resmi/PDF Kapat</span>
-        <span style="font-size: 16px; margin-top: -2px;">✖</span>
+        <span style="font-size: 16px; margin-top: -2px;">âœ–</span>
     </button>
 
     <div id="install-popup" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #ffffff; padding: 20px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); z-index: 10000; width: 300px; flex-direction: column; align-items: center; text-align: center; border: 2px solid #00ffcc;">
     <div style="margin-bottom: 15px;">
         <img src="icon.png" style="width: 50px; height: 50px; border-radius: 10px; margin-bottom: 10px;">
-        <h3 id="install-title" style="margin: 0 0 10px; color: #333;">Uygulamayı Yükle</h3>
-        <p id="install-desc" style="margin: 0 0 15px; color: #666; font-size: 14px;">Daha iyi performans için uygulamayı cihazına yükle.</p>
+        <h3 id="install-title" style="margin: 0 0 10px; color: #333;">UygulamayÄ± YÃ¼kle</h3>
+        <p id="install-desc" style="margin: 0 0 15px; color: #666; font-size: 14px;">Daha iyi performans iÃ§in uygulamayÄ± cihazÄ±na yÃ¼kle.</p>
     </div>
     <div style="display: flex; gap: 10px; width: 100%;">
         <button id="btn-popup-close" style="flex: 1; padding: 10px; border: none; background: #f0f0f0; color: #333; border-radius: 8px; cursor: pointer; font-weight: bold;">Kapat</button>
-        <button id="btn-popup-install" style="flex: 1; padding: 10px; border: none; background: #00ffcc; color: #000; border-radius: 8px; cursor: pointer; font-weight: bold;">Yükle</button>
+        <button id="btn-popup-install" style="flex: 1; padding: 10px; border: none; background: #00ffcc; color: #000; border-radius: 8px; cursor: pointer; font-weight: bold;">YÃ¼kle</button>
     </div>
 </div>
 
@@ -325,23 +325,23 @@
 <div id="footer-container" style="position: fixed; bottom: 10px; left: 0; width: 100%; text-align: center; z-index: 999999; font-family: sans-serif; pointer-events: auto; background: rgba(0,0,0,0.5); padding: 5px 0;">
     
     <div id="kvkk-bilgi" style="font-size: 11px; color: #888; opacity: 0.9; margin-bottom: 5px;">
-        Bu uygulama hiçbir kişisel veri toplamaz ve dosyalarınızı sunuculara yüklemez.
+        Bu uygulama hiÃ§bir kiÅŸisel veri toplamaz ve dosyalarÄ±nÄ±zÄ± sunuculara yÃ¼klemez.
     </div>
 
     <a href="#" id="open-disclaimer" style="color:#00ffcc; font-size:14px; text-decoration: underline; font-weight: bold; cursor:pointer; display: block;">
-        ⚠️ Yasal Uyarı ve Sorumluluk Reddi
+        âš ï¸ Yasal UyarÄ± ve Sorumluluk Reddi
     </a>
 </div>
 
 <div id="disclaimer-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999999; justify-content:center; align-items:center;">
     <div style="background:white; padding:25px; max-width:600px; width: 90%; border-radius:15px; color:black; overflow-y:auto; max-height:80%; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
-        <h3 style="margin-top:0;">⚠️ Yasal Uyarı ve Sorumluluk Reddi</h3>
+        <h3 style="margin-top:0;">âš ï¸ Yasal UyarÄ± ve Sorumluluk Reddi</h3>
         <p style="font-size:14px; line-height:1.6; text-align: left;">
-            <strong>Eğitim Amaçlıdır:</strong> Bu yazılım, yalnızca sınıf içi eğitim faaliyetlerini desteklemek amacıyla tasarlanmıştır. Yazılımın amacı dışında kullanımı yasaktır ve kullanıcı sorumluluğundadır.<br><br>
-            <strong>Sorumluluk Reddi:</strong> Bu yazılım "olduğu gibi" sunulmuştur. Geliştirici, yazılımın kullanımından kaynaklanan veya kullanım amacı dışında kullanılmasıyla ortaya çıkabilecek hiçbir hukuki, cezai veya idari sorumluluğu kabul etmez. Kullanıcı, yazılımı kullanmaya başladığı andan itibaren tüm sorumluluğu üstlenmiş sayılır.<br><br>
-            <strong>Bağımsızlık:</strong> Bu proje, herhangi bir resmi kurumla organik bağ içermeyen, öğretmen tarafından geliştirilmiş kişisel bir hobi projesidir.<br><br>
-            <strong>Lisans:</strong> MIT Lisansı ile korunmaktadır.<br><br>
-            <strong>ℹ️ Disclaimer (English):</strong> This software is an independent educational tool developed voluntarily by a teacher. It is designed solely for classroom educational purposes. It does not collect, store, or upload any personal data. It is provided "as is" under the MIT License. The developer accepts no liability for misuse.
+            <strong>EÄŸitim AmaÃ§lÄ±dÄ±r:</strong> Bu yazÄ±lÄ±m, yalnÄ±zca sÄ±nÄ±f iÃ§i eÄŸitim faaliyetlerini desteklemek amacÄ±yla tasarlanmÄ±ÅŸtÄ±r. YazÄ±lÄ±mÄ±n amacÄ± dÄ±ÅŸÄ±nda kullanÄ±mÄ± yasaktÄ±r ve kullanÄ±cÄ± sorumluluÄŸundadÄ±r.<br><br>
+            <strong>Sorumluluk Reddi:</strong> Bu yazÄ±lÄ±m "olduÄŸu gibi" sunulmuÅŸtur. GeliÅŸtirici, yazÄ±lÄ±mÄ±n kullanÄ±mÄ±ndan kaynaklanan veya kullanÄ±m amacÄ± dÄ±ÅŸÄ±nda kullanÄ±lmasÄ±yla ortaya Ã§Ä±kabilecek hiÃ§bir hukuki, cezai veya idari sorumluluÄŸu kabul etmez. KullanÄ±cÄ±, yazÄ±lÄ±mÄ± kullanmaya baÅŸladÄ±ÄŸÄ± andan itibaren tÃ¼m sorumluluÄŸu Ã¼stlenmiÅŸ sayÄ±lÄ±r.<br><br>
+            <strong>BaÄŸÄ±msÄ±zlÄ±k:</strong> Bu proje, herhangi bir resmi kurumla organik baÄŸ iÃ§ermeyen, Ã¶ÄŸretmen tarafÄ±ndan geliÅŸtirilmiÅŸ kiÅŸisel bir hobi projesidir.<br><br>
+            <strong>Lisans:</strong> MIT LisansÄ± ile korunmaktadÄ±r.<br><br>
+            <strong>â„¹ï¸ Disclaimer (English):</strong> This software is an independent educational tool developed voluntarily by a teacher. It is designed solely for classroom educational purposes. It does not collect, store, or upload any personal data. It is provided "as is" under the MIT License. The developer accepts no liability for misuse.
         </p>
         <button id="close-disclaimer" style="width:100%; padding:12px; background:#00ffcc; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Kapat</button>
     </div>
@@ -349,10 +349,10 @@
 
 <div id="conn-request-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:99999999; justify-content:center; align-items:center;">
     <div style="background:white; padding:25px; max-width:400px; width: 90%; border-radius:15px; color:black; text-align:center; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
-        <h3>⚠️ Bağlantı İsteği</h3>
-        <p id="request-text" style="font-size:16px;">Bir cihaz tahtaya bağlanmak istiyor. Onaylıyor musunuz?</p>
+        <h3>âš ï¸ BaÄŸlantÄ± Ä°steÄŸi</h3>
+        <p id="request-text" style="font-size:16px;">Bir cihaz tahtaya baÄŸlanmak istiyor. OnaylÄ±yor musunuz?</p>
         <div style="display:flex; gap:10px; justify-content:center;">
-            <button id="btn-conn-accept" style="padding:10px 25px; background:#00ffcc; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Evet, Bağlan</button>
+            <button id="btn-conn-accept" style="padding:10px 25px; background:#00ffcc; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Evet, BaÄŸlan</button>
             <button id="btn-conn-reject" style="padding:10px 25px; background:#ff4444; border:none; border-radius:8px; cursor:pointer; font-weight:bold; color:white;">Reddet</button>
         </div>
     </div>
@@ -361,7 +361,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // --- 1. Yasal Uyarı Modalı ---
+    // --- 1. Yasal UyarÄ± ModalÄ± ---
     const openBtn = document.getElementById('open-disclaimer');
     if(openBtn) {
         openBtn.addEventListener('click', (e) => {
@@ -374,9 +374,29 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('disclaimer-modal').style.display = 'none';
     });
 
-    // BAĞLANTI BUTONU GÖREVLERİ BURADAN SİLİNDİ
-    // ÇÜNKÜ ARTIK BU GÖREVİ DOĞRUDAN APP.JS YAPIYOR!
+    // BAÄLANTI BUTONU GÃ–REVLERÄ° BURADAN SÄ°LÄ°NDÄ°
+    // Ã‡ÃœNKÃœ ARTIK BU GÃ–REVÄ° DOÄRUDAN APP.JS YAPIYOR!
 });
 </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('drawing-canvas');
+            const snapshotMenu = document.getElementById('snapshot-options');
+            if (canvas && snapshotMenu) {
+                canvas.addEventListener('pointerdown', () => {
+                    if (!snapshotMenu.classList.contains('hidden')) {
+                        snapshotMenu.classList.add('hidden');
+                        snapshotMenu.style.display = 'none';
+                    }
+                });
+                canvas.addEventListener('pointermove', () => {
+                    if (!snapshotMenu.classList.contains('hidden')) {
+                        snapshotMenu.classList.add('hidden');
+                        snapshotMenu.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
