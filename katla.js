@@ -101,6 +101,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const snapshotOptions = document.getElementById('snapshot-options');
     if (snapshotOptions) {
         snapshotOptions.appendChild(katlaBtn);
+        
+        // Şeffaf Katla Butonunu da ekle
+        const seffafBtn = document.createElement('button');
+        seffafBtn.id = 'btn-seffaf-katla';
+        seffafBtn.className = 'tool-button-sub';
+        seffafBtn.title = 'Şeffaf Katla (Arkaplansız)';
+        seffafBtn.innerHTML = 'Şeffaf Katla 👻';
+        snapshotOptions.appendChild(seffafBtn);
+        
+        seffafBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (window.isKatlaActive && window.isKatlaSeffaf) {
+                iptalEt();
+            } else {
+                iptalEt(); 
+                window.isKatlaActive = true;
+                window.isKatlaSeffaf = true;
+                seffafBtn.classList.add('btn-katla-active');
+                document.body.classList.add('katla-active');
+                if (typeof window.hideAllMenus === 'function') window.hideAllMenus();
+                console.log("Şeffaf Katla modu aktif (Arkaplan silinecek)");
+            }
+        });
     }
 
     // 2. Stilleri Ekle
