@@ -852,7 +852,7 @@ body.cursor-snapshot {
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .pdf-close-btn {
     right: 20px !important; /* Mobilde sağ kenara sabitle */
     top: 20px !important;   /* Üstten biraz boşluk bırak */
@@ -1168,7 +1168,7 @@ body.ghost-mode .right-panel {
 .right-fab { right: -10px; padding-right: 15px; border-top-right-radius: 0; border-bottom-right-radius: 0; }
 
 /* MOBIL VE TABLET GORUNUMU (768px alti) */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     /* Butonlari Goster */
     .mobile-fab {
         display: flex;
@@ -1258,7 +1258,7 @@ body.ghost-mode .right-panel {
 }
 
 /* MOBILDE 3D MENULERINI AŞAĞI İTECEK ŞEKİLDE DÜZELTME */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     #options-3d-main, #options-prizmalar, #options-piramitler {
         position: static !important;
         left: 0 !important;
