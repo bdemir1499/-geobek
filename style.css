@@ -1361,3 +1361,10 @@ body.cursor-eraser #drawing-canvas {
     right: 20px !important;
     transform: none !important;
 }
+
+/* --- PDF KAPAT BUTONU SOLA ALMA YAMASI --- */
+#btn-close-pdf {
+    top: 15px !important;
+    bottom: auto !important;
+    right: 140px !important;
+}

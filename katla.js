@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 iptalEt(); 
                 window.isKatlaActive = true;
-                window.isKatlaSeffaf = true;
+                window.isKatlaSeffaf = true; if (typeof window.setActiveTool === 'function') { window.setActiveTool('snapshot'); }
                 seffafBtn.classList.add('btn-katla-active');
                 document.body.classList.add('katla-active');
                 if (typeof window.hideAllMenus === 'function') window.hideAllMenus();
