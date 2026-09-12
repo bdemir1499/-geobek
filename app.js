@@ -2541,7 +2541,7 @@ if (prevPageBtn && nextPageBtn) {
     prevPageBtn.addEventListener('click', () => {
         if (currentPDF && currentPDFPage > 1) {
             currentPDFPage--;
-            renderPDFPage(currentPDFPage);
+            window.renderPDFPage(currentPDFPage);
             // 🚨 YENİ: PC'ye sayfayı değiştirmesini söyle
             if (typeof isConnected !== 'undefined' && isConnected) {
                 window.sendNetworkData({ type: 'pdf_sayfa_degis', sayfa: currentPDFPage });
@@ -2553,7 +2553,7 @@ if (prevPageBtn && nextPageBtn) {
     nextPageBtn.addEventListener('click', () => {
         if (currentPDF && currentPDFPage < totalPDFPages) {
             currentPDFPage++;
-            renderPDFPage(currentPDFPage);
+            window.renderPDFPage(currentPDFPage);
             // 🚨 YENİ: PC'ye sayfayı değiştirmesini söyle
             if (typeof isConnected !== 'undefined' && isConnected) {
                 window.sendNetworkData({ type: 'pdf_sayfa_degis', sayfa: currentPDFPage });
@@ -2578,7 +2578,7 @@ if (pageCountLabel) {
             const num = parseInt(gitSayfa);
             if (num > 0 && num <= totalPDFPages) {
                 currentPDFPage = num;
-                renderPDFPage(currentPDFPage);
+                window.renderPDFPage(currentPDFPage);
             } else {
                 alert("Geçersiz sayfa numarası girdiniz!"); // İstersen burayı da ileride sözlüğe ekleyebilirsin
             }
@@ -2596,7 +2596,7 @@ if (uploadButton && fileInput) {
         cameraInput.onchange = async (e) => fileInput.onchange(e);
     }
 
-    fileInput.onchange = async (e) => { try {
+    fileInput.onchange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
@@ -2628,7 +2628,7 @@ if (uploadButton && fileInput) {
 
                     if (pdfControls) pdfControls.classList.remove('hidden');
 
-                    renderPDFPage(currentPDFPage);
+                    window.renderPDFPage(currentPDFPage);
 
                     setTimeout(() => {
                         let t = typeof translations !== 'undefined' ? translations[currentLang] : { pdf_soru: "Sayfa (1-{0}):" };
@@ -2639,7 +2639,7 @@ if (uploadButton && fileInput) {
                             const hedefSayfa = parseInt(sayfaGrisi);
                             if (hedefSayfa > 0 && hedefSayfa <= totalPDFPages) {
                                 currentPDFPage = hedefSayfa;
-                                renderPDFPage(currentPDFPage);
+                                window.renderPDFPage(currentPDFPage);
 
                                 if (typeof isConnected !== 'undefined' && isConnected) {
                                     window.sendNetworkData({ type: 'pdf_sayfa_degis', sayfa: currentPDFPage });
@@ -2698,7 +2698,7 @@ if (uploadButton && fileInput) {
 
                     const compressedImg = new Image();
                     compressedImg.onload = () => {
-                        addNewImageToCanvas(compressedImg, false);
+                        window.addNewImageToCanvas(compressedImg, false);
                     };
                     compressedImg.src = compressedDataUrl;
                 };
@@ -4132,7 +4132,7 @@ function updatePageLabel() {
     if (pageCountLabel) pageCountLabel.innerText = `Sayfa: ${currentPDFPage} / ${totalPDFPages}`;
 }
 
-async function renderPDFPage(num) {
+window.renderPDFPage = async function(num) {
     if (!currentPDF) return;
 
     // 🚨 BEYAZ EKRAN VE DONMA ÇÖZÜMÜ: Hızlı sayfa değişimlerinde PDF motorunun tıkanmasını engelle
@@ -4183,7 +4183,7 @@ async function renderPDFPage(num) {
 
     const img = new Image();
     img.onload = () => {
-        addNewImageToCanvas(img, true);
+        window.addNewImageToCanvas(img, true);
 
         // --- KUTU KOPYALARINI PDF SAYFASINA GÖRE GERİ YÜKLEME YAMASI ---
         if (window.boxCopies) {
@@ -4228,7 +4228,7 @@ async function renderPDFPage(num) {
 
 
 
-function addNewImageToCanvas(img, isPDF = false, pcKordinatlari = null) {
+window.addNewImageToCanvas = function(img, isPDF = false, pcKordinatlari = null) {
     let startWidth, startHeight, posX, posY;
 
     // Eğer PC isek, tabletin bize gönderdiği adaptStrokeToScreen'den geçmiş kusursuz koordinatları kullan!
@@ -6349,7 +6349,7 @@ function setupConnectionEvents() {
                         };
                     }
                     
-                    addNewImageToCanvas(img, data.isPDF, pcMerkez);
+                    window.addNewImageToCanvas(img, data.isPDF, pcMerkez);
                     setTimeout(() => { if (window.redrawAllStrokes) window.redrawAllStrokes(); }, 100);
                 }
             };
@@ -6831,13 +6831,13 @@ if (!data || !data.type) return;
                     pdfjsLib.getDocument(bytes).promise.then(pdf => {
                         window.currentPDF = pdf; window.totalPDFPages = pdf.numPages; window.currentPDFPage = 1;
                         if (document.getElementById('pdf-controls')) document.getElementById('pdf-controls').classList.remove('hidden');
-                        if (typeof renderPDFPage === 'function') renderPDFPage(1);
+                        if (typeof renderPDFPage === 'function') window.renderPDFPage(1);
                     });
                 }
             } catch (e) { console.error("PDF Hatası:", e); }
         }
 
-        if (data.type === 'pdf_sayfa_degis') { window.currentPDFPage = data.sayfa; if (typeof renderPDFPage === 'function') renderPDFPage(window.currentPDFPage); }
+        if (data.type === 'pdf_sayfa_degis') { window.currentPDFPage = data.sayfa; if (typeof renderPDFPage === 'function') window.renderPDFPage(window.currentPDFPage); }
 
         // (İkinci kopya arka_plan_resmi_aktar alıcısı silindi, yukarıdaki ana alıcı kullanılıyor)
 
