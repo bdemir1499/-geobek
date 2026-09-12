@@ -2596,7 +2596,7 @@ if (uploadButton && fileInput) {
         cameraInput.onchange = async (e) => fileInput.onchange(e);
     }
 
-    fileInput.onchange = async (e) => {
+    fileInput.onchange = async (e) => { try {
         const file = e.target.files[0];
         if (!file) return;
 
@@ -2707,7 +2707,7 @@ if (uploadButton && fileInput) {
             reader.readAsDataURL(file);
         }
         // Resim/Dosya islenmeden value'yu temizlemek mobil tarayicilarda File objesinin silinmesine (GC) neden olur!
-        setTimeout(() => { e.target.value = ''; }, 2000); 
+        setTimeout(() => { e.target.value = ''; }, 2000); } catch(err) { alert('Upload Error: ' + err.message + '\n' + err.stack); }
     };
 }
 
