@@ -8259,7 +8259,11 @@ function loadScript(src) {
     });
 }
 
-const tonyBtn = document.createElement('button');
+let tonyBtn = document.getElementById('tony-magic-btn');
+if (!tonyBtn) {
+    tonyBtn = document.createElement('button');
+    tonyBtn.id = 'tony-magic-btn';
+
 tonyBtn.className = 'tool-button';
 tonyBtn.style.position = 'static';
 tonyBtn.style.transform = 'none';
@@ -8280,6 +8284,7 @@ if (oyunlarBtn && oyunlarBtn.parentNode) {
     oyunlarBtn.parentNode.appendChild(tonyBtn);
 } else {
     document.body.appendChild(tonyBtn);
+}
 }
 
 // Lazer İmleci
