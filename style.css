@@ -1321,3 +1321,22 @@ body.cursor-eraser #drawing-canvas {
     text-align: center !important;
     line-height: 1.2 !important;
 }
+
+/* --- KESİN KÜÇÜLTME YAMASI (SOL VE SAĞ PANELLER İÇİN) --- */
+.left-panel, .right-panel {
+    padding: 6px !important;
+    gap: 4px !important;
+    border-radius: 10px !important;
+}
+
+.left-panel .tool-button, .right-panel .tool-button,
+.left-panel .tool-button-sub, .right-panel .tool-button-sub {
+    padding: 6px 4px !important;
+    font-size: 11px !important;
+    min-width: 0 !important;
+    width: 80px !important;
+    white-space: normal !important;
+    line-height: 1.1 !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+}
