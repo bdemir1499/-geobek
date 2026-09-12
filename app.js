@@ -2938,7 +2938,8 @@ oyunlarButton.addEventListener('click', (e) => {
 });
 
 // --- BOŞLUĞA TIKLAYINCA KAPATMA (DOSYANIN EN ALTINA EKLEYİN) ---
-document.addEventListener('pointerdown', (e) => {
+['pointerdown', 'touchstart', 'mousedown'].forEach(evt => {
+document.addEventListener(evt, (e) => {
 
     if (oyunlarOptions && !oyunlarOptions.contains(e.target) && e.target !== oyunlarButton) {
         oyunlarOptions.classList.add('hidden');
@@ -8658,7 +8659,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Tuvale (Ekrana) dokunuldugunda cekmeceleri otomatik kapat
     if (canvas) {
         canvas.addEventListener('pointerdown', () => {
-            if (window.innerWidth <= 768) {
+            if (window.innerWidth <= 1024) {
                 if(leftPanel && leftPanel.classList.contains('drawer-open')) {
                     leftPanel.classList.remove('drawer-open');
                 }
@@ -8678,7 +8679,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lp) {
         lp.addEventListener('click', (e) => {
             if (e.target.closest('.tool-button') || e.target.closest('.tool-button-sub')) {
-                if (window.innerWidth <= 768 && lp.classList.contains('drawer-open')) {
+                if (window.innerWidth <= 1024 && lp.classList.contains('drawer-open')) {
                     lp.classList.remove('drawer-open');
                 }
             }
@@ -8706,4 +8707,5 @@ document.addEventListener('pointerdown', (e) => {
             }
         }
     }
-}, { capture: true }); // capture: true sayesinde diğer elemanların engellemesini (stopPropagation) aşar
+}, { capture: true });
+}); // capture: true sayesinde diğer elemanların engellemesini (stopPropagation) aşar

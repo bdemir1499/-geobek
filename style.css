@@ -1171,7 +1171,7 @@ body.ghost-mode .right-panel {
 @media (max-width: 1024px) {
     /* Butonlari Goster */
     .mobile-fab {
-        display: flex;
+    display: none;
         justify-content: center;
         align-items: center;
     }
@@ -1368,3 +1368,4 @@ body.cursor-eraser #drawing-canvas {
     bottom: auto !important;
     right: 140px !important;
 }
+
