@@ -2707,7 +2707,7 @@ if (uploadButton && fileInput) {
             reader.readAsDataURL(file);
         }
         // Resim/Dosya islenmeden value'yu temizlemek mobil tarayicilarda File objesinin silinmesine (GC) neden olur!
-        setTimeout(() => { e.target.value = ''; }, 2000); } catch(err) { alert('Upload Error: ' + err.message + '\n' + err.stack); }
+        setTimeout(() => { e.target.value = ''; }, 2000); 
     };
 }
 
