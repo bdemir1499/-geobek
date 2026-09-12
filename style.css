@@ -1340,3 +1340,9 @@ body.cursor-eraser #drawing-canvas {
     text-align: center !important;
     margin: 0 auto !important;
 }
+
+/* --- SOL PANELİ YUKARI ALMA YAMASI --- */
+.left-panel {
+    top: 15px !important;
+    transform: translateY(0) !important;
+}
