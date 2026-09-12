@@ -326,7 +326,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // OPAQUE FLAP: Kağıdın arkasını görebilmemiz için şeffaf değil, opak olması lazım!
             // Zemin rengini kağıdın bazı olarak alıyoruz (beyaz/akıllı renk):
-            tempFg.getContext('2d').fillStyle = detectedBgColor;
+            if (!window.isKatlaSeffaf) {
+                tempFg.getContext('2d').fillStyle = detectedBgColor;
             tempFg.getContext('2d').fillRect(0, 0, rect.width, rect.height);
             
             // Eğer varsa, PDF kalıntılarını (veya arka planı) yaprağa bas (sadece yaprakta kalsın)
@@ -334,6 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 tempFg.getContext('2d').drawImage(bgCanvas, sx, sy, sw, sh, 0, 0, rect.width, rect.height);
             }
             // Sonra üzerine çizimleri ekliyoruz:
+                        }
             tempFg.getContext('2d').drawImage(canvasElm, sx, sy, sw, sh, 0, 0, rect.width, rect.height);
 
             const bgStr = tempBg.toDataURL('image/png');
