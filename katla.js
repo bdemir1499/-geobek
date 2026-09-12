@@ -320,8 +320,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // ZEMİNİ (Delik kısmını) AKILLI RENK İLE DOLDUR
-            tempBg.getContext('2d').fillStyle = detectedBgColor;
+            if (!window.isKatlaSeffaf) {
+                tempBg.getContext('2d').fillStyle = detectedBgColor;
             tempBg.getContext('2d').fillRect(0, 0, rect.width, rect.height);
+            }
             // PDF vs. çizmeyi iptal ediyoruz çünkü kullanıcı "o renge boyasın" dedi, yani DÜZ RENK istiyor!
             
             // OPAQUE FLAP: Kağıdın arkasını görebilmemiz için şeffaf değil, opak olması lazım!
