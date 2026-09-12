@@ -8670,3 +8670,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+
+
+// --- MOBİL CİHAZLARDA SOL PANELDEN ARAÇ SEÇİLİNCE PANELİ OTOMATİK KAPATMA YAMASI ---
+document.addEventListener('DOMContentLoaded', () => {
+    const lp = document.querySelector('.left-panel');
+    if (lp) {
+        lp.addEventListener('click', (e) => {
+            if (e.target.closest('.tool-button') || e.target.closest('.tool-button-sub')) {
+                if (window.innerWidth <= 768 && lp.classList.contains('drawer-open')) {
+                    lp.classList.remove('drawer-open');
+                }
+            }
+        });
+    }
+});
