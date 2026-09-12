@@ -1298,3 +1298,11 @@ body.ghost-mode .right-panel {
         display: none !important;
     }
 }
+
+/* --- ACİL YAMA: ÇİZİM ALANINDA İMLECİ ZORLA GÖRÜNÜR YAP --- */
+#drawing-canvas {
+    cursor: crosshair !important;
+}
+body.cursor-eraser #drawing-canvas {
+    cursor: none !important; /* Sadece silgide gizle */
+}
