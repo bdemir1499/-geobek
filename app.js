@@ -1,4 +1,4 @@
-﻿// 🚨 ALAN ADI KİLİDİ (DOMAIN BINDING) 🚨
+// 🚨 ALAN ADI KİLİDİ (DOMAIN BINDING) 🚨
 // Sadece bdemir1499.github.io adresinde, EBA sunucularında ve yerel bilgisayarda çalışır!
 const gecerliAdresler = ["bdemir1499.github.io", "127.0.0.1", "localhost", "eba.gov.tr", "vercel.app"];
 const mevcutAdres = window.location.hostname;
@@ -5695,6 +5695,13 @@ if (isTablet) {
     myPeer = new Peer(myRoomCode, askeriKalkan);
     window.sessionPassword = Math.floor(1000 + Math.random() * 9000).toString();
     
+    // NİHAİ GÜVENLİK: 128-bit Tek Kullanımlık Öğretmen Eşleşme Belirteci
+    const array = new Uint8Array(16);
+    crypto.getRandomValues(array);
+    window.teacherPairingToken = Array.from(array).map(b => b.toString(16).padStart(2, '0')).join('');
+    window.authorizedTeacherId = null;
+    window.teacherConnectionStatus = 'disconnected';
+    
     // Geçici olarak ekrana yükleniyor yazalım ki uygulamanın çökmediğini görelim
     const idSaha = document.getElementById('my-peer-id');
     const pinSaha = document.getElementById('my-pin-code');
@@ -5714,13 +5721,12 @@ if (isTablet) {
 }
 // --- 3. BAĞLANTI İSTEK DİNLEYİCİSİ (KAPI ZİLİ) ---
 myPeer.on('connection', function (conn) {
-    // 🚨 KRİTİK GÜVENLİK YAMASI: ŞİFRE (PIN) KONTROLÜ ZORUNLULUĞU VE KABA KUVVET (BRUTE-FORCE) KORUMASI 🚨
     if (!window.bannedPeers) window.bannedPeers = {};
     if (!window.failedAttempts) window.failedAttempts = {};
 
     const peerId = conn.peer;
 
-    // Eğer IP/Cihaz engelliyse süresinin dolup dolmadığına bak (5 dakika)
+    // Engelli IP/Cihaz kontrolü
     if (window.bannedPeers[peerId]) {
         if (Date.now() - window.bannedPeers[peerId] < 5 * 60 * 1000) {
             console.warn(`🔒 Güvenlik İhlali: ${peerId} engelli! Deneme reddedildi.`);
@@ -5732,89 +5738,105 @@ myPeer.on('connection', function (conn) {
         }
     }
 
-    if (!conn.metadata || conn.metadata.password !== window.sessionPassword) {
-        console.warn("🔒 Güvenlik İhlali: Hatalı şifre denemesi reddedildi!", conn.peer);
-        
+    const isStudentPasswordCorrect = conn.metadata && conn.metadata.password === window.sessionPassword;
+    const isTeacherTokenCorrect = conn.metadata && conn.metadata.teacherToken === window.teacherPairingToken;
+
+    if (!isStudentPasswordCorrect && !isTeacherTokenCorrect) {
+        console.warn("🔒 Güvenlik İhlali: Hatalı şifre veya yetkisiz token!", conn.peer);
         window.failedAttempts[peerId] = (window.failedAttempts[peerId] || 0) + 1;
         if (window.failedAttempts[peerId] >= 3) {
             window.bannedPeers[peerId] = Date.now();
-            console.warn(`🔒 Güvenlik İhlali: ${peerId} 3 hatalı deneme yaptı. 5 DAKİKA ENGELLENDİ!`);
         }
-
-        // Karşı tarafa hemen red gönderip bağlantıyı kopartıyoruz
         setTimeout(() => conn.close(), 500);
-        return; // Modal penceresini bile gösterme (Öğretmeni rahatsız etme)
+        return;
     }
 
-    // Doğru girdiyse eski hataları sıfırla
     delete window.failedAttempts[peerId];
 
+    const baglantiHazir = (isTeacher) => {
+        myConnection = conn;
+        isConnected = true;
+        window.isConnected = true; 
+        window.baglantiOnaylandi = true;
 
-    console.log("Bir cihaz bağlanmak istiyor (Şifre Doğrulandı):", conn.peer);
+        if (isTeacher) {
+            window.authorizedTeacherId = peerId;
+            window.teacherConnectionStatus = 'authorized';
+            console.log("🟢 Öğretmen cihazı başarıyla eşleşti ve yetkilendirildi.");
+        }
 
-    const requestModal = document.getElementById('conn-request-modal');
-    const requestText = document.getElementById('request-text');
-    const btnAccept = document.getElementById('btn-conn-accept');
-    const btnReject = document.getElementById('btn-conn-reject');
+        const statusEl = document.getElementById('connection-status');
+        if (statusEl) {
+            statusEl.innerText = "BAĞLANDI 🟢";
+            statusEl.style.color = "#00ffcc";
+        }
 
-    if (requestModal && requestText && btnAccept && btnReject) {
-        requestText.innerText = `Oda kodu "${conn.peer}" olan bir cihaz bağlanmak istiyor. Onaylıyor musun?`;
-        requestModal.classList.remove('hidden');
-        requestModal.style.display = 'flex';
+        if (typeof window.kucultPanel === 'function') window.kucultPanel();
+        setupConnectionEvents();
 
-        // Yaris Kosulunu (Race Condition) onlemek icin open eventini onceden dinle
-        let wasOpenedEarly = false;
-        conn.on('open', () => { wasOpenedEarly = true; });
-
-        btnAccept.onclick = function () {
-            try {
-                myConnection = conn;
-
-                const baglantiHazir = () => {
-                    isConnected = true;
-                    window.isConnected = true; 
-                    window.baglantiOnaylandi = true;
-
-                    const statusEl = document.getElementById('connection-status');
-                    if (statusEl) {
-                        statusEl.innerText = "BAĞLANDI 🟢";
-                        statusEl.style.color = "#00ffcc";
-                    }
-
-                    if (typeof window.kucultPanel === 'function') {
-                        window.kucultPanel();
-                    }
-
-                    setupConnectionEvents();
-                    console.log("Cihaz başarıyla bağlandı:", conn.peer);
-
-                    // 🚨 KESİN ÇÖZÜM: PC bağlantıyı onayladığı an, dinlemeye başlar başlamaz tabletten 
-                    // "Ekran durumunu" zorla talep eder. Böylece kayıp mesajlar tamamen önlenir!
-                    setTimeout(() => {
-                        if (typeof window.sendNetworkData === 'function') {
-                            window.sendNetworkData({ type: 'pc_hazir_durum_talep_et' });
-                        }
-                    }, 500);
-                };
-
-                if (conn.open || wasOpenedEarly) {
-                    baglantiHazir();
-                } else {
-                    conn.on('open', baglantiHazir);
-                }
-            } catch (err) {
-                console.error("Bağlantı hatası:", err);
-            } finally {
-                requestModal.classList.add('hidden');
-                requestModal.style.display = 'none';
+        setTimeout(() => {
+            if (typeof window.sendNetworkData === 'function') {
+                window.sendNetworkData({ type: 'pc_hazir_durum_talep_et' });
             }
-        };
+        }, 500);
+    };
 
-        btnReject.onclick = function () {
-            conn.close();
-            requestModal.classList.add('hidden');
-            requestModal.style.display = 'none';
-        };
+    let wasOpenedEarly = false;
+    conn.on('open', () => { wasOpenedEarly = true; });
+
+    // TEMİZLİK (Cleanup) - Bağlantı koptuğunda öğretmeni sistemden at
+    conn.on('close', () => {
+        if (window.authorizedTeacherId === peerId) {
+            console.warn("⚠️ Öğretmen bağlantısı koptu. Kritik yetkiler iptal ediliyor.");
+            window.authorizedTeacherId = null;
+            window.teacherConnectionStatus = 'disconnected';
+            
+            // Güvenlik: Tek kullanımlık tokeni yak (yeniden üret)
+            const array = new Uint8Array(16);
+            crypto.getRandomValues(array);
+            window.teacherPairingToken = Array.from(array).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+    });
+
+    if (isTeacherTokenCorrect) {
+        console.log("Bir cihaz ÖĞRETMEN OLARAK bağlanmak istiyor:", conn.peer);
+        
+        // YARIŞ KOŞULU (Race Condition) / TEK ÖĞRETMEN KORUMASI
+        if (window.teacherConnectionStatus !== 'disconnected' && window.authorizedTeacherId !== peerId) {
+            console.warn("🔒 Aynı anda birden fazla öğretmen isteği veya zaten mevcut bir öğretmen var! Yeni istek reddedildi.");
+            setTimeout(() => conn.close(), 100);
+            return;
+        }
+        
+        window.teacherConnectionStatus = 'pending';
+
+        const requestModal = document.getElementById('conn-request-modal');
+        const requestText = document.getElementById('request-text');
+        const btnAccept = document.getElementById('btn-conn-accept');
+        const btnReject = document.getElementById('btn-conn-reject');
+
+        if (requestModal && requestText && btnAccept && btnReject) {
+            requestText.innerText = `ÖĞRETMEN YETKİSİ ONAYI: "${conn.peer}" kodlu cihaz tahtayı kontrol etmek istiyor. Eşleşmeyi Onaylıyor musun?`;
+            requestModal.classList.remove('hidden');
+            requestModal.style.display = 'flex';
+
+            btnAccept.onclick = function () {
+                requestModal.style.display = 'none';
+                if (conn.open || wasOpenedEarly) baglantiHazir(true);
+                else conn.on('open', () => baglantiHazir(true));
+            };
+
+            btnReject.onclick = function () {
+                window.teacherConnectionStatus = 'disconnected';
+                conn.close();
+                requestModal.style.display = 'none';
+            };
+        }
+    } else {
+        // Öğrenci bağlantısı (Fiziksel onaya gerek yok)
+        console.log("Bir cihaz ÖĞRENCİ olarak bağlanıyor:", conn.peer);
+        if (conn.open || wasOpenedEarly) baglantiHazir(false);
+        else conn.on('open', () => baglantiHazir(false));
     }
 });
 
@@ -5826,6 +5848,25 @@ myPeer.on('open', function (id) {
     if (!isTablet) {
         if (idSaha) idSaha.innerText = id;
         if (pinSaha) pinSaha.innerText = window.sessionPassword;
+        
+        // Öğretmen eşleşme QR Kodunu üret
+        const qrContainer = document.getElementById('teacher-qr-container');
+        const qrCodeDiv = document.getElementById('teacher-qrcode');
+        if (qrContainer && qrCodeDiv && typeof QRCode !== 'undefined') {
+            qrContainer.style.display = 'block';
+            qrCodeDiv.innerHTML = '';
+            // Tableti doğrudan bağlamak için URL üretiyoruz (Token içerir)
+            const appUrl = window.location.href.split('?')[0];
+            const payloadUrl = `${appUrl}?tablet=1&room=${id}&token=${window.teacherPairingToken}`;
+            new QRCode(qrCodeDiv, {
+                text: payloadUrl,
+                width: 128,
+                height: 128,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        }
     } else {
         const panel = document.getElementById('network-panel');
         if (panel) {
@@ -5835,51 +5876,62 @@ myPeer.on('open', function (id) {
     }
 });
 
-// 5. TABLET ROLÜ: Bağlanma butonu (GÜNCEL VERSİYON)
+// 5. TABLET ROLÜ: URL'den otomatik veya manuel bağlanma
 document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomFromUrl = urlParams.get('room');
+    const tokenFromUrl = urlParams.get('token');
+
+    const baglantiBaslat = (targetCode, token, password) => {
+        if (!myPeer || myPeer.destroyed) {
+            setTimeout(() => baglantiBaslat(targetCode, token, password), 1000);
+            return;
+        }
+
+        document.getElementById('connection-status').innerText = "Bağlanıyor ⏳";
+        
+        let metadata = {};
+        if (token) metadata.teacherToken = token;
+        if (password) metadata.password = password;
+
+        myConnection = myPeer.connect(targetCode, { metadata: metadata });
+
+        myConnection.on('open', () => {
+            console.log("Tablet: Connection Open tetiklendi!");
+            isConnected = true;
+            window.isConnected = true; 
+            window.baglantiOnaylandi = true;
+            document.getElementById('connection-status').innerText = "BAĞLANDI 🟢";
+            document.getElementById('connection-status').style.color = "#00ffcc";
+
+            const ci = document.getElementById('connect-input');
+            const cb = document.getElementById('connect-btn');
+            const spi = document.getElementById('session-pass-input');
+            if (ci) ci.style.display = "none";
+            if (cb) cb.style.display = "none";
+            if (spi) spi.style.display = "none";
+
+            if (typeof window.kucultPanel === 'function') window.kucultPanel();
+            setupConnectionEvents();
+        });
+    };
+
+    // Otomatik QR Eşleşmesi
+    if (isTablet && roomFromUrl && tokenFromUrl) {
+        baglantiBaslat(roomFromUrl, tokenFromUrl, null);
+    }
+
+    // Manuel Buton
     const connectBtn = document.getElementById('connect-btn');
     if (connectBtn) {
         connectBtn.addEventListener('click', () => {
             const targetCode = document.getElementById('connect-input').value.trim();
             const passwordInput = document.getElementById('session-pass-input').value.trim();
-
             if (targetCode.length === 5 && passwordInput.length > 0) {
-                if (!myPeer || myPeer.destroyed) {
-                    alert("Ağ bağlantısı henüz kurulmadı, lütfen 2 saniye bekleyip tekrar dene.");
-                    return;
-                }
-
                 window.sessionPassword = passwordInput;
-                document.getElementById('connection-status').innerText = "Bağlanıyor ⏳";
-
-                // Bağlantıyı başlat (Şifreyi kriptografik metadata olarak gönderiyoruz)
-                myConnection = myPeer.connect(targetCode, {
-                    metadata: { password: window.sessionPassword }
-                });
-
-                // --- BAĞLANTIYI GARANTİLEMEK İÇİN İKİLİ KONTROL ---
-                // --- BAĞLANTIYI GARANTİLEMEK İÇİN İKİLİ KONTROL ---
-                myConnection.on('open', () => {
-                    console.log("Tablet: Connection Open tetiklendi!");
-                    isConnected = true;
-                    window.isConnected = true; 
-                    window.baglantiOnaylandi = true;
-                    document.getElementById('connection-status').innerText = "BAĞLANDI 🟢";
-                    document.getElementById('connection-status').style.color = "#00ffcc";
-
-                    // Tablet arayüzünü temizle
-                    document.getElementById('connect-input').style.display = "none";
-                    document.getElementById('connect-btn').style.display = "none";
-
-                    // 🚨 YENİ: Bağlantı kurulunca oda/şifre panelini otomatik küçült 🚨
-                    if (typeof window.kucultPanel === 'function') {
-                        window.kucultPanel();
-                    }
-
-                    setupConnectionEvents();
-                });
+                baglantiBaslat(targetCode, null, passwordInput);
             } else {
-                alert("Lütfen 5 haneli Oda Kodunu ve Tahta Şifresini eksiksiz girin.");
+                alert("Lütfen Oda Kodunu ve Tahta Şifresini eksiksiz girin.");
             }
         });
     }
@@ -6114,6 +6166,27 @@ function setupConnectionEvents() {
         // 🚨 NİHAİ VE MATEMATİKSEL KESİN ÇÖZÜM: CSS ve Canvas HD Uyuşmazlığını Giderici 🚨
         function veriyiIsle(d) {
             if (!d) return;
+
+            // --- TEHDİT ENGELLEME VE YETKİ KONTROLÜ (AUTHORIZATION & MITIGATION) ---
+            if (!isTablet) {
+                // Tahta tarafındayız
+                const senderId = myConnection.peer;
+                const isTeacher = (senderId === window.authorizedTeacherId);
+                
+                // DoS Koruması: Veri çok büyükse reddet
+                if (d.dataUrl && d.dataUrl.length > 15 * 1024 * 1024) { // 15MB Sınırı
+                    console.warn("⚠️ DOS Koruması: Gelen dosya çok büyük. İşlem reddedildi.");
+                    return;
+                }
+
+                // Kritik komut kontrolü (Sadece onaylı öğretmen gönderebilir)
+                const criticalTypes = ['tahta_sil_hepsi', 'pdf_yukle', 'resim_yukle'];
+                if (criticalTypes.includes(d.type) && !isTeacher) {
+                    console.warn(`🔒 YETKİSİZ İŞLEM REDDEDİLDİ: ${senderId} yetkisi olmadan '${d.type}' göndermeyi denedi!`);
+                    return; // Gelen paketi sessizce düşür (Drop)
+                }
+            }
+            // ------------------------------------------------------------------------
 
             if (d.type && d.type.startsWith('katlama_')) {
                 window.dispatchEvent(new CustomEvent('katlama_sistemi', { detail: d }));
