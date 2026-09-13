@@ -1,17 +1,17 @@
 ﻿<!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meTaşıharset="UTF-8">
-    <meTaşıame="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <title>GEOMETRI ARAC SETI-TaşıTaşı-akTaşım</title>
+    <title>GEOMETRI ARAC SETI-tab-taht-aktarim</title>
 
     <link rel="stylesheet" href="style.css?v=470">
     <!-- MediaPipe Yapay Zeka Kutuphaneleri (Erkenden Onbellege Alinmasi Icin Buraya Eklendi) -->
     <script src="vendor/camera_utils.js"></script>
     <script src="vendor/hands.js"></script>
     <link rel="stylesheet" href="ruler.css">
-    <link rel="stylesheet" href="Gönye.css">
+    <link rel="stylesheet" href="gonye.css">
     <link rel="stylesheet" href="aciolcer.css">
 
     <link rel="stylesheet" href="pergel.css">
@@ -23,7 +23,7 @@
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js?v=final')
                     .then(reg => console.log('Uygulama Hazır'))
-                    .catch(err => console.log('HaTaşı, err));
+                    .catch(err => console.log('Hata:', err));
             });
         }
     </script> 
@@ -46,11 +46,11 @@
 
     <div style="font-size: 14px; margin-bottom: 10px; color: #fff;">
     Oda Kodun: <span id="my-peer-id" style="color: #00ffcc; font-weight: bold; font-size: 20px; letter-spacing: 2px;">...</span><br>
-    Taşıa Şifresi: <span id="my-pin-code" style="color: #ff00ff; font-weight: bold; font-size: 20px; letter-spacing: 2px;">...</span><br>
-    <div id="teacher-pairing-qr" style="display: none;"></div>
+    Tahta Şifresi: <span id="my-pin-code" style="color: #ff00ff; font-weight: bold; font-size: 20px; letter-spacing: 2px;">...</span><br>
+    <div id="teacher-pairing-qr" style="background: #fff; padding: 6px; margin: 8px auto 0; width: 152px; min-height: 152px;"></div>
 </div>
 
-    <div id="teacher-qr-conTaşıer" style="display: none; margin-bottom: 10px; text-align: center; border: 1px dashed #ff00ff; padding: 10px; border-radius: 8px;">
+    <div id="teacher-qr-container" style="display: none; margin-bottom: 10px; text-align: center; border: 1px dashed #ff00ff; padding: 10px; border-radius: 8px;">
         <div style="font-size: 12px; color: #ff00ff; margin-bottom: 8px; font-weight: bold;">Öğretmen Cihazı Eşleştir</div>
         <div id="teacher-qrcode" style="background: white; padding: 5px; display: inline-block; border-radius: 5px;"></div>
     </div>
@@ -63,12 +63,12 @@
         <input type="password" id="session-pass-input" placeholder="Ders Şifresi Belirle..." style="padding: 8px; border-radius: 6px; border: none; width: 100%; box-sizing: border-box; font-weight: bold; text-align: center; outline: none; font-family: 'Fredoka', sans-serif;">
     </div>
     
-    <div id="connection-sTaşıs" style="font-size: 13px; margin-top: 10px; color: #ffeb3b; text-align: center; font-weight: 600;">Bağlantı Bekleniyor...</div>
+    <div id="connection-status" style="font-size: 13px; margin-top: 10px; color: #ffeb3b; text-align: center; font-weight: 600;">Bağlantı Bekleniyor...</div>
 </div>
     
 <script>
     // =========================================================
-    // --- PC / TaşıET AYRIMLI CANLI SINIF PANEL MOTORU ---
+    // --- PC / TABLET AYRIMLI CANLI SINIF PANEL MOTORU ---
     // =========================================================
     
     // Global Panel Küçültme Fonksiyonu
@@ -111,11 +111,11 @@
                 const overlay = document.getElementById('language-overlay');
                 if (overlay) overlay.style.display = 'none';
 
-                // 🚨 YENİ EKLENEN KISIM: Yasal uyarı şeridini (footer) Taşımen gizle!
-                const footer = document.getElementById('footer-conTaşıer');
+                // 🚨 YENİ EKLENEN KISIM: Yasal uyarı şeridini (footer) tamamen gizle!
+                const footer = document.getElementById('footer-container');
                 if (footer) footer.style.display = 'none';
 
-                // KRİTİK KONTROL: Taşıada paneli KÜÇÜLTMÜYORUZ, açık kalıyor!
+                // KRİTİK KONTROL: Tahtada paneli KÜÇÜLTMÜYORUZ, açık kalıyor!
                 if (typeof isConnected !== 'undefined' && isConnected) {
                     kucult();
                 }
@@ -144,9 +144,9 @@
 </div>
 
 <div id="polygon-preview-label" class="polygon-label hidden"></div>
-    <div id="compass-conTaşıer" class="hidden">
+    <div id="compass-container" class="hidden">
         <div class="handle-top"></div>
-        <div class="roTaşı-head"></div>
+        <div class="rotate-head"></div>
         <div class="pergel-leg left-leg">
             <div class="needle-tip"></div>
         </div>
@@ -157,10 +157,10 @@
     </div>
 
     <canvas id="bg-canvas" style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 5;"></canvas>
-    <div id="three-conTaşıer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10;"></div>
+    <div id="three-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10;"></div>
     <div id="label-3d" style="position: absolute; display: none; background: rgba(0,0,0,0.7); color: #0ff; padding: 5px; border-radius: 5px; font-family: Arial; font-size: 14px; pointer-events: none; z-index: 20;"></div>
 
-    <canvas id="drawing-canvas" style="touch-action: none !imporTaşı; -ms-touch-action: none !imporTaşı; user-select: none !imporTaşı; -webkit-user-select: none !imporTaşı; position: absolute; top: 0; left: 0; z-index: 50;"></canvas>
+    <canvas id="drawing-canvas" style="touch-action: none !important; -ms-touch-action: none !important; user-select: none !important; -webkit-user-select: none !important; position: absolute; top: 0; left: 0; z-index: 50;"></canvas>
 
     
     <!-- MOBIL CIHAZLAR ICIN CEKMECE BUTONLARI -->
@@ -184,63 +184,63 @@
             <div class="color-box" style="background-color: #9400D3;"></div> 
         </div>
 
-        <button id="btn-Çizgi" class="tool-button">Çizgi</button>
+        <button id="btn-cizgi" class="tool-button">Çizgi</button>
         <div id="line-options" class="tool-options hidden">
-            <button id="btn-nokTaşıclass="tool-button-sub">NokTaşıbutton>
-            <button id="btn-d_Çizgi" class="tool-button-sub">Düz Çizgi</button>
+            <button id="btn-nokta" class="tool-button-sub">Nokta</button>
+            <button id="btn-d_cizgi" class="tool-button-sub">Düz Çizgi</button>
             <button id="btn-dogru" class="tool-button-sub">Doğru</button>
             <button id="btn-dogru_parcasi" class="tool-button-sub">Doğru Parçası</button>
             <button id="btn-isin" class="tool-button-sub">Işın</button>
             <div id="line-color-options" class="color-palette">
-                <div class="color-box" style="background-color: #FFFFFF;" daTaşıolor="#FFFFFF"></div>
-                <div class="color-box" style="background-color: #000000;" daTaşıolor="#000000"></div>
-                <div class="color-box" style="background-color: #FF0000;" daTaşıolor="#FF0000"></div>
-                <div class="color-box" style="background-color: #0000FF;" daTaşıolor="#0000FF"></div>
-                <div class="color-box" style="background-color: #00FFCC;" daTaşıolor="#00FFCC"></div>
-                <div class="color-box" style="background-color: #FF69B4;" daTaşıolor="#FF69B4"></div>
-                <div class="color-box" style="background-color: #FFA500;" daTaşıolor="#FFA500"></div>
-                <div class="color-box" style="background-color: #FF00FF;" daTaşıolor="#FF00FF"></div>
-                <div class="color-box" style="background-color: #00FFFF;" daTaşıolor="#00FFFF"></div>
-                <div class="color-box" style="background-color: #FFFF00;" daTaşıolor="#FFFF00"></div>
-                <div class="color-box" style="background-color: #9400D3;" daTaşıolor="#9400D3"></div>
+                <div class="color-box" style="background-color: #FFFFFF;" data-color="#FFFFFF"></div>
+                <div class="color-box" style="background-color: #000000;" data-color="#000000"></div>
+                <div class="color-box" style="background-color: #FF0000;" data-color="#FF0000"></div>
+                <div class="color-box" style="background-color: #0000FF;" data-color="#0000FF"></div>
+                <div class="color-box" style="background-color: #00FFCC;" data-color="#00FFCC"></div>
+                <div class="color-box" style="background-color: #FF69B4;" data-color="#FF69B4"></div>
+                <div class="color-box" style="background-color: #FFA500;" data-color="#FFA500"></div>
+                <div class="color-box" style="background-color: #FF00FF;" data-color="#FF00FF"></div>
+                <div class="color-box" style="background-color: #00FFFF;" data-color="#00FFFF"></div>
+                <div class="color-box" style="background-color: #FFFF00;" data-color="#FFFF00"></div>
+                <div class="color-box" style="background-color: #9400D3;" data-color="#9400D3"></div>
             </div>
         </div>
 
         <button id="btn-cetvel" class="tool-button">Cetvel</button>
-        <button id="btn-Gönye" class="tool-button">Gönye</button>
+        <button id="btn-gonye" class="tool-button">Gönye</button>
         <button id="btn-aciolcer" class="tool-button">Açı Ölçer</button>
         <button id="btn-pergel" class="tool-button">Pergel</button>
-        <button id="btn-Çokgenler" class="tool-button">Çokgenler</button> 
+        <button id="btn-cokgenler" class="tool-button">Çokgenler</button> 
         
         <div id="polygon-options" class="tool-options hidden"> 
-            <button id="btn-Çember" class="tool-button-sub">Çember</button>
-            <button id="btn-duzgun_ucgen" class="tool-button-sub" daTaşıides="3">Düzgün 3gen</button>
-            <button id="btn-duzgun_dortgen" class="tool-button-sub" daTaşıides="4">Düzgün 4gen</button>
+            <button id="btn-cember" class="tool-button-sub">Çember</button>
+            <button id="btn-duzgun_ucgen" class="tool-button-sub" data-sides="3">Düzgün 3gen</button>
+            <button id="btn-duzgun_dortgen" class="tool-button-sub" data-sides="4">Düzgün 4gen</button>
             <button id="btn-dikdortgen" class="tool-button-sub">Dikdörtgen</button>
-            <button id="btn-duzgun_besgen" class="tool-button-sub" daTaşıides="5">Düzgün 5gen</button>
-            <button id="btn-duzgun_altigen" class="tool-button-sub" daTaşıides="6">Düzgün 6gen</button>
-            <button id="btn-duzgun_yedigen" class="tool-button-sub" daTaşıides="7">Düzgün 7gen</button>
-            <button id="btn-duzgun_sekizgen" class="tool-button-sub" daTaşıides="8">Düzgün 8gen</button>
+            <button id="btn-duzgun_besgen" class="tool-button-sub" data-sides="5">Düzgün 5gen</button>
+            <button id="btn-duzgun_altigen" class="tool-button-sub" data-sides="6">Düzgün 6gen</button>
+            <button id="btn-duzgun_yedigen" class="tool-button-sub" data-sides="7">Düzgün 7gen</button>
+            <button id="btn-duzgun_sekizgen" class="tool-button-sub" data-sides="8">Düzgün 8gen</button>
 
             <div id="polygon-color-options" class="color-palette" style="margin-top: 10px; justify-content: center;">
-                <div class="color-box" style="background-color: #FFFFFF;" daTaşıolor="#FFFFFF"></div>
-                <div class="color-box" style="background-color: #000000;" daTaşıolor="#000000"></div>
-                <div class="color-box" style="background-color: #FF0000;" daTaşıolor="#FF0000"></div>
-                <div class="color-box" style="background-color: #0000FF;" daTaşıolor="#0000FF"></div>
-                <div class="color-box" style="background-color: #00FFCC;" daTaşıolor="#00FFCC"></div>
-                <div class="color-box" style="background-color: #FF69B4;" daTaşıolor="#FF69B4"></div>
-                <div class="color-box" style="background-color: #FFA500;" daTaşıolor="#FFA500"></div>
-                <div class="color-box" style="background-color: #FF00FF;" daTaşıolor="#FF00FF"></div>
-                <div class="color-box" style="background-color: #00FFFF;" daTaşıolor="#00FFFF"></div>
-                <div class="color-box" style="background-color: #FFFF00;" daTaşıolor="#FFFF00"></div>
-                <div class="color-box" style="background-color: #9400D3;" daTaşıolor="#9400D3"></div>
+                <div class="color-box" style="background-color: #FFFFFF;" data-color="#FFFFFF"></div>
+                <div class="color-box" style="background-color: #000000;" data-color="#000000"></div>
+                <div class="color-box" style="background-color: #FF0000;" data-color="#FF0000"></div>
+                <div class="color-box" style="background-color: #0000FF;" data-color="#0000FF"></div>
+                <div class="color-box" style="background-color: #00FFCC;" data-color="#00FFCC"></div>
+                <div class="color-box" style="background-color: #FF69B4;" data-color="#FF69B4"></div>
+                <div class="color-box" style="background-color: #FFA500;" data-color="#FFA500"></div>
+                <div class="color-box" style="background-color: #FF00FF;" data-color="#FF00FF"></div>
+                <div class="color-box" style="background-color: #00FFFF;" data-color="#00FFFF"></div>
+                <div class="color-box" style="background-color: #FFFF00;" data-color="#FFFF00"></div>
+                <div class="color-box" style="background-color: #9400D3;" data-color="#9400D3"></div>
             </div>
         </div>
 
         <button id="btn-oyunlar" class="tool-button">Oyunlar</button>
 <div id="oyunlar-options" class="tool-options hidden" style="max-height: 400px; overflow-y: auto; padding: 10px;">
     <div style="display: flex; flex-direction: column; gap: 5px;">
-        <!-- Linkler app.js Taşıfından buraya eklenecek -->
+        <!-- Linkler app.js tarafından buraya eklenecek -->
     </div>
 </div>
 </div> 
@@ -265,7 +265,7 @@
                 Canlandır ✂️
             </button>
             <div id="snapshot-options" class="tool-options hidden">
-                <button id="btn-snapshot-box" class="tool-button-sub">Kutu (STaşıart)</button>
+                <button id="btn-snapshot-box" class="tool-button-sub">Kutu (Standart)</button>
                 <button id="btn-snapshot-lasso" class="tool-button-sub">Serbest Kes</button>
             </div>
         </div>
@@ -289,9 +289,9 @@
                 <button id="close-help" class="close-btn">×</button>
             </div>
             <div class="help-body">
-                <div class="video-list" id="video-list-conTaşıer"></div>
-                <div class="video-player-conTaşıer">
-                    <video id="main-video-player" controls>Taşıyıcınız desteklemiyor.</video>
+                <div class="video-list" id="video-list-container"></div>
+                <div class="video-player-container">
+                    <video id="main-video-player" controls>Tarayıcınız desteklemiyor.</video>
                     <div id="video-title-label" class="video-title">Bir video seçin</div>
                 </div>
             </div>
@@ -303,15 +303,15 @@
         <span style="font-size: 16px; margin-top: -2px;">✖</span>
     </button>
 
-    <div id="insTaşı-popup" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #ffffff; padding: 20px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); z-index: 10000; width: 300px; flex-direction: column; align-items: center; text-align: center; border: 2px solid #00ffcc;">
+    <div id="install-popup" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #ffffff; padding: 20px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); z-index: 10000; width: 300px; flex-direction: column; align-items: center; text-align: center; border: 2px solid #00ffcc;">
     <div style="margin-bottom: 15px;">
         <img src="icon.png" style="width: 50px; height: 50px; border-radius: 10px; margin-bottom: 10px;">
-        <h3 id="insTaşı-title" style="margin: 0 0 10px; color: #333;">Uygulamayı Yükle</h3>
-        <p id="insTaşı-desc" style="margin: 0 0 15px; color: #666; font-size: 14px;">Daha iyi performans için uygulamayı cihazına yükle.</p>
+        <h3 id="install-title" style="margin: 0 0 10px; color: #333;">Uygulamayı Yükle</h3>
+        <p id="install-desc" style="margin: 0 0 15px; color: #666; font-size: 14px;">Daha iyi performans için uygulamayı cihazına yükle.</p>
     </div>
     <div style="display: flex; gap: 10px; width: 100%;">
         <button id="btn-popup-close" style="flex: 1; padding: 10px; border: none; background: #f0f0f0; color: #333; border-radius: 8px; cursor: pointer; font-weight: bold;">Kapat</button>
-        <button id="btn-popup-insTaşı" style="flex: 1; padding: 10px; border: none; background: #00ffcc; color: #000; border-radius: 8px; cursor: pointer; font-weight: bold;">Yükle</button>
+        <button id="btn-popup-install" style="flex: 1; padding: 10px; border: none; background: #00ffcc; color: #000; border-radius: 8px; cursor: pointer; font-weight: bold;">Yükle</button>
     </div>
 </div>
 
@@ -320,18 +320,18 @@
     <script src="pdf.min.js"></script>
     <script src="qrcode.min.js"></script>
     <script src="ruler.js?v=400"></script>
-    <script src="Gönye.js?v=400"></script>
+    <script src="gonye.js?v=400"></script>
     <script src="aciolcer.js?v=400"></script>
     <script src="pergel.js?v=400"></script>
-    <script src="app.js?v=999" defer></script>
+    <script src="app.js?v=475" defer></script>
     <script src="cokgen.js?v=400" defer></script>
     <script src="oyunlar.js?v=400"></script>
     <script src="shape3d_fold.js?v=418"></script>
 
-<div id="footer-conTaşıer" style="position: fixed; bottom: 10px; left: 0; width: 100%; text-align: center; z-index: 999999; font-family: sans-serif; pointer-events: auto; background: rgba(0,0,0,0.5); padding: 5px 0;">
+<div id="footer-container" style="position: fixed; bottom: 10px; left: 0; width: 100%; text-align: center; z-index: 999999; font-family: sans-serif; pointer-events: auto; background: rgba(0,0,0,0.5); padding: 5px 0;">
     
     <div id="kvkk-bilgi" style="font-size: 11px; color: #888; opacity: 0.9; margin-bottom: 5px;">
-        Bu uygulama hiçbir kişisel veri toplamaz ve dosyalarınızı sunuculara yüklemez.<br>Taşıet - Taşıa ba&#287;lant&#305;s&#305; sadece &ouml;&#287;retmen Taşıeti ve ak&#305;ll&#305; Taşıa aras&#305;nda olmal&#305;d&#305;r.
+        Bu uygulama hiçbir kişisel veri toplamaz ve dosyalarınızı sunuculara yüklemez.<br>Tablet - Tahta ba&#287;lant&#305;s&#305; sadece &ouml;&#287;retmen tableti ve ak&#305;ll&#305; tahta aras&#305;nda olmal&#305;d&#305;r.
     </div>
 
     <a href="#" id="open-disclaimer" style="color:#00ffcc; font-size:14px; text-decoration: underline; font-weight: bold; cursor:pointer; display: block;">
@@ -343,11 +343,11 @@
     <div style="background:white; padding:25px; max-width:600px; width: 90%; border-radius:15px; color:black; overflow-y:auto; max-height:80%; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
         <h3 style="margin-top:0;">⚠️ Yasal Uyarı ve Sorumluluk Reddi</h3>
         <p style="font-size:14px; line-height:1.6; text-align: left;">
-            <strong>Eğitim Amaçlıdır:</strong> Bu yazılım, yalnızca sınıf içi eğitim faaliyetlerini desteklemek amacıyla Taşırlanmıştır. Yazılımın amacı dışında kullanımı yasaktır ve kullanıcı sorumluluğundadır.<br><br>
-            <strong>Sorumluluk Reddi:</strong> Bu yazılım "olduğu gibi" sunulmuştur. Geliştirici, yazılımın kullanımından kaynaklanan veya kullanım amacı dışında kullanılmasıyla orTaşı çıkabilecek hiçbir hukuki, cezai veya idari sorumluluğu kabul etmez. Kullanıcı, yazılımı kullanmaya başladığı andan itibaren tüm sorumluluğu üstlenmiş sayılır.<br><br>
-            <strong>Bağımsızlık:</strong> Bu proje, herhangi bir resmi kurumla organik bağ içermeyen, öğretmen Taşıfından geliştirilmiş kişisel bir hobi projesidir.<br><br>
-            <strong>Lisans:</strong> MIT Lisansı ile korunmakTaşır.<br><br>
-            <strong>ℹ️ Disclaimer (English):</strong> This software is an independent educational tool developed volunTaşıly by a teacher. It is designed solely for classroom educational purposes. It does not collect, store, or upload any personal daTaşıIt is provided "as is" under the MIT License. The developer accepts no liability for misuse.
+            <strong>Eğitim Amaçlıdır:</strong> Bu yazılım, yalnızca sınıf içi eğitim faaliyetlerini desteklemek amacıyla tasarlanmıştır. Yazılımın amacı dışında kullanımı yasaktır ve kullanıcı sorumluluğundadır.<br><br>
+            <strong>Sorumluluk Reddi:</strong> Bu yazılım "olduğu gibi" sunulmuştur. Geliştirici, yazılımın kullanımından kaynaklanan veya kullanım amacı dışında kullanılmasıyla ortaya çıkabilecek hiçbir hukuki, cezai veya idari sorumluluğu kabul etmez. Kullanıcı, yazılımı kullanmaya başladığı andan itibaren tüm sorumluluğu üstlenmiş sayılır.<br><br>
+            <strong>Bağımsızlık:</strong> Bu proje, herhangi bir resmi kurumla organik bağ içermeyen, öğretmen tarafından geliştirilmiş kişisel bir hobi projesidir.<br><br>
+            <strong>Lisans:</strong> MIT Lisansı ile korunmaktadır.<br><br>
+            <strong>ℹ️ Disclaimer (English):</strong> This software is an independent educational tool developed voluntarily by a teacher. It is designed solely for classroom educational purposes. It does not collect, store, or upload any personal data. It is provided "as is" under the MIT License. The developer accepts no liability for misuse.
         </p>
         <button id="close-disclaimer" style="width:100%; padding:12px; background:#00ffcc; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Kapat</button>
     </div>
@@ -356,7 +356,7 @@
 <div id="conn-request-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:99999999; justify-content:center; align-items:center;">
     <div style="background:white; padding:25px; max-width:400px; width: 90%; border-radius:15px; color:black; text-align:center; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
         <h3>⚠️ Bağlantı İsteği</h3>
-        <p id="request-text" style="font-size:16px;">Bir cihaz Taşıaya bağlanmak istiyor. Onaylıyor musunuz?</p>
+        <p id="request-text" style="font-size:16px;">Bir cihaz tahtaya bağlanmak istiyor. Onaylıyor musunuz?</p>
         <div style="display:flex; gap:10px; justify-content:center;">
             <button id="btn-conn-accept" style="padding:10px 25px; background:#00ffcc; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Evet, Bağlan</button>
             <button id="btn-conn-reject" style="padding:10px 25px; background:#ff4444; border:none; border-radius:8px; cursor:pointer; font-weight:bold; color:white;">Reddet</button>
@@ -390,7 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const snapshotMenu = document.getElementById('snapshot-options');
             if (canvas && snapshotMenu) {
                 canvas.addEventListener('pointerdown', () => {
-                    if (!snapshotMenu.classList.conTaşıs('hidden')) {
+                    if (!snapshotMenu.classList.contains('hidden')) {
                         snapshotMenu.classList.add('hidden');
                         snapshotMenu.style.display = 'none';
                     }
