@@ -5807,7 +5807,7 @@ function createPeer(id) {
         return id ? new Peer(id, localPeerOptions) : new Peer(localPeerOptions);
     }
     // PeerJS'in host/port/path/ICE varsay�lanlar� public signaling i�in kullan�l�r.
-    return id ? new Peer(id) : new Peer();
+    return id ? new Peer(id, { config: { iceServers: [] } }) : new Peer({ config: { iceServers: [] } });
 }
 
 function renderTeacherPairingQr(peerId) {
