@@ -5789,7 +5789,7 @@ if (!isTablet) {
 // ?? S�H�RL� DOKUNU�: Taray�c�n�n d�� d�nyaya (internete) ��k�� yollar�n� kesiyoruz!
 // iceServers dizisi bo� b�rak�ld��� i�in sistem NAT/G�venlik duvar�n� a�amaz.
 // K�t� niyetli biri �ifreyi bilse bile fiziksel olarak uzaktan veri g�nderemez!
-const askeriKalkan = { config: { iceServers: [] } };
+const askeriKalkan = { host: window.location.hostname || 'localhost', port: 9000, path: '/peerjs', config: { iceServers: [] } };
 
 function renderTeacherPairingQr(peerId) {
     const qrHost = document.getElementById('teacher-pairing-qr');
