@@ -3279,7 +3279,7 @@ canvas.addEventListener('pointerdown', (e) => {
             else {
                 const finalRadius = window.tempPolygonData.radius || 0; if (window.tempPolygonData.type === 0) window.PolygonTool.finalizeCircle(finalRadius); else window.PolygonTool.finalizeDraw(finalRadius, window.tempPolygonData.rotation);
                 setTimeout(() => { const lastS = drawnStrokes[drawnStrokes.length - 1]; if (lastS) window.sendNetworkData({ type: 'yeni_cizim', stroke: lastS }); }, 50);
-                if (typeof polygonPreviewLabel !== 'undefined' && polygonPreviewLabel) polygonPreviewLabel.classList.add('hidden'); window.tempPolygonData.center = null;
+                if (typeof polygonPreviewLabel !== 'undefined' && polygonPreviewLabel) polygonPreviewLabel.classList.add('hidden'); if (window.tempPolygonData) window.tempPolygonData.center = null;
             }
             break;
     }
@@ -3705,7 +3705,7 @@ canvas.addEventListener('pointerup', (e) => {
                 }, 50);
 
                 if (typeof polygonPreviewLabel !== 'undefined' && polygonPreviewLabel) polygonPreviewLabel.classList.add('hidden');
-                window.tempPolygonData.center = null;
+                if (window.tempPolygonData) window.tempPolygonData.center = null;
                 if (window.PolygonTool && window.PolygonTool.handleDrawClick) window.PolygonTool.handleDrawClick(null, currentType);
             }
         }
@@ -5920,6 +5920,8 @@ myPeer.on('connection', function (conn) {
                     const _np = document.getElementById('network-panel'); if (_np) _np.style.display = 'none';
                     const _mb = document.getElementById('network-mini-btn'); if (_mb) _mb.style.display = 'block';
                     const _lo = document.getElementById('language-overlay'); if (_lo) _lo.style.display = 'none';
+                    const _dm = document.getElementById('disclaimer-modal'); if (_dm) { _dm.style.display = 'none'; _dm.remove(); }
+                    const _ip = document.getElementById('install-popup'); if (_ip) { _ip.style.display = 'none'; _ip.remove(); }
 
                     const statusEl = document.getElementById('connection-status');
                     if (statusEl) {
@@ -6021,6 +6023,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const _np = document.getElementById('network-panel'); if (_np) _np.style.display = 'none';
                     const _mb = document.getElementById('network-mini-btn'); if (_mb) _mb.style.display = 'block';
                     const _lo = document.getElementById('language-overlay'); if (_lo) _lo.style.display = 'none';
+                    const _dm = document.getElementById('disclaimer-modal'); if (_dm) { _dm.style.display = 'none'; _dm.remove(); }
+                    const _ip = document.getElementById('install-popup'); if (_ip) { _ip.style.display = 'none'; _ip.remove(); }
                     document.getElementById('connection-status').innerText = "BAĞLANDI 🟢";
                     document.getElementById('connection-status').style.color = "#00ffcc";
 
@@ -6274,6 +6278,8 @@ function setupConnectionEvents() {
                     const _np = document.getElementById('network-panel'); if (_np) _np.style.display = 'none';
                     const _mb = document.getElementById('network-mini-btn'); if (_mb) _mb.style.display = 'block';
                     const _lo = document.getElementById('language-overlay'); if (_lo) _lo.style.display = 'none';
+                    const _dm = document.getElementById('disclaimer-modal'); if (_dm) { _dm.style.display = 'none'; _dm.remove(); }
+                    const _ip = document.getElementById('install-popup'); if (_ip) { _ip.style.display = 'none'; _ip.remove(); }
     isConnected = true;
 
     // --- 2. VERİ ALICI VE PARÇALAMA MOTORU (BARKOD SİSTEMLİ) ---
