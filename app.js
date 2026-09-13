@@ -1,70 +1,69 @@
-﻿window.onerror = function(msg, url, line) { alert('HATA: ' + msg + '\nSatir: ' + line); };
-// ?? ALAN ADI K�L�D� (DOMAIN BINDING) ??
-// Sadece bdemir1499.github.io adresinde, EBA sunucular�nda ve yerel bilgisayarda �al���r!
+﻿// ?? ALAN ADI KİLİDİ (DOMAIN BINDING) ??
+// Sadece bdemir1499.github.io adresinde, EBA sunucularında ve yerel bilgisayarda çalışır!
 const gecerliAdresler = ["bdemir1499.github.io", "127.0.0.1", "localhost", "eba.gov.tr", "vercel.app"];
-const mevcutAdres = window.location.hostname;
+const mevcuTaşıes = window.location.hostname;
 
-const kacakKullanimMi = !gecerliAdresler.some(adres => mevcutAdres.includes(adres));
+const kacakKullanımıi = !gecerliAdresler.some(adres => mevcuTaşıes.includes(adres));
 
-if (kacakKullanimMi && mevcutAdres !== "") {
-    document.body.innerHTML = "<div style='color:red; text-align:center; margin-top:50px; font-family:sans-serif; font-size:20px; font-weight:bold;'>? G�VENL�K �HLAL�: Bu yaz�l�m kopyalanm��t�r. L�tfen orijinal adresi kullan�n.</div>";
-    throw new Error("Korsan kullan�m tespit edildi, sistem durduruldu!");
+if (kacakKullanımıi && mevcuTaşıes !== "") {
+    document.body.innerHTML = "<div style='color:red; text-align:center; margin-top:50px; font-family:sans-serif; font-size:20px; font-weight:bold;'>? GÜVENLİK İHLALİ: Bu yazılım kopyalanmıştır. Lütfen orijinal adresi kullanın.</div>";
+    throw new Error("Korsan Kullanımıtespit edildi, sistem durduruldu!");
 }
 
-// ?? KES�N ��Z�M: Ak�ll� tahtalarda kay�p resim (X_X y�z) ��kmesini TAMAMEN engeller ??
+// ?? KESİN ÇÖZÜM: Akıllı Taşıalarda kayıp resim (X_X yüz) çökmesini TaşıMEN engeller ??
 const cursorFix = document.createElement('style');
 cursorFix.innerHTML = `
-    /* SADECE KANVASTA DE��L, B�T�N EKRANDA ZOMB� �MLE�LER� K�K�NDEN YASAKLA! */
-    body.cursor-eraser { cursor: none !important; }
-    body.cursor-pen { cursor: crosshair !important; }
-    body.cursor-snapshot { cursor: crosshair !important; }
+    /* SADECE KANVASTaşıEĞİL, BÜTÜN EKRANDA ZOMBİ İMLEÇLERİ KÖKÜNDEN YASAKLA! */
+    body.cursor-eraser { cursor: none !imporTaşı; }
+    body.cursor-pen { cursor: crosshair !imporTaşı; }
+    body.cursor-snapshot { cursor: crosshair !imporTaşı; }
 
-    /* �izim tahtas� �zerinde de kesin yasak (�ifte g�venlik) */
-    body.cursor-eraser #drawing-canvas { cursor: none !important; }
-    body.cursor-pen #drawing-canvas { cursor: crosshair !important; }
-    body.cursor-snapshot #drawing-canvas { cursor: crosshair !important; }
+    /* Çizim Taşıası üzerinde de kesin yasak (Çifte güvenlik) */
+    body.cursor-eraser #drawing-canvas { cursor: none !imporTaşı; }
+    body.cursor-pen #drawing-canvas { cursor: crosshair !imporTaşı; }
+    body.cursor-snapshot #drawing-canvas { cursor: crosshair !imporTaşı; }
 
-    /* Men�lerin, panellerin ve butonlar�n �zerinde her zaman normal ok/parmak i�areti ��ks�n! */
+    /* Menülerin, panellerin ve butonların üzerinde her zaman normal ok/parmak işareti çıksın! */
     .panel, .panel *, button, .tool-button, .tool-button-sub { 
-        cursor: pointer !important; 
+        cursor: pointer !imporTaşı; 
     }
 `;
 document.head.appendChild(cursorFix);
 
 
 
-// Art�k sabit bir MY_SECRET_KEY yok, ��retmen her ders �ifreyi belirleyecek
+// Artık sabit bir MY_SECRET_KEY yok, öğretmen her ders şifreyi belirleyecek
 window.sessionPassword = "";
 
-// --- D�L S�ZL��� ---
-let currentLang = 'tr'; // Varsay�lan dil
+// --- DİL SÖZLÜĞÜ ---
+let currentLang = 'tr'; // VarsayIşın dil
 
 const translations = {
-    tr: { sihirli_el: "? Sihirli El", soru_cek: "?? Soru �ek", yukle: "Dosya Y�kle", silgi: "Silgi", kalem: "Kalem", cizgi: "�izgi", nokta: "Nokta", d_cizgi: "D�z �izgi", dogru: "Do�ru", dogru_parcasi: "Do�ru Par�as�", isin: "I��n", cetvel: "Cetvel", gonye: "G�nye", aciolcer: "A�� �l�er", pergel: "Pergel", cokgenler: "�okgenler", cember: "�ember", d_ucgen: "D�zg�n 3gen", d_dortgen: "D�zg�n 4gen", dikdortgen: "Dikd�rtgen", d_besgen: "D�zg�n 5gen", d_altigen: "D�zg�n 6gen", d_yedigen: "D�zg�n 7gen", d_sekizgen: "D�zg�n 8gen", oyunlar: "Oyunlar", arac_rengi: "Ara� Rengi", geri_al: "Geri Al", hepsini_sil: "Hepsini Sil", tasi: "Ta��", canlandir: "Canland�r ??", kutu: "Kutu", serbest: "Serbest", yardim: "Video Yard�m", ins_t: "Uygulamay� Y�kle", ins_d: "Daha iyi performans i�in uygulamay� y�kle.", ins_b: "Y�kle", ins_c: "Kapat", vid_cetvel: "Cetvel Kullan�m�", vid_gonye: "G�nye Kullan�m�", vid_aciolcer: "A�� �l�er Kullan�m�", vid_pergel: "Pergel Kullan�m�", vid_canlandir: "Canland�rma (Kopyalama)", vid_cizgi: "�izgi Men�s� Kullan�m�", vid_cokgenler: "�okgenler", vid_kalem: "Kalem", vid_kitap: "Kitap ve Resim Y�kleme", vid_oyunlar: "Oyunlar", pdf_soru: "Bu PDF {0} sayfad�r. Ka��nc� sayfadan devam etmek istersiniz?", kvkk: "Bu uygulama hi�bir ki�isel veri toplamaz ve dosyalar�n�z� sunuculara y�klemez." },
+    tr: { sihirli_el: "? Sihirli El", soru_cek: "?? Soru Çek", Yükle: "Dosya Yükle", silgi: "Silgi", kalem: "Kalem", cizgi: "Çizgi", nokTaşı"NokTaşı d_cizgi: "Düz Çizgi", Doğru: "Doğru", Doğru_parcasi: "Doğru Parçası", isin: "Işın", cetvel: "Cetvel", Gönye: "Gönye", aciolcer: "Açı Ölçer", pergel: "Pergel", Çokgenler: "Çokgenler", Çember: "Çember", d_ucgen: "Düzgün 3gen", d_dortgen: "Düzgün 4gen", Dikdörtgen: "Dikdörtgen", d_besgen: "Düzgün 5gen", d_altigen: "Düzgün 6gen", d_yedigen: "Düzgün 7gen", d_sekizgen: "Düzgün 8gen", oyunlar: "Oyunlar", arac_rengi: "Araç Rengi", geri_al: "Geri Al", hepsini_sil: "Hepsini Sil", Taşı: "Taşı", Canlandır: "Canlandır ??", kutu: "Kutu", serbest: "Serbest", yardim: "Video Yardım", ins_t: "Uygulamayı Yükle", ins_d: "Daha iyi performans için Uygulamayı Yükle.", ins_b: "Yükle", ins_c: "Kapat", vid_cetvel: "Cetvel Kullanımı", vid_Gönye: "Gönye Kullanımı", vid_aciolcer: "Açı Ölçer Kullanımı", vid_pergel: "Pergel Kullanımı", vid_Canlandır: "Canlandırma (Kopyalama)", vid_cizgi: "Çizgi Menüsü Kullanımı", vid_Çokgenler: "Çokgenler", vid_kalem: "Kalem", vid_kiTaşı "KiTaşıve Resim Yükleme", vid_oyunlar: "Oyunlar", pdf_soru: "Bu PDF {0} sayfadır. Kaçıncı sayfadan devam etmek istersiniz?", kvkk: "Bu uygulama hiçbir kişisel veri toplamaz ve dosyalarınızı sunuculara Yüklemez." },
 
-    en: { yukle: "Upload File", silgi: "Eraser", kalem: "Pen", cizgi: "Line", nokta: "Point", d_cizgi: "Straight Line", dogru: "Line", dogru_parcasi: "Segment", isin: "Ray", cetvel: "Ruler", gonye: "Set Square", aciolcer: "Protractor", pergel: "Compass", cokgenler: "Polygons", cember: "Circle", d_ucgen: "Regular Triangle", d_dortgen: "Square", dikdortgen: "Rectangle", d_besgen: "Pentagon", d_altigen: "Hexagon", d_yedigen: "Heptagon", d_sekizgen: "Octagon", oyunlar: "Games", arac_rengi: "Tool Color", geri_al: "Undo", hepsini_sil: "Clear All", tasi: "Move", canlandir: "Animate ??", kutu: "Box", serbest: "Free", yardim: "Video Help", ins_t: "Install App", ins_d: "Install app for better performance.", ins_b: "Install", ins_c: "Close", vid_cetvel: "Ruler Usage", vid_gonye: "Set Square Usage", vid_aciolcer: "Protractor Usage", vid_pergel: "Compass Usage", vid_canlandir: "Animation (Copy)", vid_cizgi: "Line Menu Usage", vid_cokgenler: "Polygons", vid_kalem: "Pen", vid_kitap: "Load Book and Image", vid_oyunlar: "Games", pdf_soru: "This PDF has {0} pages. Which page would you like to continue from?", sihirli_el: "? Magic Hand", soru_cek: "?? Take Photo", kvkk: "This application does not collect any personal data and does not upload your files to servers." },
+    en: { Yükle: "Upload File", silgi: "Eraser", kalem: "Pen", cizgi: "Line", nokTaşı"Point", d_cizgi: "Straight Line", Doğru: "Line", Doğru_parcasi: "Segment", isin: "Ray", cetvel: "Ruler", Gönye: "Set Square", aciolcer: "Protractor", pergel: "Compass", Çokgenler: "Polygons", Çember: "Circle", d_ucgen: "Regular Triangle", d_dortgen: "Square", Dikdörtgen: "RecTaşıle", d_besgen: "PenTaşın", d_altigen: "Hexagon", d_yedigen: "HepTaşın", d_sekizgen: "OcTaşın", oyunlar: "Games", arac_rengi: "Tool Color", geri_al: "Undo", hepsini_sil: "Clear All", Taşı: "Move", Canlandır: "Animate ??", kutu: "Box", serbest: "Free", yardim: "Video Help", ins_t: "InsTaşı App", ins_d: "InsTaşı app for better performance.", ins_b: "InsTaşı", ins_c: "Close", vid_cetvel: "Ruler Usage", vid_Gönye: "Set Square Usage", vid_aciolcer: "Protractor Usage", vid_pergel: "Compass Usage", vid_Canlandır: "Animation (Copy)", vid_cizgi: "Line Menu Usage", vid_Çokgenler: "Polygons", vid_kalem: "Pen", vid_kiTaşı "Load Book and Image", vid_oyunlar: "Games", pdf_soru: "This PDF has {0} pages. Which page would you like to continue from?", sihirli_el: "? Magic Hand", soru_cek: "?? Taşı Photo", kvkk: "This application does not collect any personal daTaşınd does not upload your files to servers." },
 
-    de: { yukle: "Bild/PDF hochladen", silgi: "Radierer", kalem: "Stift", cizgi: "Linie", nokta: "Punkt", d_cizgi: "Gerade", dogru: "Gerade", dogru_parcasi: "Strecke", isin: "Strahl", cetvel: "Lineal", gonye: "Geodreieck", aciolcer: "Winkelmesser", pergel: "Zirkel", cokgenler: "Polygone", cember: "Kreis", d_ucgen: "Dreieck", d_dortgen: "Quadrat", dikdortgen: "Rechteck", d_besgen: "F�nfeck", d_altigen: "Sechseck", d_yedigen: "Heptagon", d_sekizgen: "Oktagon", oyunlar: "Spiele", arac_rengi: "Farbe", geri_al: "R�ckg�ngig", hepsini_sil: "L�schen", tasi: "Bewegen", canlandir: "Animieren", kutu: "Box", serbest: "Frei", yardim: "Hilfe", ins_t: "App installieren", ins_d: "Installieren f�r bessere Leistung.", ins_b: "Installieren", ins_c: "Schlie�en", vid_cetvel: "Lineal verwenden", vid_gonye: "Geodreieck verwenden", vid_aciolcer: "Winkelmesser verwenden", vid_pergel: "Zirkel verwenden", vid_canlandir: "Animation (Kopieren)", vid_cizgi: "Linienmen� verwenden", vid_cokgenler: "Vielecke", vid_kalem: "Stift", vid_kitap: "Buch und Bild laden", vid_oyunlar: "Spiele", pdf_soru: "Dieses PDF hat {0} Seiten. Auf welcher Seite m�chten Sie fortfahren?", sihirli_el: "? Magische Hand", soru_cek: "?? Foto aufnehmen", kvkk: "Diese Anwendung sammelt keine personenbezogenen Daten und l�dt Ihre Dateien nicht auf Server hoch." },
+    de: { Yükle: "Bild/PDF hochladen", silgi: "Radierer", kalem: "Stift", cizgi: "Linie", nokTaşı"Punkt", d_cizgi: "Gerade", Doğru: "Gerade", Doğru_parcasi: "Strecke", isin: "Strahl", cetvel: "Lineal", Gönye: "Geodreieck", aciolcer: "Winkelmesser", pergel: "Zirkel", Çokgenler: "Polygone", Çember: "Kreis", d_ucgen: "Dreieck", d_dortgen: "Quadrat", Dikdörtgen: "Rechteck", d_besgen: "Fünfeck", d_altigen: "Sechseck", d_yedigen: "HepTaşın", d_sekizgen: "OkTaşın", oyunlar: "Spiele", arac_rengi: "Farbe", geri_al: "Rückgängig", hepsini_sil: "Löschen", Taşı: "Bewegen", Canlandır: "Animieren", kutu: "Box", serbest: "Frei", yardim: "Hilfe", ins_t: "App insTaşıieren", ins_d: "InsTaşıieren für bessere Leistung.", ins_b: "InsTaşıieren", ins_c: "Schließen", vid_cetvel: "Lineal verwenden", vid_Gönye: "Geodreieck verwenden", vid_aciolcer: "Winkelmesser verwenden", vid_pergel: "Zirkel verwenden", vid_Canlandır: "Animation (Kopieren)", vid_cizgi: "Linienmenü verwenden", vid_Çokgenler: "Vielecke", vid_kalem: "Stift", vid_kiTaşı "Buch und Bild laden", vid_oyunlar: "Spiele", pdf_soru: "Dieses PDF hat {0} Seiten. Auf welcher Seite möchten Sie fortfahren?", sihirli_el: "? Magische Hand", soru_cek: "?? Foto aufnehmen", kvkk: "Diese Anwendung sammelt keine personenbezogenen Daten und lädt Ihre Dateien nicht auf Server hoch." },
 
-    ar: { yukle: "????? ???", silgi: "?????", kalem: "???", cizgi: "??", nokta: "????", d_cizgi: "?? ??????", dogru: "??????", dogru_parcasi: "????", isin: "????", cetvel: "?????", gonye: "????", aciolcer: "?????", pergel: "?????", cokgenler: "??????", cember: "?????", d_ucgen: "???? ?????", d_dortgen: "????", dikdortgen: "??????", d_besgen: "????", d_altigen: "????", d_yedigen: "????", d_sekizgen: "????", oyunlar: "?????", arac_rengi: "?????", geri_al: "?????", hepsini_sil: "???", tasi: "?????", canlandir: "?????", kutu: "?????", serbest: "??", yardim: "??????", ins_t: "????? ???????", ins_d: "??? ??????? ????? ????.", ins_b: "?????", ins_c: "?????", vid_cetvel: "??????? ???????", vid_gonye: "??????? ??????", vid_aciolcer: "??????? ???????", vid_pergel: "??????? ???????", vid_canlandir: "???? ?????? (???)", vid_cizgi: "??????? ????? ??????", vid_cokgenler: "??????", vid_kalem: "???", vid_kitap: "????? ???? ?????", vid_oyunlar: "?????", pdf_soru: "????? ??? ????? ??? {0} ????. ?? ?? ???? ???? ?????????", sihirli_el: "? ?? ?????", soru_cek: "?? ????? ????", kvkk: "?? ???? ??? ??????? ?? ?????? ????? ??? ???? ?????? ??? ???????." },
+    ar: { Yükle: "????? ???", silgi: "?????", kalem: "???", cizgi: "??", nokTaşı"????", d_cizgi: "?? ??????", Doğru: "??????", Doğru_parcasi: "????", isin: "????", cetvel: "?????", Gönye: "????", aciolcer: "?????", pergel: "?????", Çokgenler: "??????", Çember: "?????", d_ucgen: "???? ?????", d_dortgen: "????", Dikdörtgen: "??????", d_besgen: "????", d_altigen: "????", d_yedigen: "????", d_sekizgen: "????", oyunlar: "?????", arac_rengi: "?????", geri_al: "?????", hepsini_sil: "???", Taşı: "?????", Canlandır: "?????", kutu: "?????", serbest: "??", yardim: "??????", ins_t: "????? ???????", ins_d: "??? ??????? ????? ????.", ins_b: "?????", ins_c: "?????", vid_cetvel: "??????? ???????", vid_Gönye: "??????? ??????", vid_aciolcer: "??????? ???????", vid_pergel: "??????? ???????", vid_Canlandır: "???? ?????? (???)", vid_cizgi: "??????? ????? ??????", vid_Çokgenler: "??????", vid_kalem: "???", vid_kiTaşı "????? ???? ?????", vid_oyunlar: "?????", pdf_soru: "????? ??? ????? ??? {0} ????. ?? ?? ???? ???? ?????????", sihirli_el: "? ?? ?????", soru_cek: "?? ????? ????", kvkk: "?? ???? ??? ??????? ?? ?????? ????? ??? ???? ?????? ??? ???????." },
 
-    hi: { yukle: "????? ?????", silgi: "??????", kalem: "???", cizgi: "????", nokta: "?????", d_cizgi: "???? ????", dogru: "????", dogru_parcasi: "???", isin: "????", cetvel: "??????", gonye: "??????", aciolcer: "?????", pergel: "?????", cokgenler: "??????", cember: "?????", d_ucgen: "???????", d_dortgen: "????", dikdortgen: "???", d_besgen: "??????", d_altigen: "??????", d_yedigen: "???????", d_sekizgen: "???????", oyunlar: "???", arac_rengi: "???", geri_al: "???????", hepsini_sil: "????", tasi: "?? ????", canlandir: "??????", kutu: "?????", serbest: "?????", yardim: "??????", ins_t: "?? ??????? ????", ins_d: "????? ???????? ?? ??? ??????? ?????", ins_b: "???????", ins_c: "???", vid_cetvel: "???er ?? ?????", vid_gonye: "??? ???????? ?? ?????", vid_aciolcer: "????? ?? ?????", vid_pergel: "????? ?? ?????", vid_canlandir: "??????? (????)", vid_cizgi: "???? ???? ?? ?????", vid_cokgenler: "??????", vid_kalem: "???", vid_kitap: "?????? ?? ??? ??? ????", vid_oyunlar: "???", pdf_soru: "?? PDF ??? {0} ????? ???? ?? ??? ????? ?? ???? ???? ????????", sihirli_el: "? ????? ???", soru_cek: "?? ???? ???", kvkk: "?? ????????? ??? ????????? ???? ????? ???? ???? ?? ?? ???? ??????? ?? ????? ?? ????? ???? ???? ???" },
+    hi: { Yükle: "????? ?????", silgi: "??????", kalem: "???", cizgi: "????", nokTaşı"?????", d_cizgi: "???? ????", Doğru: "????", Doğru_parcasi: "???", isin: "????", cetvel: "??????", Gönye: "??????", aciolcer: "?????", pergel: "?????", Çokgenler: "??????", Çember: "?????", d_ucgen: "???????", d_dortgen: "????", Dikdörtgen: "???", d_besgen: "??????", d_altigen: "??????", d_yedigen: "???????", d_sekizgen: "???????", oyunlar: "???", arac_rengi: "???", geri_al: "???????", hepsini_sil: "????", Taşı: "?? ????", Canlandır: "??????", kutu: "?????", serbest: "?????", yardim: "??????", ins_t: "?? ??????? ????", ins_d: "????? ???????? ?? ??? ??????? ?????", ins_b: "???????", ins_c: "???", vid_cetvel: "???er ?? ?????", vid_Gönye: "??? ???????? ?? ?????", vid_aciolcer: "????? ?? ?????", vid_pergel: "????? ?? ?????", vid_Canlandır: "??????? (????)", vid_cizgi: "???? ???? ?? ?????", vid_Çokgenler: "??????", vid_kalem: "???", vid_kiTaşı "?????? ?? ??? ??? ????", vid_oyunlar: "???", pdf_soru: "?? PDF ??? {0} ????? ???? ?? ??? ????? ?? ???? ???? ????????", sihirli_el: "? ????? ???", soru_cek: "?? ???? ???", kvkk: "?? ????????? ??? ????????? ???? ????? ???? ???? ?? ?? ???? ??????? ?? ????? ?? ????? ???? ???? ???" },
 
-    ms: { yukle: "Muat Naik Fail", silgi: "Pemadam", kalem: "Pen", cizgi: "Garis", nokta: "Titik", d_cizgi: "Garis Lurus", dogru: "Garis", dogru_parcasi: "Segmen", isin: "Sinar", cetvel: "Pembaris", gonye: "Sesiku", aciolcer: "Jangka Sudut", pergel: "Jangka Lukis", cokgenler: "Poligon", cember: "Bulatan", d_ucgen: "Segi Tiga", d_dortgen: "Segi Empat", dikdortgen: "Segi Empat Tepat", d_besgen: "Pentagon", d_altigen: "Heksagon", d_yedigen: "Heptagon", d_sekizgen: "Oktagon", oyunlar: "Permainan", arac_rengi: "Warna", geri_al: "Batal", hepsini_sil: "Padam", tasi: "Gerak", canlandir: "Animasi", kutu: "Kotak", serbest: "Bebas", yardim: "Bantuan", ins_t: "Pasang Aplikasi", ins_d: "Pasang untuk prestasi lebih baik.", ins_b: "Pasang", ins_c: "Tutup", vid_cetvel: "Penggunaan Pembaris", vid_gonye: "Penggunaan Sesiku", vid_aciolcer: "Penggunaan Jangka Sudut", vid_pergel: "Penggunaan Jangka Lukis", vid_canlandir: "Animasi (Salin)", vid_cizgi: "Penggunaan Menu Garisan", vid_cokgenler: "Poligon", vid_kalem: "Pen", vid_kitap: "Muat Buku dan Imej", vid_oyunlar: "Permainan", pdf_soru: "PDF ini mempunyai {0} halaman. Dari halaman mana anda ingin teruskan?", sihirli_el: "? Tangan Ajaib", soru_cek: "?? Ambil Gambar", kvkk: "Aplikasi ini tidak mengumpul sebarang data peribadi and tidak memuat naik fail anda ke pelayan." },
+    ms: { Yükle: "Muat Naik Fail", silgi: "Pemadam", kalem: "Pen", cizgi: "Garis", nokTaşı"Titik", d_cizgi: "Garis Lurus", Doğru: "Garis", Doğru_parcasi: "Segmen", isin: "Sinar", cetvel: "Pembaris", Gönye: "Sesiku", aciolcer: "Jangka Sudut", pergel: "Jangka Lukis", Çokgenler: "Poligon", Çember: "BulaTaşı, d_ucgen: "Segi Tiga", d_dortgen: "Segi Empat", Dikdörtgen: "Segi Empat Tepat", d_besgen: "PenTaşın", d_altigen: "Heksagon", d_yedigen: "HepTaşın", d_sekizgen: "OkTaşın", oyunlar: "Permainan", arac_rengi: "Warna", geri_al: "BaTaşı, hepsini_sil: "Padam", Taşı: "Gerak", Canlandır: "Animasi", kutu: "KoTaşı, serbest: "Bebas", yardim: "Bantuan", ins_t: "Pasang Aplikasi", ins_d: "Pasang untuk presTaşı lebih baik.", ins_b: "Pasang", ins_c: "Tutup", vid_cetvel: "Penggunaan Pembaris", vid_Gönye: "Penggunaan Sesiku", vid_aciolcer: "Penggunaan Jangka Sudut", vid_pergel: "Penggunaan Jangka Lukis", vid_Canlandır: "Animasi (Salin)", vid_cizgi: "Penggunaan Menu Garisan", vid_Çokgenler: "Poligon", vid_kalem: "Pen", vid_kiTaşı "Muat Buku dan Imej", vid_oyunlar: "Permainan", pdf_soru: "PDF ini mempunyai {0} halaman. Dari halaman mana anda ingin teruskan?", sihirli_el: "? Taşıan Ajaib", soru_cek: "?? Ambil Gambar", kvkk: "Aplikasi ini tidak mengumpul sebarang daTaşıeribadi and tidak memuat naik fail anda ke pelayan." },
 
-    id: { yukle: "Unggah Berkas", silgi: "Penghapus", kalem: "Pena", cizgi: "Garis", nokta: "Titik", d_cizgi: "Garis Lurus", dogru: "Garis", dogru_parcasi: "Segmen", isin: "Sinar", cetvel: "Penggaris", gonye: "Segitiga", aciolcer: "Busur", pergel: "Jangka", cokgenler: "Poligon", cember: "Lingkaran", d_ucgen: "Segitiga", d_dortgen: "Persegi", dikdortgen: "Persegi Panjang", d_besgen: "Pentagon", d_altigen: "Heksagon", d_yedigen: "Heptagon", d_sekizgen: "Octagon", oyunlar: "Permainan", arac_rengi: "Warna", geri_al: "Urung", hepsini_sil: "Hapus", tasi: "Pindah", canlandir: "Animasi", kutu: "Kotak", serbest: "Bebas", yardim: "Bantuan", ins_t: "Instal Aplikasi", ins_d: "Instal untuk performa daha baik.", ins_b: "Instal", ins_c: "Tutup", vid_cetvel: "Penggunaan Penggaris", vid_gonye: "Penggunaan Penggaris Segitiga", vid_aciolcer: "Penggunaan Busur Derajat", vid_pergel: "Penggunaan Jangka", vid_canlandir: "Animasi (Salin)", vid_cizgi: "Penggunaan Menu Garis", vid_cokgenler: "Poligon", vid_kalem: "Pena", vid_kitap: "Muat Buku dan Gambar", vid_oyunlar: "Permainan", pdf_soru: "PDF ini memiliki {0} halaman. Dari halaman mana Anda ingin melanjutkan?", sihirli_el: "? Tangan Ajaib", soru_cek: "?? Ambil Foto", kvkk: "Aplikasi ini tidak mengumpulkan data pribadi apa pun dan tidak mengunggah file Anda ke server." },
+    id: { Yükle: "Unggah Berkas", silgi: "Penghapus", kalem: "Pena", cizgi: "Garis", nokTaşı"Titik", d_cizgi: "Garis Lurus", Doğru: "Garis", Doğru_parcasi: "Segmen", isin: "Sinar", cetvel: "Penggaris", Gönye: "Segitiga", aciolcer: "Busur", pergel: "Jangka", Çokgenler: "Poligon", Çember: "Lingkaran", d_ucgen: "Segitiga", d_dortgen: "Persegi", Dikdörtgen: "Persegi Panjang", d_besgen: "PenTaşın", d_altigen: "Heksagon", d_yedigen: "HepTaşın", d_sekizgen: "OcTaşın", oyunlar: "Permainan", arac_rengi: "Warna", geri_al: "Urung", hepsini_sil: "Hapus", Taşı: "Pindah", Canlandır: "Animasi", kutu: "KoTaşı, serbest: "Bebas", yardim: "Bantuan", ins_t: "InsTaşıAplikasi", ins_d: "InsTaşıuntuk performa daha baik.", ins_b: "InsTaşı, ins_c: "Tutup", vid_cetvel: "Penggunaan Penggaris", vid_Gönye: "Penggunaan Penggaris Segitiga", vid_aciolcer: "Penggunaan Busur Derajat", vid_pergel: "Penggunaan Jangka", vid_Canlandır: "Animasi (Salin)", vid_cizgi: "Penggunaan Menu Garis", vid_Çokgenler: "Poligon", vid_kalem: "Pena", vid_kiTaşı "Muat Buku dan Gambar", vid_oyunlar: "Permainan", pdf_soru: "PDF ini memiliki {0} halaman. Dari halaman mana Anda ingin melanjutkan?", sihirli_el: "? Taşıan Ajaib", soru_cek: "?? Ambil Foto", kvkk: "Aplikasi ini tidak mengumpulkan daTaşıribadi apa pun dan tidak mengunggah file Anda ke server." },
 
-    zh: { yukle: "????", silgi: "??", kalem: "?", cizgi: "?", nokta: "?", d_cizgi: "??", dogru: "??", dogru_parcasi: "??", isin: "??", cetvel: "??", gonye: "???", aciolcer: "???", pergel: "??", cokgenler: "???", cember: "?", d_ucgen: "???", d_dortgen: "???", dikdortgen: "???", d_besgen: "???", d_altigen: "???", d_yedigen: "???", d_sekizgen: "???", oyunlar: "??", arac_rengi: "??", geri_al: "??", hepsini_sil: "??", tasi: "??", canlandir: "??", kutu: "??", serbest: "??", yardim: "??", ins_t: "????", ins_d: "????????????", ins_b: "??", ins_c: "??", vid_cetvel: "????", vid_gonye: "?????", vid_aciolcer: "?????", vid_pergel: "????", vid_canlandir: "??(??)", vid_cizgi: "??????", vid_cokgenler: "???", vid_kalem: "?", vid_kitap: "???????", vid_oyunlar: "??", pdf_soru: "? PDF ?? {0} ?????????????", sihirli_el: "? ???", soru_cek: "?? ??", kvkk: "??????????????,???????????????" },
+    zh: { Yükle: "????", silgi: "??", kalem: "?", cizgi: "?", nokTaşı"?", d_cizgi: "??", Doğru: "??", Doğru_parcasi: "??", isin: "??", cetvel: "??", Gönye: "???", aciolcer: "???", pergel: "??", Çokgenler: "???", Çember: "?", d_ucgen: "???", d_dortgen: "???", Dikdörtgen: "???", d_besgen: "???", d_altigen: "???", d_yedigen: "???", d_sekizgen: "???", oyunlar: "??", arac_rengi: "??", geri_al: "??", hepsini_sil: "??", Taşı: "??", Canlandır: "??", kutu: "??", serbest: "??", yardim: "??", ins_t: "????", ins_d: "????????????", ins_b: "??", ins_c: "??", vid_cetvel: "????", vid_Gönye: "?????", vid_aciolcer: "?????", vid_pergel: "????", vid_Canlandır: "??(??)", vid_cizgi: "??????", vid_Çokgenler: "???", vid_kalem: "?", vid_kiTaşı "???????", vid_oyunlar: "??", pdf_soru: "? PDF ?? {0} ?????????????", sihirli_el: "? ???", soru_cek: "?? ??", kvkk: "??????????????,???????????????" },
 
-    ru: { yukle: "????????? ????", silgi: "??????", kalem: "?????", cizgi: "?????", nokta: "?????", d_cizgi: "?????? ?????", dogru: "??????", dogru_parcasi: "???????", isin: "???", cetvel: "???????", gonye: "????????", aciolcer: "???????????", pergel: "???????", cokgenler: "??????????????", cember: "????", d_ucgen: "?????????? ???????????", d_dortgen: "???????", dikdortgen: "?????????????", d_besgen: "????????????", d_altigen: "?????????????", d_yedigen: "????????????", d_sekizgen: "??????????????", oyunlar: "????", arac_rengi: "???? ???????????", geri_al: "????????", hepsini_sil: "???????? ???", tasi: "???????????", canlandir: "???????? ??", kutu: "???????", serbest: "????????", yardim: "???????", ins_t: "??????????", ins_d: "?????????? ??? ?????? ??????.", ins_b: "??????????", ins_c: "???????", vid_cetvel: "??? ???????????? ???????", vid_gonye: "??? ???????????? ????????", vid_aciolcer: "??? ???????????? ???????????", vid_pergel: "??? ???????????? ???????", vid_canlandir: "???????? (?????)", vid_cizgi: "???? ?????", vid_cokgenler: "??????????????", vid_kalem: "?????", vid_kitap: "???????? ????", vid_oyunlar: "????", pdf_soru: "? ???? PDF {0} ???????. ? ????? ???????? ?? ?????? ???????????", sihirli_el: "? ????????? ????", soru_cek: "?? ??????? ????", kvkk: "??? ?????????? ?? ???????? ??????? ???????????? ?????? ? ?? ????????? ???? ????? ?? ???????." },
+    ru: { Yükle: "????????? ????", silgi: "??????", kalem: "?????", cizgi: "?????", nokTaşı"?????", d_cizgi: "?????? ?????", Doğru: "??????", Doğru_parcasi: "???????", isin: "???", cetvel: "???????", Gönye: "????????", aciolcer: "???????????", pergel: "???????", Çokgenler: "??????????????", Çember: "????", d_ucgen: "?????????? ???????????", d_dortgen: "???????", Dikdörtgen: "?????????????", d_besgen: "????????????", d_altigen: "?????????????", d_yedigen: "????????????", d_sekizgen: "??????????????", oyunlar: "????", arac_rengi: "???? ???????????", geri_al: "????????", hepsini_sil: "???????? ???", Taşı: "???????????", Canlandır: "???????? ??", kutu: "???????", serbest: "????????", yardim: "???????", ins_t: "??????????", ins_d: "?????????? ??? ?????? ??????.", ins_b: "??????????", ins_c: "???????", vid_cetvel: "??? ???????????? ???????", vid_Gönye: "??? ???????????? ????????", vid_aciolcer: "??? ???????????? ???????????", vid_pergel: "??? ???????????? ???????", vid_Canlandır: "???????? (?????)", vid_cizgi: "???? ?????", vid_Çokgenler: "??????????????", vid_kalem: "?????", vid_kiTaşı "???????? ????", vid_oyunlar: "????", pdf_soru: "? ???? PDF {0} ???????. ? ????? ???????? ?? ?????? ???????????", sihirli_el: "? ????????? ????", soru_cek: "?? ??????? ????", kvkk: "??? ?????????? ?? ???????? ??????? ???????????? ?????? ? ?? ????????? ???? ????? ?? ???????." },
 
-    es: { yukle: "Subir Archivo", silgi: "Borrador", kalem: "L�piz", cizgi: "L�nea", nokta: "Punto", d_cizgi: "L�nea Recta", dogru: "Recta", dogru_parcasi: "Segmento", isin: "Rayo", cetvel: "Regla", gonye: "Escuadra", aciolcer: "Transportador", pergel: "Comp�s", cokgenler: "Pol�gonos", cember: "C�rculo", d_ucgen: "Tri�ngulo", d_dortgen: "Cuadrado", dikdortgen: "Rect�ngulo", d_besgen: "Pent�gono", d_altigen: "Hex�gono", d_yedigen: "Hept�gono", d_sekizgen: "Oct�gono", oyunlar: "Juegos", arac_rengi: "Color", geri_al: "Deshacer", hepsini_sil: "Borrar Todo", tasi: "Mover", canlandir: "Animar ??", kutu: "Caja", serbest: "Libre", yardim: "Ayuda", ins_t: "Instalar App", ins_d: "Instalar para mejor rendimiento.", ins_b: "Instalar", ins_c: "Cerrar", vid_cetvel: "Uso de Regla", vid_gonye: "Uso de Escuadra", vid_aciolcer: "Uso de Transportador", vid_pergel: "Uso de Comp�s", vid_canlandir: "Animaci�n (Copiar)", vid_cizgi: "Men� de L�neas", vid_cokgenler: "Pol�gonos", vid_kalem: "L�piz", vid_kitap: "Cargar Libro", vid_oyunlar: "Juegos", pdf_soru: "Este PDF tiene {0} p�ginas. �Desde qu� p�gina te gustar�a continuar?", sihirli_el: "? Mano M�gica", soru_cek: "?? Tomar Foto", kvkk: "Esta aplicaci�n no recopila ning�n dato personal y no sube sus archivos a los servidores." },
+    es: { Yükle: "Subir Archivo", silgi: "Borrador", kalem: "Lápiz", cizgi: "Línea", nokTaşı"Punto", d_cizgi: "Línea RecTaşı Doğru: "RecTaşı Doğru_parcasi: "Segmento", isin: "Rayo", cetvel: "Regla", Gönye: "Escuadra", aciolcer: "TransporTaşır", pergel: "Compás", Çokgenler: "Polígonos", Çember: "Círculo", d_ucgen: "Triángulo", d_dortgen: "Cuadrado", Dikdörtgen: "Rectángulo", d_besgen: "Pentágono", d_altigen: "Hexágono", d_yedigen: "Heptágono", d_sekizgen: "Octágono", oyunlar: "Juegos", arac_rengi: "Color", geri_al: "Deshacer", hepsini_sil: "Borrar Todo", Taşı: "Mover", Canlandır: "Animar ??", kutu: "Caja", serbest: "Libre", yardim: "Ayuda", ins_t: "InsTaşır App", ins_d: "InsTaşır para mejor rendimiento.", ins_b: "InsTaşır", ins_c: "Cerrar", vid_cetvel: "Uso de Regla", vid_Gönye: "Uso de Escuadra", vid_aciolcer: "Uso de TransporTaşır", vid_pergel: "Uso de Compás", vid_Canlandır: "Animación (Copiar)", vid_cizgi: "Menú de Líneas", vid_Çokgenler: "Polígonos", vid_kalem: "Lápiz", vid_kiTaşı "Cargar Libro", vid_oyunlar: "Juegos", pdf_soru: "Este PDF tiene {0} páginas. ¿Desde qué página te gusTaşıa continuar?", sihirli_el: "? Mano Mágica", soru_cek: "?? Tomar Foto", kvkk: "EsTaşıplicación no recopila ningún dato personal y no sube sus archivos a los servidores." },
 
-    fr: { yukle: "T�l�charger", silgi: "Gomme", kalem: "Stylo", cizgi: "Ligne", nokta: "Point", d_cizgi: "Ligne Droite", dogru: "Droite", dogru_parcasi: "Segment", isin: "Demi-droite", cetvel: "R�gle", gonye: "�querre", aciolcer: "Rapporteur", pergel: "Compas", cokgenler: "Polygones", cember: "Cercle", d_ucgen: "Triangle", d_dortgen: "Carr�", dikdortgen: "Rectangle", d_besgen: "Pentagone", d_altigen: "Hexagone", d_yedigen: "Heptagone", d_sekizgen: "Octogone", oyunlar: "Jeux", arac_rengi: "Couleur", geri_al: "Annuler", hepsini_sil: "Effacer Tout", tasi: "D�placer", canlandir: "Animer ??", kutu: "Bo�te", serbest: "Libre", yardim: "Aide", ins_t: "Installer App", ins_d: "Installez pour de meilleures performances.", ins_b: "Installer", ins_c: "Fermer", vid_cetvel: "Utilisation de la R�gle", vid_gonye: "Utilisation de l'�querre", vid_aciolcer: "Utilisation du Rapporteur", vid_pergel: "Utilisation du Compas", vid_canlandir: "Animation (Copie)", vid_cizgi: "Menu des Lignes", vid_cokgenler: "Polygones", vid_kalem: "Stylo", vid_kitap: "Charger Livre", vid_oyunlar: "Jeux", pdf_soru: "Ce PDF contient {0} pages. � partir de quelle page voulez-vous continuer ?", sihirli_el: "? Main Magique", soru_cek: "?? Prendre une Photo", kvkk: "Cette application ne collecte aucune donn�e personnelle et ne t�l�charge pas vos fichiers sur des serveurs." },
+    fr: { Yükle: "Télécharger", silgi: "Gomme", kalem: "Stylo", cizgi: "Ligne", nokTaşı"Point", d_cizgi: "Ligne Droite", Doğru: "Droite", Doğru_parcasi: "Segment", isin: "Demi-droite", cetvel: "Règle", Gönye: "Équerre", aciolcer: "Rapporteur", pergel: "Compas", Çokgenler: "Polygones", Çember: "Cercle", d_ucgen: "Triangle", d_dortgen: "Carré", Dikdörtgen: "RecTaşıle", d_besgen: "PenTaşıne", d_altigen: "Hexagone", d_yedigen: "HepTaşıne", d_sekizgen: "Octogone", oyunlar: "Jeux", arac_rengi: "Couleur", geri_al: "Annuler", hepsini_sil: "Effacer Tout", Taşı: "Déplacer", Canlandır: "Animer ??", kutu: "Boîte", serbest: "Libre", yardim: "Aide", ins_t: "InsTaşıer App", ins_d: "InsTaşıez pour de meilleures performances.", ins_b: "InsTaşıer", ins_c: "Fermer", vid_cetvel: "Utilisation de la Règle", vid_Gönye: "Utilisation de l'Équerre", vid_aciolcer: "Utilisation du Rapporteur", vid_pergel: "Utilisation du Compas", vid_Canlandır: "Animation (Copie)", vid_cizgi: "Menu des Lignes", vid_Çokgenler: "Polygones", vid_kalem: "Stylo", vid_kiTaşı "Charger Livre", vid_oyunlar: "Jeux", pdf_soru: "Ce PDF contient {0} pages. À partir de quelle page voulez-vous continuer ?", sihirli_el: "? Main Magique", soru_cek: "?? Prendre une Photo", kvkk: "Cette application ne collecte aucune donnée personnelle et ne télécharge pas vos fichiers sur des serveurs." },
 
-    pt: { yukle: "Carregar Ficheiro", silgi: "Borracha", kalem: "Caneta", cizgi: "Linha", nokta: "Ponto", d_cizgi: "Linha Reta", dogru: "Reta", dogru_parcasi: "Segmento", isin: "Semirreta", cetvel: "R�gua", gonye: "Esquadro", aciolcer: "Transferidor", pergel: "Compasso", cokgenler: "Pol�gonos", cember: "C�rculo", d_ucgen: "Tri�ngulo", d_dortgen: "Quadrado", dikdortgen: "Ret�ngulo", d_besgen: "Pent�gono", d_altigen: "Hex�gono", d_yedigen: "Hept�gono", d_sekizgen: "Oct�gono", oyunlar: "Jogos", arac_rengi: "Cor", geri_al: "Desfazer", hepsini_sil: "Apagar Tudo", tasi: "Mover", canlandir: "Animar ??", kutu: "Caixa", serbest: "Livre", yardim: "Ajuda", ins_t: "Instalar App", ins_d: "Instale para melhor desempenho.", ins_b: "Instalar", ins_c: "Fechar", vid_cetvel: "Uso da R�gua", vid_gonye: "Uso do Esquadro", vid_aciolcer: "Uso do Transferidor", vid_pergel: "Uso do Compasso", vid_canlandir: "Anima��o (C�pia)", vid_cizgi: "Menu de Linhas", vid_cokgenler: "Pol�gonos", vid_kalem: "Caneta", vid_kitap: "Carregar Livro", vid_oyunlar: "Jogos", pdf_soru: "Este PDF tem {0} p�ginas. A partir de qual p�gina gostaria de continuar?", sihirli_el: "? M�o M�gica", soru_cek: "?? Tirar Foto", kvkk: "Este aplicativo n�o coleta nenhum dado pessoal e n�o faz upload de seus arquivos para servidores." },
+    pt: { Yükle: "Carregar Ficheiro", silgi: "Borracha", kalem: "CaneTaşı cizgi: "Linha", nokTaşı"Ponto", d_cizgi: "Linha ReTaşı Doğru: "ReTaşı Doğru_parcasi: "Segmento", isin: "SemirreTaşı cetvel: "Régua", Gönye: "Esquadro", aciolcer: "Transferidor", pergel: "Compasso", Çokgenler: "Polígonos", Çember: "Círculo", d_ucgen: "Triângulo", d_dortgen: "Quadrado", Dikdörtgen: "Retângulo", d_besgen: "Pentágono", d_altigen: "Hexágono", d_yedigen: "Heptágono", d_sekizgen: "Octógono", oyunlar: "Jogos", arac_rengi: "Cor", geri_al: "Desfazer", hepsini_sil: "Apagar Tudo", Taşı: "Mover", Canlandır: "Animar ??", kutu: "Caixa", serbest: "Livre", yardim: "Ajuda", ins_t: "InsTaşır App", ins_d: "InsTaşı para melhor desempenho.", ins_b: "InsTaşır", ins_c: "Fechar", vid_cetvel: "Uso da Régua", vid_Gönye: "Uso do Esquadro", vid_aciolcer: "Uso do Transferidor", vid_pergel: "Uso do Compasso", vid_Canlandır: "Animação (Cópia)", vid_cizgi: "Menu de Linhas", vid_Çokgenler: "Polígonos", vid_kalem: "CaneTaşı vid_kiTaşı "Carregar Livro", vid_oyunlar: "Jogos", pdf_soru: "Este PDF tem {0} páginas. A partir de qual página gosTaşıa de continuar?", sihirli_el: "? Mão Mágica", soru_cek: "?? Tirar Foto", kvkk: "Este aplicativo não coleTaşıenhum dado pessoal e não faz upload de seus arquivos para servidores." },
 
-    ja: { yukle: "????�?", silgi: "????", kalem: "??", cizgi: "?", nokta: "?", d_cizgi: "??", dogru: "??", dogru_parcasi: "??", isin: "???", cetvel: "??", gonye: "????", aciolcer: "???", pergel: "????", cokgenler: "???", cember: "?", d_ucgen: "????", d_dortgen: "???", dikdortgen: "???", d_besgen: "???", d_altigen: "???", d_yedigen: "???", d_sekizgen: "???", oyunlar: "?�?", arac_rengi: "?�???", geri_al: "????", hepsini_sil: "?????", tasi: "??", canlandir: "??? ??", kutu: "????", serbest: "??", yardim: "???", ins_t: "????????�?", ins_d: "???�????????????�?", ins_b: "????�?", ins_c: "???", vid_cetvel: "??????", vid_gonye: "????????", vid_aciolcer: "???????", vid_pergel: "????????", vid_canlandir: "???�??? (??�)", vid_cizgi: "????�????", vid_cokgenler: "???", vid_kalem: "??", vid_kitap: "?????????", vid_oyunlar: "?�?", pdf_soru: "??PDF?{0}?�?????????�??????????", sihirli_el: "? ???????", soru_cek: "?? ?????", kvkk: "??????�???????�?????????????�?�?????�??????" }
+    ja: { Yükle: "????—?", silgi: "????", kalem: "??", cizgi: "?", nokTaşı"?", d_cizgi: "??", Doğru: "??", Doğru_parcasi: "??", isin: "???", cetvel: "??", Gönye: "????", aciolcer: "???", pergel: "????", Çokgenler: "???", Çember: "?", d_ucgen: "????", d_dortgen: "???", Dikdörtgen: "???", d_besgen: "???", d_altigen: "???", d_yedigen: "???", d_sekizgen: "???", oyunlar: "?—?", arac_rengi: "?—???", geri_al: "????", hepsini_sil: "?????", Taşı: "??", Canlandır: "??? ??", kutu: "????", serbest: "??", yardim: "???", ins_t: "????????—?", ins_d: "???—????????????—?", ins_b: "????—?", ins_c: "???", vid_cetvel: "??????", vid_Gönye: "????????", vid_aciolcer: "???????", vid_pergel: "????????", vid_Canlandır: "???—??? (??—)", vid_cizgi: "????—????", vid_Çokgenler: "???", vid_kalem: "??", vid_kiTaşı "?????????", vid_oyunlar: "?—?", pdf_soru: "??PDF?{0}?—?????????—??????????", sihirli_el: "? ???????", soru_cek: "?? ?????", kvkk: "??????—???????—?????????????—?—?????—??????" }
 };
 
 window.aktifBaglantilar = {};
@@ -77,9 +76,9 @@ window.drawnStrokes = drawnStrokes;
 let boxCopies = [];
 window.boxCopies = boxCopies;
 let isDrawing = false;
-let isDrawingRectangle = false;
+let isDrawingRecTaşıle = false;
 let isDrawingPolygon = false;
-let rectStartPoint = null;
+let rectSTaşıPoint = null;
 let globalScale = 1;
 let lastDist = 0;
 let pointers = new Map();
@@ -89,45 +88,45 @@ const MIN_SCALE = 0.5;
 const MAX_SCALE = 5.0;
 let initialWidth = 0;
 let initialHeight = 0;
-let isPenActive = false; // Avu� i�i reddi i�in
+let isPenActive = false; // Avuç içi reddi için
 let penActiveTimer = null;
 
-// --- �OK D�LL� OYUNLAR L�STES� (T�M D�LLER G�NCELLEND�) ---
+// --- ÇOK DİLLİ OYUNLAR LİSTESİ (TÜM DİLLER GÜNCELLENDİ) ---
 window.OyunListesi = [
     {
-        tr: "�EMBERLERDEN ��GEN �N�ASI",
+        tr: "ÇemberLERDEN ÜÇGEN İNŞASI",
         en: "TRIANGLE CONSTRUCTION FROM CIRCLES",
-        de: "DREIECKSKONSTRUKTION AUS KREISEN",
+        de: "DREIECKSKONSTRUKTION AUS KREIşın",
         ar: "???? ?????? ?? ???????",
         hi: "??????? ?? ??????? ???????",
-        ms: "PEMBINAAN SEGI TIGA DARIPADA BULATAN",
+        ms: "PEMBINAAN SEGI TIGA DARIPADA BULATaşı,
         id: "KONSTRUKSI SEGITIGA DARI LINGKARAN",
         zh: "???????",
         ru: "?????????? ???????????? ?? ???????????",
-        es: "CONSTRUCCI�N DE TRI�NGULOS DESDE C�RCULOS",
-        fr: "CONSTRUCTION DE TRIANGLES � PARTIR DE CERCLES",
-        pt: "CONSTRU��O DE TRI�NGULOS A PARTIR DE C�RCULOS",
+        es: "CONSTRUCCIÓN DE TRIÁNGULOS DESDE CÍRCULOS",
+        fr: "CONSTRUCTION DE TRIANGLES À PARTIR DE CERCLES",
+        pt: "CONSTRUÇÃO DE TRIÂNGULOS A PARTIR DE CÍRCULOS",
         ja: "??????????",
-        link: "https://bekrmatmt25.my.canva.site/cemberden-ucgen-elde-etme"
+        link: "https://bekrmatmt25.my.canva.site/Çemberden-ucgen-elde-etme"
     },
     {
-        tr: "A�I �L�ER YERLE�T�RME OYUNU",
+        tr: "Açı Ölçer YERLEŞTİRME OYUNU",
         en: "PROTRACTOR PLACEMENT GAME",
         de: "WINKELMESSER-PLATZIERUNGSSPIEL",
         ar: "???? ??? ???????",
         hi: "????? ????????? ???",
-        ms: "PERMAINAN PENEMPATAN JANGKA SUDUT",
-        id: "PERMAINAN PENEMPATAN BUSUR DERAJAT",
+        ms: "PERMAIşın PENEMPATaşıJANGKA SUDUT",
+        id: "PERMAIşın PENEMPATaşıBUSUR DERAJAT",
         zh: "???????",
         ru: "???? ?? ?????????? ????????????",
-        es: "JUEGO DE COLOCACI�N DEL TRANSPORTADOR",
+        es: "JUEGO DE COLOCACIÓN DEL TRANSPORTaşıR",
         fr: "JEU DE PLACEMENT DU RAPPORTEUR",
-        pt: "JOGO DE COLOCA��O DO TRANSFERIDOR",
-        ja: "??????�?",
+        pt: "JOGO DE COLOCAÇÃO DO TRANSFERIDOR",
+        ja: "??????—?",
         link: "https://bekrmatmt2507.my.canva.site/a-l-er-yar-mas"
     },
     {
-        tr: "DO�RUYA DI�INDAK� NOKTADAN D�KME",
+        tr: "DoğruYA DIşınDAKİ NOKTaşıN DİKME",
         en: "PERPENDICULAR FROM EXTERNAL POINT",
         de: "LORECHT VON EINEM EXTERNEN PUNKT",
         ar: "????? ???? ?? ???? ???? ????",
@@ -137,61 +136,61 @@ window.OyunListesi = [
         zh: "???????",
         ru: "????????????? ?? ??????? ?????",
         es: "PERPENDICULAR DESDE UN PUNTO EXTERNO",
-        fr: "PERPENDICULAIRE � PARTIR D'UN POINT EXTERNE",
+        fr: "PERPENDICULAIRE À PARTIR D'UN POINT EXTERNE",
         pt: "PERPENDICULAR A PARTIR DE UM PONTO EXTERNO",
         ja: "?????????",
-        link: "https://bekrmatmt25.my.canva.site/dogruya-disindeki-noktadan-dikme-cizmek"
+        link: "https://bekrmatmt25.my.canva.site/Doğruya-disindeki-nokTaşın-dikme-cizmek"
     },
     {
-        tr: "AYNI D�ZLEMDE �K� DO�RUNUN YOLCULU�U",
+        tr: "AYNI DÜZLEMDE İKİ DoğruNUN YOLCULUĞU",
         en: "JOURNEY OF TWO LINES IN THE SAME PLANE",
         de: "REISE ZWEIER LINIEN IN DERSELBEN EBENE",
         ar: "???? ???? ?? ??? ???????",
         hi: "?? ?? ?? ??? ?? ?????? ?? ??????",
-        ms: "PERJALANAN DUA GARIS DALAM SATAH YANG SAMA",
-        id: "PERJALANAN DUA GARIS DALAM BIDANG YANG SAMA",
+        ms: "PERJALANAN DUA GARIS DALAM SATaşıYANG SAMA",
+        id: "PERJALANAN DUA GARIS DALAM BIşınG YANG SAMA",
         zh: "???????????",
         ru: "??????????? ???? ????? ? ????? ?????????",
-        es: "EL VIAJE DE DOS L�NEAS EN EL MISMO PLANO",
-        fr: "LE VOYAGE DE DEUX LIGNES DANS LE M�ME PLAN",
+        es: "EL VIAJE DE DOS LÍNEAS EN EL MISMO PLANO",
+        fr: "LE VOYAGE DE DEUX LIGNES DANS LE MÊME PLAN",
         pt: "A JORNADA DE DUAS LINHAS NO MESMO PLANO",
         ja: "??????2?????",
-        link: "https://bdemir1499.github.io/ayni-duzlemde-iki-dogru/"
+        link: "https://bdemir1499.github.io/ayni-duzlemde-iki-Doğru/"
     },
     {
-        tr: "AYNI D�ZLEMDE 3 DO�RUNUN DURUMLARI",
+        tr: "AYNI DÜZLEMDE 3 DoğruNUN DURUMLARI",
         en: "POSITIONS OF 3 LINES IN THE SAME PLANE",
         de: "LAGE VON 3 LINIEN IN DERSELBEN EBENE",
         ar: "????? 3 ???? ?? ??? ???????",
         hi: "?? ?? ?? ??? 3 ?????? ?? ?????????",
-        ms: "KEDUDUKAN 3 GARIS DALAM SATAH YANG SAMA",
-        id: "POSISI 3 GARIS DALAM BIDANG YANG SAMA",
+        ms: "KEDUDUKAN 3 GARIS DALAM SATaşıYANG SAMA",
+        id: "POSISI 3 GARIS DALAM BIşınG YANG SAMA",
         zh: "?????3?????",
         ru: "????????? 3 ????? ? ????? ?????????",
-        es: "POSICIONES DE 3 L�NEAS EN EL MISMO PLANO",
-        fr: "POSITIONS DE 3 LIGNES DANS LE M�ME PLAN",
-        pt: "POSI��ES DE 3 LINHAS NO MESMO PLANO",
+        es: "POSICIONES DE 3 LÍNEAS EN EL MISMO PLANO",
+        fr: "POSITIONS DE 3 LIGNES DANS LE MÊME PLAN",
+        pt: "POSIÇÕES DE 3 LINHAS NO MESMO PLANO",
         ja: "??????3??????",
-        link: "https://bekrmatmt2507.my.canva.site/ayniduzlemdeucdogrunundurumlari"
+        link: "https://bekrmatmt2507.my.canva.site/ayniduzlemdeucDoğrunundurumlari"
     },
     {
-        tr: "A�I �E��TLER� (T�MLER/B�T�NLER/KOM�U)",
-        en: "ANGLE TYPES (COMPLEMENTARY/SUPPLEMENTARY/ADJACENT)",
-        de: "WINKELARTEN (KOMPLEMENT�R/SUPPLEMENT�R/NEBENWINKEL)",
+        tr: "AÇI ÇEŞİTLERİ (TÜMLER/BÜTÜNLER/KOMŞU)",
+        en: "ANGLE TYPES (COMPLEMENTaşı/SUPPLEMENTaşı/ADJACENT)",
+        de: "WINKELARTEN (KOMPLEMENTÄR/SUPPLEMENTÄR/NEBENWINKEL)",
         ar: "????? ??????? (??????/???????/???????)",
         hi: "????? ?? ?????? (????/??????/?????)",
         ms: "JENIS SUDUT (PELENGKAP/PENGGENAP/BERSEBELAH)",
         id: "JENIS SUDUT (BERPELURUS/BERPENYIKU/BERDAMPINGAN)",
         zh: "????(??/??/??)",
         ru: "???? ????? (??????????????/???????)",
-        es: "TIPOS DE �NGULOS (COMPLEMENTARIOS/SUPLEMENTARIOS/ADYACENTES)",
-        fr: "TYPES D'ANGLES (COMPL�MENTAIRES/SUPPL�MENTAIRES/ADJACENTS)",
-        pt: "TIPOS DE �NGULOS (COMPLEMENTARES/SUPLEMENTARES/ADJACENTES)",
+        es: "TIPOS DE ÁNGULOS (COMPLEMENTaşıOS/SUPLEMENTaşıOS/ADYACENTES)",
+        fr: "TYPES D'ANGLES (COMPLÉMENTaşıES/SUPPLÉMENTaşıES/ADJACENTS)",
+        pt: "TIPOS DE ÂNGULOS (COMPLEMENTaşıS/SUPLEMENTaşıS/ADJACENTES)",
         ja: "?????(??/??/???)",
         link: "https://bdemir1499.github.io/tumler-butunler-komsutumler-komsubutunler/"
     },
     {
-        tr: "A�ILARINA G�RE ��GENLER",
+        tr: "AÇILARINA GÖRE ÜÇGENLER",
         en: "TRIANGLES ACCORDING TO THEIR ANGLES",
         de: "DREIECKE NACH IHREN WINKELN",
         ar: "???????? ??? ???????",
@@ -200,14 +199,14 @@ window.OyunListesi = [
         id: "SEGITIGA BERDASARKAN SUDUTNYA",
         zh: "????????",
         ru: "???????????? ?? ????? ?????",
-        es: "TRI�NGULOS SEG�N SUS �NGULOS",
+        es: "TRIÁNGULOS SEGÚN SUS ÁNGULOS",
         fr: "TRIANGLES SELON LEURS ANGLES",
-        pt: "TRI�NGULOS DE ACORDO COM SEUS �NGULOS",
+        pt: "TRIÂNGULOS DE ACORDO COM SEUS ÂNGULOS",
         ja: "??????????",
         link: "https://bekrmatmt25.my.canva.site/acilarina-gire-ucgenler"
     },
     {
-        tr: "A�I �E��TLER� (DAR, D�K, GEN�� vb.)",
+        tr: "AÇI ÇEŞİTLERİ (DAR, DİK, GENİŞ vb.)",
         en: "ANGLE TYPES (ACUTE, RIGHT, OBTUSE etc.)",
         de: "WINKELARTEN (SPITZ, RECHT, STUMPF usw.)",
         ar: "????? ??????? (????? ?????? ?????? ???)",
@@ -216,14 +215,14 @@ window.OyunListesi = [
         id: "JENIS SUDUT (LANCIP, SIKU, TUMPUL dll.)",
         zh: "????(?????????)",
         ru: "???? ????? (??????, ??????, ????? ? ?.?.)",
-        es: "TIPOS DE �NGULOS (AGUDO, RECTO, OBTUSO, etc.)",
+        es: "TIPOS DE ÁNGULOS (AGUDO, RECTO, OBTUSO, etc.)",
         fr: "TYPES D'ANGLES (AIGU, DROIT, OBTUS, etc.)",
-        pt: "TIPOS DE �NGULOS (AGUDO, RETO, OBTUSO, etc.)",
+        pt: "TIPOS DE ÂNGULOS (AGUDO, RETO, OBTUSO, etc.)",
         ja: "?????(??????????)",
         link: "https://bekrmatmt2507.my.canva.site/aci-cesitleri"
     },
     {
-        tr: "TEMEL GEOMETR�K �EK�LLER",
+        tr: "TEMEL GEOMETRİK ŞEKİLLER",
         en: "BASIC GEOMETRIC SHAPES",
         de: "GEOMETRISCHE GRUNDFORMEN",
         ar: "??????? ???????? ????????",
@@ -232,126 +231,126 @@ window.OyunListesi = [
         id: "BENTUK GEOMETRIS DASAR",
         zh: "??????",
         ru: "???????? ?????????????? ??????",
-        es: "FORMAS GEOM�TRICAS B�SICAS",
-        fr: "FORMES G�OM�TRIQUES DE BASE",
-        pt: "FORMAS GEOM�TRICAS B�SICAS",
+        es: "FORMAS GEOMÉTRICAS BÁSICAS",
+        fr: "FORMES GÉOMÉTRIQUES DE BASE",
+        pt: "FORMAS GEOMÉTRICAS BÁSICAS",
         ja: "?????????",
         link: "https://bekrmatmt25.my.canva.site/temel-geometrik-sekiller"
     },
     {
-        tr: "�OKGENLER�N ELEMANLARI",
-        en: "ELEMENTS OF POLYGONS",
+        tr: "ÇokgenlerİN ELEMANLARI",
+        en: "ELEMenüsüOF POLYGONS",
         de: "ELEMENTE VON POLYGONEN",
         ar: "????? ????????",
         hi: "?????? ?? ????",
-        ms: "ELEMEN POLIGON",
-        id: "UNSUR-UNSUR POLIGON",
+        ms: "ELEMEN POLIşın",
+        id: "UNSUR-UNSUR POLIşın",
         zh: "??????",
         ru: "???????? ???????????????",
-        es: "ELEMENTOS DE LOS POL�GONOS",
-        fr: "�L�MENTS DES POLYGONES",
-        pt: "ELEMENTOS DOS POL�GONOS",
+        es: "ELEMENTOS DE LOS POLÍGONOS",
+        fr: "ÉLÉMenüsüDES POLYGONES",
+        pt: "ELEMENTOS DOS POLÍGONOS",
         ja: "??????",
-        link: "https://bekrmatmt2507.my.canva.site/cokgenlerin-elemanlari"
+        link: "https://bekrmatmt2507.my.canva.site/Çokgenlerin-elemanlari"
     },
     {
-        tr: "�K� PARALEL VE KESENLE OLU�AN A�ILAR (1)",
+        tr: "İKİ PARALEL VE KESENLE OLUŞAN AÇILAR (1)",
         en: "ANGLES FORMED BY TWO PARALLELS AND A TRANSVERSAL (1)",
-        de: "WINKEL AN PARALLELEN UND SCHNEIDENDEN LINIEN (1)",
+        de: "WINKEL AN PARALLELEN UND SCHNEIşınDEN LINIEN (1)",
         ar: "??????? ??????? ?? ???????? ????? (1)",
         hi: "?? ?????? ?????? ?? bir ?????? ???? ?????? ??? ??? (1)",
-        ms: "SUDUT YANG DIBENTUK OLEH DUA GARIS SELARI DAN KERENTAS (1)",
-        id: "SUDUT YANG DIBENTUK OLEH DUA GARIS SEJAJAR DAN TRANSVERSAL (1)",
+        ms: "SUDUT YANG DIşınTUK OLEH DUA GARIS SELARI DAN KERENTaşı(1)",
+        id: "SUDUT YANG DIşınTUK OLEH DUA GARIS SEJAJAR DAN TRANSVERSAL (1)",
         zh: "?????????????? (1)",
         ru: "???? ??? ???????????? ? ??????? (1)",
-        es: "�NGULOS ENTRE DOS PARALELAS Y UNA TRANSVERSAL (1)",
-        fr: "ANGLES FORM�S PAR DEUX PARALL�LES ET UNE TRANSVERSALE (1)",
-        pt: "�NGULOS FORMADOS POR DUAS PARALELAS E UMA TRANSVERSAL (1)",
+        es: "ÁNGULOS ENTRE DOS PARALELAS Y UNA TRANSVERSAL (1)",
+        fr: "ANGLES FORMÉS PAR DEUX PARALLÈLES ET UNE TRANSVERSALE (1)",
+        pt: "ÂNGULOS FORMADOS POR DUAS PARALELAS E UMA TRANSVERSAL (1)",
         ja: "2??????1??????????????? (1)",
-        link: "https://bekrmatmt25.my.canva.site/k-paralel-dogrunun-b-r-kesenle-yapt-g-ac-lar"
+        link: "https://bekrmatmt25.my.canva.site/k-paralel-Doğrunun-b-r-kesenle-yapt-g-ac-lar"
     },
     {
-        tr: "�� DO�RUNUN �K��ER KES��MES�",
+        tr: "ÜÇ DoğruNUN İKİŞER KESİŞMESİ",
         en: "INTERSECTION OF THREE LINES IN PAIRS",
         de: "PAARWEISE SCHNITTPUNKTE VON DREI LINIEN",
         ar: "????? ???? ???? ???? ????",
         hi: "??? ?????? ?? ??????? ??? ???????????",
-        ms: "PERSILANGAN TIGA GARIS SECARA BERPASANGAN",
+        ms: "PERSIşınGAN TIGA GARIS SECARA BERPASANGAN",
         id: "PERPOTONGAN TIGA GARIS BERPASANGAN",
         zh: "???????",
         ru: "???????? ??????????? ???? ??????",
-        es: "INTERSECCI�N DE TRES L�NEAS EN PARES",
+        es: "INTERSECCIÓN DE TRES LÍNEAS EN PARES",
         fr: "INTERSECTION DE TROIS LIGNES PAR PAIRES",
-        pt: "INTERSE��O DE TR�S LINHAS EM PARES",
+        pt: "INTERSEÇÃO DE TRÊS LINHAS EM PARES",
         ja: "3???????????",
-        link: "https://bekrmatmt2507.my.canva.site/ikiser-kesisen-dogru"
+        link: "https://bekrmatmt2507.my.canva.site/ikiser-kesisen-Doğru"
     },
     {
-        tr: "D�KD�RTGEN�N �EVRE VE ALANI",
-        en: "PERIMETER AND AREA OF RECTANGLE",
-        de: "UMFANG UND FL�CHE DES RECHTECKS",
+        tr: "DikdörtgenİN ÇEVRE VE ALANI",
+        en: "PERIMETER AND AREA OF RECTaşıLE",
+        de: "UMFANG UND FLÄCHE DES RECHTECKS",
         ar: "???? ?????? ????????",
         hi: "??? ?? ?????? ?? ?????????",
         ms: "PERIMETER DAN LUAS SEGI EMPAT TEPAT",
-        id: "KELILING DAN LUAS PERSEGI PANJANG",
+        id: "KELIşınG DAN LUAS PERSEGI PANJANG",
         zh: "?????????",
         ru: "???????? ? ??????? ??????????????",
-        es: "PER�METRO Y �REA DEL RECT�NGULO",
-        fr: "P�RIM�TRE ET AIRE DU RECTANGLE",
-        pt: "PER�METRO E �REA DO RET�NGULO",
+        es: "PERÍMETRO Y ÁREA DEL RECTÁNGULO",
+        fr: "PÉRIMÈTRE ET AIRE DU RECTaşıLE",
+        pt: "PERÍMETRO E ÁREA DO RETÂNGULO",
         ja: "?????????",
-        link: "https://bdemir1499.github.io/dikdortgen-cevre-ve-alan/"
+        link: "https://bdemir1499.github.io/Dikdörtgen-cevre-ve-alan/"
     },
     {
-        tr: "D�RTGENLER�N �ZELL�KLER� (T�MEVARIM)",
+        tr: "DÖRTGENLERİN ÖZELLİKLERİ (TÜMEVARIM)",
         en: "PROPERTIES OF QUADRILATERALS (INDUCTION)",
-        de: "EIGENSCHAFTEN VON VIERECKEN (INDUKTION)",
+        de: "EIşınSCHAFTEN VON VIERECKEN (INDUKTION)",
         ar: "????? ??????? ???????? (?????????)",
         hi: "???????? ?? ??? (????)",
         ms: "SIFAT-SIFAT SISI EMPAT (INDUKSI)",
         id: "SIFAT-SIFAT SEGI EMPAT (INDUKSI)",
         zh: "??????(???)",
         ru: "???????? ????????????????? (????????)",
-        es: "PROPIEDADES DE LOS CUADRIL�TEROS (INDUCCI�N)",
-        fr: "PROPRI�T�S DES QUADRILAT�RES (INDUCTION)",
-        pt: "PROPRIEDADES DOS QUADRIL�TEROS (INDU��O)",
+        es: "PROPIEDADES DE LOS CUADRILÁTEROS (INDUCCIÓN)",
+        fr: "PROPRIÉTÉS DES QUADRILATÈRES (INDUCTION)",
+        pt: "PROPRIEDADES DOS QUADRILÁTEROS (INDUÇÃO)",
         ja: "??????(???)",
         link: "https://bekrmatmt25.my.canva.site/dortgenler-ve-ozellikleri-tumevarim"
     },
     {
-        tr: "D�RTGENLER�N �ZELL�KLER� (T�MDEN GEL�M)",
+        tr: "DÖRTGENLERİN ÖZELLİKLERİ (TÜMDEN GELİM)",
         en: "PROPERTIES OF QUADRILATERALS (DEDUCTION)",
-        de: "EIGENSCHAFTEN VON VIERECKEN (DEDUKTION)",
+        de: "EIşınSCHAFTEN VON VIERECKEN (DEDUKTION)",
         ar: "????? ??????? ???????? (?????????)",
         hi: "???????? ?? ??? (?????)",
         ms: "SIFAT-SIFAT SISI EMPAT (DEDUKSI)",
         id: "SIFAT-SIFAT SEGI EMPAT (DEDUKSI)",
         zh: "??????(???)",
         ru: "???????? ????????????????? (????????)",
-        es: "PROPIEDADES DE LOS CUADRIL�TEROS (DEDUCCI�N)",
-        fr: "PROPRI�T�S DES QUADRILAT�RES (D�DUCTION)",
-        pt: "PROPRIEDADES DOS QUADRIL�TEROS (DEDU��O)",
+        es: "PROPIEDADES DE LOS CUADRILÁTEROS (DEDUCCIÓN)",
+        fr: "PROPRIÉTÉS DES QUADRILATÈRES (DÉDUCTION)",
+        pt: "PROPRIEDADES DOS QUADRILÁTEROS (DEDUÇÃO)",
         ja: "??????(???)",
         link: "https://bdemir1499.github.io/dortgen-ve-ozellikleri-tumdengelim/"
     },
     {
-        tr: "�K� PARALEL DO�RUNUN B�R KESENLE YAPTI�I A�ILAR (2)",
+        tr: "İKİ PARALEL DoğruNUN BİR KESENLE YAPTIĞI AÇILAR (2)",
         en: "ANGLES FORMED BY TWO PARALLEL LINES AND A TRANSVERSAL (2)",
-        de: "WINKEL AN PARALLELEN UND SCHNEIDENDEN LINIEN (2)",
+        de: "WINKEL AN PARALLELEN UND SCHNEIşınDEN LINIEN (2)",
         ar: "??????? ??????? ?? ???????? ????? (2)",
         hi: "?? ?????? ?????? ?? bir ?????? ???? ?????? ??? ??? (2)",
-        ms: "SUDUT YANG DIBENTUK OLEH DUA GARIS SELARI DAN KERENTAS (2)",
-        id: "SUDUT YANG DIBENTUK OLEH DUA GARIS SEJAJAR DAN TRANSVERSAL (2)",
+        ms: "SUDUT YANG DIşınTUK OLEH DUA GARIS SELARI DAN KERENTaşı(2)",
+        id: "SUDUT YANG DIşınTUK OLEH DUA GARIS SEJAJAR DAN TRANSVERSAL (2)",
         zh: "?????????????? (2)",
         ru: "???? ??? ???????????? ? ??????? (2)",
-        es: "�NGULOS ENTRE DOS PARALELAS Y UNA TRANSVERSAL (2)",
-        fr: "ANGLES FORM�S PAR DEUX PARALL�LES ET UNE TRANSVERSALE (2)",
-        pt: "�NGULOS FORMADOS POR DUAS PARALELAS E UMA TRANSVERSAL (2)",
+        es: "ÁNGULOS ENTRE DOS PARALELAS Y UNA TRANSVERSAL (2)",
+        fr: "ANGLES FORMÉS PAR DEUX PARALLÈLES ET UNE TRANSVERSALE (2)",
+        pt: "ÂNGULOS FORMADOS POR DUAS PARALELAS E UMA TRANSVERSAL (2)",
         ja: "2??????1??????????????? (2)",
-        link: "https://bekrmatmt25.my.canva.site/iki-paralel-dogrunun-bir-kesenle-yapt-g-ac-lar"
+        link: "https://bekrmatmt25.my.canva.site/iki-paralel-Doğrunun-bir-kesenle-yapt-g-ac-lar"
     },
     {
-        tr: "D�N���M GEOMETR�S� (�TELEME/YANSIMA)",
+        tr: "DÖNÜŞÜM GEOMETRİSİ (ÖTELEME/YANSIMA)",
         en: "TRANSFORMATION GEOMETRY (TRANSLATION/REFLECTION)",
         de: "TRANSFORMATIONSGEOMETRIE (VERSCHIEBUNG/SPIEGELUNG)",
         ar: "??????? ????????? (???????/????????)",
@@ -360,62 +359,62 @@ window.OyunListesi = [
         id: "GEOMETRI TRANSFORMASI (TRANSLASI/REFLEKSI)",
         zh: "????(??/??)",
         ru: "????????? ?????????????? (???????/?????????)",
-        es: "GEOMETR�A DE TRANSFORMACI�N (TRASLACI�N/REFLEXI�N)",
-        fr: "G�OM�TRIE DE TRANSFORMATION (TRANSLATION/R�FLEXION)",
-        pt: "GEOMETRIA DE TRANSFORMA��O (TRANSLA��O/REFLEX�O)",
+        es: "GEOMETRÍA DE TRANSFORMACIÓN (TRASLACIÓN/REFLEXIÓN)",
+        fr: "GÉOMÉTRIE DE TRANSFORMATION (TRANSLATION/RÉFLEXION)",
+        pt: "GEOMETRIA DE TRANSFORMAÇÃO (TRANSLAÇÃO/REFLEXÃO)",
         ja: "?????(??/??)",
         link: "https://bekrmatmt25.my.canva.site/oteleme-ve-yansima"
     },
     {
-        tr: "D�RTGEN �E��TLER� KAVRAM HAR�TASI",
+        tr: "DÖRTGEN ÇEŞİTLERİ KAVRAmuhur_disclaimerİTaşı",
         en: "CONCEPT MAP OF QUADRILATERAL TYPES",
         de: "BEGRIFFSMAP DER VIERECKARTEN",
         ar: "????? ?????? ????? ??????? ????????",
         hi: "???????? ???????? ?? ??????? ????????",
-        ms: "PETA KONSEP JENIS SISI EMPAT",
-        id: "PETA KONSEP JENIS SEGI EMPAT",
+        ms: "PETaşıONSEP JENIS SISI EMPAT",
+        id: "PETaşıONSEP JENIS SEGI EMPAT",
         zh: "????????",
         ru: "?????????????? ????? ????? ?????????????????",
-        es: "MAPA CONCEPTUAL DE TIPOS DE CUADRIL�TEROS",
-        fr: "CARTE CONCEPTUELLE DES TYPES DE QUADRILAT�RES",
-        pt: "MAPA CONCEITUAL DE TIPOS DE QUADRIL�TEROS",
+        es: "MAPA CONCEPTUAL DE TIPOS DE CUADRILÁTEROS",
+        fr: "CARTE CONCEPTUELLE DES TYPES DE QUADRILATÈRES",
+        pt: "MAPA CONCEITUAL DE TIPOS DE QUADRILÁTEROS",
         ja: "???????????",
-        link: "https://bekrmatmt25.my.canva.site/dortgenler-kavram-haritasi"
+        link: "https://bekrmatmt25.my.canva.site/dortgenler-kavramuhur_disclaimeriTaşı"
     },
     {
-        tr: "D�RTGENLER GENEL �IKARIMLAR",
+        tr: "DÖRTGENLER GENEL ÇIKARIMLAR",
         en: "GENERAL INFERENCES ABOUT QUADRILATERALS",
-        de: "ALLGEMEINE SCHLUSSFOLGERUNGEN �BER VIERECKE",
+        de: "ALLGEMEINE SCHLUSSFOLGERUNGEN ÜBER VIERECKE",
         ar: "??????????? ?????? ??? ??????? ????????",
         hi: "?????????? ?? ???? ??? ??????? ????????",
-        ms: "INFERENS UMUM TENTANG SISI EMPAT",
-        id: "KESIMPULAN UMUM TENTANG SEGI EMPAT",
+        ms: "INFERENS UMUM TENTaşı SISI EMPAT",
+        id: "KESIMPULAN UMUM TENTaşı SEGI EMPAT",
         zh: "??????????",
         ru: "????? ?????? ? ?????????????????",
-        es: "INFERENCIAS GENERALES SOBRE CUADRIL�TEROS",
-        fr: "INFERENCES G�N�RALES SUR LES QUADRILAT�RES",
-        pt: "INFER�NCIAS GERAIS SOBRE QUADRIL�TEROS",
+        es: "INFERENCIAS GENERALES SOBRE CUADRILÁTEROS",
+        fr: "INFERENCES GÉNÉRALES SUR LES QUADRILATÈRES",
+        pt: "INFERÊNCIAS GERAIS SOBRE QUADRILÁTEROS",
         ja: "?????????????",
         link: "https://bekrmatmt25.my.canva.site/dortgenler-genel-cikarimlar"
     },
     {
-        tr: "KES�RLER�N FARKLI G�STER�MLER�",
-        en: "DIFFERENT REPRESENTATIONS OF FRACTIONS",
-        de: "VERSCHIEDENE DARSTELLUNGEN VON BR�CHEN",
+        tr: "KESİRLERİN FARKLI GÖSTERİMLERİ",
+        en: "DIFFERENT REPRESENTaşıONS OF FRACTIONS",
+        de: "VERSCHIEDENE DARSTELLUNGEN VON BRÜCHEN",
         ar: "??????? ?????? ??????",
         hi: "??????? ?? ??????? ??????",
-        ms: "PERWAKILAN PECAHAN YANG BERBEZA",
-        id: "BERBAGAI REPRESENTASI PECAHAN",
+        ms: "PERWAKIşın PECAHAN YANG BERBEZA",
+        id: "BERBAGAI REPRESENTaşı PECAHAN",
         zh: "?????????",
         ru: "????????? ????????????? ??????",
-        es: "DIFERENTES REPRESENTACIONES DE FRACCIONES",
-        fr: "DIFF�RENTES REPR�SENTATIONS DES FRACTIONS",
-        pt: "DIFERENTES REPRESENTA��ES DE FRA��ES",
+        es: "DIFERENTES REPRESENTaşıONES DE FRACCIONES",
+        fr: "DIFFÉRENTES REPRÉSENTaşıONS DES FRACTIONS",
+        pt: "DIFERENTES REPRESENTaşıES DE FRAÇÕES",
         ja: "??????????",
         link: "https://bekrmatmt25.my.canva.site/kesirlerin-farkl-g-sterimleri"
     },
     {
-        tr: "K��EGENLERDEN D�RTGENLERE (1)",
+        tr: "KÖŞEGENLERDEN DÖRTGENLERE (1)",
         en: "FROM DIAGONALS TO QUADRILATERALS (1)",
         de: "VON DIAGONALEN ZU VIERECKEN (1)",
         ar: "?? ??????? ??? ??????? ???????? (1)",
@@ -424,111 +423,111 @@ window.OyunListesi = [
         id: "DARI DIAGONAL KE SEGI EMPAT (1)",
         zh: "???????? (1)",
         ru: "?? ?????????? ? ????????????????? (1)",
-        es: "DE LAS DIAGONALES A LOS CUADRIL�TEROS (1)",
-        fr: "DES DIAGONALES AUX QUADRILAT�RES (1)",
-        pt: "DAS DIAGONAIS AOS QUADRIL�TEROS (1)",
+        es: "DE LAS DIAGONALES A LOS CUADRILÁTEROS (1)",
+        fr: "DES DIAGONALES AUX QUADRILATÈRES (1)",
+        pt: "DAS DIAGONAIS AOS QUADRILÁTEROS (1)",
         ja: "????????? (1)",
         link: "https://bekrmatmt25.my.canva.site/k-egenlerden-d-rtgenlere"
     },
     {
-        tr: "CEB�RSEL �FADELER TEMEL KAVRAMLAR",
+        tr: "CEBİRSEL İFADELER TEMEL KAVRAMLAR",
         en: "ALGEBRAIC EXPRESSIONS BASIC CONCEPTS",
-        de: "ALGEBRAISCHE AUSDR�CKE - GRUNDBEGRIFFE",
+        de: "ALGEBRAISCHE AUSDRÜCKE - GRUNDBEGRIFFE",
         ar: "???????? ???????? ????????? ???????",
         hi: "????????? ?????? ???????? ?????????",
         ms: "UNGKAPAN ALGEBRA KONSEP ASAS",
         id: "KONSEP DASAR EKSPRESI ALJABAR",
         zh: "???????",
         ru: "?????????????? ?????????: ???????? ???????",
-        es: "EXPRESIONES ALGEBRAICAS CONCEPTOS B�SICOS",
-        fr: "EXPRESSIONS ALG�BRIQUES CONCEPTS DE BASE",
-        pt: "EXPRESS�ES ALG�BRICAS CONCEITOS B�SICOS",
+        es: "EXPRESIONES ALGEBRAICAS CONCEPTOS BÁSICOS",
+        fr: "EXPRESSIONS ALGÉBRIQUES CONCEPTS DE BASE",
+        pt: "EXPRESSÕES ALGÉBRICAS CONCEITOS BÁSICOS",
         ja: "????????",
         link: "https://bekrmatmt25.my.canva.site/cebirsel-ifadeler-temel-kavramlar"
     },
     {
-        tr: "CEB�RSEL �FADELER S�ZELDEN CEB�RE",
+        tr: "CEBİRSEL İFADELER SÖZELDEN CEBİRE",
         en: "ALGEBRAIC EXPRESSIONS FROM VERBAL TO ALGEBRAIC",
         de: "VON DER SPRACHE ZUR ALGEBRA",
         ar: "????????? ??????? ?? ??????? ??? ???????",
         hi: "????????? ??????: ????? ?? ?????????",
-        ms: "UNGKAPAN ALGEBRA DARIPADA LISAN KEPADA ALGEBRA",
+        ms: "UNGKAPAN ALGEBRA DARIPADA LIşın KEPADA ALGEBRA",
         id: "EKSPRESI ALJABAR DARI VERBAL KE ALJABAR",
         zh: "???:??????",
         ru: "?????????????? ?????????: ?? ???? ? ???????",
         es: "EXPRESIONES ALGEBRAICAS DE VERBAL A ALGEBRAICO",
-        fr: "EXPRESSIONS ALG�BRIQUES DU VERBAL � L'ALG�BRIQUE",
-        pt: "EXPRESS�ES ALG�BRICAS DO VERBAL PARA O ALG�BRICO",
+        fr: "EXPRESSIONS ALGÉBRIQUES DU VERBAL À L'ALGÉBRIQUE",
+        pt: "EXPRESSÕES ALGÉBRICAS DO VERBAL PARA O ALGÉBRICO",
         ja: "???:???????",
-        link: "https://bekrmatmt25.my.canva.site/cebirsel-ifadelerle-oyun-tasar-m-kopyas"
+        link: "https://bekrmatmt25.my.canva.site/cebirsel-ifadelerle-oyun-Taşır-m-kopyas"
     },
     {
-        tr: "CEB�RSEL �FADELER CEB�RDEN S�ZELE",
+        tr: "CEBİRSEL İFADELER CEBİRDEN SÖZELE",
         en: "ALGEBRAIC EXPRESSIONS FROM ALGEBRAIC TO VERBAL",
         de: "VON DER ALGEBRA ZUR SPRACHE",
         ar: "????????? ??????? ?? ??????? ??? ???????",
         hi: "????????? ??????: ????????? ?? ?????",
-        ms: "UNGKAPAN ALGEBRA DARIPADA ALGEBRA KEPADA LISAN",
+        ms: "UNGKAPAN ALGEBRA DARIPADA ALGEBRA KEPADA LIşın",
         id: "EKSPRESI ALJABAR DARI ALJABAR KE VERBAL",
         zh: "???:??????",
         ru: "?????????????? ?????????: ?? ??????? ? ??????",
         es: "EXPRESIONES ALGEBRAICAS DE ALGEBRAICO A VERBAL",
-        fr: "EXPRESSIONS ALG�BRIQUES DE L'ALG�BRIQUE AU VERBAL",
-        pt: "EXPRESS�ES ALG�BRICAS DO ALG�BRICO PARA O VERBAL",
+        fr: "EXPRESSIONS ALGÉBRIQUES DE L'ALGÉBRIQUE AU VERBAL",
+        pt: "EXPRESSÕES ALGÉBRICAS DO ALGÉBRICO PARA O VERBAL",
         ja: "???:???????",
         link: "https://bekrmatmt25.my.canva.site/cebirsel-ifadeler-2-cebirden-s-zele"
     },
     {
-        tr: "CEB�RSEL �FADELER DE�ER HESAPLAMA",
+        tr: "CEBİRSEL İFADELER DEĞER HESAPLAMA",
         en: "CALCULATING VALUES OF ALGEBRAIC EXPRESSIONS",
-        de: "BERECHNEN VON WERTE ALGEBRAISCHER AUSDR�CKE",
+        de: "BERECHNEN VON WERTE ALGEBRAISCHER AUSDRÜCKE",
         ar: "???? ??? ????????? ???????",
         hi: "????????? ???????? ?? ????? ?? ????",
-        ms: "MENGIRA NILAI UNGKAPAN ALGEBRA",
-        id: "MENGHITUNG NILAI EKSPRESI ALJABAR",
+        ms: "MENGIRA NILAIşınGKAPAN ALGEBRA",
+        id: "MENGHIşınG NILAI EKSPRESI ALJABAR",
         zh: "???????",
         ru: "?????????? ???????? ?????????????? ?????????",
         es: "CALCULAR VALORES DE EXPRESIONES ALGEBRAICAS",
-        fr: "CALCUL DES VALEURS D'EXPRESSIONS ALG�BRIQUES",
-        pt: "CALCULAR VALORES DE EXPRESS�ES ALG�BRICAS",
+        fr: "CALCUL DES VALEURS D'EXPRESSIONS ALGÉBRIQUES",
+        pt: "CALCULAR VALORES DE EXPRESSÕES ALGÉBRICAS",
         ja: "????????",
         link: "https://bekrmatmt25.my.canva.site/cebirsel-ifadelerin-degerini-hesaplamak"
     },
     {
-        tr: "ARA�TIRMA ADIMLARI (Canva)",
+        tr: "ARAŞTIRMA ADIMLARI (Canva)",
         en: "RESEARCH STEPS (Canva)",
         de: "FORSCHUNGSSCHRITTE (Canva)",
         ar: "????? ????? (?????)",
         hi: "???????? ??? (Canva)",
-        ms: "LANGKAH PENYELIDIKAN (Canva)",
+        ms: "LANGKAH PENYELIDIşın (Canva)",
         id: "LANGKAH PENELITIAN (Canva)",
         zh: "???? (Canva)",
         ru: "????? ???????????? (Canva)",
-        es: "PASOS DE INVESTIGACI�N (Canva)",
-        fr: "�TAPES DE RECHERCHE (Canva)",
+        es: "PASOS DE INVESTIGACIÓN (Canva)",
+        fr: "ÉTaşıS DE RECHERCHE (Canva)",
         pt: "PASSOS DE PESQUISA (Canva)",
         ja: "??????? (Canva)",
         link: "https://bekrmatmt25.my.canva.site/5-sinif-arastirma-adimlari"
     },
     {
-        tr: "ARA�TIRMA ADIMLARI (GitHub)",
+        tr: "ARAŞTIRMA ADIMLARI (GitHub)",
         en: "RESEARCH STEPS (GitHub)",
         de: "FORSCHUNGSSCHRITTE (GitHub)",
         ar: "????? ????? (??? ???)",
         hi: "???????? ??? (GitHub)",
-        ms: "LANGKAH PENYELIDIKAN (GitHub)",
+        ms: "LANGKAH PENYELIDIşın (GitHub)",
         id: "LANGKAH PENELITIAN (GitHub)",
         zh: "???? (GitHub)",
         ru: "????? ???????????? (GitHub)",
-        es: "PASOS DE INVESTIGACI�N (GitHub)",
-        fr: "�TAPES DE RECHERCHE (GitHub)",
+        es: "PASOS DE INVESTIGACIÓN (GitHub)",
+        fr: "ÉTaşıS DE RECHERCHE (GitHub)",
         pt: "PASSOS DE PESQUISA (GitHub)",
         ja: "??????? (GitHub)",
         link: "https://bdemir1499.github.io/5.sinif-arastirma-asamalari/"
     },
     {
-        tr: "��GENDE YARDIMCI ELEMANLAR",
-        en: "AUXILIARY ELEMENTS IN TRIANGLES",
+        tr: "ÜÇGENDE YARDIMCI ELEMANLAR",
+        en: "AUXILIARY ELEMenüsüIN TRIANGLES",
         de: "HILFSELEMENTE IN DREIECKEN",
         ar: "??????? ???????? ?? ??????",
         hi: "????????? ??? ????? ????",
@@ -536,47 +535,47 @@ window.OyunListesi = [
         id: "UNSUR PEMBANTU DALAM SEGITIGA",
         zh: "?????????",
         ru: "??????????????? ???????? ? ?????????????",
-        es: "ELEMENTOS AUXILIARES EN TRI�NGULOS",
-        fr: "�L�MENTS AUXILIAIRES DANS LES TRIANGLES",
-        pt: "ELEMENTOS AUXILIARES EM TRI�NGULOS",
+        es: "ELEMENTOS AUXILIARES EN TRIÁNGULOS",
+        fr: "ÉLÉMenüsüAUXILIAIRES DANS LES TRIANGLES",
+        pt: "ELEMENTOS AUXILIARES EM TRIÂNGULOS",
         ja: "????????",
         link: "https://bekrmatmt25.my.canva.site/ucgende-yardim-i-elemanlar"
     },
     {
-        tr: "��GEN ��Z�M�",
+        tr: "ÜÇGEN ÇİZİMİ",
         en: "TRIANGLE DRAWING",
-        de: "DREIECKE ZEICHNEN",
+        de: "DREIECKE ZEIşınEN",
         ar: "??? ??????",
         hi: "??????? ?????",
-        ms: "LUKISAN SEGI TIGA",
+        ms: "LUKIşın SEGI TIGA",
         id: "MENGGAMBAR SEGITIGA",
         zh: "?????",
         ru: "?????????? ????????????",
-        es: "DIBUJO DE TRI�NGULOS",
+        es: "DIBUJO DE TRIÁNGULOS",
         fr: "DESSIN DE TRIANGLE",
-        pt: "DESENHO DE TRI�NGULOS",
+        pt: "DESENHO DE TRIÂNGULOS",
         ja: "??????",
         link: "https://bekrmatmt25.my.canva.site/ucgen-cizim-sartlari"
     },
     {
-        tr: "��GENDE E�L�K VE BENZERL�K",
+        tr: "ÜÇGENDE EŞLİK VE BENZERLİK",
         en: "CONGRUENCE AND SIMILARITY IN TRIANGLES",
-        de: "KONGRUENZ UND �HNLICHKEIT IN DREIECKEN",
+        de: "KONGRUENZ UND ÄHNLICHKEIT IN DREIECKEN",
         ar: "????? ?????? ????????",
         hi: "????????? ??? ??????????? ?? ???????",
         ms: "KONGRUEN DAN KESERUPAAN DALAM SEGI TIGA",
         id: "KEKONGRUENAN DAN KESEBANGUNAN DALAM SEGITIGA",
         zh: "?????????",
         ru: "?????????????? ? ??????? ?????????????",
-        es: "CONGRUENCIA Y SEMEJANZA EN TRI�NGULOS",
+        es: "CONGRUENCIA Y SEMEJANZA EN TRIÁNGULOS",
         fr: "CONGRUENCE ET SIMILITUDE DANS LES TRIANGLES",
-        pt: "CONGRU�NCIA E SEMELHAN�A EM TRI�NGULOS",
+        pt: "CONGRUÊNCIA E SEMELHANÇA EM TRIÂNGULOS",
         ja: "?????????",
         link: "https://bdemir1499.github.io/eslikvebenzerlik/"
     },
     {
-        tr: "PR�ZMALARIN ELEMANLARI",
-        en: "ELEMENTS OF PRISMS",
+        tr: "PRİZMALARIN ELEMANLARI",
+        en: "ELEMenüsüOF PRISMS",
         de: "ELEMENTE VON PRISMEN",
         ar: "????? ?????????",
         hi: "??????? ?? ????",
@@ -585,45 +584,45 @@ window.OyunListesi = [
         zh: "?????",
         ru: "???????? ?????",
         es: "ELEMENTOS DE LOS PRISMAS",
-        fr: "�L�MENTS DES PRISMES",
+        fr: "ÉLÉMenüsüDES PRISMES",
         pt: "ELEMENTOS DOS PRISMAS",
         ja: "?????",
         link: "https://bekrmatmt25.my.canva.site/prizmalarin-elemanlar-ve-a-inimlari"
     },
     {
-        tr: "P�RAM�T VE A�INIMI",
+        tr: "PİRAMİT VE AÇINIMI",
         en: "PYRAMID AND ITS NET",
         de: "PYRAMIDE UND IHR NETZ",
         ar: "????? ??????",
         hi: "??????? ?? ???? ???",
-        ms: "PIRAMID DAN BENTANGANNYA",
-        id: "LIMAS DAN JARING-JARINGNYA",
+        ms: "PIRAMID DAN BENTaşıANNYA",
+        id: "LIMAS DAN JARING-JARIşınYA",
         zh: "???????",
         ru: "???????? ? ?? ?????????",
-        es: "PIR�MIDE Y SU DESARROLLO",
+        es: "PIRÁMIDE Y SU DESARROLLO",
         fr: "PYRAMIDE ET SON PATRON",
-        pt: "PIR�MIDE E SUA PLANIFICA��O",
+        pt: "PIRÂMIDE E SUA PLANIFICAÇÃO",
         ja: "????????",
         link: "https://bekrmatmt25.my.canva.site/piramidin-elemanlar-ve-acinimi"
     },
     {
-        tr: "PR�ZMA, P�RAM�T, KON�, S�L�ND�R",
+        tr: "PRİZMA, PİRAMİT, KONİ, SİLİNDİR",
         en: "PRISM, PYRAMID, CONE, CYLINDER",
         de: "PRISMA, PYRAMIDE, KEGEL, ZYLINDER",
         ar: "???????? ?????? ???????? ?????????",
         hi: "???????, ???????, ????, ????",
-        ms: "PRISMA, PIRAMID, KON, SILINDIR",
-        id: "PRISMA, LIMAS, KERUCUT, TABUNG",
+        ms: "PRISMA, PIRAMID, KON, SIşınDIR",
+        id: "PRISMA, LIMAS, KERUCUT, TaşıNG",
         zh: "???????????",
         ru: "??????, ????????, ?????, ???????",
-        es: "PRISMA, PIR�MIDE, CONO, CILINDRO",
-        fr: "PRISME, PYRAMIDE, C�NE, CYLINDRE",
-        pt: "PRISMA, PIR�MIDE, CONE, CILINDRO",
+        es: "PRISMA, PIRÁMIDE, CONO, CIşınDRO",
+        fr: "PRISME, PYRAMIDE, CÔNE, CYLINDRE",
+        pt: "PRISMA, PIRÂMIDE, CONE, CIşınDRO",
         ja: "???????????",
         link: "https://sites.google.com/view/uc-boyutlu-sekiller/ana-sayfa_1"
     },
     {
-        tr: "K��EGENLERDEN D�RTGENLERE (2)",
+        tr: "KÖŞEGENLERDEN DÖRTGENLERE (2)",
         en: "FROM DIAGONALS TO QUADRILATERALS (2)",
         de: "VON DIAGONALEN ZU VIERECKEN (2)",
         ar: "?? ??????? ??? ??????? ???????? (2)",
@@ -632,38 +631,38 @@ window.OyunListesi = [
         id: "DARI DIAGONAL KE SEGI EMPAT (2)",
         zh: "???????? (2)",
         ru: "?? ?????????? ? ????????????????? (2)",
-        es: "DE LAS DIAGONALES A LOS CUADRIL�TEROS (2)",
-        fr: "DES DIAGONALES AUX QUADRILAT�RES (2)",
-        pt: "DAS DIAGONAIS AOS QUADRIL�TEROS (2)",
+        es: "DE LAS DIAGONALES A LOS CUADRILÁTEROS (2)",
+        fr: "DES DIAGONALES AUX QUADRILATÈRES (2)",
+        pt: "DAS DIAGONAIS AOS QUADRILÁTEROS (2)",
         ja: "????????? (2)",
         link: "https://bekrmatmt25.my.canva.site/kosegenlerden-dortgenlere"
     }
 ];
 
-// --- BURAYA YAPI�TIR ---
-window.sendNetworkData = function (dataObj) {
-    if (dataObj && dataObj.type === 'aktif_onizleme') {
+// --- BURAYA YAPIŞTIR ---
+window.sendNetworkDaTaşı function (daTaşıj) {
+    if (daTaşıj && daTaşıj.type === 'aktif_onizleme') {
         if (!window.lastPreviewTime) window.lastPreviewTime = 0;
         if (Date.now() - window.lastPreviewTime < 40) return; // Limit to ~25 FPS to prevent WebRTC buffer overflow
         window.lastPreviewTime = Date.now();
     }
 
-    // 1. Durum: E�er bu cihaz TABLET ise (tahtaya ba�l�y�z)
+    // 1. Durum: Eğer bu cihaz TaşıET ise (Taşıaya bağlıyız)
     if (typeof myConnection !== 'undefined' && myConnection && (myConnection.open || window.isConnected)) {
-        myConnection.send(dataObj);
+        myConnection.send(daTaşıj);
     }
-    // 2. Durum: E�er bu cihaz AKILLI TAHTA ise (ba�l� olan tabletlere g�nder)
+    // 2. Durum: Eğer bu cihaz AKILLI TaşıA ise (bağlı olan Taşıetlere gönder)
     else if (typeof window.aktifBaglantilar !== 'undefined') {
         for (let id in window.aktifBaglantilar) {
             if (window.aktifBaglantilar[id] && window.aktifBaglantilar[id].open) {
-                window.aktifBaglantilar[id].send(dataObj);
+                window.aktifBaglantilar[id].send(daTaşıj);
             }
         }
     }
 };
 
 
-// Sayfa a��ld���nda k�rm�z� butonun yanl��l�kla g�r�nmesini engellemek i�in:
+// Sayfa açıldIşında kırmızı butonun yanlışlıkla görünmesini engellemek için:
 const closePdfBtn = document.getElementById('btn-close-pdf');
 if (closePdfBtn) {
     closePdfBtn.classList.add('hidden');
@@ -689,12 +688,12 @@ function getPointerPos(e) {
     let cX = e.clientX;
     let cY = e.clientY;
 
-    // --- S�Z�N OR�J�NAL HATA KORUMA MANTI�INIZ (Avu� i�i kar��mas�n� engeller) ---
-    // E�er cX tan�ms�zsa (saf dokunmatikse) o anki ge�erli dokunu�u (targetTouches) al�r.
+    // --- SİZİN ORİJİNAL HATaşıORUMA MANTIşınIZ (Avuç içi karışmasınIşıngeller) ---
+    // Eğer cX Taşımsızsa (saf dokunmatikse) o anki geçerli dokunuşu (TaşıetTouches) alır.
     if (cX === undefined || cX === null || isNaN(cX)) {
-        if (e.targetTouches && e.targetTouches.length > 0) {
-            cX = e.targetTouches[0].clientX;
-            cY = e.targetTouches[0].clientY;
+        if (e.TaşıetTouches && e.TaşıetTouches.length > 0) {
+            cX = e.TaşıetTouches[0].clientX;
+            cY = e.TaşıetTouches[0].clientY;
         } else if (e.touches && e.touches.length > 0) {
             cX = e.touches[0].clientX;
             cY = e.touches[0].clientY;
@@ -713,12 +712,12 @@ function getPointerPos(e) {
     };
 }
 
-// --- GRAF�K TABLET S�M�LAT�R� ---
+// --- GRAFİK TaşıET SİMÜLATÖRÜ ---
 function getPointerInfo(e) {
     // BURAYI false YAPTIK!
     const testModuAcik = false;
 
-    // E�er test modu a��ksa ve fare kullan�l�yorsa, onu "Kalem" gibi kand�r
+    // Eğer test modu açıksa ve fare kullanılıyorsa, onu "Kalem" gibi kandır
     if (testModuAcik && e.pointerType === 'mouse') {
         return {
             type: 'pen',
@@ -740,13 +739,13 @@ const ctx = canvas.getContext('2d');
 
 function setupCanvasResolution() {
     const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1; // ?? Cihaz�n HD piksel oran�n� (Retina G�c�n�) al
+    const dpr = window.devicePixelRatio || 1; // ?? Cihazın HD piksel oranını (Retina Gücünü) al
 
-    // Kanvas�n i� piksel say�s�n�, ekran�n ger�ek HD ��z�n�rl��� ile e�itle
+    // Kanvasın iç piksel sayIşını, ekranın gerçek HD çözünürlüğü ile eşitle
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
 
-    // ?? KES�N ��Z�M: Arka plan� (bg-canvas) da boyut ve oran olarak %100 e�itle (Daralmay� �nler)
+    // ?? KESİN ÇÖZÜM: Arka planı (bg-canvas) da boyut ve oran olarak %100 eşitle (DaralmayIşınler)
     const bgCanvas = document.getElementById('bg-canvas');
     if (bgCanvas) {
         bgCanvas.style.width = canvas.style.width || (rect.width + 'px');
@@ -760,94 +759,94 @@ function setupCanvasResolution() {
     }
 }
 
-// 1. Uygulama ilk a��ld���nda �al��t�r
+// 1. Uygulama ilk açıldIşında çalıştır
 setupCanvasResolution();
 
-// 2. Ekran boyutu her de�i�ti�inde (y�kle butonu sonras� veya yan �evirince) �al��t�r
+// 2. Ekran boyutu her değiştiğinde (Yükle butonu sonrası veya yan çevirince) çalıştır
 window.addEventListener('resize', setupCanvasResolution);
 
-// PARDUS KES�N ��Z�M: Taray�c�n�n kayd�rma ve yak�nla�t�rma yapmas�n� yasakla
+// PARDUS KESİN ÇÖZÜM: TaşıyIşının kaydırma ve yakınlaştırma yapmasını yasakla
 canvas.style.touchAction = 'none';
 canvas.style.userSelect = 'none';
 document.body.style.overscrollBehavior = 'none';
 
 
-// --- RES�M Y�KLEME DE���KENLER� ---
-let backgroundImage = null; // Y�klenen resmi tutacak de�i�ken
+// --- RESİM YükleME DEĞİŞKENLERİ ---
+let backgroundImage = null; // Yüklenen resmi tuTaşık değişken
 const uploadButton = document.getElementById('btn-upload');
 const fileInput = document.getElementById('file-input');
 
-// --- app.js (D�ZELT�LM�� BA�LANGI� B�L�M�) ---
+// --- app.js (DÜZELTİLMİŞ BAŞLANGIÇ BÖLÜMÜ) ---
 
-// --- SESLER (T�M� �PTAL ED�LD� / SESS�Z MOD) ---
-// Ger�ek ses dosyalar� yerine, hi�bir i� yapmayan "sahte" bir oynat�c� tan�ml�yoruz.
-// Bu sayede alt sat�rlardaki hi�bir kodu silmenize gerek kalmaz, hepsi sessizce �al���r.
+// --- SESLER (TÜMÜ İPTaşıEDİLDİ / SESSİZ MOD) ---
+// Gerçek ses dosyaları yerine, hiçbir iş yapmayan "sahte" bir oynatıcı Taşımlıyoruz.
+// Bu sayede alt satırlardaki hiçbir kodu silmenize gerek kalmaz, hepsi sessizce çalışır.
 
-const silentAudio = {
-    play: function () { },   // �al komutu gelirse: Hi�bir �ey yapma.
-    pause: function () { },  // Durdur komutu gelirse: Hi�bir �ey yapma.
-    currentTime: 0,        // S�re ayar� gelirse: Kabul et ama i�leme.
+const silenTaşıio = {
+    play: function () { },   // Çal komutu gelirse: Hiçbir şey yapma.
+    pause: function () { },  // Durdur komutu gelirse: Hiçbir şey yapma.
+    currentTime: 0,        // Süre ayarı gelirse: Kabul et ama işleme.
     src: ""
 };
 
-window.audio_click = silentAudio;
-let audio_click_src_set = true; // Hata vermemesi i�in "ayarland�" say�yoruz.
-window.audio_undo = silentAudio;
-window.audio_draw = silentAudio;
-window.audio_eraser = silentAudio;
+window.audio_click = silenTaşıio;
+let audio_click_src_set = true; // HaTaşıermemesi için "ayarlandı" sayıyoruz.
+window.audio_undo = silenTaşıio;
+window.audio_draw = silenTaşıio;
+window.audio_eraser = silenTaşıio;
 
 
-// --- DE���KENLER ---
+// --- DEĞİŞKENLER ---
 
-let snapshotStart = null;
+let snapshotSTaşı = null;
 const animateButton = document.getElementById('btn-animate');
 let currentTool = 'none';
-let isPinching = false;           // �ki parmakla yak�nla�t�rma aktif mi?
-let initialDistance = 0;          // Ba�lang�� parmak mesafesi (zoom i�in)
-let initialScale = 0;             // Ba�lang��ta se�ili nesnenin geni�li�i
-let initialCenter = { x: 0, y: 0 }; // �ki parma��n merkez noktas� (pan i�in)
+let isPinching = false;           // İki parmakla yakınlaştırma aktif mi?
+let initialDisTaşıe = 0;          // Başlangıç parmak mesafesi (zoom için)
+let initialScale = 0;             // BaşlangıçTaşıeçili nesnenin genişliği
+let initialCenter = { x: 0, y: 0 }; // İki parmağın merkez nokTaşı (pan için)
 let currentPenColor = '#FFFFFF';
 let currentPenWidth = 4;
-window.currentLineColor = '#FFFFFF'; // Varsay�lan Renk: BEYAZ
+window.currentLineColor = '#FFFFFF'; // VarsayIşın Renk: BEYAZ
 const SNAP_THRESHOLD = 10;
-let returnToSnapshot = false; // ��lem bitince geri d�n�lecek mi? 
+let returnToSnapshot = false; // İşlem bitince geri dönülecek mi? 
 // ==========================================
-// --- 3D C�S�MLER ���N YEN� DE���KENLER VE S�RG� OLU�TURUCU (ADIM 1) ---
+// --- 3D CİSİMLER İÇİN YENİ DEĞİŞKENLER VE SÜRGÜ OLUŞTURUCU (ADIM 1) ---
 // ==========================================
 let isDrawing3D = false;
-let current3DShape = null; // Hangi 3D �ekil se�ili (�rn: '3d_kare_piramit')
-let temp3DData = null;     // �izim esnas�ndaki canl� �nizleme verisi
-let active3DSliderStroke = null; // S�rg�s� oynat�lan se�ili 3D cisim
+let current3DShape = null; // Hangi 3D şekil seçili (örn: '3d_kare_piramit')
+let temp3DDaTaşı null;     // Çizim esnasındaki canlIşınizleme verisi
+let active3DSliderStroke = null; // Sürgüsü oynatIşın seçili 3D cisim
 
-// S�rg� (Slider) Kutusunu HTML'e Otomatik Ekle
-const sliderContainer = document.createElement('div');
-sliderContainer.id = 'slider-container';
-sliderContainer.innerHTML = `
-    <label>A��n�m (Katlama)</label>
+// Sürgü (Slider) Kutusunu HTML'e Otomatik Ekle
+const sliderConTaşıer = document.createElement('div');
+sliderConTaşıer.id = 'slider-conTaşıer';
+sliderConTaşıer.innerHTML = `
+    <label>Açınım (Katlama)</label>
     <input type="range" id="shape-slider" min="0" max="100" value="0">
 `;
 const leftPanel = document.querySelector('.left-panel');
 const btnOyunlarOptions = document.getElementById('oyunlar-options');
 if (leftPanel && btnOyunlarOptions) {
-    leftPanel.insertBefore(sliderContainer, btnOyunlarOptions.nextSibling);
+    leftPanel.insertBefore(sliderConTaşıer, btnOyunlarOptions.nextSibling);
 } else {
-    document.body.appendChild(sliderContainer);
+    document.body.appendChild(sliderConTaşıer);
 }
 const shapeSlider = document.getElementById('shape-slider');
 
-// Alan / Hacim G�sterge Kutusunu HTML'e Otomatik Ekle
+// Alan / Hacim Gösterge Kutusunu HTML'e Otomatik Ekle
 const infoTooltip = document.createElement('div');
 infoTooltip.id = 'info-tooltip';
 document.body.appendChild(infoTooltip);
 
-// S�rg� hareket etti�inde se�ili 3D cismin a��n�m�n� g�ncelle
+// Sürgü hareket ettiğinde seçili 3D cismin açınIşını güncelle
 shapeSlider.addEventListener('input', (e) => {
-    // ?? BURASI 'window' OLARAK G�NCELLEND� (Art�k �ekli tan�yacak!) ??
+    // ?? BURASI 'window' OLARAK GÜNCELLENDİ (Artık şekli Taşıyacak!) ??
     if (window.active3DSliderStroke) {
-        window.active3DSliderStroke.openRatio = parseInt(e.target.value) / 100;
+        window.active3DSliderStroke.openRatio = parseInt(e.Taşıet.value) / 100;
 
-        if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
-            window.sendNetworkData({ type: 'sekil_guncelle', stroke: window.active3DSliderStroke });
+        if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) {
+            window.sendNetworkDaTaşı type: 'sekil_guncelle', stroke: window.active3DSliderStroke });
         }
         if (typeof redrawAllStrokes === 'function') redrawAllStrokes();
     }
@@ -857,12 +856,12 @@ shapeSlider.addEventListener('input', (e) => {
 let nextPointChar = 'A';
 window.nextPointChar = nextPointChar;
 
-let lineStartPoint = null;
+let lineSTaşıPoint = null;
 let currentMousePos = { x: 0, y: 0 };
-let snapTarget = null;
+let snapTaşıet = null;
 let snapHoverTimer = null;
 
-window.tempPolygonData = null;
+window.tempPolygonDaTaşı null;
 
 let isDrawingLine = false;
 let isDrawingInfinityLine = false;
@@ -871,26 +870,26 @@ let isDrawingRay = false;
 let isMoving = false;
 let selectedItem = null;
 let selectedPointKey = null;
-let rotationPivot = null;
-let dragStartPos = { x: 0, y: 0 };
-let originalStartPos = {};
-let currentPDF = null;       // Y�klenen PDF dosyas�
-let currentPDFPage = 1;      // �u anki sayfa
-let totalPDFPages = 0;       // Toplam sayfa
-let pdfImageStroke = null;   // Ekrana �izilen PDF sayfas�
+let roTaşıonPivot = null;
+let dragSTaşıPos = { x: 0, y: 0 };
+let originalSTaşıPos = {};
+let currentPDF = null;       // Yüklenen PDF dosyası
+let currentPDFPage = 1;      // Şu anki sayfa
+let toTaşıDFPages = 0;       // Toplam sayfa
+let pdfImageStroke = null;   // Ekrana çizilen PDF sayfası
 
-// --- HTML ELEMENTLER� ---
+// --- HTML ELEMENTLERİ ---
 const body = document.body;
 
-// 1. Sol Panel Ara�lar�
+// 1. Sol Panel Araçları
 const penButton = document.getElementById('btn-kalem');
 const eraserButton = document.getElementById('btn-silgi');
 const lineButton = document.getElementById('btn-cizgi');
 const rulerButton = document.getElementById('btn-cetvel');
-const gonyeButton = document.getElementById('btn-gonye');
+const GönyeButton = document.getElementById('btn-Gönye');
 const aciolcerButton = document.getElementById('btn-aciolcer');
 const pergelButton = document.getElementById('btn-pergel');
-const polygonButton = document.getElementById('btn-cokgenler');
+const polygonButton = document.getElementById('btn-Çokgenler');
 const oyunlarButton = document.getElementById('btn-oyunlar');
 const oyunlarOptions = document.getElementById('oyunlar-options');
 
@@ -900,39 +899,39 @@ if (oyunlarOptions) {
 oyunlarButton.classList.remove('active');
 
 
-// --- D�KD�RTGEN BUTONU TANIMLAMASI ---
-const dikdortgenButton = document.getElementById('btn-dikdortgen');
+// --- Dikdörtgen BUTONU TaşıMLAMASI ---
+const DikdörtgenButton = document.getElementById('btn-Dikdörtgen');
 
-if (dikdortgenButton) {
-    dikdortgenButton.addEventListener('click', () => {
-        if (typeof window.setActiveTool === 'function') {
-            window.setActiveTool('draw_rectangle');
+if (DikdörtgenButton) {
+    DikdörtgenButton.addEventListener('click', () => {
+        if (typeof window.seTaşıiveTool === 'function') {
+            window.seTaşıiveTool('draw_recTaşıle');
         } else {
-            currentTool = 'draw_rectangle';
+            currentTool = 'draw_recTaşıle';
         }
     });
 }
 // --------------------------------------
 
-// 2. Alt Men� Butonlar� ve Se�enekler
+// 2. Alt Menü Butonları ve Seçenekler
 const penOptions = document.getElementById('pen-options');
 const colorBoxes = document.querySelectorAll('#pen-options .color-box');
 const lineOptions = document.getElementById('line-options');
-const pointButton = document.getElementById('btn-nokta');
+const pointButton = document.getElementById('btn-nokTaşı;
 const straightLineButton = document.getElementById('btn-d_cizgi');
-const infinityLineButton = document.getElementById('btn-dogru');
-const segmentButton = document.getElementById('btn-dogru_parcasi');
+const infinityLineButton = document.getElementById('btn-Doğru');
+const segmentButton = document.getElementById('btn-Doğru_parcasi');
 const rayButton = document.getElementById('btn-isin');
 const lineColorOptions = document.querySelectorAll('#line-color-options .color-box');
 const polygonOptions = document.getElementById('polygon-options');
 const polygonPreviewLabel = document.getElementById('polygon-preview-label');
-const circleButton = document.getElementById('btn-cember');
-const regularPolygonButtons = document.querySelectorAll('#polygon-options button[data-sides]');
+const circleButton = document.getElementById('btn-Çember');
+const regularPolygonButtons = document.querySelectorAll('#polygon-options button[daTaşıides]');
 const polygonColorOptions = document.querySelectorAll('#polygon-color-options .color-box');
-// ?? Burada oyunlarOptions tekrar tan�mlanmad�, yukar�daki global tan�m kullan�lacak.
+// ?? Burada oyunlarOptions tekrar Taşımlanmadı, yukarıdaki global Taşım kullanılacak.
 
 
-// 3. Sa� Panel Ara�lar�
+// 3. Sağ Panel Araçları
 const undoButton = document.getElementById('btn-undo');
 const clearAllButton = document.getElementById('btn-clear-all');
 const moveButton = document.getElementById('btn-move');
@@ -941,7 +940,7 @@ const fillOptions = document.getElementById('fill-options');
 const fillColorBoxes = document.querySelectorAll('#fill-options .color-box');
 let currentFillColor = '#FF69B4';
 
-// --- CANLANDIR VE KES MEN�S� (G�NCELLENM�� VE B�RLE�T�R�LM��) ---
+// --- Canlandır VE KES Menüsü (GÜNCELLENMİŞ VE BİRLEŞTİRİLMİŞ) ---
 const btnSnapshotMain = document.getElementById('btn-snapshot-main');
 const snapshotOptions = document.getElementById('snapshot-options');
 const btnSnapshotBox = document.getElementById('btn-snapshot-box');
@@ -961,27 +960,27 @@ const toggleSnapshotMenu = (e) => {
     let sOptions = document.getElementById('snapshot-options') || document.querySelector('.snapshot-options');
     if (!sOptions) return;
 
-    // Ekrandaki ger�ek g�r�n�rl�k durumunu kontrol et (inline style dahil)
-    const menuKapaliMi = sOptions.classList.contains('hidden') || sOptions.style.display === 'none';
+    // Ekrandaki gerçek görünürlük durumunu kontrol et (inline style dahil)
+    const menuKapaliMi = sOptions.classList.conTaşıs('hidden') || sOptions.style.display === 'none';
 
     if (menuKapaliMi) {
-        // Arac� aktif et
-        if (typeof setActiveTool === 'function') {
-            setActiveTool('snapshot');
+        // Aracı aktif et
+        if (typeof seTaşıiveTool === 'function') {
+            seTaşıiveTool('snapshot');
         } else {
             currentTool = 'snapshot';
         }
 
-        // Men�y� g�r�n�r yap ve inline style engelini kald�r
+        // Menüyü görünür yap ve inline style engelini kaldır
         sOptions.classList.remove('hidden');
         sOptions.style.display = 'flex';
         sOptions.style.zIndex = '10000';
 
-        // Butonlar�n aktiflik durumunu g�ncelle
+        // Butonların aktiflik durumunu güncelle
         if (btnSnapshotMain) btnSnapshotMain.classList.add('active');
         if (animateButton) animateButton.classList.add('active');
 
-        // Hizalamay� yap
+        // Hizalamayı yap
         const refBtn = btnSnapshotMain || animateButton;
         if (refBtn) {
             const buttonRect = refBtn.getBoundingClientRect();
@@ -989,9 +988,9 @@ const toggleSnapshotMenu = (e) => {
             sOptions.style.top = `${buttonRect.top - panelRect.top}px`;
         }
     } else {
-        // Men�y� kapat ve arac� s�f�rla
-        if (typeof setActiveTool === 'function') {
-            setActiveTool('none');
+        // Menüyü kapat ve aracı sıfırla
+        if (typeof seTaşıiveTool === 'function') {
+            seTaşıiveTool('none');
         } else {
             currentTool = 'none';
         }
@@ -1006,14 +1005,14 @@ const toggleSnapshotMenu = (e) => {
 
 if (btnSnapshotMain) {
     btnSnapshotMain.onclick = null;
-    btnSnapshotMain.ontouchstart = null;
+    btnSnapshotMain.ontouchsTaşı = null;
     btnSnapshotMain.addEventListener('click', toggleSnapshotMenu);
     btnSnapshotMain.addEventListener('pointerdown', toggleSnapshotMenu);
 }
 if (btnSnapshotBox) {
     btnSnapshotBox.addEventListener('click', (e) => {
         e.stopPropagation();
-        setActiveTool('snapshot'); // Kutu arac�n� se�
+        seTaşıiveTool('snapshot'); // Kutu aracını seç
         if (snapshotOptions) {
             snapshotOptions.classList.add('hidden');
             snapshotOptions.style.display = 'none';
@@ -1023,7 +1022,7 @@ if (btnSnapshotBox) {
 if (btnSnapshotLasso) {
     btnSnapshotLasso.addEventListener('click', (e) => {
         e.stopPropagation();
-        setActiveTool('lasso'); // Serbest (Kement) kesim arac�n� se�
+        seTaşıiveTool('lasso'); // Serbest (Kement) kesim aracını seç
         if (snapshotOptions) {
             snapshotOptions.classList.add('hidden');
             snapshotOptions.style.display = 'none';
@@ -1031,7 +1030,7 @@ if (btnSnapshotLasso) {
     });
 }
 
-// 4. Resim ve PDF Y�kleme Ara�lar�
+// 4. Resim ve PDF Yükleme Araçları
 
 
 const pdfControls = document.getElementById('pdf-controls');
@@ -1042,7 +1041,7 @@ const nextPageBtn = document.getElementById('next-page');
 
 
 
-// --- G�RSEL YARDIMCILAR ---
+// --- GÖRSEL YARDIMCILAR ---
 const snapIndicator = document.createElement('div');
 snapIndicator.id = 'snap-indicator';
 body.appendChild(snapIndicator);
@@ -1051,9 +1050,9 @@ eraserPreview.className = 'eraser-cursor-preview';
 body.appendChild(eraserPreview);
 
 
-// --- YARDIMCI FONKS�YONLAR ---
+// --- YARDIMCI FONKSİYONLAR ---
 
-function distance(p1, p2) {
+function disTaşıe(p1, p2) {
     const dx = p1.x - p2.x;
     const dy = p1.y - p2.y;
     return Math.sqrt(dx * dx + dy * dy);
@@ -1062,16 +1061,16 @@ function distance(p1, p2) {
 function advanceChar(char) {
     let charCode = char.charCodeAt(0) + 1;
     if (charCode > 90) charCode = 65;
-    return String.fromCharCode(charCode);
+    return String.fromuhur_disclaimerCode(charCode);
 }
 
 function findSnapPoint(pos) {
     for (const stroke of drawnStrokes) {
         if (stroke.type === 'point') {
-            if (distance(pos, stroke) < SNAP_THRESHOLD) return { x: stroke.x, y: stroke.y };
+            if (disTaşıe(pos, stroke) < SNAP_THRESHOLD) return { x: stroke.x, y: stroke.y };
         } else if (stroke.type === 'straightLine' || stroke.type === 'segment') {
-            if (distance(pos, stroke.p1) < SNAP_THRESHOLD) return stroke.p1;
-            if (distance(pos, stroke.p2) < SNAP_THRESHOLD) return stroke.p2;
+            if (disTaşıe(pos, stroke.p1) < SNAP_THRESHOLD) return stroke.p1;
+            if (disTaşıe(pos, stroke.p2) < SNAP_THRESHOLD) return stroke.p2;
         }
     }
     return null;
@@ -1120,18 +1119,18 @@ function drawInfinityLine(p1, p2, color, width, isRay = false) {
 window.bringToolToFront = function (clickedElement) {
     const tools = [
         window.RulerTool ? window.RulerTool.rulerElement : null,
-        window.GonyeTool ? window.GonyeTool.gonyeElement : null,
+        window.GönyeTool ? window.GönyeTool.GönyeElement : null,
         window.AciolcerTool ? window.AciolcerTool.aciolcerElement : null,
         window.PergelTool ? window.PergelTool.pergelElement : null
     ];
-    // ?? KES�N ��Z�M: Ara�lara dokununca z-index'leri 5'e d���p �izim tahtas�n�n alt�nda kayboluyordu!
-    // Art�k ara�lar her zaman 9990 ve 9999 g�c�nde en �stte kalacak.
+    // ?? KESİN ÇÖZÜM: Araçlara dokununca z-index'leri 5'e düşüp çizim TaşıasIşın altında kayboluyordu!
+    // Artık araçlar her zaman 9990 ve 9999 gücünde en üstte kalacak.
     tools.forEach(tool => { if (tool) tool.style.zIndex = 9990; });
     if (clickedElement) clickedElement.style.zIndex = 9999;
 }
 
 function redrawAllStrokes() {
-    // 1. �NCE KOORD�NATLARI SIFIRLA VE T�M EKRANI S�L
+    // 1. ÖNCE KOORDİNATLARI SIFIRLA VE TÜM EKRANI SİL
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -1142,12 +1141,12 @@ function redrawAllStrokes() {
         bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
     }
 
-    // G�VENL�K K�L�D�
+    // GÜVENLİK KİLİDİ
     if (!window.drawnStrokes || window.drawnStrokes.length === 0) return;
 
-    // --- B�Y�K ��Z�M: KATMAN (Z-INDEX) KORUMASI ---
-    // Arka plan� (sayfay� veya pdf'i) her zaman zorla en alta g�nderir.
-    // B�ylece kopyalar, makaslar ve �izimler ASLA sayfan�n alt�nda kalmaz!
+    // --- BÜYÜK ÇÖZÜM: KATMAN (Z-INDEX) KORUMASI ---
+    // Arka planı (sayfayı veya pdf'i) her zaman zorla en alTaşıönderir.
+    // Böylece kopyalar, makaslar ve çizimler ASLA sayfanın altında kalmaz!
     window.drawnStrokes.sort((a, b) => {
         if (a.isBackground && !b.isBackground) return -1;
         if (!a.isBackground && b.isBackground) return 1;
@@ -1155,23 +1154,23 @@ function redrawAllStrokes() {
     });
 
     ctx.save();
-    // (Buradaki translate ve scale sat�rlar�n� tamamen sildik. Zemin art�k sabit!)
+    // (Buradaki translate ve scale satırlarını TaşıMenüsüldik. Zemin artık sabit!)
 
     for (const stroke of drawnStrokes) {
 
-        // --- BU BLO�U D�NG�N�N EN BA�INA EKLE ---
+        // --- BU BLOĞU DÖNGÜNÜN EN BAŞINA EKLE ---
         if (stroke.type === 'preview') {
             const p = stroke.payload;
             ctx.save();
-            ctx.strokeStyle = '#FF0000'; // K�rm�z�
+            ctx.strokeStyle = '#FF0000'; // Kırmızı
             ctx.lineWidth = 4;
             ctx.setLineDash([5, 5]); // Kesikli
 
             if (p.tool === 'pen' && p.path && p.path.length > 0) {
-                // ?? Kalem i�in canl� �nizleme kesiksiz ve kendi renginde olmal�!
+                // ?? Kalem için canlIşınizleme kesiksiz ve kendi renginde olmalı!
                 ctx.setLineDash([]);
                 ctx.strokeStyle = p.color || '#FFFFFF';
-                // ?? Kal�nl�k: G�nderilen orijinal kal�nl��� (baseWidth) kullan
+                // ?? Kalınlık: Gönderilen orijinal kalınlığı (baseWidth) kullan
                 ctx.lineWidth = p.baseWidth || window.currentLineWidth || 3;
                 ctx.lineCap = 'round';
                 ctx.lineJoin = 'round';
@@ -1183,27 +1182,27 @@ function redrawAllStrokes() {
                 }
                 ctx.stroke();
             }
-            else if (['straightLine', 'line', 'segment', 'ray'].includes(p.tool) && p.start && p.end) {
+            else if (['straightLine', 'line', 'segment', 'ray'].includes(p.tool) && p.sTaşı && p.end) {
                 ctx.beginPath();
-                const dx = p.end.x - p.start.x, dy = p.end.y - p.start.y, devCarpan = 5000;
-                if (p.tool === 'line') { ctx.moveTo(p.start.x - dx * devCarpan, p.start.y - dy * devCarpan); ctx.lineTo(p.start.x + dx * devCarpan, p.start.y + dy * devCarpan); }
-                else if (p.tool === 'ray') { ctx.moveTo(p.start.x, p.start.y); ctx.lineTo(p.start.x + dx * devCarpan, p.start.y + dy * devCarpan); }
-                else { ctx.moveTo(p.start.x, p.start.y); ctx.lineTo(p.end.x, p.end.y); }
+                const dx = p.end.x - p.sTaşı.x, dy = p.end.y - p.sTaşı.y, devCarpan = 5000;
+                if (p.tool === 'line') { ctx.moveTo(p.sTaşı.x - dx * devCarpan, p.sTaşı.y - dy * devCarpan); ctx.lineTo(p.sTaşı.x + dx * devCarpan, p.sTaşı.y + dy * devCarpan); }
+                else if (p.tool === 'ray') { ctx.moveTo(p.sTaşı.x, p.sTaşı.y); ctx.lineTo(p.sTaşı.x + dx * devCarpan, p.sTaşı.y + dy * devCarpan); }
+                else { ctx.moveTo(p.sTaşı.x, p.sTaşı.y); ctx.lineTo(p.end.x, p.end.y); }
                 ctx.stroke();
             }
-            // ?? ��Z�M: D�KD�RTGEN VE �OKGENLER� DA�RE YER�NE KEND� �EKL�YLE ��Z
-            else if ((p.tool === 'rectangle' || p.tool === 'draw_rectangle') && p.start && p.end) {
+            // ?? ÇÖZÜM: Dikdörtgen VE Çokgenlerİ DAİRE YERİNE KENDİ ŞEKLİYLE ÇİZ
+            else if ((p.tool === 'recTaşıle' || p.tool === 'draw_recTaşıle') && p.sTaşı && p.end) {
                 ctx.beginPath();
-                ctx.rect(Math.min(p.start.x, p.end.x), Math.min(p.start.y, p.end.y), Math.abs(p.end.x - p.start.x), Math.abs(p.end.y - p.start.y));
+                ctx.rect(Math.min(p.sTaşı.x, p.end.x), Math.min(p.sTaşı.y, p.end.y), Math.abs(p.end.x - p.sTaşı.x), Math.abs(p.end.y - p.sTaşı.y));
                 ctx.stroke();
             }
-            else if (p.tool === 'polygon' && p.start && p.end) {
-                const cx = p.start.x, cy = p.start.y, radius = p.radius, sides = p.sides;
+            else if (p.tool === 'polygon' && p.sTaşı && p.end) {
+                const cx = p.sTaşı.x, cy = p.sTaşı.y, radius = p.radius, sides = p.sides;
                 ctx.beginPath();
                 if (!sides || sides === 0) {
                     ctx.arc(cx, cy, radius, 0, Math.PI * 2);
                 } else if (sides >= 3) {
-                    const angleRad = p.rotation || 0;
+                    const angleRad = p.roTaşıon || 0;
                     for (let i = 0; i <= sides; i++) {
                         const polyAngle = (i * 2 * Math.PI / sides) + angleRad;
                         const px = cx + radius * Math.cos(polyAngle);
@@ -1213,21 +1212,21 @@ function redrawAllStrokes() {
                 }
                 ctx.stroke();
             }
-            else if (p.start && p.end) {
-                const radius = p.radius || Math.hypot(p.end.x - p.start.x, p.end.y - p.start.y);
-                ctx.beginPath(); ctx.arc(p.start.x, p.start.y, radius, 0, Math.PI * 2); ctx.stroke();
+            else if (p.sTaşı && p.end) {
+                const radius = p.radius || Math.hypot(p.end.x - p.sTaşı.x, p.end.y - p.sTaşı.y);
+                ctx.beginPath(); ctx.arc(p.sTaşı.x, p.sTaşı.y, radius, 0, Math.PI * 2); ctx.stroke();
             }
             ctx.restore();
-            continue; // Bu nesneyi �izdik, di�er d�ng�lere girmesine gerek yok // Bu nesneyi �izdik, di�er d�ng�lere girmesine gerek yok
+            continue; // Bu nesneyi çizdik, diğer döngülere girmesine gerek yok // Bu nesneyi çizdik, diğer döngülere girmesine gerek yok
         }
         // ------------------------------------------
 
-        // ... (Senin mevcut if (stroke.type === 'pen') { ... } kodlar�n burada devam edecek)
-        // --- AKILLI BOYAMA MASKES� ---
+        // ... (Senin mevcut if (stroke.type === 'pen') { ... } kodların burada devam edecek)
+        // --- AKILLI BOYAMA MASKESİ ---
         if (stroke.type === 'lasso-mask') {
             ctx.save();
 
-            // Lazerle �effaf delme iptal, ak�ll� taray�c�n�n buldu�u renkle boyama devrede!
+            // Lazerle şeffaf delme ipTaşı akıllı TaşıyIşının bulduğu renkle boyama devrede!
             ctx.fillStyle = stroke.fillColor || "white";
 
             ctx.beginPath();
@@ -1239,75 +1238,75 @@ function redrawAllStrokes() {
             }
             ctx.closePath();
 
-            // Kesti�in tam o noktay�, sens�rlerin buldu�u sar� renge p�r�zs�zce boyar
+            // Kestiğin Taşıo nokTaşı, sensörlerin bulduğu sarı renge pürüzsüzce boyar
             ctx.fill();
             ctx.restore();
             continue;
         }
 
-        // --- KALEM (PEN) SAB�T KALINLIK VE YUMU�ATILMI� ��Z�M (BEZIER CURVE) ---
+        // --- KALEM (PEN) SABİT KALINLIK VE YUMUŞATILMIŞ ÇİZİM (BEZIER CURVE) ---
         if (stroke.type === 'pen') {
             const points = stroke.path;
 
             if (points.length < 2) {
-                // Sadece t�kland�ysa tek bir nokta koy (Bas�n� iptal)
+                // Sadece tıklandıysa tek bir nokTaşıoy (Basınç ipTaşı
                 ctx.beginPath();
                 ctx.arc(points[0].x, points[0].y, stroke.baseWidth / 2, 0, Math.PI * 2);
                 ctx.fillStyle = stroke.color;
                 ctx.fill();
             } else {
-                // --- K��ELER� YOK EDEN YUMU�ATMA (SMOOTHING) ALGOR�TMASI ---
+                // --- KÖŞELERİ YOK EDEN YUMUŞATMA (SMOOTHING) ALGORİTMASI ---
                 ctx.beginPath();
                 ctx.moveTo(points[0].x, points[0].y);
                 ctx.strokeStyle = stroke.color;
 
-                // 1. BASIN� �PTAL�: Kal�nl�k her zaman standart ve sabittir
+                // 1. BASINÇ İPTaşı: Kalınlık her zaman sTaşıart ve sabittir
                 ctx.lineWidth = stroke.baseWidth;
                 ctx.lineCap = 'round';
                 ctx.lineJoin = 'round';
 
-                // 2. K��E �PTAL�: Noktalar� d�z �izgiyle de�il, esnek e�rilerle (Bezier) ba�lar
+                // 2. KÖŞE İPTaşı: NokTaşırı Düz Çizgiyle değil, esnek eğrilerle (Bezier) bağlar
                 for (let i = 1; i < points.length - 1; i++) {
                     const xc = (points[i].x + points[i + 1].x) / 2;
                     const yc = (points[i].y + points[i + 1].y) / 2;
                     ctx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
                 }
 
-                // Son noktay� e�rinin ucuna ba�la
+                // Son nokTaşı eğrinin ucuna bağla
                 ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
                 ctx.stroke();
             }
         }
 
 
-        // --- RES�M / PDF VE CANLANDIR (SNAPSHOT) KOPYASI ---
+        // --- RESİM / PDF VE Canlandır (SNAPSHOT) KOPYASI ---
         else if (stroke.type === 'image') {
 
-            // 1. E�ER BU B�R PDF VEYA ARKA PLAN �SE SADECE �ER�EVES�N� ��Z, KEND�N� EN ARKAYA SAKLA
+            // 1. EĞER BU BİR PDF VEYA ARKA PLAN İSE SADECE ÇERÇEVESİNİ ÇİZ, KENDİNİ EN ARKAYA SAKLA
             if (stroke.isBackground !== false) {
                 if (typeof currentTool !== 'undefined' && currentTool === 'move' && selectedItem === stroke) {
                     ctx.save();
                     const centerX = stroke.x + (stroke.width / 2);
                     const centerY = stroke.y + (stroke.height / 2);
                     ctx.translate(centerX, centerY);
-                    ctx.rotate((stroke.rotation || 0) * Math.PI / 180);
+                    ctx.roTaşı((stroke.roTaşıon || 0) * Math.PI / 180);
 
-                    // Kesikli Se�im �er�evesi
+                    // Kesikli Seçim Çerçevesi
                     ctx.strokeStyle = '#00FFCC'; ctx.lineWidth = 2; ctx.setLineDash([5, 5]);
                     ctx.strokeRect(-stroke.width / 2, -stroke.height / 2, stroke.width, stroke.height);
                     ctx.setLineDash([]);
 
-                    // 1. D�nd�rme Butonu (�st Orta - Ye�il)
+                    // 1. Döndürme Butonu (Üst OrTaşı Yeşil)
                     const rotX = 0;
                     const rotY = -stroke.height / 2 - 25;
                     ctx.beginPath();
                     ctx.arc(rotX, rotY, 12, 0, 2 * Math.PI);
                     ctx.fillStyle = '#0F0'; ctx.fill();
                     ctx.strokeStyle = '#000'; ctx.lineWidth = 2; ctx.stroke();
-                    ctx.font = "bold 16px Arial"; ctx.fillStyle = "#FFF"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+                    ctx.font = "bold 16px Arial"; ctx.fillStyle = "#FFF"; ctx.texTaşıgn = "center"; ctx.textBaseline = "middle";
                     ctx.fillText("?", rotX, rotY - 1);
 
-                    // 2. Boyutland�rma Butonu (Sa� Alt - Pembe)
+                    // 2. Boyutlandırma Butonu (Sağ Alt - Pembe)
                     const resX = stroke.width / 2;
                     const resY = stroke.height / 2;
                     ctx.beginPath();
@@ -1318,28 +1317,28 @@ function redrawAllStrokes() {
 
                     ctx.restore();
                 }
-                continue; // ��lemi bitir ve resmin kendini �izmesi i�in en arkaya (destination-over) pasla
+                continue; // İşlemi bitir ve resmin kendini çizmesi için en arkaya (destination-over) pasla
             }
 
-            // 2. E�ER BU KEST���M�Z B�R Y�ZEN KOPYAYSA (CANLANDIR) EKRANA ��Z VE �ER�EVE EKLE
+            // 2. EĞER BU KESTİĞİMİZ BİR YÜZEN KOPYAYSA (Canlandır) EKRANA ÇİZ VE ÇERÇEVE EKLE
             let imgToDraw = null;
-            if (stroke.img && stroke.img instanceof HTMLImageElement) {
+            if (stroke.img && stroke.img insTaşıeof HTMLImageElement) {
                 imgToDraw = stroke.img;
-            } else if (stroke.imgData) {
+            } else if (stroke.imgDaTaşı{
                 if (!stroke.imgObj) {
                     stroke.imgObj = new Image();
-                    stroke.imgObj.src = stroke.imgData;
+                    stroke.imgObj.src = stroke.imgDaTaşı
                     stroke.imgObj.onload = () => { if (window.redrawAllStrokes) window.redrawAllStrokes(); };
                 }
                 imgToDraw = stroke.imgObj;
             }
 
-            if (imgToDraw && (imgToDraw.complete || imgToDraw.readyState >= 2)) {
+            if (imgToDraw && (imgToDraw.complete || imgToDraw.readySTaşı >= 2)) {
                 ctx.save();
                 const centerX = stroke.x + (stroke.width / 2);
                 const centerY = stroke.y + (stroke.height / 2);
                 ctx.translate(centerX, centerY);
-                ctx.rotate((stroke.rotation || 0) * Math.PI / 180);
+                ctx.roTaşı((stroke.roTaşıon || 0) * Math.PI / 180);
 
                 ctx.drawImage(imgToDraw, -stroke.width / 2, -stroke.height / 2, stroke.width, stroke.height);
 
@@ -1351,7 +1350,7 @@ function redrawAllStrokes() {
                     const rotX = 0; const rotY = -stroke.height / 2 - 25;
                     ctx.beginPath(); ctx.arc(rotX, rotY, 12, 0, 2 * Math.PI);
                     ctx.fillStyle = '#0F0'; ctx.fill(); ctx.strokeStyle = '#000'; ctx.lineWidth = 2; ctx.stroke();
-                    ctx.font = "bold 16px Arial"; ctx.fillStyle = "#FFF"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+                    ctx.font = "bold 16px Arial"; ctx.fillStyle = "#FFF"; ctx.texTaşıgn = "center"; ctx.textBaseline = "middle";
                     ctx.fillText("?", rotX, rotY - 1);
 
                     const resX = stroke.width / 2; const resY = stroke.height / 2;
@@ -1363,13 +1362,13 @@ function redrawAllStrokes() {
             }
         }
 
-        // --- NOKTA ---
+        // --- NOKTaşı--
         else if (stroke.type === 'point') {
-            drawDot(stroke, stroke.color); // ?? Noktan�n kendi rengini kullanmas�n� sa�lar
-            drawLabel(stroke.label, stroke, stroke.color); // ?? Harfin de ayn� renk olmas�n� sa�lar
+            drawDot(stroke, stroke.color); // ?? NokTaşın kendi rengini kullanmasını sağlar
+            drawLabel(stroke.label, stroke, stroke.color); // ?? Harfin de aynı renk olmasını sağlar
         }
 
-        // --- D�Z ��ZG� ---
+        // --- Düz Çizgi ---
         else if (stroke.type === 'straightLine') {
             ctx.beginPath();
             ctx.moveTo(stroke.p1.x, stroke.p1.y);
@@ -1381,7 +1380,7 @@ function redrawAllStrokes() {
             if (stroke.lengthLabel) drawLabel(stroke.lengthLabel, stroke.lengthLabelPos, '#FFFF00');
         }
 
-        // --- DO�RU ---
+        // --- Doğru ---
         else if (stroke.type === 'line') {
             const { ux, uy } = drawInfinityLine(stroke.p1, stroke.p2, stroke.color, stroke.width, false);
             if (ux !== 0 || uy !== 0) {
@@ -1392,7 +1391,7 @@ function redrawAllStrokes() {
             }
         }
 
-        // --- DO�RU PAR�ASI ---
+        // --- Doğru Parçası ---
         else if (stroke.type === 'segment') {
             ctx.beginPath();
             ctx.moveTo(stroke.p1.x, stroke.p1.y);
@@ -1406,7 +1405,7 @@ function redrawAllStrokes() {
             if (stroke.lengthLabel) drawLabel(stroke.lengthLabel, stroke.lengthLabelPos, '#FFFF00');
         }
 
-        // --- I�IN ---
+        // --- Işın ---
         else if (stroke.type === 'ray') {
             const { ux, uy } = drawInfinityLine(stroke.p1, stroke.p2, stroke.color, stroke.width, true);
             if (ux !== 0 || uy !== 0) {
@@ -1417,10 +1416,10 @@ function redrawAllStrokes() {
             }
         }
 
-        // --- �OKGENLER ---
+        // --- Çokgenler ---
         else if (stroke.type === 'polygon') {
             if (window.PolygonTool && typeof window.PolygonTool.calculateVertices === 'function') {
-                const vertices = window.PolygonTool.calculateVertices(stroke.center, stroke.radius, stroke.sideCount, stroke.rotation);
+                const vertices = window.PolygonTool.calculateVertices(stroke.center, stroke.radius, stroke.sideCount, stroke.roTaşıon);
                 stroke.vertices = vertices;
 
                 if (vertices.length > 0) {
@@ -1457,10 +1456,10 @@ function redrawAllStrokes() {
                         const v_current = vertices[j];
                         const v_prev = vertices[j === 0 ? vertices.length - 1 : j - 1];
                         const v_next = vertices[(j + 1) % vertices.length];
-                        const startAngle = Math.atan2(v_prev.y - v_current.y, v_prev.x - v_current.x);
-                        const endAngle = Math.atan2(v_next.y - v_current.y, v_next.x - v_current.x);
+                        const sTaşıAngle = Math.aTaşı(v_prev.y - v_current.y, v_prev.x - v_current.x);
+                        const endAngle = Math.aTaşı(v_next.y - v_current.y, v_next.x - v_current.x);
                         ctx.beginPath();
-                        ctx.arc(v_current.x, v_current.y, arcRadius, endAngle, startAngle);
+                        ctx.arc(v_current.x, v_current.y, arcRadius, endAngle, sTaşıAngle);
                         ctx.strokeStyle = '#FFFF00'; ctx.lineWidth = 2; ctx.stroke();
                         const angle_label_x = (v_current.x * 0.8) + (stroke.center.x * 0.2);
                         const angle_label_y = (v_current.y * 0.8) + (stroke.center.y * 0.2);
@@ -1468,8 +1467,8 @@ function redrawAllStrokes() {
                     }
                 }
                 if (typeof currentTool !== 'undefined' && currentTool === 'move' && selectedItem === stroke) {
-                    const rotateHandlePos = window.PolygonTool.getRotateHandlePosition(stroke);
-                    ctx.beginPath(); ctx.arc(rotateHandlePos.x, rotateHandlePos.y, 6, 0, 2 * Math.PI);
+                    const roTaşıHandlePos = window.PolygonTool.getRoTaşıHandlePosition(stroke);
+                    ctx.beginPath(); ctx.arc(roTaşıHandlePos.x, roTaşıHandlePos.y, 6, 0, 2 * Math.PI);
                     ctx.fillStyle = 'rgba(0, 255, 0, 0.8)'; ctx.fill(); ctx.strokeStyle = '#0F0'; ctx.lineWidth = 2; ctx.stroke();
                     const resizeHandlePos = window.PolygonTool.getResizeHandlePosition(stroke);
                     ctx.beginPath(); ctx.arc(resizeHandlePos.x, resizeHandlePos.y, 6, 0, 2 * Math.PI);
@@ -1478,24 +1477,24 @@ function redrawAllStrokes() {
             }
         }
 
-        // --- 3D HOLOGRRAM MOTORU Y�NLEND�RMES� VE 2D SENKRONU ---
+        // --- 3D HOLOGRRAM MOTORU YÖNLENDİRMESİ VE 2D SENKRONU ---
         else if (stroke.type === '3d_shape') {
             if (window.ThreeDTool && typeof window.ThreeDTool.drawShape === 'function') window.ThreeDTool.drawShape(ctx, stroke);
 
-            // 1. �� BOYUTLU NESNEY� 2D EKRAN MERKEZ�NE VE BOYUTUNA ZORLA UYDUR (SENKRON�ZASYON)
+            // 1. ÜÇ BOYUTLU NESNEYİ 2D EKRAN MERKEZİNE VE BOYUTUNA ZORLA UYDUR (SENKRONİZASYON)
             if (window.Scene3D && window.Scene3D.scene) {
-                const sceneMesh = window.Scene3D.scene.children.find(m => m.userData && m.userData.strokeData && m.userData.strokeData.id === stroke.id);
+                const sceneMesh = window.Scene3D.scene.children.find(m => m.userDaTaşı& m.userDaTaşıtrokeDaTaşı& m.userDaTaşıtrokeDaTaşıd === stroke.id);
                 if (sceneMesh) {
-                    if (stroke.rotationX !== undefined) sceneMesh.rotation.x = stroke.rotationX;
-                    if (stroke.rotationY !== undefined) sceneMesh.rotation.y = stroke.rotationY;
-                    if (stroke.rotationZ !== undefined) sceneMesh.rotation.z = stroke.rotationZ;
+                    if (stroke.roTaşıonX !== undefined) sceneMesh.roTaşıon.x = stroke.roTaşıonX;
+                    if (stroke.roTaşıonY !== undefined) sceneMesh.roTaşıon.y = stroke.roTaşıonY;
+                    if (stroke.roTaşıonZ !== undefined) sceneMesh.roTaşıon.z = stroke.roTaşıonZ;
                     
                    const canvasElm = document.getElementById('drawing-canvas');
                     if (canvasElm) {
                         const myCw = canvasElm.width;
                         const myCh = canvasElm.height;
                         
-                        // ?? S�RG� KORUMASI: S�rg� �ekilince de�i�en geni�lik yerine m�h�rl� original de�erleri kullan
+                        // ?? SÜRGÜ KORUMASI: Sürgü çekilince değişen genişlik yerine muhur_disclaimerlü original değerleri kullan
                         const refX = stroke.originalX !== undefined ? stroke.originalX : stroke.x;
                         const refY = stroke.originalY !== undefined ? stroke.originalY : stroke.y;
                         const refW = stroke.originalW !== undefined ? stroke.originalW : stroke.width;
@@ -1520,11 +1519,11 @@ function redrawAllStrokes() {
                             sceneMesh.position.z = stroke.pos3D.z;
                         }
                         
-                        // ?? KUSURSUZ BOYUT + A� �L�E��: Koordinatlar� bozmadan sadece pembe buton �arpan�n� ekliyoruz
+                        // ?? KUSURSUZ BOYUT + AĞ ÖLÇEĞİ: Koordinatları bozmadan sadece pembe buton çarpanını ekliyoruz
                         const threeJSHeightRatio = 30 / myCh;
-                        const targetThreeJSWidth = refW * threeJSHeightRatio;
-                        const originalThreeJSWidth = sceneMesh.userData.baseSize * 2;
-                        const gercekOlcek = targetThreeJSWidth / originalThreeJSWidth;
+                        const TaşıetThreeJSWidth = refW * threeJSHeightRatio;
+                        const originalThreeJSWidth = sceneMesh.userDaTaşıaseSize * 2;
+                        const gercekOlcek = TaşıetThreeJSWidth / originalThreeJSWidth;
                         
                         const mScale = stroke.meshScale || 1;
                         sceneMesh.scale.setScalar(gercekOlcek * mScale);
@@ -1532,99 +1531,99 @@ function redrawAllStrokes() {
                 }
             }
 
-            // 2. SE��L�YKEN YE��L VE PEMBE KULPLARI ��Z (ESK� �ZELL���N GER� GELMES�)
+            // 2. SEÇİLİYKEN YEŞİL VE PEMBE KULPLARI ÇİZ (ESKİ ÖZELLİĞİN GERİ GELMESİ)
             if (typeof currentTool !== 'undefined' && currentTool === 'move' && selectedItem === stroke) {
                 ctx.save();
                 const cX = stroke.x + stroke.width / 2;
                 const cY = stroke.y + stroke.height / 2;
-                const angleRad = (stroke.rotation || 0) * (Math.PI / 180);
+                const angleRad = (stroke.roTaşıon || 0) * (Math.PI / 180);
 
                 ctx.translate(cX, cY);
-                ctx.rotate(angleRad);
+                ctx.roTaşı(angleRad);
 
-                // Se�im �er�evesi
+                // Seçim Çerçevesi
                 ctx.strokeStyle = '#00FFCC'; ctx.lineWidth = 2; ctx.setLineDash([5, 5]);
                 ctx.strokeRect(-stroke.width / 2, -stroke.height / 2, stroke.width, stroke.height);
                 ctx.setLineDash([]);
                 ctx.restore();
             }
         }
-        else if (stroke.type === 'rectangle') {
+        else if (stroke.type === 'recTaşıle') {
             ctx.save();
             const centerX = stroke.x + stroke.width / 2;
             const centerY = stroke.y + stroke.height / 2;
             ctx.translate(centerX, centerY);
-            ctx.rotate((stroke.rotation || 0) * Math.PI / 180);
+            ctx.roTaşı((stroke.roTaşıon || 0) * Math.PI / 180);
 
-            // 1. Dikd�rtgeni �iz
+            // 1. Dikdörtgeni Çiz
             ctx.beginPath();
             ctx.rect(-stroke.width / 2, -stroke.height / 2, stroke.width, stroke.height);
             ctx.strokeStyle = stroke.color;
             ctx.lineWidth = 4;
             ctx.stroke();
 
-            // 2. Kenar Uzunluklar�n� Yazd�r (�nizlemedeki gibi kal�c� olur)
+            // 2. Kenar Uzunluklarını Yazdır (Önizlemedeki gibi kalıcı olur)
             if (stroke.showEdgeLabels) {
                 ctx.font = "14px Arial";
                 ctx.fillStyle = stroke.color;
-                ctx.textAlign = "center";
+                ctx.texTaşıgn = "center";
 
                 const wCm = (stroke.width / 30).toFixed(1).replace('.', ',');
                 const hCm = (stroke.height / 30).toFixed(1).replace('.', ',');
 
-                // �st Kenar CM
+                // Üst Kenar CM
                 ctx.fillText(`${wCm} cm`, 0, -stroke.height / 2 - 10);
 
-                // Sol Kenar CM (Dikey yazd�rmak i�in d�nd�r�yoruz)
+                // Sol Kenar CM (Dikey yazdırmak için döndürüyoruz)
                 ctx.save();
                 ctx.translate(-stroke.width / 2 - 25, 0);
-                ctx.rotate(-Math.PI / 2);
+                ctx.roTaşı(-Math.PI / 2);
                 ctx.fillText(`${hCm} cm`, 0, 0);
                 ctx.restore();
             }
 
-            // 3. K��e Harflerini Yazd�r (A, B, C, D)
+            // 3. Köşe Harflerini Yazdır (A, B, C, D)
             if (stroke.labels) {
                 ctx.font = "bold 16px Arial";
                 ctx.fillStyle = "#FF69B4"; // Pembe harfler
-                ctx.fillText(stroke.labels[0], -stroke.width / 2 - 15, -stroke.height / 2 - 5); // Sol �st
-                ctx.fillText(stroke.labels[1], stroke.width / 2 + 10, -stroke.height / 2 - 5);  // Sa� �st
-                ctx.fillText(stroke.labels[2], stroke.width / 2 + 10, stroke.height / 2 + 15);  // Sa� Alt
+                ctx.fillText(stroke.labels[0], -stroke.width / 2 - 15, -stroke.height / 2 - 5); // Sol Üst
+                ctx.fillText(stroke.labels[1], stroke.width / 2 + 10, -stroke.height / 2 - 5);  // Sağ Üst
+                ctx.fillText(stroke.labels[2], stroke.width / 2 + 10, stroke.height / 2 + 15);  // Sağ Alt
                 ctx.fillText(stroke.labels[3], -stroke.width / 2 - 15, stroke.height / 2 + 15); // Sol Alt
             }
 
-            // 4. "Ta��" Modu Aktifse Butonlar� �iz
+            // 4. "Taşı" Modu Aktifse Butonları Çiz
             if (currentTool === 'move' && selectedItem === stroke) {
-                // D�nd�rme (Ye�il)
+                // Döndürme (Yeşil)
                 ctx.fillStyle = '#0F0'; ctx.beginPath(); ctx.arc(0, -stroke.height / 2 - 30, 12, 0, 7); ctx.fill();
-                // Boyutland�rma (Pembe)
+                // Boyutlandırma (Pembe)
                 ctx.fillStyle = '#F0F'; ctx.beginPath(); ctx.arc(stroke.width / 2, stroke.height / 2, 12, 0, 7); ctx.fill();
             }
 
-            // 5. A�� T�kland�ysa 90 Derece Sembol�n� �iz
+            // 5. Açı Tıklandıysa 90 Derece Sembolünü Çiz
             if (stroke.showAngleLabels) {
                 ctx.font = "bold 14px Arial"; ctx.fillStyle = "yellow";
-                ctx.fillText("90�", -stroke.width / 2 + 15, -stroke.height / 2 + 20);
+                ctx.fillText("90°", -stroke.width / 2 + 15, -stroke.height / 2 + 20);
             }
             ctx.restore();
         }
 
 
 
-        // --- �EMBER / PERGEL ---
+        // --- Çember / PERGEL ---
         else if (stroke.type === 'arc') {
             const PI_RAD = Math.PI / 180;
-            let startRad = stroke.startAngle * PI_RAD;
+            let sTaşıRad = stroke.sTaşıAngle * PI_RAD;
             let endRad = stroke.endAngle * PI_RAD;
-            const totalAngleDrawn = Math.abs(stroke.endAngle - stroke.startAngle);
+            const toTaşıngleDrawn = Math.abs(stroke.endAngle - stroke.sTaşıAngle);
 
-            if (totalAngleDrawn >= 359) { startRad = 0; endRad = 2 * Math.PI; }
+            if (toTaşıngleDrawn >= 359) { sTaşıRad = 0; endRad = 2 * Math.PI; }
 
             ctx.beginPath();
-            ctx.arc(stroke.cx, stroke.cy, stroke.radius, startRad, endRad, false);
-            if (totalAngleDrawn >= 359) ctx.closePath();
+            ctx.arc(stroke.cx, stroke.cy, stroke.radius, sTaşıRad, endRad, false);
+            if (toTaşıngleDrawn >= 359) ctx.closePath();
 
-            if (stroke.fillColor && stroke.fillColor !== 'transparent' && totalAngleDrawn >= 359) {
+            if (stroke.fillColor && stroke.fillColor !== 'transparent' && toTaşıngleDrawn >= 359) {
                 ctx.fillStyle = stroke.fillColor;
                 ctx.fill();
             }
@@ -1656,40 +1655,40 @@ function redrawAllStrokes() {
                 drawLabel(r_label, { x: centerPos.x + (r_px / 2) - 20, y: centerPos.y - 10 }, '#FFFF00');
                 let labelY = centerPos.y - 20;
                 const labelX = centerPos.x + r_px + 30;
-                drawLabel(`� = 2 . ? . r`, { x: labelX, y: labelY }, '#FFFF00'); labelY += 20;
+                drawLabel(`Ç = 2 . ? . r`, { x: labelX, y: labelY }, '#FFFF00'); labelY += 20;
                 drawLabel(`= 2 . ${PI} . ${r_cm_str} = ${circ_str} cm`, { x: labelX, y: labelY }, '#FFFF00'); labelY += 25;
-                drawLabel(`A = ? . r�`, { x: labelX, y: labelY }, '#FFFF00'); labelY += 20;
-                drawLabel(`= ${PI} . ${r_cm_str}� = ${area_str} cm�`, { x: labelX, y: labelY }, '#FFFF00'); labelY += 25;
-                drawLabel(`(? = ${PI} al�nd�)`, { x: labelX, y: labelY }, '#AAAAAA');
+                drawLabel(`A = ? . r²`, { x: labelX, y: labelY }, '#FFFF00'); labelY += 20;
+                drawLabel(`= ${PI} . ${r_cm_str}² = ${area_str} cm²`, { x: labelX, y: labelY }, '#FFFF00'); labelY += 25;
+                drawLabel(`(? = ${PI} alındı)`, { x: labelX, y: labelY }, '#AAAAAA');
             }
         }
-    } // <-- FOR D�NG�S� BURADA KAPANIYOR
+    } // <-- FOR DÖNGÜSÜ BURADA KAPANIYOR
 
     ctx.restore();
 
-    // === EKLENECEK YEN� B�L�M: SAYFAYI EN ARKAYA ��Z ===
+    // === EKLENECEK YENİ BÖLÜM: SAYFAYIşın ARKAYA ÇİZ ===
     if (bgCtx) {
         bgCtx.save();
         for (const stroke of drawnStrokes) {
             if (stroke.type === 'image' && stroke.isBackground !== false) {
                 let imgToDraw = null;
-                if (stroke.img && stroke.img instanceof HTMLImageElement) {
+                if (stroke.img && stroke.img insTaşıeof HTMLImageElement) {
                     imgToDraw = stroke.img;
                 } else if (stroke.imgObj) {
                     imgToDraw = stroke.imgObj;
                 }
 
-                if (imgToDraw && (imgToDraw.complete || imgToDraw.readyState >= 2)) {
+                if (imgToDraw && (imgToDraw.complete || imgToDraw.readySTaşı >= 2)) {
                     bgCtx.save();
                     const centerX = stroke.x + (stroke.width / 2);
                     const centerY = stroke.y + (stroke.height / 2);
                     bgCtx.translate(centerX, centerY);
-                    bgCtx.rotate((stroke.rotation || 0) * Math.PI / 180);
+                    bgCtx.roTaşı((stroke.roTaşıon || 0) * Math.PI / 180);
                     bgCtx.drawImage(imgToDraw, -stroke.width / 2, -stroke.height / 2, stroke.width, stroke.height);
                     bgCtx.restore();
                 }
             }
-            // Ayr�ca Lasso-mask ile PDF �zerinde delik a��lm��sa onu da bgCtx'den siliyoruz
+            // Ayrıca Lasso-mask ile PDF üzerinde delik açılmışsa onu da bgCtx'den siliyoruz
             else if (stroke.type === 'lasso-mask') {
                 bgCtx.save();
                 bgCtx.globalCompositeOperation = 'destination-out';
@@ -1707,8 +1706,8 @@ function redrawAllStrokes() {
     }
     // ====================================================
 
-    // --- YEN� EKLENEN KISIM: OTOMAT�K HARF SENKRON�ZASYONU ---
-    // Ekranda o an var olan en y�ksek harfi bulur
+    // --- YENİ EKLENEN KISIM: OTOMATİK HARF SENKRONİZASYONU ---
+    // Ekranda o an var olan en yüksek harfi bulur
     let maxCode = 64;
     drawnStrokes.forEach(s => {
         if (s.label && s.label.charCodeAt(0) > maxCode) maxCode = s.label.charCodeAt(0);
@@ -1717,23 +1716,23 @@ function redrawAllStrokes() {
     });
 
 
-    // S�radaki harfe ge�er (Z'yi ge�erse A'ya d�ner)
+    // Sıradaki harfe geçer (Z'yi geçerse A'ya döner)
     let nextCode = maxCode + 1;
     if (nextCode > 90) nextCode = 65;
 
-    // T�m sistemi (Pergel, �okgenler ve Kalem) tek bir harfe senkronize eder
-    nextPointChar = String.fromCharCode(nextCode);
+    // Tüm sistemi (Pergel, Çokgenler ve Kalem) tek bir harfe senkronize eder
+    nextPointChar = String.fromuhur_disclaimerCode(nextCode);
     window.nextPointChar = nextPointChar;
     // ---------------------------------------------------------
 
-    // --- 4. ADIM: YEN� POL�GONAL LASSO �N�ZLEMES� ---
+    // --- 4. ADIM: YENİ POLİGONAL LASSO ÖNİZLEMESİ ---
     if (currentTool === 'lasso' && typeof lassoPoints !== 'undefined' && lassoPoints.length > 0) {
         ctx.save();
 
-        // 1. SAB�TLENM�� ��ZG�LER� ��Z (Noktalar aras�)
-        ctx.strokeStyle = '#00ffcc'; // �izgi rengi turkuaz
+        // 1. SABİTLENMİŞ ÇİZGİLERİ ÇİZ (NokTaşır arası)
+        ctx.strokeStyle = '#00ffcc'; // Çizgi rengi turkuaz
         ctx.lineWidth = 2;
-        ctx.setLineDash([]); // Sabit �izgiler d�z olsun
+        ctx.setLineDash([]); // Sabit çizgiler düz olsun
         ctx.beginPath();
         ctx.moveTo(lassoPoints[0].x, lassoPoints[0].y);
         for (let i = 1; i < lassoPoints.length; i++) {
@@ -1741,10 +1740,10 @@ function redrawAllStrokes() {
         }
         ctx.stroke();
 
-        // 2. KES�KL� �N�ZLEME ��ZG�S�N� ��Z (Son noktadan imlece giden)
+        // 2. KESİKLİ ÖNİZLEME ÇİZGİSİNİ ÇİZ (Son nokTaşın imlece giden)
         if (typeof currentMousePos !== 'undefined' && currentMousePos) {
             ctx.beginPath();
-            ctx.setLineDash([6, 6]); // Kesikli �izgi efekti
+            ctx.setLineDash([6, 6]); // Kesikli çizgi efekti
             ctx.strokeStyle = '#aaaaaa';
             let lastPoint = lassoPoints[lassoPoints.length - 1];
             ctx.moveTo(lastPoint.x, lastPoint.y);
@@ -1752,17 +1751,17 @@ function redrawAllStrokes() {
             ctx.stroke();
         }
 
-        // 3. TIKLANAN NOKTALARI (K���K YUVARLAKLARI) ��Z
+        // 3. TIKLANAN NOKTaşıRI (KÜÇÜK YUVARLAKLARI) ÇİZ
         ctx.fillStyle = '#ff0044';
         ctx.setLineDash([]);
         for (let i = 0; i < lassoPoints.length; i++) {
             ctx.beginPath();
-            // �LK noktay� hedef olarak g�stermek i�in daha B�Y�K �iziyoruz
+            // İLK nokTaşı hedef olarak göstermek için daha BÜYÜK çiziyoruz
             let radius = (i === 0) ? 8 : 4;
             ctx.arc(lassoPoints[i].x, lassoPoints[i].y, radius, 0, Math.PI * 2);
             ctx.fill();
 
-            // �lk noktan�n etraf�na beyaz bir hedef halkas� ekle
+            // İlk nokTaşın etrafına beyaz bir hedef halkası ekle
             if (i === 0) {
                 ctx.strokeStyle = '#ffffff';
                 ctx.lineWidth = 2;
@@ -1771,15 +1770,15 @@ function redrawAllStrokes() {
         }
 
         ctx.restore();
-    } // <-- BURASI YEN� POL�GONAL LASSO BLO�UNUN B�T�� PARANTEZ�
+    } // <-- BURASI YENİ POLİGONAL LASSO BLOĞUNUN BİTİŞ PARANTEZİ
 
 
-    // --- HASSAS HEDEFLEME �APRAZI (KESK�N N��ANCI MODU) ---
-    // (Lasso se�iliyse ve parmak ekrana bas�l�ysa her zaman ��kar)
+    // --- HASSAS HEDEFLEME ÇAPRAZI (KESKİN NİŞANCI MODU) ---
+    // (Lasso seçiliyse ve parmak ekrana basılıysa her zaman çıkar)
     if (currentTool === 'lasso' && window.isDraggingLassoPoint && typeof currentMousePos !== 'undefined' && currentMousePos) {
         ctx.save();
         ctx.beginPath();
-        // Ekran�n bir ucundan di�er ucuna yatay ve dikey hizalama �izgileri
+        // Ekranın bir ucundan diğer ucuna yaTaşıve dikey hizalama çizgileri
         ctx.moveTo(0, currentMousePos.y);
         ctx.lineTo(canvas.width, currentMousePos.y);
         ctx.moveTo(currentMousePos.x, 0);
@@ -1787,9 +1786,9 @@ function redrawAllStrokes() {
 
         ctx.setLineDash([4, 4]); // Kesikli
 
-        // E�er ba�lang�� noktas�na kilitlendiysek �apraz YE��L olsun
+        // Eğer başlangIşınokTaşına kilitlendiysek çapraz YEŞİL olsun
         if (window.lassoIsClosing) {
-            ctx.strokeStyle = '#00FF00'; // Kilitlendi Ye�ili
+            ctx.strokeStyle = '#00FF00'; // Kilitlendi Yeşili
         } else {
             ctx.strokeStyle = 'rgba(255, 0, 255, 0.7)'; // Normal Pembe
         }
@@ -1798,7 +1797,7 @@ function redrawAllStrokes() {
         ctx.stroke();
 
 
-        // Tam dokundu�un yere minik bir merkez noktas�
+        // Taşıdokunduğun yere minik bir merkez nokTaşı
         ctx.beginPath();
         ctx.arc(currentMousePos.x, currentMousePos.y, 4, 0, Math.PI * 2);
         ctx.fillStyle = window.lassoIsClosing ? '#00FF00' : '#ff00ff';
@@ -1806,7 +1805,7 @@ function redrawAllStrokes() {
         ctx.restore();
     }
 
-} // <-- redrawAllStrokes FONKS�YONU BURADA TAMAMEN KAPANIYOR
+} // <-- redrawAllStrokes FONKSİYONU BURADA TaşıMEN KAPANIYOR
 
 
 function processLassoCut() {
@@ -1823,14 +1822,14 @@ function processLassoCut() {
     if (width < 5 || height < 5) return;
 
     // =======================================================
-    // 1. X-RAY (R�NTGEN) SENS�R�: T�m katmanlar� birle�tirip ger�ek rengi okur
+    // 1. X-RAY (RÖNTGEN) SENSÖRÜ: Tüm katmanları birleştirip gerçek rengi okur
     // =======================================================
     function getRealColor(x, y) {
         const tCan = document.createElement('canvas');
         tCan.width = 1; tCan.height = 1;
         const tCtx = tCan.getContext('2d');
 
-        // Alttaki PDF katman�n� oku
+        // AltTaşı PDF katmanını oku
         const bgLayer = document.getElementById('pdf-canvas') || document.querySelector('.pdf-page-canvas');
         if (bgLayer) {
             const sX = bgLayer.width / bgLayer.offsetWidth;
@@ -1839,13 +1838,13 @@ function processLassoCut() {
         } else {
             tCtx.fillStyle = "white"; tCtx.fillRect(0, 0, 1, 1);
         }
-        // �stteki �izim katman�n� ekle
+        // Üstteki çizim katmanını ekle
         tCtx.drawImage(canvas, x, y, 1, 1, 0, 0, 1, 1);
-        return tCtx.getImageData(0, 0, 1, 1).data;
+        return tCtx.getImageDaTaşı, 0, 1, 1).daTaşı
     }
 
     // =======================================================
-    // 2. KEST���M�Z PAR�AYI (KOPYAYI) OLU�TUR (X-Ray kullanarak keser)
+    // 2. KESTİĞİMİZ PARÇAYI (KOPYAYI) OLUŞTUR (X-Ray kullanarak keser)
     // =======================================================
     const offCanvas = document.createElement('canvas');
     offCanvas.width = width; offCanvas.height = height;
@@ -1861,22 +1860,22 @@ function processLassoCut() {
 
     const bgLayer = document.getElementById('pdf-canvas') || document.querySelector('.pdf-page-canvas');
 
-    // Y�ksek kaliteli �izim ayarlar�n� etkinle�tir
+    // Yüksek kaliteli çizim ayarlarını etkinleştir
     offCtx.imageSmoothingEnabled = true;
     offCtx.imageSmoothingQuality = 'high';
 
     if (bgLayer) {
-        // Kanvas�n HD ��z�n�rl�k oran�n� al (DPR)
+        // Kanvasın HD çözünürlük oranını al (DPR)
         const dprCanvasX = canvas.width / canvas.getBoundingClientRect().width;
         const dprCanvasY = canvas.height / canvas.getBoundingClientRect().height;
 
-        // PDF koordinatlar�n� tabletin piksel yo�unlu�una g�re kusursuz olarak e�itle
+        // PDF koordinatlarını Taşıetin piksel yoğunluğuna göre kusursuz olarak eşitle
         const sX = (bgLayer.width / bgLayer.offsetWidth) / dprCanvasX;
         const sY = (bgLayer.height / bgLayer.offsetHeight) / dprCanvasY;
         offCtx.drawImage(bgLayer, minX * sX, minY * sY, width * sX, height * sY, 0, 0, width, height);
     }
     offCtx.drawImage(canvas, minX, minY, width, height, 0, 0, width, height);
-    const imgSrc = offCanvas.toDataURL('image/png', 1.0); // Kaliteyi en �ste sabitle
+    const imgSrc = offCanvas.toDaTaşıL('image/png', 1.0); // Kaliteyi en üste sabitle
 
     // =======================================================
     // 3. AKILLI RENK BULUCU
@@ -1897,7 +1896,7 @@ function processLassoCut() {
 
         for (let p of scanPoints) {
             const px = getRealColor(p.x, p.y);
-            // Renk fark�n� hesapla
+            // Renk farkını hesapla
             const diff = Math.abs(px[0] - centerPixel[0]) + Math.abs(px[1] - centerPixel[1]) + Math.abs(px[2] - centerPixel[2]);
             if (diff > 50) {
                 smartColor = `rgb(${px[0]}, ${px[1]}, ${px[2]})`;
@@ -1905,11 +1904,11 @@ function processLassoCut() {
             }
         }
     } catch (e) {
-        console.warn("Renk okuma hatas�", e);
+        console.warn("Renk okuma haTaşı", e);
     }
 
     // =======================================================
-    // 4. ZOOM UYUMLU, KALICI YAMA OLU�TURUCU
+    // 4. ZOOM UYUMLU, KALICI YAMA OLUŞTURUCU
     // =======================================================
     const patchCanvas = document.createElement('canvas');
     patchCanvas.width = width; patchCanvas.height = height;
@@ -1924,30 +1923,30 @@ function processLassoCut() {
     pCtx.fill(); // Rengi boya
 
     const patchImg = new Image();
-    patchImg.src = patchCanvas.toDataURL('image/png');
+    patchImg.src = patchCanvas.toDaTaşıL('image/png');
     patchImg.onload = () => {
-        drawnStrokes.unshift({ // Yama her �eyin EN ALTINDA kalacak �ekilde ba�a eklenir
+        drawnStrokes.unshift({ // Yama her şeyin EN ALTINDA kalacak şekilde başa eklenir
             type: 'image',
             imgObj: patchImg,
             x: minX, y: minY,
             width: width, height: height,
-            rotation: 0,
-            isBackground: true, // ZOOM YAPILDI�INDA PDF �LE B�Y�MES� ���N
-            isPatch: true       // SAYFA DE����NCE S�L�NMES� ���N �ZEL ET�KET
+            roTaşıon: 0,
+            isBackground: true, // ZOOM YAPILDIşınDA PDF İLE BÜYÜMESİ İÇİN
+            isPatch: true       // SAYFA DEĞİŞİNCE SİLİNMESİ İÇİN ÖZEL ETİKET
         });
         if (window.redrawAllStrokes) window.redrawAllStrokes();
     };
 
     // =======================================================
-    // 5. KEST���N�Z KOPYAYI EKRANA GET�R VE OTOMAT�K SE�
+    // 5. KESTİĞİNİZ KOPYAYI EKRANA GETİR VE OTOMATİK SEÇ
     // =======================================================
     const newImgStroke = {
         type: 'image',
-        imgData: imgSrc,
+        imgDaTaşıimgSrc,
         x: minX, y: minY,
         width: width, height: height,
-        rotation: 0,
-        isBackground: false, // KR�T�K: Butonlar�n ��kmas� i�in false olmal�
+        roTaşıon: 0,
+        isBackground: false, // KRİTİK: Butonların çıkması için false olmalı
         imgObj: null
     };
 
@@ -1961,11 +1960,11 @@ function processLassoCut() {
     boxCopies.push(newImgStroke);
 
 
-    // --- TABLETTE BUTONLARIN �IKMASI ���N �ART ---
-    selectedItem = newImgStroke; // Yeni kesti�in par�ay� an�nda se�
-    isMoving = false;            // S�r�kleme durumunu kapat
+    // --- TaşıETTE BUTONLARIN ÇIKMASI İÇİN ŞART ---
+    selectedItem = newImgStroke; // Yeni kestiğin parçayIşınında seç
+    isMoving = false;            // Sürükleme durumunu kapat
 
-    // Arac� 'move' yap (Yukar�da da yapt�k ama burada da olmas� g�venlidir)
+    // Aracı 'move' yap (Yukarıda da yaptık ama burada da olması güvenlidir)
     currentTool = 'move';
 
     if (window.redrawAllStrokes) window.redrawAllStrokes();
@@ -1976,15 +1975,15 @@ function undoLastStroke() {
     if (drawnStrokes.length > 0) {
         if (window.audio_undo) { window.audio_undo.currentTime = 0; window.audio_undo.play(); }
 
-        // 1. Kendi listenden son �izgiyi sil
+        // 1. Kendi listenden son çizgiyi sil
                 const popped = drawnStrokes.pop();
 
-        // 3D �EK�LSE GER� ALIRKEN SAHNEDEN DE KALDIR
+        // 3D ŞEKİLSE GERİ ALIRKEN SAHNEDEN DE KALDIR
         if (popped && popped.type === '3d_shape' && window.Scene3D && window.Scene3D.scene) {
-            const meshToRemove = window.Scene3D.scene.children.find(m => m.userData && m.userData.strokeData && m.userData.strokeData.id === popped.id);
+            const meshToRemove = window.Scene3D.scene.children.find(m => m.userDaTaşı& m.userDaTaşıtrokeDaTaşı& m.userDaTaşıtrokeDaTaşıd === popped.id);
             if (meshToRemove) {
                 meshToRemove.traverse((child) => {
-                    if (child.isMesh || child.isLineSegments) {
+                    if (child.isMesh || child.isLineSegMenüsü {
                         if (child.geometry) child.geometry.dispose();
                         if (child.material) {
                             if (Array.isArray(child.material)) child.material.forEach(mat => mat.dispose());
@@ -1998,15 +1997,15 @@ function undoLastStroke() {
             }
         }
 
-        // YEN�: KAT �Z� BIRAK (Undo s�ras�nda katlamalar� a�arken iz b�rak)
+        // YENİ: KAT İZİ BIRAK (Undo sırasında katlamaları açarken iz bırak)
         if (popped && popped.isPatch === true && popped.foldLine) {
             const p1 = popped.foldLine[0];
             const p2 = popped.foldLine[1];
-            // �z stroke'u olu�tur (Daha ince ve daha az dikkat da��t�c�)
+            // İz stroke'u oluştur (Daha ince ve daha az dikkat dağıtıcı)
             const izStroke = {
                 type: 'line', 
                 points: [p1, p2],
-                color: 'rgba(0, 0, 0, 0.2)', // Daha �effaf (dikkat da��tmaz)
+                color: 'rgba(0, 0, 0, 0.2)', // Daha şeffaf (dikkat dağıtmaz)
                 width: 1.5, // Daha ince
                 isDash: true, 
                 dashPattern: [6, 6], // Kesikli
@@ -2015,9 +2014,9 @@ function undoLastStroke() {
             drawnStrokes.push(izStroke);
         }
 
-        // --- CANLI SINIF: TAHTAYA "SON ��Z�M� S�L" MESAJI G�NDER ---
+        // --- CANLI SINIF: TaşıAYA "SON ÇİZİMİ SİL" MESAJI GÖNDER ---
         if (typeof isConnected !== 'undefined' && isConnected) {
-            window.sendNetworkData({ type: 'geri_al' });
+            window.sendNetworkDaTaşı type: 'geri_al' });
         }
         // ---------------------------------------------------------
 
@@ -2027,16 +2026,16 @@ function undoLastStroke() {
 }
 
 function clearAllStrokes() {
-    // 1. Ses �al (varsa)
+    // 1. Ses çal (varsa)
     if (drawnStrokes.length > 0) {
         if (window.audio_clear) window.audio_clear.play();
     }
 
-    // 2. Tabletin yerel haf�zas�n� temizle (Arka planlar� koru)
+    // 2. Taşıetin yerel hafızasını temizle (Arka planları koru)
     drawnStrokes = drawnStrokes.filter(stroke => stroke.isBackground === true);
     window.drawnStrokes = drawnStrokes;
 
-    // ?? HEPS�N� S�LERKEN 3D SAHNEY� TAMAMEN SIFIRLA
+    // ?? HEPSİNİ SİLERKEN 3D SAHNEYİ TaşıMenüsüFIRLA
     if (window.Scene3D && window.Scene3D.scene) {
         const toRemove = window.Scene3D.scene.children.filter(c => c.type === 'Mesh' || c.type === 'Group');
         toRemove.forEach(m => {
@@ -2051,22 +2050,22 @@ function clearAllStrokes() {
         if (typeof window.Scene3D.updateHandlePositions === 'function') window.Scene3D.updateHandlePositions();
     }
 
-    // 3. Taray�c�daki eski kay�tlar� temizle (E�er PC veya Tablette localStorage kullan�yorsan)
+    // 3. Taşıyıcıdaki eski kayıtları temizle (Eğer PC veya Taşıette localStorage kullanıyorsan)
     if (window.localStorage) {
         window.localStorage.removeItem('drawnStrokes');
     }
 
-    // 4. PC'ye "hepsini_sil" komutunu g�nder
+    // 4. PC'ye "hepsini_sil" komutunu gönder
     if (typeof isConnected !== 'undefined' && isConnected) {
-        window.sendNetworkData({ type: 'hepsini_sil' });
-        console.log("Temizleme komutu PC'ye g�nderildi.");
+        window.sendNetworkDaTaşı type: 'hepsini_sil' });
+        console.log("Temizleme komutu PC'ye gönderildi.");
     }
 
-    // 5. Harf sayac�n� s�f�rla
+    // 5. Harf sayacını sıfırla
     nextPointChar = 'A';
     window.nextPointChar = 'A';
 
-    // 6. Ekran� tamamen yenile
+    // 6. Ekranı Taşımen yenile
     if (typeof redrawAllStrokes === 'function') {
         redrawAllStrokes();
     }
@@ -2079,19 +2078,19 @@ function findHit(pos) {
         if (stroke.type === 'image') {
             const halfW = stroke.width / 2;
             const halfH = stroke.height / 2;
-            const angleRad = (stroke.rotation || 0) * (Math.PI / 180);
+            const angleRad = (stroke.roTaşıon || 0) * (Math.PI / 180);
 
-            // --- KR�T�K D�ZELTME: Resmin ger�ek merkezini hesapla ---
+            // --- KRİTİK DÜZELTME: Resmin gerçek merkezini hesapla ---
             const centerX = stroke.x + halfW;
             const centerY = stroke.y + halfH;
 
-            // --- A. D�ND�RME KULPU (Rotate Handle) ALGILAMA ---
+            // --- A. DÖNDÜRME KULPU (RoTaşı Handle) ALGILAMA ---
             const handleDist = halfH + 30;
             const rotX = centerX + Math.sin(angleRad) * handleDist;
             const rotY = centerY - Math.cos(angleRad) * handleDist;
 
-            if (distance(pos, { x: rotX, y: rotY }) < 25) {
-                return { item: stroke, pointKey: 'image_rotate' };
+            if (disTaşıe(pos, { x: rotX, y: rotY }) < 25) {
+                return { item: stroke, pointKey: 'image_roTaşı' };
             }
 
             // --- B. BOYUTLANDIRMA KULPU (Resize Handle) ---
@@ -2100,11 +2099,11 @@ function findHit(pos) {
             const resX = centerX + resLocalX;
             const resY = centerY + resLocalY;
 
-            if (distance(pos, { x: resX, y: resY }) < 25) {
+            if (disTaşıe(pos, { x: resX, y: resY }) < 25) {
                 return { item: stroke, pointKey: 'image_resize' };
             }
 
-            // --- C. RES�M G�VDES� (Ta��ma) ---
+            // --- C. RESİM GÖVDESİ (Taşıma) ---
             const dx = pos.x - centerX;
             const dy = pos.y - centerY;
             const localClickX = dx * Math.cos(-angleRad) - dy * Math.sin(-angleRad);
@@ -2115,65 +2114,65 @@ function findHit(pos) {
             }
         }
 
-        // --- 3D �EK�L BUTON VE G�VDE SENS�R� (KUSURSUZ) ---
+        // --- 3D ŞEKİL BUTON VE GÖVDE SENSÖRÜ (KUSURSUZ) ---
         if (stroke.type === '3d_shape') {
             const cX = stroke.x + stroke.width / 2;
             const cY = stroke.y + stroke.height / 2;
-            const angleRad = (stroke.rotation || 0) * (Math.PI / 180);
+            const angleRad = (stroke.roTaşıon || 0) * (Math.PI / 180);
 
             if (currentTool === 'move' && selectedItem === stroke) {
-                // Ye�il (D�nd�rme)
+                // Yeşil (Döndürme)
                 const rotY = -stroke.height / 2 - 40;
                 const rotX_world = cX + Math.sin(angleRad) * Math.abs(rotY);
                 const rotY_world = cY - Math.cos(angleRad) * Math.abs(rotY);
-                if (distance(pos, { x: rotX_world, y: rotY_world }) < 35) return { item: stroke, pointKey: 'image_rotate' };
+                if (disTaşıe(pos, { x: rotX_world, y: rotY_world }) < 35) return { item: stroke, pointKey: 'image_roTaşı' };
 
-                // Pembe (Boyutland�rma)
+                // Pembe (Boyutlandırma)
                 const resX_local = stroke.width / 2 + 20;
                 const resY_local = stroke.height / 2 + 20;
                 const resX_world = cX + (resX_local * Math.cos(angleRad) - resY_local * Math.sin(angleRad));
                 const resY_world = cY + (resX_local * Math.sin(angleRad) + resY_local * Math.cos(angleRad));
-                if (distance(pos, { x: resX_world, y: resY_world }) < 35) return { item: stroke, pointKey: 'image_resize' };
+                if (disTaşıe(pos, { x: resX_world, y: resY_world }) < 35) return { item: stroke, pointKey: 'image_resize' };
             }
 
-            // ?? 3D �eklin T�m G�vdesini Yakala (Ta��ma Ba�las�n ve Butonlar ��ks�n)
-            if (distance(pos, { x: cX, y: cY }) < Math.max(stroke.width, stroke.height) + 30) {
+            // ?? 3D Şeklin Tüm Gövdesini Yakala (Taşıma Başlasın ve Butonlar Çıksın)
+            if (disTaşıe(pos, { x: cX, y: cY }) < Math.max(stroke.width, stroke.height) + 30) {
                 return { item: stroke, pointKey: 'self' };
             }
         }
 
         if (currentTool === 'move' && selectedItem === stroke) {
             if (stroke.type === 'polygon') {
-                const rotateHandlePos = window.PolygonTool.getRotateHandlePosition(stroke);
+                const roTaşıHandlePos = window.PolygonTool.getRoTaşıHandlePosition(stroke);
                 const resizeHandlePos = window.PolygonTool.getResizeHandlePosition(stroke);
 
-                const dRot = distance(pos, rotateHandlePos);
-                const dRes = distance(pos, resizeHandlePos);
+                const dRot = disTaşıe(pos, roTaşıHandlePos);
+                const dRes = disTaşıe(pos, resizeHandlePos);
 
-                // ?? PEMBE VE YE��L BUTON �AKI�MA ZIRHI (�ncelik en yak�n olana verilir)
+                // ?? PEMBE VE YEŞİL BUTON ÇAKIŞMA ZIRHI (Öncelik en yakın olana verilir)
                 if (dRes < 35 && dRes <= dRot) return { item: stroke, pointKey: 'resize' };
-                if (dRot < 35) return { item: stroke, pointKey: 'rotate' };
+                if (dRot < 35) return { item: stroke, pointKey: 'roTaşı' };
             }
         }
 
 
-        // --- D�KD�RTGEN YAKALAMA (TABLET UYUMLU) ---
-        if (stroke.type === 'rectangle') {
+        // --- Dikdörtgen YAKALAMA (TaşıET UYUMLU) ---
+        if (stroke.type === 'recTaşıle') {
             const centerX = stroke.x + stroke.width / 2;
             const centerY = stroke.y + stroke.height / 2;
-            const angleRad = (stroke.rotation || 0) * (Math.PI / 180);
+            const angleRad = (stroke.roTaşıon || 0) * (Math.PI / 180);
 
-            // A. D�nd�rme Butonu (Ye�il - �stte)
+            // A. Döndürme Butonu (Yeşil - Üstte)
             const rotX = centerX + Math.sin(angleRad) * (stroke.height / 2 + 35);
             const rotY = centerY - Math.cos(angleRad) * (stroke.height / 2 + 35);
-            if (distance(pos, { x: rotX, y: rotY }) < 30) return { item: stroke, pointKey: 'image_rotate' };
+            if (disTaşıe(pos, { x: rotX, y: rotY }) < 30) return { item: stroke, pointKey: 'image_roTaşı' };
 
-            // B. Boyutland�rma Butonu (Pembe - Sa� Alt)
+            // B. Boyutlandırma Butonu (Pembe - Sağ Alt)
             const resX = centerX + (stroke.width / 2 * Math.cos(angleRad) - stroke.height / 2 * Math.sin(angleRad));
             const resY = centerY + (stroke.width / 2 * Math.sin(angleRad) + stroke.height / 2 * Math.cos(angleRad));
-            if (distance(pos, { x: resX, y: resY }) < 30) return { item: stroke, pointKey: 'image_resize' };
+            if (disTaşıe(pos, { x: resX, y: resY }) < 30) return { item: stroke, pointKey: 'image_resize' };
 
-            // C. K��eler (90 Derece A�� G�sterme - 30px hassasiyet)
+            // C. Köşeler (90 Derece Açı Gösterme - 30px hassasiyet)
             const corners = [
                 { x: -stroke.width / 2, y: -stroke.height / 2 }, { x: stroke.width / 2, y: -stroke.height / 2 },
                 { x: stroke.width / 2, y: stroke.height / 2 }, { x: -stroke.width / 2, y: stroke.height / 2 }
@@ -2181,10 +2180,10 @@ function findHit(pos) {
             for (let c of corners) {
                 const cornerX = centerX + (c.x * Math.cos(angleRad) - c.y * Math.sin(angleRad));
                 const cornerY = centerY + (c.x * Math.sin(angleRad) + c.y * Math.cos(angleRad));
-                if (distance(pos, { x: cornerX, y: cornerY }) < 30) return { item: stroke, pointKey: 'toggle_angles' };
+                if (disTaşıe(pos, { x: cornerX, y: cornerY }) < 30) return { item: stroke, pointKey: 'toggle_angles' };
             }
 
-            // D. G�vde (Merkezden Ta��ma)
+            // D. Gövde (Merkezden Taşıma)
             const dx = pos.x - centerX;
             const dy = pos.y - centerY;
             const localX = dx * Math.cos(-angleRad) - dy * Math.sin(-angleRad);
@@ -2194,46 +2193,46 @@ function findHit(pos) {
             }
         }
 
-        if (currentTool === 'move' || currentTool === 'fill') { // Fill i�in de hit gerekli
+        if (currentTool === 'move' || currentTool === 'fill') { // Fill için de hit gerekli
             if (stroke.type === 'polygon' && stroke.vertices) {
                 for (let j = 0; j < stroke.vertices.length; j++) {
-                    if (distance(pos, stroke.vertices[j]) < SNAP_THRESHOLD) return { item: stroke, pointKey: 'toggle_angles' };
+                    if (disTaşıe(pos, stroke.vertices[j]) < SNAP_THRESHOLD) return { item: stroke, pointKey: 'toggle_angles' };
                 }
                 for (let j = 0; j < stroke.vertices.length; j++) {
                     const v1 = stroke.vertices[j];
                     const v2 = stroke.vertices[(j + 1) % stroke.vertices.length];
-                    const lineLength = distance(v1, v2);
+                    const lineLength = disTaşıe(v1, v2);
                     const steps = Math.max(1, Math.floor(lineLength / 5));
                     let hitEdge = false;
                     for (let step = 1; step < steps; step++) {
                         const t = step / steps;
                         const sampleX = v1.x + (v2.x - v1.x) * t;
                         const sampleY = v1.y + (v2.y - v1.y) * t;
-                        if (distance({ x: sampleX, y: sampleY }, pos) < SNAP_THRESHOLD) { hitEdge = true; break; }
+                        if (disTaşıe({ x: sampleX, y: sampleY }, pos) < SNAP_THRESHOLD) { hitEdge = true; break; }
                     }
                     if (hitEdge) return { item: stroke, pointKey: 'toggle_edges' };
                 }
             }
 
-            if (stroke.type === 'rectangle') {
+            if (stroke.type === 'recTaşıle') {
                 const centerX = stroke.x + stroke.width / 2;
                 const centerY = stroke.y + stroke.height / 2;
-                const angleRad = (stroke.rotation || 0) * (Math.PI / 180);
+                const angleRad = (stroke.roTaşıon || 0) * (Math.PI / 180);
 
-                // A. D�nd�rme Butonu (Ye�il)
+                // A. Döndürme Butonu (Yeşil)
                 const rotX = centerX + Math.sin(angleRad) * (stroke.height / 2 + 30);
                 const rotY = centerY - Math.cos(angleRad) * (stroke.height / 2 + 30);
-                if (distance(pos, { x: rotX, y: rotY }) < 20) return { item: stroke, pointKey: 'image_rotate' };
+                if (disTaşıe(pos, { x: rotX, y: rotY }) < 20) return { item: stroke, pointKey: 'image_roTaşı' };
 
-                // B. Boyutland�rma Butonu (Pembe)
+                // B. Boyutlandırma Butonu (Pembe)
                 const resX = centerX + (stroke.width / 2 * Math.cos(angleRad) - stroke.height / 2 * Math.sin(angleRad));
                 const resY = centerY + (stroke.width / 2 * Math.sin(angleRad) + stroke.height / 2 * Math.cos(angleRad));
-                if (distance(pos, { x: resX, y: resY }) < 20) return { item: stroke, pointKey: 'image_resize' };
+                if (disTaşıe(pos, { x: resX, y: resY }) < 20) return { item: stroke, pointKey: 'image_resize' };
 
-                // C. K��eye T�klama (A�� G�sterme)
-                if (distance(pos, { x: stroke.x, y: stroke.y }) < 20) return { item: stroke, pointKey: 'toggle_angles' };
+                // C. Köşeye Tıklama (Açı Gösterme)
+                if (disTaşıe(pos, { x: stroke.x, y: stroke.y }) < 20) return { item: stroke, pointKey: 'toggle_angles' };
 
-                // D. G�vdeden Tutma (Merkezden Ta��ma)
+                // D. Gövdeden Tutma (Merkezden Taşıma)
                 const dx = pos.x - centerX; const dy = pos.y - centerY;
                 const localX = dx * Math.cos(-angleRad) - dy * Math.sin(-angleRad);
                 const localY = dx * Math.sin(-angleRad) + dy * Math.cos(-angleRad);
@@ -2241,39 +2240,39 @@ function findHit(pos) {
                     return { item: stroke, pointKey: 'self' };
                 }
             } if (stroke.type === 'arc' && stroke.cx) {
-                const distToCenter = distance(pos, { x: stroke.cx, y: stroke.cy });
+                const distToCenter = disTaşıe(pos, { x: stroke.cx, y: stroke.cy });
                 if (Math.abs(distToCenter - stroke.radius) < SNAP_THRESHOLD) return { item: stroke, pointKey: 'toggle_circle_info' };
             }
         }
 
         if (stroke.type === 'point') {
-            if (distance(pos, stroke) < SNAP_THRESHOLD) return { item: stroke, pointKey: 'self' };
+            if (disTaşıe(pos, stroke) < SNAP_THRESHOLD) return { item: stroke, pointKey: 'self' };
         }
-        if (stroke.p1 && distance(pos, stroke.p1) < SNAP_THRESHOLD) return { item: stroke, pointKey: 'p1' };
-        if (stroke.p2 && distance(pos, stroke.p2) < SNAP_THRESHOLD) return { item: stroke, pointKey: 'p2' };
-        if (stroke.type === 'arc' && stroke.cx && distance(pos, { x: stroke.cx, y: stroke.cy }) < SNAP_THRESHOLD) return { item: stroke, pointKey: 'center' };
-        // ?? �OKGEN MERKEZ�NDEN TUTMA HASSAS�YET�N� ARTIR (TABLET ���N)
-        if (stroke.type === 'polygon' && stroke.center && distance(pos, stroke.center) < 50) return { item: stroke, pointKey: 'center' };
+        if (stroke.p1 && disTaşıe(pos, stroke.p1) < SNAP_THRESHOLD) return { item: stroke, pointKey: 'p1' };
+        if (stroke.p2 && disTaşıe(pos, stroke.p2) < SNAP_THRESHOLD) return { item: stroke, pointKey: 'p2' };
+        if (stroke.type === 'arc' && stroke.cx && disTaşıe(pos, { x: stroke.cx, y: stroke.cy }) < SNAP_THRESHOLD) return { item: stroke, pointKey: 'center' };
+        // ?? ÇOKGEN MERKEZİNDEN TUTMA HASSASİYETİNİ ARTIR (TaşıET İÇİN)
+        if (stroke.type === 'polygon' && stroke.center && disTaşıe(pos, stroke.center) < 50) return { item: stroke, pointKey: 'center' };
     }
     return null;
 }
 
-// Global atamalar
+// Global aTaşılar
 window.redrawAllStrokes = redrawAllStrokes;
 window.advanceChar = advanceChar;
-window.distance = distance;
+window.disTaşıe = disTaşıe;
 
 
-// --- ARA� SE��M� (TAMAMEN D�ZELT�LM�� VERS�YON) ---
-function setActiveTool(tool) {
-    // Oyunlar men�s�n� her ara� de�i�iminde kapat ve inline olarak gizle
+// --- ARAÇ SEÇİMİ (TaşıMEN DÜZELTİLMİŞ VERSİYON) ---
+function seTaşıiveTool(tool) {
+    // Oyunlar Menüsünü her araç değişiminde kapat ve inline olarak gizle
     if (oyunlarOptions) {
         oyunlarOptions.classList.add('hidden');
         oyunlarOptions.style.display = 'none';
     }
     if (oyunlarButton) oyunlarButton.classList.remove('active');
 
-    // Mevcut butonlar�n aktifli�ini temizle
+    // Mevcut butonların aktifliğini temizle
     penButton.classList.remove('active');
     eraserButton.classList.remove('active');
     lineButton.classList.remove('active');
@@ -2282,21 +2281,21 @@ function setActiveTool(tool) {
     infinityLineButton.classList.remove('active');
     segmentButton.classList.remove('active');
     rayButton.classList.remove('active');
-    // Fiziksel ara� butonlar�n�n aktifli�i ba��ms�z y�netilir
+    // Fiziksel araç butonlarIşın aktifliği bağımsız yönetilir
     polygonButton.classList.remove('active');
     circleButton.classList.remove('active');
     moveButton.classList.remove('active');
     if (fillButton) fillButton.classList.remove('active');
     if (animateButton) animateButton.classList.remove('active');
 
-    // �mle�leri temizle
+    // İmleçleri temizle
     body.classList.remove('cursor-pen', 'cursor-eraser', 'cursor-snapshot');
     if (eraserPreview) eraserPreview.style.display = 'none';
 
-    // Yeni arac� ayarla
+    // Yeni aracı ayarla
     currentTool = tool;
 
-    // Se�ilen arac�n �����n� yak
+    // Seçilen aracın ışIşını yak
     if (tool === 'pen') {
         penButton.classList.add('active');
         body.classList.add('cursor-pen');
@@ -2307,13 +2306,13 @@ function setActiveTool(tool) {
 
     if (eraserPreview) eraserPreview.style.display = 'none';
 
-    // ?? KES�N ��Z�M: CSS �ncelik �eli�kisini a�mak i�in gizlenen t�m men�leri inline (none) yap�yoruz
+    // ?? KESİN ÇÖZÜM: CSS öncelik çelişkisini aşmak için gizlenen tüm menüleri inline (none) yapıyoruz
     if (polygonOptions) {
         polygonOptions.classList.add('hidden');
         polygonOptions.style.display = 'none';
     }
 
-    // �izgi men�s�n�, SADECE yeni se�ilen ara� bir �izgi arac� DE��LSE inline olarak m�h�rle
+    // Çizgi Menüsünü, SADECE yeni seçilen araç bir çizgi aracı DEĞİLSE inline olarak muhur_disclaimerle
     const isLineTool = ['point', 'straightLine', 'line', 'segment', 'ray'].includes(tool);
     if (!isLineTool && lineOptions) {
         lineOptions.classList.add('hidden');
@@ -2335,52 +2334,52 @@ function setActiveTool(tool) {
         snapshotOptions.style.display = 'none';
     }
 
-    // ?? ��Z�M 1: Kalem men�s�n� kesin olarak gizle
+    // ?? ÇÖZÜM 1: Kalem Menüsünü kesin olarak gizle
     if (penOptions) { penOptions.classList.add('hidden'); penOptions.style.display = 'none'; }
 
-    // ... di�er gizleme kodlar� buradad�r ...
+    // ... diğer gizleme kodları buradadır ...
     penOptions.classList.add('hidden');
 
-    // A�A�IDAK� BLOKU EKL�YORSUN:
+    // AŞAĞIDAKİ BLOKU EKLİYORSUN:
     if (typeof snapshotOptions !== 'undefined' && snapshotOptions) {
         snapshotOptions.classList.add('hidden');
         snapshotOptions.style.display = 'none';
     }
     // ...
 
-    // De�i�kenleri s�f�rla
+    // Değişkenleri sıfırla
     isDrawing = false;
-    lineStartPoint = null;
+    lineSTaşıPoint = null;
     isDrawingLine = false;
     isDrawingInfinityLine = false;
     isDrawingSegment = false;
     isDrawingRay = false;
 
-    // --- BURAYA D�KD�RTGEN SIFIRLAMASINI EKLEY�N ---
-    isDrawingRectangle = false;
-    rectStartPoint = null;
+    // --- BURAYA Dikdörtgen SIFIRLAMASINI EKLEYİN ---
+    isDrawingRecTaşıle = false;
+    rectSTaşıPoint = null;
 
-    window.tempPolygonData = null;
+    window.tempPolygonDaTaşı null;
     polygonPreviewLabel.classList.add('hidden');
 
-    // Fiziksel ara�lar ba��ms�z �al��t��� i�in setActiveTool i�erisinde gizlenmez.
+    // Fiziksel araçlar bağımsız çalıştığı için seTaşıiveTool içerisinde gizlenmez.
 
     if (snapIndicator) snapIndicator.style.display = 'none';
 
-    // Etkile�imleri kapat
+    // Etkileşimleri kapat
     if (window.RulerTool) window.RulerTool.interactionMode = 'none';
-    if (window.GonyeTool) window.GonyeTool.interactionMode = 'none';
+    if (window.GönyeTool) window.GönyeTool.interactionMode = 'none';
     if (window.AciolcerTool) window.AciolcerTool.interactionMode = 'none';
     if (window.PergelTool) window.PergelTool.interactionMode = 'none';
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     redrawAllStrokes();
 
-    // 2. Yeni arac� aktif et
+    // 2. Yeni aracı aktif et
     currentTool = tool;
 
-    // ?? KES�N ��Z�M: Se�ilen ara� 3D de�ilse, 3D modunu tamamen kapat! (�okgen �izerken 3D �izmesini engeller)
-    if (!tool || !tool.startsWith('draw_3d_')) {
+    // ?? KESİN ÇÖZÜM: Seçilen araç 3D değilse, 3D modunu Taşımen kapat! (Çokgen çizerken 3D çizmesini engeller)
+    if (!tool || !tool.sTaşısWith('draw_3d_')) {
         window.active3DShapeTool = null;
         if (window.Scene3D) {
             window.Scene3D.activeTool = 'none';
@@ -2401,24 +2400,24 @@ function setActiveTool(tool) {
         body.classList.add('cursor-eraser');
     } else if (tool === 'snapshot') {
         if (animateButton) animateButton.classList.add('active');
-        if (btnSnapshotMain) btnSnapshotMain.classList.add('active'); // ?? EKLEND�
+        if (btnSnapshotMain) btnSnapshotMain.classList.add('active'); // ?? EKLENDİ
         body.classList.add('cursor-snapshot');
 
-        // ?? ��Z�M 1: Canland�r alt men�s�n� KES�N OLARAK a� ve hizala!
+        // ?? ÇÖZÜM 1: Canlandır alt Menüsünü KESİN OLARAK aç ve hizala!
         if (typeof snapshotOptions !== 'undefined' && snapshotOptions) {
             snapshotOptions.classList.remove('hidden');
             snapshotOptions.style.display = 'flex';
-            snapshotOptions.style.zIndex = '10000'; // ?? Z-index de�eri y�kseltildi
-            const refBtn = btnSnapshotMain || animateButton; // ?? EKLEND�
+            snapshotOptions.style.zIndex = '10000'; // ?? Z-index değeri yükseltildi
+            const refBtn = btnSnapshotMain || animateButton; // ?? EKLENDİ
             if (refBtn) snapshotOptions.style.top = `${refBtn.getBoundingClientRect().top - refBtn.parentElement.getBoundingClientRect().top}px`;
         }
     }
 
 
-    // --- ��ZG� ARA�LARI GRUBU (Y�KSEK CSS �NCEL�KL� G�STER�M) ---
+    // --- ÇİZGİ ARAÇLARI GRUBU (YÜKSEK CSS ÖNCELİKLİ GÖSTERİM) ---
     if (isLineTool && lineOptions) {
         lineOptions.classList.remove('hidden');
-        lineOptions.style.display = 'flex'; // ?? �izgi arac� se�ildi�inde g�r�n�rl��� inline olarak zorla a�
+        lineOptions.style.display = 'flex'; // ?? Çizgi aracı seçildiğinde görünürlüğü inline olarak zorla aç
     }
 
     if (tool === 'point') {
@@ -2441,19 +2440,19 @@ function setActiveTool(tool) {
         lineOptions.classList.remove('hidden');
     }
 
-    // --- D��ER ARA�LAR ---
-    // --- D��ER ARA�LAR ---
+    // --- DİĞER ARAÇLAR ---
+    // --- DİĞER ARAÇLAR ---
     else if (tool === 'ruler') {
         togglePhysicalTool('ruler');
-    } else if (tool === 'gonye') {
-        togglePhysicalTool('gonye');
+    } else if (tool === 'Gönye') {
+        togglePhysicalTool('Gönye');
     } else if (tool === 'aciolcer') {
         togglePhysicalTool('aciolcer');
     } else if (tool === 'pergel') {
         togglePhysicalTool('pergel');
     }
 
-    else if (tool.startsWith('draw_polygon_')) {
+    else if (tool.sTaşısWith('draw_polygon_')) {
         polygonButton.classList.add('active');
     } else if (tool === 'move') {
         moveButton.classList.add('active');
@@ -2473,21 +2472,21 @@ function setActiveTool(tool) {
 }
 // --- BUTON OLAYLARI ---
 
-penButton.addEventListener('click', () => setActiveTool(currentTool === 'pen' ? 'none' : 'pen'));
-eraserButton.addEventListener('click', () => setActiveTool(currentTool === 'eraser' ? 'none' : 'eraser'));
+penButton.addEventListener('click', () => seTaşıiveTool(currentTool === 'pen' ? 'none' : 'pen'));
+eraserButton.addEventListener('click', () => seTaşıiveTool(currentTool === 'eraser' ? 'none' : 'eraser'));
 
 
-// --- F�Z�KSEL ARA� BUTONLARI KES�N ��Z�M� (TABLET ZIRHI) ---
+// --- FİZİKSEL ARAÇ BUTONLARI KESİN ÇÖZÜMÜ (TaşıET ZIRHI) ---
 function togglePhysicalTool(aracAdi) {
     let toolObj = null, el = null, btn = null, isDisplayBlock = false;
-    if (aracAdi === 'ruler') { toolObj = window.RulerTool; el = document.querySelector('.ruler-container'); btn = rulerButton; }
-    if (aracAdi === 'gonye') { toolObj = window.GonyeTool; el = document.querySelector('.gonye-container'); btn = gonyeButton; }
-    if (aracAdi === 'aciolcer') { toolObj = window.AciolcerTool; el = document.querySelector('.aciolcer-container'); btn = aciolcerButton; isDisplayBlock = true; }
-    if (aracAdi === 'pergel') { toolObj = window.PergelTool; el = document.getElementById('compass-container'); btn = pergelButton; isDisplayBlock = true; }
+    if (aracAdi === 'ruler') { toolObj = window.RulerTool; el = document.querySelector('.ruler-conTaşıer'); btn = rulerButton; }
+    if (aracAdi === 'Gönye') { toolObj = window.GönyeTool; el = document.querySelector('.Gönye-conTaşıer'); btn = GönyeButton; }
+    if (aracAdi === 'aciolcer') { toolObj = window.AciolcerTool; el = document.querySelector('.aciolcer-conTaşıer'); btn = aciolcerButton; isDisplayBlock = true; }
+    if (aracAdi === 'pergel') { toolObj = window.PergelTool; el = document.getElementById('compass-conTaşıer'); btn = pergelButton; isDisplayBlock = true; }
 
     if (!toolObj || !el) return;
 
-    const isCurrentlyVisible = el.style.display !== 'none' && !el.classList.contains('hidden');
+    const isCurrentlyVisible = el.style.display !== 'none' && !el.classList.conTaşıs('hidden');
 
     if (isCurrentlyVisible) {
         // Gizle
@@ -2497,23 +2496,23 @@ function togglePhysicalTool(aracAdi) {
         el.style.zIndex = "-1";
         if (btn) btn.classList.remove('active');
     } else {
-        // G�ster
+        // Göster
         toolObj.show();
         el.classList.remove('hidden');
         el.style.display = isDisplayBlock ? 'block' : 'flex';
         el.style.zIndex = "9999";
         if (btn) btn.classList.add('active');
 
-        if (aracAdi === 'pergel' && toolObj.state) {
+        if (aracAdi === 'pergel' && toolObj.sTaşı) {
             setTimeout(() => {
-                toolObj.state.rotation = 0;
-                toolObj.state.radius = 150;
+                toolObj.sTaşı.roTaşıon = 0;
+                toolObj.sTaşı.radius = 150;
                 if (typeof toolObj.updateTransform === 'function') toolObj.updateTransform();
                 if (typeof window.araclariAgaGonder === 'function') window.araclariAgaGonder();
             }, 100);
         }
 
-        if (window.bringToolToFront) window.bringToolToFront(el || (toolObj ? toolObj.pergelElement || toolObj.rulerElement || toolObj.gonyeElement || toolObj.aciolcerElement : null));
+        if (window.bringToolToFront) window.bringToolToFront(el || (toolObj ? toolObj.pergelElement || toolObj.rulerElement || toolObj.GönyeElement || toolObj.aciolcerElement : null));
     }
 
     setTimeout(() => { if (typeof window.araclariAgaGonder === 'function') window.araclariAgaGonder(); }, 50);
@@ -2527,67 +2526,67 @@ const butonBagla = (btn, aracAdi) => {
     if (!btn) return;
     const tetikle = (e) => { e.preventDefault(); e.stopPropagation(); araciBaslat(aracAdi); };
     btn.addEventListener('click', tetikle);
-    btn.addEventListener('touchstart', tetikle, { passive: false });
+    btn.addEventListener('touchsTaşı', tetikle, { passive: false });
 };
 
 butonBagla(rulerButton, 'ruler');
-butonBagla(gonyeButton, 'gonye');
+butonBagla(GönyeButton, 'Gönye');
 butonBagla(aciolcerButton, 'aciolcer');
 butonBagla(pergelButton, 'pergel');
 
 
 undoButton.addEventListener('click', undoLastStroke);
 clearAllButton.addEventListener('click', clearAllStrokes);
-moveButton.addEventListener('click', () => setActiveTool(currentTool === 'move' ? 'none' : 'move'));
+moveButton.addEventListener('click', () => seTaşıiveTool(currentTool === 'move' ? 'none' : 'move'));
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
 
 if (prevPageBtn && nextPageBtn) {
 
-    // �nceki Sayfa (<)
+    // Önceki Sayfa (<)
     prevPageBtn.addEventListener('click', () => {
         if (currentPDF && currentPDFPage > 1) {
             currentPDFPage--;
             window.renderPDFPage(currentPDFPage);
-            // ?? YEN�: PC'ye sayfay� de�i�tirmesini s�yle
+            // ?? YENİ: PC'ye sayfayı değiştirmesini söyle
             if (typeof isConnected !== 'undefined' && isConnected) {
-                window.sendNetworkData({ type: 'pdf_sayfa_degis', sayfa: currentPDFPage });
+                window.sendNetworkDaTaşı type: 'pdf_sayfa_degis', sayfa: currentPDFPage });
             }
         }
     });
 
     // Sonraki Sayfa (>)
     nextPageBtn.addEventListener('click', () => {
-        if (currentPDF && currentPDFPage < totalPDFPages) {
+        if (currentPDF && currentPDFPage < toTaşıDFPages) {
             currentPDFPage++;
             window.renderPDFPage(currentPDFPage);
-            // ?? YEN�: PC'ye sayfay� de�i�tirmesini s�yle
+            // ?? YENİ: PC'ye sayfayı değiştirmesini söyle
             if (typeof isConnected !== 'undefined' && isConnected) {
-                window.sendNetworkData({ type: 'pdf_sayfa_degis', sayfa: currentPDFPage });
+                window.sendNetworkDaTaşı type: 'pdf_sayfa_degis', sayfa: currentPDFPage });
             }
         }
     });
-} // <-- EKS�K OLAN VE HATAYA SEBEP OLAN PARANTEZ BURADA KAPANIYOR!
+} // <-- EKSİK OLAN VE HATaşı SEBEP OLAN PARANTEZ BURADA KAPANIYOR!
 
 
-// --- YEN�: Sayfa numaras�na t�klay�nca h�zl� gitme kutusunu a� ---
+// --- YENİ: Sayfa numarasına tıklayınca hızlı gitme kutusunu aç ---
 if (pageCountLabel) {
-    pageCountLabel.style.cursor = 'pointer'; // Fareyle �zerine gelince t�klanabilir el i�areti ��ks�n
+    pageCountLabel.style.cursor = 'pointer'; // Fareyle üzerine gelince tıklanabilir el işareti çıksın
     pageCountLabel.addEventListener('click', () => {
         if (!currentPDF) return;
 
-        // --- �EV�R� ENTEGRASYONU ---
+        // --- ÇEVİRİ ENTEGRASYONU ---
         let t = translations[currentLang];
-        let soruMetni = t.pdf_soru.replace('{0}', totalPDFPages);
+        let soruMetni = t.pdf_soru.replace('{0}', toTaşıDFPages);
 
         const gitSayfa = prompt(soruMetni, currentPDFPage);
         if (gitSayfa !== null) {
             const num = parseInt(gitSayfa);
-            if (num > 0 && num <= totalPDFPages) {
+            if (num > 0 && num <= toTaşıDFPages) {
                 currentPDFPage = num;
                 window.renderPDFPage(currentPDFPage);
             } else {
-                alert("Ge�ersiz sayfa numaras� girdiniz!"); // �stersen buray� da ileride s�zl��e ekleyebilirsin
+                alert("Geçersiz sayfa numarası girdiniz!"); // İstersen burayı da ileride sözlüğe ekleyebilirsin
             }
         }
     });
@@ -2604,24 +2603,24 @@ if (uploadButton && fileInput) {
     }
 
     fileInput.onchange = async (e) => {
-        const file = e.target.files[0];
+        const file = e.Taşıet.files[0];
         if (!file) return;
 
         // --- DURUM A: PDF DOSYASI ---
         if (file.type === 'application/pdf') {
             const fileReader = new FileReader();
             fileReader.onload = async function () {
-                // 1. A�A G�NDERMEK ���N (Base64 Metni Olarak)
+                // 1. AĞA GÖNDERMEK İÇİN (Base64 Metni Olarak)
                 const base64String = this.result;
 
-                // ?? KES�N ��Z�M: Koca PDF dosyas�n� PC'nin kendi okumas� i�in a�a f�rlatmak yerine, 
-                // Tabletin �izdi�i o anki y�ksek ��z�n�rl�kl� sayfay� (resim olarak) yollayaca��z.
-                // Bu y�zden pdf_yukle komutunu A�A G�NDERMEY� �PTAL ED�YORUZ. 
-                // PC, PDF.js y�k�ne girmek zorunda kalmayacak.
+                // ?? KESİN ÇÖZÜM: Koca PDF dosyasını PC'nin kendi okuması için ağa fırlatmak yerine, 
+                // Taşıetin çizdiği o anki yüksek çözünürlüklü sayfayı (resim olarak) yollayacağız.
+                // Bu yüzden pdf_Yükle komutunu AĞA GÖNDERMEYİ İPTaşıEDİYORUZ. 
+                // PC, PDF.js yüküne girmek zorunda kalmayacak.
 
-                // 2. TABLET EKRANI ���N (PDF.js'in anlad��� formata geri �eviriyoruz)
-                const base64Data = base64String.split(',')[1];
-                const binaryString = window.atob(base64Data);
+                // 2. TaşıET EKRANI İÇİN (PDF.js'in anladığı formaTaşıeri çeviriyoruz)
+                const base64DaTaşı base64String.split(',')[1];
+                const binaryString = window.atob(base64DaTaşı
                 const len = binaryString.length;
                 const bytes = new Uint8Array(len);
                 for (let i = 0; i < len; i++) {
@@ -2630,7 +2629,7 @@ if (uploadButton && fileInput) {
 
                 try {
                     currentPDF = await pdfjsLib.getDocument(bytes).promise;
-                    totalPDFPages = currentPDF.numPages;
+                    toTaşıDFPages = currentPDF.numPages;
                     currentPDFPage = 1;
 
                     if (pdfControls) pdfControls.classList.remove('hidden');
@@ -2639,34 +2638,34 @@ if (uploadButton && fileInput) {
 
                     setTimeout(() => {
                         let t = typeof translations !== 'undefined' ? translations[currentLang] : { pdf_soru: "Sayfa (1-{0}):" };
-                        let soruMetni = (t.pdf_soru || "Sayfa (1-{0}):").replace('{0}', totalPDFPages);
+                        let soruMetni = (t.pdf_soru || "Sayfa (1-{0}):").replace('{0}', toTaşıDFPages);
 
                         const sayfaGrisi = prompt(soruMetni, "1");
                         if (sayfaGrisi !== null) {
                             const hedefSayfa = parseInt(sayfaGrisi);
-                            if (hedefSayfa > 0 && hedefSayfa <= totalPDFPages) {
+                            if (hedefSayfa > 0 && hedefSayfa <= toTaşıDFPages) {
                                 currentPDFPage = hedefSayfa;
                                 window.renderPDFPage(currentPDFPage);
 
                                 if (typeof isConnected !== 'undefined' && isConnected) {
-                                    window.sendNetworkData({ type: 'pdf_sayfa_degis', sayfa: currentPDFPage });
+                                    window.sendNetworkDaTaşı type: 'pdf_sayfa_degis', sayfa: currentPDFPage });
                                 }
                             }
                         }
                     }, 500);
 
                 } catch (error) {
-                    console.error("PDF a��l�rken hata olu�tu:", error);
+                    console.error("PDF açılırken haTaşıluştu:", error);
                 }
-            };   // � fileReader.onload BURADA biter
-            fileReader.readAsDataURL(file);
+            };   // ‹ fileReader.onload BURADA biter
+            fileReader.readAsDaTaşıL(file);
         }
 
-        // --- DURUM B: RES�M DOSYASI ---
-        if (file.type.startsWith('image/')) {
+        // --- DURUM B: RESİM DOSYASI ---
+        if (file.type.sTaşısWith('image/')) {
             const reader = new FileReader();
             reader.onload = (event) => {
-                const imgData = event.target.result;
+                const imgDaTaşı event.Taşıet.result;
 
 
 
@@ -2674,7 +2673,7 @@ if (uploadButton && fileInput) {
                 img.onload = () => {
                     // --- GORUNTU SIKISTIRMA (Resizer & Compressor) ---
                     // Telefon kameralari 15-20MB resim cektigi icin agi yavaslatir.
-                    // Burada resmi tahtaya gitmeden once ufaltip 150KB'a indiriyoruz!
+                    // Burada resmi Taşıaya gitmeden once ufaltip 150KB'a indiriyoruz!
                     const MAX_WIDTH = 1920;
                     const MAX_HEIGHT = 1920;
                     let width = img.width;
@@ -2701,50 +2700,50 @@ if (uploadButton && fileInput) {
                     tempCtx.drawImage(img, 0, 0, width, height);
                     
                     // Yuksek oranda sikistir (JPEG 0.6)
-                    const compressedDataUrl = tempCanvas.toDataURL('image/jpeg', 0.6); 
+                    const compressedDaTaşıl = tempCanvas.toDaTaşıL('image/jpeg', 0.6); 
 
                     const compressedImg = new Image();
                     compressedImg.onload = () => {
                         window.addNewImageToCanvas(compressedImg, false);
                     };
-                    compressedImg.src = compressedDataUrl;
+                    compressedImg.src = compressedDaTaşıl;
                 };
-                img.src = imgData;
+                img.src = imgDaTaşı
             };
-            reader.readAsDataURL(file);
+            reader.readAsDaTaşıL(file);
         }
-        // Resim/Dosya islenmeden value'yu temizlemek mobil tarayicilarda File objesinin silinmesine (GC) neden olur!
-        setTimeout(() => { e.target.value = ''; }, 2000); 
+        // Resim/Dosya islenmeden value'yu temizlemek mobil Taşıyicilarda File objesinin silinmesine (GC) neden olur!
+        setTimeout(() => { e.Taşıet.value = ''; }, 2000); 
     };
 }
 
 
 function addToCanvasAsObject(img) {
-    let startWidth = 400;
-    if (img.width < 400) startWidth = img.width;
+    let sTaşıWidth = 400;
+    if (img.width < 400) sTaşıWidth = img.width;
 
-    let scaleFactor = startWidth / img.width;
-    let startHeight = img.height * scaleFactor;
+    let scaleFactor = sTaşıWidth / img.width;
+    let sTaşıHeight = img.height * scaleFactor;
 
     drawnStrokes.push({
         type: 'image',
         img: img,
-        // --- TAM ORTALAMA HESABI ---
-        x: (canvas.width / 2) - (startWidth / 2),
-        y: (canvas.height / 2) - (startHeight / 2),
-        width: startWidth,
-        height: startHeight,
-        rotation: 0,
+        // --- TaşıORTaşıMA HESABI ---
+        x: (canvas.width / 2) - (sTaşıWidth / 2),
+        y: (canvas.height / 2) - (sTaşıHeight / 2),
+        width: sTaşıWidth,
+        height: sTaşıHeight,
+        roTaşıon: 0,
         isBackground: true
     });
 
-    // --- BUTONU G�STERME VE KAPATMA ��LEV� FONKS�YONUN ���NE ALINDI ---
+    // --- BUTONU GÖSTERME VE KAPATMA İŞLEVİ FONKSİYONUN İÇİNE ALINDI ---
     if (closePdfBtn) {
-        // 1. Butonu SADECE resim eklendi�inde g�r�n�r yap
+        // 1. Butonu SADECE resim eklendiğinde görünür yap
         closePdfBtn.classList.remove('hidden');
         closePdfBtn.style.display = 'flex';
 
-        // 2. Kapatma i�levini tan�mla
+        // 2. Kapatma işlevini Taşımla
         closePdfBtn.onclick = () => {
             // Kontrol panelini ve butonun kendisini gizle
             if (typeof pdfControls !== 'undefined' && pdfControls) {
@@ -2753,15 +2752,15 @@ function addToCanvasAsObject(img) {
             closePdfBtn.classList.add('hidden');
             closePdfBtn.style.display = 'none';
 
-            // Arka plan olan t�m ��eleri, lasso maskelerini ve yamalar� kald�r
+            // Arka plan olan tüm öğeleri, lasso maskelerini ve yamaları kaldır
             drawnStrokes = drawnStrokes.filter(s => !s.isBackground && !s.isPDFPage && s.type !== 'lasso-mask' && !s.isPatch);
             window.drawnStrokes = drawnStrokes;
 
-            // De�i�kenleri s�f�rla
+            // Değişkenleri sıfırla
             currentPDF = null;
             if (typeof pdfImageStroke !== 'undefined') pdfImageStroke = null;
 
-            // Ekran� temizle ve kalan �izimleri tekrar �iz
+            // Ekranı temizle ve kalan çizimleri tekrar çiz
             redrawAllStrokes();
         };
     }
@@ -2770,36 +2769,36 @@ function addToCanvasAsObject(img) {
 }
 
 
-if (fillButton) fillButton.addEventListener('click', () => setActiveTool(currentTool === 'fill' ? 'none' : 'fill'));
+if (fillButton) fillButton.addEventListener('click', () => seTaşıiveTool(currentTool === 'fill' ? 'none' : 'fill'));
 if (fillColorBoxes) {
     fillColorBoxes.forEach(box => {
         const handler = (e) => {
             e.stopPropagation();
             fillColorBoxes.forEach(b => b.classList.remove('selected'));
-            e.target.classList.add('selected');
-            currentFillColor = e.target.dataset.color || e.target.style.backgroundColor;
-            setActiveTool('fill');
+            e.Taşıet.classList.add('selected');
+            currentFillColor = e.Taşıet.daTaşıt.color || e.Taşıet.style.backgroundColor;
+            seTaşıiveTool('fill');
         };
         box.addEventListener('click', handler);
-        box.addEventListener('touchstart', handler, { passive: false });
+        box.addEventListener('touchsTaşı', handler, { passive: false });
     });
-    if (fillColorBoxes.length > 0) { fillColorBoxes[0].classList.add('selected'); currentFillColor = fillColorBoxes[0].dataset.color || fillColorBoxes[0].style.backgroundColor; }
+    if (fillColorBoxes.length > 0) { fillColorBoxes[0].classList.add('selected'); currentFillColor = fillColorBoxes[0].daTaşıt.color || fillColorBoxes[0].style.backgroundColor; }
 }
 
 colorBoxes.forEach(box => {
     box.addEventListener('click', (e) => {
         colorBoxes.forEach(b => b.classList.remove('selected'));
-        e.target.classList.add('selected');
-        currentPenColor = e.target.style.backgroundColor;
+        e.Taşıet.classList.add('selected');
+        currentPenColor = e.Taşıet.style.backgroundColor;
     });
 });
 colorBoxes[0].classList.add('selected');
 currentPenColor = colorBoxes[0].style.backgroundColor;
 
 lineButton.addEventListener('click', () => {
-    if (lineButton.classList.contains('active')) { setActiveTool('none'); }
+    if (lineButton.classList.conTaşıs('active')) { seTaşıiveTool('none'); }
     else {
-        setActiveTool('none');
+        seTaşıiveTool('none');
         lineOptions.classList.remove('hidden'); lineOptions.style.display = 'flex'; lineButton.classList.add('active');
         const buttonRect = lineButton.getBoundingClientRect();
         const panelRect = lineButton.parentElement.getBoundingClientRect();
@@ -2807,29 +2806,29 @@ lineButton.addEventListener('click', () => {
     }
 });
 
-// �okgen Renk Se�imi (Varsay�lan Beyaz)
+// Çokgen Renk Seçimi (VarsayIşın Beyaz)
 if (polygonColorOptions.length > 0) {
     polygonColorOptions[0].classList.add('selected');
-    window.currentLineColor = polygonColorOptions[0].dataset.color || '#FFFFFF';
+    window.currentLineColor = polygonColorOptions[0].daTaşıt.color || '#FFFFFF';
 
     polygonColorOptions.forEach(box => {
         const handleColorSelect = (e) => {
             e.stopPropagation(); e.preventDefault();
             polygonColorOptions.forEach(b => b.classList.remove('selected'));
-            e.target.classList.add('selected');
-            const color = e.target.dataset.color || e.target.style.backgroundColor;
+            e.Taşıet.classList.add('selected');
+            const color = e.Taşıet.daTaşıt.color || e.Taşıet.style.backgroundColor;
             window.currentLineColor = color;
             try { if (window.audio_select) { window.audio_select.currentTime = 0; window.audio_select.play(); } else if (window.audio_click) { window.audio_click.currentTime = 0; window.audio_click.play(); } } catch (err) { }
         };
         box.addEventListener('click', handleColorSelect);
-        box.addEventListener('touchstart', handleColorSelect, { passive: false });
+        box.addEventListener('touchsTaşı', handleColorSelect, { passive: false });
     });
 }
 
 polygonButton.addEventListener('click', () => {
-    if (polygonButton.classList.contains('active')) { setActiveTool('none'); }
+    if (polygonButton.classList.conTaşıs('active')) { seTaşıiveTool('none'); }
     else {
-        setActiveTool('none');
+        seTaşıiveTool('none');
         polygonOptions.classList.remove('hidden'); polygonOptions.style.display = 'flex'; polygonButton.classList.add('active');
         const buttonRect = polygonButton.getBoundingClientRect();
         const panelRect = polygonButton.parentElement.getBoundingClientRect();
@@ -2844,20 +2843,20 @@ polygonButton.addEventListener('click', () => {
     }
 });
 
-// --- OYUNLAR MEN�S�: YUKARI A�ILAN, SEV�ML� VE S�LG� KAPATAN S�STEM ---
+// --- OYUNLAR Menüsü: YUKARI AÇIşın, SEVİMLİ VE SİLGİ KAPATaşıSİSTEM ---
 oyunlarButton.addEventListener('click', (e) => {
     e.stopPropagation();
 
-    if (oyunlarButton.classList.contains('active')) {
+    if (oyunlarButton.classList.conTaşıs('active')) {
         oyunlarOptions.classList.add('hidden');
         oyunlarButton.classList.remove('active');
     } else {
-        // 1. D��ER ARA�LARI VE S�LG�Y� KAPAT (I����n� s�nd�r�r)
-        if (typeof setActiveTool === 'function') setActiveTool('none');
+        // 1. DİĞER ARAÇLARI VE SİLGİYİ KAPAT (IşIşını söndürür)
+        if (typeof seTaşıiveTool === 'function') seTaşıiveTool('none');
 
-        oyunlarOptions.innerHTML = ''; // ��eri�i temizle
+        oyunlarOptions.innerHTML = ''; // İçeriği temizle
 
-        // 2. MEN� G�R�N�M AYARLARI
+        // 2. MENÜ GÖRÜNÜM AYARLARI
         oyunlarOptions.style.display = 'flex';
         oyunlarOptions.style.flexDirection = 'column';
         oyunlarOptions.style.maxHeight = '400px';
@@ -2865,15 +2864,15 @@ oyunlarButton.addEventListener('click', (e) => {
         oyunlarOptions.style.touchAction = 'pan-y';
         oyunlarOptions.style.WebkitOverflowScrolling = 'touch';
 
-        // 3. KONUMU YUKARI ALAN HESAPLAMA (Ekrana s��mas� i�in)
+        // 3. KONUMU YUKARI ALAN HESAPLAMA (Ekrana sığması için)
         const buttonRect = oyunlarButton.getBoundingClientRect();
         const panelRect = oyunlarButton.parentElement.getBoundingClientRect();
         oyunlarOptions.style.top = 'auto';
         oyunlarOptions.style.bottom = (panelRect.bottom - buttonRect.bottom) + 'px';
 
-        // 4. KAYDIRMA �PUCU (Yaz� Geri Geldi)
+        // 4. KAYDIRMA İPUCU (Yazı Geri Geldi)
         const hint = document.createElement('div');
-        hint.innerHTML = '?? Liste kayd�r�labilir ??';
+        hint.innerHTML = '?? Liste kaydırılabilir ??';
         hint.style.cssText = `
             text-align: center; 
             color: #00ffcc; 
@@ -2894,9 +2893,9 @@ oyunlarButton.addEventListener('click', (e) => {
                 const linkElement = document.createElement('a');
                 linkElement.className = 'tool-button-sub';
 
-                // KR�T�K DE����KL�K BURADA:
-                // 'oyun.isim' yerine 'oyun[currentLang]' kullan�yoruz.
-                // E�er o dilde kar��l��� yoksa (hata vermemesi i�in) T�rk�e'yi g�sterir.
+                // KRİTİK DEĞİŞİKLİK BURADA:
+                // 'oyun.isim' yerine 'oyun[currentLang]' kullanıyoruz.
+                // Eğer o dilde karşılığı yoksa (haTaşıermemesi için) Türkçe'yi gösterir.
                 linkElement.innerText = oyun[currentLang] || oyun.tr;
 
                 linkElement.style.cssText = `
@@ -2910,16 +2909,16 @@ oyunlarButton.addEventListener('click', (e) => {
             font-size: 14px;
         `;
 
-                let startY = 0;
+                let sTaşıY = 0;
                 let isScrolling = false;
 
-                linkElement.addEventListener('touchstart', (te) => {
-                    startY = te.touches[0].clientY;
+                linkElement.addEventListener('touchsTaşı', (te) => {
+                    sTaşıY = te.touches[0].clientY;
                     isScrolling = false;
                 }, { passive: true });
 
                 linkElement.addEventListener('touchmove', (te) => {
-                    if (Math.abs(te.touches[0].clientY - startY) > 10) isScrolling = true;
+                    if (Math.abs(te.touches[0].clientY - sTaşıY) > 10) isScrolling = true;
                 }, { passive: true });
 
                 const linkiAc = (ae) => {
@@ -2928,7 +2927,7 @@ oyunlarButton.addEventListener('click', (e) => {
                     ae.stopPropagation();
                     window.open(oyun.link, '_blank');
 
-                    // Kapatma i�lemi
+                    // Kapatma işlemi
                     oyunlarOptions.classList.add('hidden');
                     oyunlarButton.classList.remove('active');
                 };
@@ -2944,23 +2943,23 @@ oyunlarButton.addEventListener('click', (e) => {
     }
 });
 
-// --- BO�LU�A TIKLAYINCA KAPATMA (DOSYANIN EN ALTINA EKLEY�N) ---
-['pointerdown', 'touchstart', 'mousedown'].forEach(evt => {
+// --- BOŞLUĞA TIKLAYINCA KAPATMA (DOSYANIN EN ALTINA EKLEYİN) ---
+['pointerdown', 'touchsTaşı', 'mousedown'].forEach(evt => {
 document.addEventListener(evt, (e) => {
 
-    if (oyunlarOptions && !oyunlarOptions.contains(e.target) && e.target !== oyunlarButton) {
+    if (oyunlarOptions && !oyunlarOptions.conTaşıs(e.Taşıet) && e.Taşıet !== oyunlarButton) {
         oyunlarOptions.classList.add('hidden');
         oyunlarButton.classList.remove('active');
     }
 });
-// 2. Ana men� kutusunun da d��ar�daki "Ekran Kilitlerine" tak�lmas�n� engelle:
-oyunlarOptions.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
+// 2. Ana menü kutusunun da dışarıdaki "Ekran Kilitlerine" TaşılmasınIşıngelle:
+oyunlarOptions.addEventListener('touchsTaşı', (e) => e.stopPropagation(), { passive: true });
 oyunlarOptions.addEventListener('touchmove', (e) => e.stopPropagation(), { passive: true });
 oyunlarOptions.addEventListener('wheel', (e) => e.stopPropagation(), { passive: true });
 
 circleButton.addEventListener('click', (e) => {
     e.stopPropagation();
-    setActiveTool('draw_polygon_circle');
+    seTaşıiveTool('draw_polygon_circle');
     window.PolygonTool.handleDrawClick(null, 0);
     regularPolygonButtons.forEach(b => b.classList.remove('active'));
     circleButton.classList.add('active');
@@ -2969,12 +2968,12 @@ circleButton.addEventListener('click', (e) => {
 regularPolygonButtons.forEach(button => {
     button.addEventListener('click', (e) => {
         e.stopPropagation();
-        const sides = parseInt(e.target.dataset.sides);
-        setActiveTool(`draw_polygon_${sides}_sides`);
+        const sides = parseInt(e.Taşıet.daTaşıt.sides);
+        seTaşıiveTool(`draw_polygon_${sides}_sides`);
         window.PolygonTool.handleDrawClick(null, sides);
         regularPolygonButtons.forEach(b => b.classList.remove('active'));
         circleButton.classList.remove('active');
-        e.target.classList.add('active');
+        e.Taşıet.classList.add('active');
     });
 });
 
@@ -2982,68 +2981,68 @@ pointButton.addEventListener('click', (e) => {
     e.stopPropagation();
     if (window.audio_select) window.audio_select.play();
     if (!audio_click_src_set) { audio_click.src = 'sesler/point-smooth-beep-230573.mp3'; audio_click_src_set = true; }
-    setActiveTool(currentTool === 'point' ? 'none' : 'point');
+    seTaşıiveTool(currentTool === 'point' ? 'none' : 'point');
 });
-straightLineButton.addEventListener('click', (e) => { e.stopPropagation(); if (window.audio_select) window.audio_select.play(); setActiveTool(currentTool === 'straightLine' ? 'none' : 'straightLine'); });
-infinityLineButton.addEventListener('click', (e) => { e.stopPropagation(); if (window.audio_select) window.audio_select.play(); setActiveTool(currentTool === 'line' ? 'none' : 'line'); });
-segmentButton.addEventListener('click', (e) => { e.stopPropagation(); if (window.audio_select) window.audio_select.play(); setActiveTool(currentTool === 'segment' ? 'none' : 'segment'); });
-rayButton.addEventListener('click', (e) => { e.stopPropagation(); if (window.audio_select) window.audio_select.play(); setActiveTool(currentTool === 'ray' ? 'none' : 'ray'); });
+straightLineButton.addEventListener('click', (e) => { e.stopPropagation(); if (window.audio_select) window.audio_select.play(); seTaşıiveTool(currentTool === 'straightLine' ? 'none' : 'straightLine'); });
+infinityLineButton.addEventListener('click', (e) => { e.stopPropagation(); if (window.audio_select) window.audio_select.play(); seTaşıiveTool(currentTool === 'line' ? 'none' : 'line'); });
+segmentButton.addEventListener('click', (e) => { e.stopPropagation(); if (window.audio_select) window.audio_select.play(); seTaşıiveTool(currentTool === 'segment' ? 'none' : 'segment'); });
+rayButton.addEventListener('click', (e) => { e.stopPropagation(); if (window.audio_select) window.audio_select.play(); seTaşıiveTool(currentTool === 'ray' ? 'none' : 'ray'); });
 
 lineColorOptions.forEach(box => {
     box.addEventListener('click', (e) => {
         e.stopPropagation();
         lineColorOptions.forEach(b => b.classList.remove('selected'));
-        e.target.classList.add('selected');
-        const color = e.target.dataset.color || e.target.style.backgroundColor;
+        e.Taşıet.classList.add('selected');
+        const color = e.Taşıet.daTaşıt.color || e.Taşıet.style.backgroundColor;
         window.currentLineColor = color;
     });
 });
 lineColorOptions[0].classList.add('selected');
-window.currentLineColor = lineColorOptions[0].dataset.color || lineColorOptions[0].style.backgroundColor;
+window.currentLineColor = lineColorOptions[0].daTaşıt.color || lineColorOptions[0].style.backgroundColor;
 
 // ==========================================
-// ?? N�HA� ��Z�M: KATMAN (Z-INDEX) VE BUTON KORUMA ZIRHI ??
+// ?? NİHAİ ÇÖZÜM: KATMAN (Z-INDEX) VE BUTON KORUMA ZIRHI ??
 // ==========================================
 const katmanZirhi = document.createElement('style');
 katmanZirhi.innerHTML = `
-    /* 1. �izim Tahtas�: 3D �ekillerin �st�nde, butonlar�n alt�nda kalmal� */
-    #drawing-canvas { position: relative !important; z-index: 50 !important; background-color: transparent !important; }
+    /* 1. Çizim Taşıası: 3D şekillerin üstünde, butonların altında kalmalı */
+    #drawing-canvas { position: relative !imporTaşı; z-index: 50 !imporTaşı; background-color: transparent !imporTaşı; }
     
-    /* 2. 3D Sahnesi: Kalemin alt�nda kalmal� ki �st�ne �izilebilsin */
-    #three-container { position: absolute !important; z-index: 10 !important; pointer-events: none !important; display: block !important; }
+    /* 2. 3D Sahnesi: Kalemin altında kalmalı ki üstüne çizilebilsin */
+    #three-conTaşıer { position: absolute !imporTaşı; z-index: 10 !imporTaşı; pointer-events: none !imporTaşı; display: block !imporTaşı; }
     
-    /* 3. Aray�z ve Butonlar: Asla kaybolmamalar� i�in en �st seviyeye sabitlendi */
+    /* 3. Arayüz ve Butonlar: Asla kaybolmamaları için en üst seviyeye sabitlendi */
     .panel, .panel *, button, .tool-button, .tool-button-sub, .tool-options,
     #pen-options, #line-options, #polygon-options, #fill-options, #snapshot-options,
-    #options-3d-main, #options-prizmalar, #options-piramitler, #slider-container, #info-tooltip {
-        z-index: 10000 !important;
+    #options-3d-main, #options-prizmalar, #options-piramitler, #slider-conTaşıer, #info-tooltip {
+        z-index: 10000 !imporTaşı;
     }
 `;
 document.head.appendChild(katmanZirhi);
 
-// 3D motorunun gizli kalmamas�n� garantile
-if (window.Scene3D && window.Scene3D.container) {
-    window.Scene3D.container.style.display = 'block';
-    window.Scene3D.container.classList.remove('hidden');
+// 3D motorunun gizli kalmamasını garantile
+if (window.Scene3D && window.Scene3D.conTaşıer) {
+    window.Scene3D.conTaşıer.style.display = 'block';
+    window.Scene3D.conTaşıer.classList.remove('hidden');
 }
 
-// ?????? ��TE KODU TAM OLARAK BURAYA, BU BO�LU�A YAPI�TIRIYORSUN ??????
+// ?????? İŞTE KODU TaşıOLARAK BURAYA, BU BOŞLUĞA YAPIŞTIRIYORSUN ??????
 
-// ?? PERGEL TEPE ��FT TIKLAMA KES�N D�ZELTMES� (SI�RAMA ENGEL�)
+// ?? PERGEL TEPE ÇİFT TIKLAMA KESİN DÜZELTMESİ (SIÇRAMA ENGELİ)
 document.addEventListener('dblclick', (e) => {
-    const hedef = e.target;
-    // �ift t�klanan eleman pergelin tepesi mi kontrol et
-    if (hedef && (hedef.id === 'compass-top' || hedef.classList.contains('compass-top') || hedef.id === 'pergel-tepe' || hedef.closest('#compass-top') || hedef.closest('.pergel-tepe') || hedef.closest('#compass-handle'))) {
+    const hedef = e.Taşıet;
+    // Çift tıklanan eleman pergelin tepesi mi kontrol et
+    if (hedef && (hedef.id === 'compass-top' || hedef.classList.conTaşıs('compass-top') || hedef.id === 'pergel-tepe' || hedef.closest('#compass-top') || hedef.closest('.pergel-tepe') || hedef.closest('#compass-handle'))) {
 
-        // 1. Eski dosyalardaki hatal� s��rama kodunun �al��mas�n� tamamen engelle!
+        // 1. Eski dosyalardaki haTaşı sıçrama kodunun çalışmasını Taşımen engelle!
         e.stopImmediatePropagation();
         e.preventDefault();
         e.stopPropagation();
 
-        // 2. Yerinden oynatmadan u�lar� takas et
-        if (window.PergelTool && window.PergelTool.state) {
-            // Pergeli i�ne ucu etraf�nda 180 derece d�nd�rerek u�lar� kusursuzca e�ler
-            window.PergelTool.state.rotation = (window.PergelTool.state.rotation || 0) + Math.PI;
+        // 2. Yerinden oynatmadan uçları Taşıs et
+        if (window.PergelTool && window.PergelTool.sTaşı) {
+            // Pergeli iğne ucu etrafında 180 derece döndürerek uçları kusursuzca eşler
+            window.PergelTool.sTaşı.roTaşıon = (window.PergelTool.sTaşı.roTaşıon || 0) + Math.PI;
 
             if (typeof window.PergelTool.updateTransform === 'function') {
                 window.PergelTool.updateTransform();
@@ -3053,33 +3052,33 @@ document.addEventListener('dblclick', (e) => {
             }
         }
     }
-}, true); // 'true' (capturing) sayesinde eski hatal� koddan �NCE devreye girer ve onu iptal eder!
+}, true); // 'true' (capturing) sayesinde eski haTaşı koddan ÖNCE devreye girer ve onu ipTaşıeder!
 
-// ?????? PERGEL KODU BURADA B�T�YOR ??????
+// ?????? PERGEL KODU BURADA BİTİYOR ??????
 
-// --- app.js: Canland�r Butonu (TEK SEFERDE A�ILMA VE ARD ARDA SINIRSIZ KULLANIM GARANT�S�) ---
+// --- app.js: Canlandır Butonu (TEK SEFERDE AÇILMA VE ARD ARDA SINIRSIZ KullanımıGARANTİSİ) ---
 if (typeof animateButton !== 'undefined' && animateButton) {
     animateButton.onclick = null;
-    animateButton.ontouchstart = null;
+    animateButton.ontouchsTaşı = null;
     animateButton.addEventListener('pointerdown', toggleSnapshotMenu, { passive: false });
 }
-// <--- KOD DOSYASI TAM OLARAK BU PARANTEZLE B�TMEL�D�R!
+// <--- KOD DOSYASI TaşıOLARAK BU PARANTEZLE BİTMELİDİR!
 
-// ?? N�HA� ��Z�M: GER�EK �OKLU DOKUNMAT�K (MULTI-TOUCH) TAK�P��S�
+// ?? NİHAİ ÇÖZÜM: GERÇEK ÇOKLU DOKUNMATİK (MULTI-TOUCH) TaşıPÇİSİ
 window.touchCount = 0;
 window.lastTouchDist = 0;
-canvas.addEventListener('touchstart', (e) => { window.touchCount = e.touches.length; }, { passive: true });
+canvas.addEventListener('touchsTaşı', (e) => { window.touchCount = e.touches.length; }, { passive: true });
 canvas.addEventListener('touchend', (e) => { window.touchCount = e.touches.length; if (window.touchCount < 2) window.lastTouchDist = 0; }, { passive: true });
 canvas.addEventListener('touchcancel', (e) => { window.touchCount = e.touches.length; if (window.touchCount < 2) window.lastTouchDist = 0; }, { passive: true });
 
-// ?? GER�EK MULTI-TOUCH ZOOM MOTORU (Z�plamay� Engelleyen Ana Motor)
+// ?? GERÇEK MULTI-TOUCH ZOOM MOTORU (ZıplamayIşıngelleyen Ana Motor)
 canvas.addEventListener('touchmove', (e) => {
     if (currentTool === 'move' && e.touches && e.touches.length >= 2) {
         e.preventDefault();
         e.stopPropagation();
         
-        // ?? ��Z�M 2: �ift parmak zoom motoru devreye girdi�inde s�r�klemeyi KES�N olarak kapat!
-        // B�ylece ta��ma ve zoom komutlar� birbiriyle sava�maz, ekran z�plamaz.
+        // ?? ÇÖZÜM 2: Çift parmak zoom motoru devreye girdiğinde sürüklemeyi KESİN olarak kapat!
+        // Böylece Taşıma ve zoom komutları birbiriyle savaşmaz, ekran zıplamaz.
         isMoving = false; 
 
         window.isZooming = true;
@@ -3091,8 +3090,8 @@ canvas.addEventListener('touchmove', (e) => {
         const currentDist = Math.hypot(p1x - p2x, p1y - p2y);
 
         if (window.lastTouchDist > 0) {
-            const delta = currentDist - window.lastTouchDist;
-            const zoomStep = 1 + (delta * 0.003);
+            const delTaşı currentDist - window.lastTouchDist;
+            const zoomStep = 1 + (delTaşı 0.003);
             const mainBg = drawnStrokes.find(s => s.isBackground === true && !s.isPatch);
             
             if (mainBg) {
@@ -3118,8 +3117,8 @@ canvas.addEventListener('touchmove', (e) => {
                     });
                 }
                 redrawAllStrokes();
-                if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
-                    window.sendNetworkData({ type: 'zoom_senkron', x: mainBg.x, y: mainBg.y, width: mainBg.width, height: mainBg.height });
+                if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) {
+                    window.sendNetworkDaTaşı type: 'zoom_senkron', x: mainBg.x, y: mainBg.y, width: mainBg.width, height: mainBg.height });
                 }
             }
         }
@@ -3127,20 +3126,20 @@ canvas.addEventListener('touchmove', (e) => {
     }
 }, { passive: false });
 canvas.addEventListener('pointerdown', (e) => {
-    // ?? S�H�RL� DOKUNU� 1: Ne olursa olsun �NCE taray�c�n�n yerle�ik kayd�rmas�n� (titremeyi) kilitliyoruz!
+    // ?? SİHİRLİ DOKUNUŞ 1: Ne olursa olsun ÖNCE TaşıyIşının yerleşik kaydırmasını (titremeyi) kilitliyoruz!
     if (e.cancelable) e.preventDefault();
 
-    // AKILLI TAHTA YAMASI VE GER�YE D�N�K AVU� ��� (PALM) REDD�:
+    // AKILLI TaşıA YAMASI VE GERİYE DÖNÜK AVUÇ İÇİ (PALM) REDDİ:
     if (e.pointerType === 'pen') {
-        // E�er k�sa s�re �nce (avu� i�i y�z�nden) bir veya birden fazla "touch" �izimi ba�lad�ysa, onlar� an�nda iptal et ve sil!
+        // Eğer kısa süre önce (avuç içi yüzünden) bir veya birden fazla "touch" çizimi başladıysa, onlarIşınında ipTaşıet ve sil!
         let avucIciSilindi = false;
         while (window.drawnStrokes && window.drawnStrokes.length > 0) {
             const lastS = window.drawnStrokes[window.drawnStrokes.length - 1];
-            if (lastS.type === 'pen' && lastS.pointerType === 'touch' && lastS.startTime && (Date.now() - lastS.startTime) < 1500) {
+            if (lastS.type === 'pen' && lastS.pointerType === 'touch' && lastS.sTaşıTime && (Date.now() - lastS.sTaşıTime) < 1500) {
                 const popped = window.drawnStrokes.pop();
                 avucIciSilindi = true;
-                if (typeof window.sendNetworkData === 'function' && popped && popped.id) {
-                    window.sendNetworkData({ type: 'sil_belirli', id: popped.id });
+                if (typeof window.sendNetworkDaTaşı== 'function' && popped && popped.id) {
+                    window.sendNetworkDaTaşı type: 'sil_belirli', id: popped.id });
                 }
             } else {
                 break;
@@ -3148,18 +3147,18 @@ canvas.addEventListener('pointerdown', (e) => {
         }
 
         if (avucIciSilindi) {
-            isDrawing = false; // Temizle ki alt taraftaki switch blo�u kalem i�in temiz bir stroke ba�lats�n
+            isDrawing = false; // Temizle ki alt TaşıfTaşı switch bloğu kalem için temiz bir stroke başlatsın
             if (window.redrawAllStrokes) window.redrawAllStrokes();
         }
 
         isPenActive = true;
         clearTimeout(penActiveTimer);
-        // Kalem havaya kalksa bile 2 saniye boyunca eli (avu� i�ini) reddetmeye devam et:
+        // Kalem havaya kalksa bile 2 saniye boyunca eli (avuç içini) reddetmeye devam et:
         penActiveTimer = setTimeout(() => { isPenActive = false; }, 2000);
     }
     if (e.pointerType === 'touch' && isPenActive) return;
 
-    // --- KR�T�K EKLENT�: HAYALET PARMAK SIFIRLAYICI ---
+    // --- KRİTİK EKLENTİ: HAYALET PARMAK SIFIRLAYICI ---
     if (e.isPrimary) {
         pointers.clear();
         lastDist = 0;
@@ -3175,31 +3174,31 @@ canvas.addEventListener('pointerdown', (e) => {
 
     pointers.set(e.pointerId, e);
     const pos = getPointerPos(e);
-    const snapPos = snapTarget || pos;
+    const snapPos = snapTaşıet || pos;
     currentMousePos = pos;
 
-    // --- TABLET 3D ��Z�M�: EKRANIN HAM P�KSELLER�N� AL ---
+    // --- TaşıET 3D ÇÖZÜMÜ: EKRANIN HAM PİKSELLERİNİ AL ---
     let rawX = e.clientX; let rawY = e.clientY;
     if (window.touchCount > 0 && e.pointerType === 'touch') { rawX = e.clientX; rawY = e.clientY; } // PointerEvent uses clientX natively
 
-    // ?? ��Z�M 4: 3D �ekil a��kken ye�il ve pembe butonlar�n t�klanmas�n� 3D motoru �almas�n! �ncelik z�rh�!
+    // ?? ÇÖZÜM 4: 3D Şekil açıkken yeşil ve pembe butonların tıklanmasını 3D motoru çalmasın! Öncelik zırhı!
     let butonYakalandi = false;
     if (currentTool === 'move') {
         const tempHit = typeof findHit === 'function' ? findHit(pos) : null;
-        if (tempHit && (tempHit.pointKey === 'image_rotate' || tempHit.pointKey === 'image_resize')) {
+        if (tempHit && (tempHit.pointKey === 'image_roTaşı' || tempHit.pointKey === 'image_resize')) {
             butonYakalandi = true;
         }
     }
 
-    // --- ?? K�PR� 1: 3D MOTORUNA DEVRET (HIRSIZLIK KORUMALI) ---
+    // --- ?? KÖPRÜ 1: 3D MOTORUNA DEVRET (HIRSIZLIK KORUMALI) ---
     if (window.Scene3D && window.Scene3D.isInit && !butonYakalandi) {
         if (currentTool === 'move' || currentTool === 'select') {
             window.Scene3D.onDown(rawX, rawY);
-            // ?? ��Z�M: 3D �ekil se�ildi�inde erken d�n�� YAPMIYORUZ. 
-            // 2D motorunun da isMoving, dragStartPos gibi ta��ma de�i�kenlerini ba�latmas�na izin veriyoruz!
+            // ?? ÇÖZÜM: 3D şekil seçildiğinde erken dönüş YAPMIYORUZ. 
+            // 2D motorunun da isMoving, dragSTaşıPos gibi Taşıma değişkenlerini başlatmasına izin veriyoruz!
         }
-        // SADECE "draw_3d" ile ba�layan 3D ara�lar� se�iliyse 3D motoruna izin ver!
-        else if (currentTool && currentTool.startsWith('draw_3d_')) {
+        // SADECE "draw_3d" ile başlayan 3D araçları seçiliyse 3D motoruna izin ver!
+        else if (currentTool && currentTool.sTaşısWith('draw_3d_')) {
             let toolName = currentTool.replace('draw_3d_', '');
             window.Scene3D.setTool(toolName);
             window.Scene3D.onDown(rawX, rawY);
@@ -3207,109 +3206,109 @@ canvas.addEventListener('pointerdown', (e) => {
         }
     }
 
-    // --- 1. F�Z�KSEL ARA� KONTROL� ---
-    const isToolElementClicked = e.target.closest('.ruler-container, .gonye-container, .aciolcer-container, #compass-container');
+    // --- 1. FİZİKSEL ARAÇ KONTROLÜ ---
+    const isToolElementClicked = e.Taşıet.closest('.ruler-conTaşıer, .Gönye-conTaşıer, .aciolcer-conTaşıer, #compass-conTaşıer');
     if (typeof eraserPreview !== 'undefined' && eraserPreview) eraserPreview.style.display = 'none';
     if (isToolElementClicked) {
         isDrawingLine = isDrawingInfinityLine = isDrawingSegment = isDrawingRay = false;
-        lineStartPoint = null; window.tempPolygonData = null;
+        lineSTaşıPoint = null; window.tempPolygonDaTaşı null;
         if (typeof polygonPreviewLabel !== 'undefined' && polygonPreviewLabel) polygonPreviewLabel.classList.add('hidden');
         return;
     }
 
-    // --- 2. "TA�I" MODU KONTROL� ---
+    // --- 2. "Taşı" MODU KONTROLÜ ---
     if (currentTool === 'move') {
         const hit = findHit(pos);
         if (hit) {
             drawnStrokes = drawnStrokes.filter(s => s !== hit.item); drawnStrokes.push(hit.item); window.drawnStrokes = drawnStrokes;
 
-            // ?? ET�KETLER�N PC'YE G�NDER�LMES� (A�a Sinyal Eklendi)
+            // ?? ETİKETLERİN PC'YE GÖNDERİLMESİ (Ağa Sinyal Eklendi)
             if (hit.pointKey === 'toggle_edges') {
                 hit.item.showEdgeLabels = !hit.item.showEdgeLabels;
-                if (typeof window.sendNetworkData === 'function') window.sendNetworkData({ type: 'sekil_guncelle', stroke: hit.item });
+                if (typeof window.sendNetworkDaTaşı== 'function') window.sendNetworkDaTaşı type: 'sekil_guncelle', stroke: hit.item });
                 redrawAllStrokes(); return;
             }
             if (hit.pointKey === 'toggle_angles') {
                 hit.item.showAngleLabels = !hit.item.showAngleLabels;
-                if (typeof window.sendNetworkData === 'function') window.sendNetworkData({ type: 'sekil_guncelle', stroke: hit.item });
+                if (typeof window.sendNetworkDaTaşı== 'function') window.sendNetworkDaTaşı type: 'sekil_guncelle', stroke: hit.item });
                 redrawAllStrokes(); return;
             }
             if (hit.pointKey === 'toggle_circle_info') {
                 hit.item.showCircleInfo = !hit.item.showCircleInfo;
-                if (typeof window.sendNetworkData === 'function') window.sendNetworkData({ type: 'sekil_guncelle', stroke: hit.item });
+                if (typeof window.sendNetworkDaTaşı== 'function') window.sendNetworkDaTaşı type: 'sekil_guncelle', stroke: hit.item });
                 redrawAllStrokes(); return;
             }
 
-            isMoving = true; selectedItem = hit.item; selectedPointKey = hit.pointKey; dragStartPos = pos;
-            if (typeof isConnected !== 'undefined' && isConnected) window.sendNetworkData({ type: 'secimi_senkronize_et', strokeId: selectedItem.id });
+            isMoving = true; selectedItem = hit.item; selectedPointKey = hit.pointKey; dragSTaşıPos = pos;
+            if (typeof isConnected !== 'undefined' && isConnected) window.sendNetworkDaTaşı type: 'secimi_senkronize_et', strokeId: selectedItem.id });
 
-            originalStartPos = {};
-            if (hit.pointKey === 'self') originalStartPos = { x: hit.item.x, y: hit.item.y };
-            else if (hit.pointKey === 'p1') originalStartPos = { x: hit.item.p1.x, y: hit.item.p1.y };
-            else if (hit.pointKey === 'p2') originalStartPos = { x: hit.item.p2.x, y: hit.item.p2.y };
-            else if (hit.pointKey === 'center') originalStartPos = { x: (hit.item.cx || hit.item.center.x), y: (hit.item.cy || hit.item.center.y) };
-            else if (hit.pointKey === 'rotate' || hit.pointKey === 'resize' || hit.pointKey === 'image_resize' || hit.pointKey === 'image_rotate') {
-                originalStartPos = { radius: hit.item.radius, rotation: hit.item.rotation, rotationX: hit.item.rotationX || 0, rotationY: hit.item.rotationY || 0, x: hit.item.x || (hit.item.center ? hit.item.center.x : 0), y: hit.item.y || (hit.item.center ? hit.item.center.y : 0) };
-                if (selectedItem.type === 'rectangle' || selectedItem.type === 'image' || selectedItem.type === '3d_shape') { initialWidth = selectedItem.width; initialHeight = selectedItem.height; }
+            originalSTaşıPos = {};
+            if (hit.pointKey === 'self') originalSTaşıPos = { x: hit.item.x, y: hit.item.y };
+            else if (hit.pointKey === 'p1') originalSTaşıPos = { x: hit.item.p1.x, y: hit.item.p1.y };
+            else if (hit.pointKey === 'p2') originalSTaşıPos = { x: hit.item.p2.x, y: hit.item.p2.y };
+            else if (hit.pointKey === 'center') originalSTaşıPos = { x: (hit.item.cx || hit.item.center.x), y: (hit.item.cy || hit.item.center.y) };
+            else if (hit.pointKey === 'roTaşı' || hit.pointKey === 'resize' || hit.pointKey === 'image_resize' || hit.pointKey === 'image_roTaşı') {
+                originalSTaşıPos = { radius: hit.item.radius, roTaşıon: hit.item.roTaşıon, roTaşıonX: hit.item.roTaşıonX || 0, roTaşıonY: hit.item.roTaşıonY || 0, x: hit.item.x || (hit.item.center ? hit.item.center.x : 0), y: hit.item.y || (hit.item.center ? hit.item.center.y : 0) };
+                if (selectedItem.type === 'recTaşıle' || selectedItem.type === 'image' || selectedItem.type === '3d_shape') { initialWidth = selectedItem.width; initialHeight = selectedItem.height; }
             }
             const itemType = hit.item.type;
             if ((itemType === 'line' || itemType === 'segment' || itemType === 'ray' || itemType === 'straightLine') && (hit.pointKey === 'p1' || hit.pointKey === 'p2')) {
-                rotationPivot = (hit.pointKey === 'p1') ? hit.item.p2 : hit.item.p1; const movingPoint = (hit.pointKey === 'p1') ? hit.item.p1 : hit.item.p2; selectedItem.startRadius = distance(movingPoint, rotationPivot);
-            } else rotationPivot = null;
+                roTaşıonPivot = (hit.pointKey === 'p1') ? hit.item.p2 : hit.item.p1; const movingPoint = (hit.pointKey === 'p1') ? hit.item.p1 : hit.item.p2; selectedItem.sTaşıRadius = disTaşıe(movingPoint, roTaşıonPivot);
+            } else roTaşıonPivot = null;
             redrawAllStrokes(); return;
         } else {
             if (selectedItem) selectedItem.showEdgeLabels = selectedItem.showAngleLabels = selectedItem.showCircleInfo = false;
             selectedItem = null;
-            if (typeof isConnected !== 'undefined' && isConnected) window.sendNetworkData({ type: 'secimi_kaldir' });
+            if (typeof isConnected !== 'undefined' && isConnected) window.sendNetworkDaTaşı type: 'secimi_kaldir' });
             redrawAllStrokes();
         }
     }
 
     if (currentTool === 'none') return;
     if (['point', 'straightLine', 'line', 'segment', 'ray'].includes(currentTool)) { if (typeof lineOptions !== 'undefined' && lineOptions) { lineOptions.classList.add('hidden'); lineOptions.style.display = 'none'; } }
-    if (currentTool === 'snapshot') { snapshotStart = getPointerPos(e); return; }
+    if (currentTool === 'snapshot') { snapshotSTaşı = getPointerPos(e); return; }
 
     switch (currentTool) {
-        case 'pen': isDrawing = true; const pInfoDown = getPointerInfo(e); const pStroke = { type: 'pen', pointerType: pInfoDown.type, startTime: Date.now(), path: [{ x: snapPos.x, y: snapPos.y, p: pInfoDown.type === 'pen' ? pInfoDown.pressure : 1 }], color: currentPenColor, baseWidth: currentPenWidth, id: Date.now() + Math.random() }; drawnStrokes.push(pStroke); break;
-        case 'point': isDrawing = false; const noktaObj = { type: 'point', x: snapPos.x, y: snapPos.y, label: nextPointChar, color: window.isToolThemeBlack ? '#000000' : (window.currentLineColor || '#FFFFFF'), id: Date.now() + Math.random() }; drawnStrokes.push(noktaObj); if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) window.sendNetworkData({ type: 'yeni_cizim', stroke: noktaObj }); nextPointChar = advanceChar(nextPointChar); if (typeof window.nextPointChar !== 'undefined') window.nextPointChar = nextPointChar; setTimeout(() => { if (typeof redrawAllStrokes === 'function') redrawAllStrokes(); }, 10); break;
-        case 'eraser': isDrawing = false; break; // ?? KES�N ��Z�M: Silgi modunda kalem izi �izilmesi tamamen yasakland�!
-        case 'straightLine': if (!isDrawingLine) { isDrawingLine = true; lineStartPoint = snapPos; } break;
-        case 'line': if (!isDrawingInfinityLine) { isDrawingInfinityLine = true; lineStartPoint = pos; } break;
-        case 'segment': if (!isDrawingSegment) { isDrawingSegment = true; lineStartPoint = snapPos; } break;
-        case 'ray': if (!isDrawingRay) { isDrawingRay = true; lineStartPoint = pos; } break;
-        case 'draw_rectangle': isDrawingRectangle = true; rectStartPoint = pos; break;
+        case 'pen': isDrawing = true; const pInfoDown = getPointerInfo(e); const pStroke = { type: 'pen', pointerType: pInfoDown.type, sTaşıTime: Date.now(), path: [{ x: snapPos.x, y: snapPos.y, p: pInfoDown.type === 'pen' ? pInfoDown.pressure : 1 }], color: currentPenColor, baseWidth: currentPenWidth, id: Date.now() + Math.random() }; drawnStrokes.push(pStroke); break;
+        case 'point': isDrawing = false; const nokTaşıj = { type: 'point', x: snapPos.x, y: snapPos.y, label: nextPointChar, color: window.isToolThemeBlack ? '#000000' : (window.currentLineColor || '#FFFFFF'), id: Date.now() + Math.random() }; drawnStrokes.push(nokTaşıj); if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) window.sendNetworkDaTaşı type: 'yeni_cizim', stroke: nokTaşıj }); nextPointChar = advanceChar(nextPointChar); if (typeof window.nextPointChar !== 'undefined') window.nextPointChar = nextPointChar; setTimeout(() => { if (typeof redrawAllStrokes === 'function') redrawAllStrokes(); }, 10); break;
+        case 'eraser': isDrawing = false; break; // ?? KESİN ÇÖZÜM: Silgi modunda kalem izi çizilmesi Taşımen yasaklandı!
+        case 'straightLine': if (!isDrawingLine) { isDrawingLine = true; lineSTaşıPoint = snapPos; } break;
+        case 'line': if (!isDrawingInfinityLine) { isDrawingInfinityLine = true; lineSTaşıPoint = pos; } break;
+        case 'segment': if (!isDrawingSegment) { isDrawingSegment = true; lineSTaşıPoint = snapPos; } break;
+        case 'ray': if (!isDrawingRay) { isDrawingRay = true; lineSTaşıPoint = pos; } break;
+        case 'draw_recTaşıle': isDrawingRecTaşıle = true; rectSTaşıPoint = pos; break;
         case 'draw_polygon_circle':
         case 'draw_polygon_3_sides': case 'draw_polygon_4_sides': case 'draw_polygon_5_sides':
         case 'draw_polygon_6_sides': case 'draw_polygon_7_sides': case 'draw_polygon_8_sides':
-            if (!window.tempPolygonData) window.tempPolygonData = { center: null, type: 0, radius: 0, rotation: 0 };
-            if (window.tempPolygonData.center === null) { window.tempPolygonData.center = snapPos; window.tempPolygonData.type = currentTool === 'draw_polygon_circle' ? 0 : parseInt(currentTool.split('_')[2]); if (window.PolygonTool) window.PolygonTool.state.isDrawing = true; if (typeof polygonPreviewLabel !== 'undefined' && polygonPreviewLabel) polygonPreviewLabel.classList.remove('hidden'); }
+            if (!window.tempPolygonDaTaşıwindow.tempPolygonDaTaşı { center: null, type: 0, radius: 0, roTaşıon: 0 };
+            if (window.tempPolygonDaTaşıenter === null) { window.tempPolygonDaTaşıenter = snapPos; window.tempPolygonDaTaşıype = currentTool === 'draw_polygon_circle' ? 0 : parseInt(currentTool.split('_')[2]); if (window.PolygonTool) window.PolygonTool.sTaşı.isDrawing = true; if (typeof polygonPreviewLabel !== 'undefined' && polygonPreviewLabel) polygonPreviewLabel.classList.remove('hidden'); }
             else {
-                const finalRadius = window.tempPolygonData.radius || 0; if (window.tempPolygonData.type === 0) window.PolygonTool.finalizeCircle(finalRadius); else window.PolygonTool.finalizeDraw(finalRadius, window.tempPolygonData.rotation);
-                setTimeout(() => { const lastS = drawnStrokes[drawnStrokes.length - 1]; if (lastS) window.sendNetworkData({ type: 'yeni_cizim', stroke: lastS }); }, 50);
-                if (typeof polygonPreviewLabel !== 'undefined' && polygonPreviewLabel) polygonPreviewLabel.classList.add('hidden'); if (window.tempPolygonData) window.tempPolygonData.center = null;
+                const finalRadius = window.tempPolygonDaTaşıadius || 0; if (window.tempPolygonDaTaşıype === 0) window.PolygonTool.finalizeCircle(finalRadius); else window.PolygonTool.finalizeDraw(finalRadius, window.tempPolygonDaTaşıoTaşıon);
+                setTimeout(() => { const lastS = drawnStrokes[drawnStrokes.length - 1]; if (lastS) window.sendNetworkDaTaşı type: 'yeni_cizim', stroke: lastS }); }, 50);
+                if (typeof polygonPreviewLabel !== 'undefined' && polygonPreviewLabel) polygonPreviewLabel.classList.add('hidden'); if (window.tempPolygonDaTaşıwindow.tempPolygonDaTaşıenter = null;
             }
             break;
     }
 }, { passive: false });
 
 canvas.addEventListener('pointermove', (e) => {
-    // ?? S�H�RL� DOKUNU� 2: S�r�kleme s�ras�nda ekran titremesinin 1 numaral� d��man� olan z�plamay� EN BA�TA yok et!
+    // ?? SİHİRLİ DOKUNUŞ 2: Sürükleme sırasında ekran titremesinin 1 numaralı düşmanı olan zıplamayIşın BAŞTaşıok et!
     if (e.cancelable) e.preventDefault();
 
     const currentPointerMove = getPointerInfo(e);
     if (currentPointerMove.type === 'pen') { isPenActive = true; clearTimeout(penActiveTimer); penActiveTimer = setTimeout(() => { isPenActive = false; }, 1000); }
     else if (currentPointerMove.type === 'touch' && isPenActive) return;
 
-    // --- PARDUS ��FT S�NYAL ENGELLEY�C� ---
+    // --- PARDUS ÇİFT SİNYAL ENGELLEYİCİ ---
     if (e.pointerType === 'mouse') { let hasTouch = false; for (let p of pointers.values()) if (p.pointerType === 'touch' || p.pointerType === 'pen') hasTouch = true; if (hasTouch) return; }
     pointers.set(e.pointerId, e);
 
     if (pointers.size >= 2 && currentTool === 'move') {
-        // ?? ��Z�M 3A: Zoom ba�larken s�r�klemeyi tamamen kapat!
+        // ?? ÇÖZÜM 3A: Zoom başlarken sürüklemeyi Taşımen kapat!
         isMoving = false; 
 
-        // ?? �AKI�MAYI �NLEY�C� ZIRH: E�er cihaz ger�ek TouchEvent destekliyorsa (touchCount >= 2),
-        // yedek PointerEvent motorunu DURDUR! Aksi takdirde iki motor ayn� anda �al���p zoomu K�L�TLER!
+        // ?? ÇAKIŞMAYIşınLEYİCİ ZIRH: Eğer cihaz gerçek TouchEvent destekliyorsa (touchCount >= 2),
+        // yedek PointerEvent motorunu DURDUR! Aksi Taşıirde iki motor aynIşında çalışıp zoomu KİLİTLER!
         if (window.touchCount >= 2) return;
 
         window.isZooming = true;
@@ -3325,7 +3324,7 @@ canvas.addEventListener('pointermove', (e) => {
         }
         const currentDist = Math.hypot(p1x - p2x, p1y - p2y);
         if (lastDist > 0) {
-            const delta = currentDist - lastDist; const zoomStep = 1 + (delta * 0.003);
+            const delTaşı currentDist - lastDist; const zoomStep = 1 + (delTaşı 0.003);
             const bgStrokes = drawnStrokes.filter(s => s.isBackground === true);
             if (bgStrokes.length > 0) {
                 const cx = bgStrokes[0].x + bgStrokes[0].width / 2;
@@ -3333,7 +3332,7 @@ canvas.addEventListener('pointermove', (e) => {
                 bgStrokes.forEach(bg => { const newW = bg.width * zoomStep; const newH = bg.height * zoomStep; bg.x -= (newW - bg.width) / 2; bg.y -= (newH - bg.height) / 2; bg.width = newW; bg.height = newH; });
                 if (window.drawnStrokes) window.drawnStrokes.forEach(s => { if (!s.isBackground && typeof window.zoomStroke === 'function') window.zoomStroke(s, zoomStep, cx, cy); });
                 redrawAllStrokes();
-                if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) window.sendNetworkData({ type: 'zoom_senkron', x: bgStrokes[0].x, y: bgStrokes[0].y, width: bgStrokes[0].width, height: bgStrokes[0].height });
+                if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) window.sendNetworkDaTaşı type: 'zoom_senkron', x: bgStrokes[0].x, y: bgStrokes[0].y, width: bgStrokes[0].width, height: bgStrokes[0].height });
             }
         }
         lastDist = currentDist; return;
@@ -3342,46 +3341,46 @@ canvas.addEventListener('pointermove', (e) => {
     if (pointers.size > 1 && e.isPrimary === false) return;
     const pos = getPointerPos(e); currentMousePos = pos;
 
-    // --- TABLET 3D ��Z�M�: EKRANIN HAM P�KSELLER�N� AL ---
+    // --- TaşıET 3D ÇÖZÜMÜ: EKRANIN HAM PİKSELLERİNİ AL ---
     let rawX = e.clientX; let rawY = e.clientY;
-    if (e.targetTouches && e.targetTouches.length > 0) { rawX = e.targetTouches[0].clientX; rawY = e.targetTouches[0].clientY; }
+    if (e.TaşıetTouches && e.TaşıetTouches.length > 0) { rawX = e.TaşıetTouches[0].clientX; rawY = e.TaşıetTouches[0].clientY; }
 
-    // --- ?? K�PR� 2: 3D HAREKET� (TA�IMA MOTORU ZIRHI) ---
+    // --- ?? KÖPRÜ 2: 3D HAREKETİ (TaşıMA MOTORU ZIRHI) ---
     if (window.Scene3D && window.Scene3D.isInit) {
-        // ?? KES�N ��Z�M: "Ta��" modundayken de �eklin hareket etmesi i�in 3D motoruna izin verdik.
-        if (window.Scene3D.isDragging || window.Scene3D.isDrawing || window.Scene3D.isRotatingShape) {
+        // ?? KESİN ÇÖZÜM: "Taşı" modundayken de şeklin hareket etmesi için 3D motoruna izin verdik.
+        if (window.Scene3D.isDragging || window.Scene3D.isDrawing || window.Scene3D.isRoTaşıngShape) {
             window.Scene3D.onMove(rawX, rawY);
-            if (!window.Scene3D.isDragging) return; // Ta��ma i�lemi i�in 2D motoruna devam etmesine izin ver
+            if (!window.Scene3D.isDragging) return; // Taşıma işlemi için 2D motoruna devam etmesine izin ver
         }
     }
 
-    if (window.isImageRotating && selectedItem) { const cX = selectedItem.x + selectedItem.width / 2; const cY = selectedItem.y + selectedItem.height / 2; selectedItem.rotation = (Math.atan2(pos.y - cY, pos.x - cX) * 180 / Math.PI) + 90; window.sendNetworkData({ type: 'arac_senkron', selector: '.yuzen-kopya-container', transform: `rotate(${selectedItem.rotation}deg)` }); window.sendNetworkData({ type: 'sekil_guncelle', stroke: selectedItem }); if (window.redrawAllStrokes) window.redrawAllStrokes(); return; }
-    if (window.isImageResizing && selectedItem) { const cX = selectedItem.x + selectedItem.width / 2; const cY = selectedItem.y + selectedItem.height / 2; const ratio = Math.hypot(pos.x - cX, pos.y - cY) / window.startImageDistance; selectedItem.width = window.startImageWidth * ratio; selectedItem.height = window.startImageHeight * ratio; selectedItem.x = cX - selectedItem.width / 2; selectedItem.y = cY - selectedItem.height / 2; window.sendNetworkData({ type: 'arac_senkron', selector: '.yuzen-kopya-container', width: selectedItem.width + 'px', height: selectedItem.height + 'px' }); window.sendNetworkData({ type: 'sekil_guncelle', stroke: selectedItem }); if (window.redrawAllStrokes) window.redrawAllStrokes(); return; }
+    if (window.isImageRoTaşıng && selectedItem) { const cX = selectedItem.x + selectedItem.width / 2; const cY = selectedItem.y + selectedItem.height / 2; selectedItem.roTaşıon = (Math.aTaşı(pos.y - cY, pos.x - cX) * 180 / Math.PI) + 90; window.sendNetworkDaTaşı type: 'arac_senkron', selector: '.yuzen-kopya-conTaşıer', transform: `roTaşı(${selectedItem.roTaşıon}deg)` }); window.sendNetworkDaTaşı type: 'sekil_guncelle', stroke: selectedItem }); if (window.redrawAllStrokes) window.redrawAllStrokes(); return; }
+    if (window.isImageResizing && selectedItem) { const cX = selectedItem.x + selectedItem.width / 2; const cY = selectedItem.y + selectedItem.height / 2; const ratio = Math.hypot(pos.x - cX, pos.y - cY) / window.sTaşıImageDisTaşıe; selectedItem.width = window.sTaşıImageWidth * ratio; selectedItem.height = window.sTaşıImageHeight * ratio; selectedItem.x = cX - selectedItem.width / 2; selectedItem.y = cY - selectedItem.height / 2; window.sendNetworkDaTaşı type: 'arac_senkron', selector: '.yuzen-kopya-conTaşıer', width: selectedItem.width + 'px', height: selectedItem.height + 'px' }); window.sendNetworkDaTaşı type: 'sekil_guncelle', stroke: selectedItem }); if (window.redrawAllStrokes) window.redrawAllStrokes(); return; }
 
     if (currentTool === 'move' && isMoving && selectedItem) {
-        // ?? ��Z�M 3B: Ekrana ikinci parmak de�di�i an veya Zoom i�lemi devam ediyorsa
-        // s�r�klemeyi an�nda iptal ediyoruz. Bu tek parmakla ta��rken ya�anan "z�plama" sorununu tamamen bitirir.
+        // ?? ÇÖZÜM 3B: Ekrana ikinci parmak değdiği an veya Zoom işlemi devam ediyorsa
+        // sürüklemeyi anında ipTaşıediyoruz. Bu tek parmakla Taşırken yaşanan "zıplama" sorununu Taşımen bitirir.
         if (window.touchCount >= 2 || pointers.size >= 2 || window.isZooming) {
             isMoving = false;
             return;
         }
 
-        const dx = pos.x - dragStartPos.x; const dy = pos.y - dragStartPos.y;
+        const dx = pos.x - dragSTaşıPos.x; const dy = pos.y - dragSTaşıPos.y;
         if (selectedPointKey === 'self' || selectedPointKey === 'center') { 
             let oldX = 0, oldY = 0, newX = 0, newY = 0;
             if (selectedItem.type === 'arc') { 
                 oldX = selectedItem.cx; oldY = selectedItem.cy;
-                selectedItem.cx = originalStartPos.x + dx; selectedItem.cy = originalStartPos.y + dy; 
+                selectedItem.cx = originalSTaşıPos.x + dx; selectedItem.cy = originalSTaşıPos.y + dy; 
                 newX = selectedItem.cx; newY = selectedItem.cy;
             } else if (selectedItem.center) { 
                 oldX = selectedItem.center.x; oldY = selectedItem.center.y;
-                selectedItem.center.x = originalStartPos.x + dx; selectedItem.center.y = originalStartPos.y + dy; 
+                selectedItem.center.x = originalSTaşıPos.x + dx; selectedItem.center.y = originalSTaşıPos.y + dy; 
                 newX = selectedItem.center.x; newY = selectedItem.center.y;
             } else { 
                 oldX = selectedItem.x; oldY = selectedItem.y;
-                selectedItem.x = (originalStartPos.x || 0) + dx; selectedItem.y = (originalStartPos.y || 0) + dy; 
+                selectedItem.x = (originalSTaşıPos.x || 0) + dx; selectedItem.y = (originalSTaşıPos.y || 0) + dy; 
                 newX = selectedItem.x; newY = selectedItem.y;
-                // ?? KES�N ��Z�M: Ta��ma s�ras�nda 3D �ekillerin originalX ve originalY de�erlerini g�ncelle
+                // ?? KESİN ÇÖZÜM: Taşıma sırasında 3D şekillerin originalX ve originalY değerlerini güncelle
                 if (selectedItem.originalX !== undefined) {
                     selectedItem.originalX = selectedItem.x;
                     selectedItem.originalY = selectedItem.y;
@@ -3400,85 +3399,85 @@ canvas.addEventListener('pointermove', (e) => {
                     });
                 }
                 
-                // ?? ��Z�M 1: Arka plan kayd�r�l�rken PC'ye devasa koordinatlar� g�ndermek yerine,
-                // Sadece ne kadar kayd���n� (Delta X, Delta Y) �zel 'hepsini_tasi' komutuyla g�nderiyoruz.
+                // ?? ÇÖZÜM 1: Arka plan kaydırılırken PC'ye devasa koordinatları göndermek yerine,
+                // Sadece ne kadar kaydIşını (DelTaşı, DelTaşı) özel 'hepsini_Taşı' komutuyla gönderiyoruz.
                 if (typeof isConnected !== 'undefined' && isConnected) {
-                    window.sendNetworkData({ type: 'hepsini_tasi', dx: diffX, dy: diffY });
+                    window.sendNetworkDaTaşı type: 'hepsini_Taşı', dx: diffX, dy: diffY });
                 }
                 
                 redrawAllStrokes();
-                return; // ?? KR�T�K: Tabletin yanl�� (sekil_guncelle) komutunu yollamas�n� engeller!
+                return; // ?? KRİTİK: Taşıetin yanlış (sekil_guncelle) komutunu yollamasınIşıngeller!
             }
         }
 
 
-        else if (selectedPointKey === 'rotate' || selectedPointKey === 'image_rotate') {
+        else if (selectedPointKey === 'roTaşı' || selectedPointKey === 'image_roTaşı') {
             if (selectedItem.type === '3d_shape') {
-                // ?? KES�N ��Z�M: 3D �ekilleri X ve Y ekseninde (�ne-Arkaya ve Sa�a-Sola) D�nd�rme
-                const dragDx = pos.x - dragStartPos.x;
-                const dragDy = pos.y - dragStartPos.y;
-                selectedItem.rotationY = (originalStartPos.rotationY || 0) + dragDx * 0.02;
-                selectedItem.rotationX = (originalStartPos.rotationX || 0) + dragDy * 0.02;
+                // ?? KESİN ÇÖZÜM: 3D Şekilleri X ve Y ekseninde (Öne-Arkaya ve Sağa-Sola) Döndürme
+                const dragDx = pos.x - dragSTaşıPos.x;
+                const dragDy = pos.y - dragSTaşıPos.y;
+                selectedItem.roTaşıonY = (originalSTaşıPos.roTaşıonY || 0) + dragDx * 0.02;
+                selectedItem.roTaşıonX = (originalSTaşıPos.roTaşıonX || 0) + dragDy * 0.02;
                 if (window.Scene3D && window.Scene3D.scene) {
-                    const sceneMesh = window.Scene3D.scene.children.find(m => m.userData && m.userData.strokeData && m.userData.strokeData.id === selectedItem.id);
+                    const sceneMesh = window.Scene3D.scene.children.find(m => m.userDaTaşı& m.userDaTaşıtrokeDaTaşı& m.userDaTaşıtrokeDaTaşıd === selectedItem.id);
                     if (sceneMesh) {
-                        sceneMesh.rotation.x = selectedItem.rotationX;
-                        sceneMesh.rotation.y = selectedItem.rotationY;
+                        sceneMesh.roTaşıon.x = selectedItem.roTaşıonX;
+                        sceneMesh.roTaşıon.y = selectedItem.roTaşıonY;
                         window.Scene3D.updateHandlePositions();
                     }
                 }
             } else {
-                const isRect = (['rectangle', 'rect', 'image'].includes(selectedItem.type));
+                const isRect = (['recTaşıle', 'rect', 'image'].includes(selectedItem.type));
                 const cX = isRect ? selectedItem.x + selectedItem.width / 2 : selectedItem.center.x;
                 const cY = isRect ? selectedItem.y + selectedItem.height / 2 : selectedItem.center.y;
-                selectedItem.rotation = (originalStartPos.rotation || 0) + (Math.atan2(pos.y - cY, pos.x - cX) - Math.atan2(dragStartPos.y - cY, dragStartPos.x - cX)) * (180 / Math.PI);
+                selectedItem.roTaşıon = (originalSTaşıPos.roTaşıon || 0) + (Math.aTaşı(pos.y - cY, pos.x - cX) - Math.aTaşı(dragSTaşıPos.y - cY, dragSTaşıPos.x - cX)) * (180 / Math.PI);
                 if (selectedItem.vertices) selectedItem.vertices = null;
             }
         }
         else if (selectedPointKey === 'resize' || selectedPointKey === 'image_resize') {
-            // ?? KES�N ��Z�M: 3D �ekillere �zel Yumu�ak B�y�tme/K���ltme
+            // ?? KESİN ÇÖZÜM: 3D Şekillere Özel Yumuşak Büyütme/Küçültme
             if (selectedItem.type === '3d_shape') {
                 const sW = initialWidth || selectedItem.width;
-                const startCX = (originalStartPos.x || 0) + (sW / 2);
-                const startCY = (originalStartPos.y || 0) + (sW / 2);
-                const startDist = Math.hypot(dragStartPos.x - startCX, dragStartPos.y - startCY) || 1;
-                const currentDist = Math.hypot(pos.x - startCX, pos.y - startCY);
+                const sTaşıCX = (originalSTaşıPos.x || 0) + (sW / 2);
+                const sTaşıCY = (originalSTaşıPos.y || 0) + (sW / 2);
+                const sTaşıDist = Math.hypot(dragSTaşıPos.x - sTaşıCX, dragSTaşıPos.y - sTaşıCY) || 1;
+                const currentDist = Math.hypot(pos.x - sTaşıCX, pos.y - sTaşıCY);
 
-                const ratio = currentDist / startDist;
+                const ratio = currentDist / sTaşıDist;
 
-                if (ratio > 0.1 && ratio < 10) { // S��rama ve sonsuz b�y�me engellendi
+                if (ratio > 0.1 && ratio < 10) { // Sıçrama ve sonsuz büyüme engellendi
                     selectedItem.width = sW * ratio;
                     selectedItem.height = sW * ratio;
-                    selectedItem.x = startCX - (selectedItem.width / 2);
-                    selectedItem.y = startCY - (selectedItem.height / 2);
+                    selectedItem.x = sTaşıCX - (selectedItem.width / 2);
+                    selectedItem.y = sTaşıCY - (selectedItem.height / 2);
                     
-                    // ?? 1. A� SENKRONU: Pembe butonla b�y�t�rken m�h�rl� de�erleri de b�y�t ki PC bunu kabul etsin!
+                    // ?? 1. AĞ SENKRONU: Pembe butonla büyütürken muhur_disclaimerlü değerleri de büyüt ki PC bunu kabul etsin!
                     selectedItem.originalW = selectedItem.width;
                     selectedItem.originalH = selectedItem.height;
                     selectedItem.originalX = selectedItem.x;
                     selectedItem.originalY = selectedItem.y;
 
                     if (window.Scene3D && window.Scene3D.scene) {
-                        const sceneMesh = window.Scene3D.scene.children.find(m => m.userData && m.userData.strokeData && m.userData.strokeData.id === selectedItem.id);
+                        const sceneMesh = window.Scene3D.scene.children.find(m => m.userDaTaşı& m.userDaTaşıtrokeDaTaşı& m.userDaTaşıtrokeDaTaşıd === selectedItem.id);
                         if (sceneMesh) {
-                            const yeniScale = (selectedItem.width / 30) / sceneMesh.userData.baseSize;
+                            const yeniScale = (selectedItem.width / 30) / sceneMesh.userDaTaşıaseSize;
                             sceneMesh.scale.set(yeniScale, yeniScale, yeniScale);
                             window.Scene3D.updateHandlePositions();
                         }
                     }
                 }
             }
-            // D��ER (2D) �EK�LLER�N OR�J�NAL KODLARI
-            else if (['rectangle', 'rect', 'image'].includes(selectedItem.type)) {
-                const sW = initialWidth || selectedItem.width; const sH = initialHeight || selectedItem.height; const startCX = (originalStartPos.x || 0) + (sW / 2); const startCY = (originalStartPos.y || 0) + (sH / 2); const startDist = Math.hypot(dragStartPos.x - startCX, dragStartPos.y - startCY); if (startDist > 10) { const ratio = Math.hypot(pos.x - startCX, pos.y - startCY) / startDist; selectedItem.width = sW * ratio; selectedItem.height = sH * ratio; selectedItem.x = startCX - (selectedItem.width / 2); selectedItem.y = startCY - (selectedItem.height / 2); const previewLabel = document.getElementById('polygon-preview-label'); if (previewLabel && selectedItem.type !== 'image') { const kalibrasyon = 30; previewLabel.innerText = `w: ${(selectedItem.width / kalibrasyon).toFixed(1)} cm, h: ${(selectedItem.height / kalibrasyon).toFixed(1)} cm`; previewLabel.style.left = (pos.x + 15) + 'px'; previewLabel.style.top = (pos.y - 35) + 'px'; previewLabel.style.display = 'block'; previewLabel.classList.remove('hidden'); } }
+            // DİĞER (2D) ŞEKİLLERİN ORİJİNAL KODLARI
+            else if (['recTaşıle', 'rect', 'image'].includes(selectedItem.type)) {
+                const sW = initialWidth || selectedItem.width; const sH = initialHeight || selectedItem.height; const sTaşıCX = (originalSTaşıPos.x || 0) + (sW / 2); const sTaşıCY = (originalSTaşıPos.y || 0) + (sH / 2); const sTaşıDist = Math.hypot(dragSTaşıPos.x - sTaşıCX, dragSTaşıPos.y - sTaşıCY); if (sTaşıDist > 10) { const ratio = Math.hypot(pos.x - sTaşıCX, pos.y - sTaşıCY) / sTaşıDist; selectedItem.width = sW * ratio; selectedItem.height = sH * ratio; selectedItem.x = sTaşıCX - (selectedItem.width / 2); selectedItem.y = sTaşıCY - (selectedItem.height / 2); const previewLabel = document.getElementById('polygon-preview-label'); if (previewLabel && selectedItem.type !== 'image') { const kalibrasyon = 30; previewLabel.innerText = `w: ${(selectedItem.width / kalibrasyon).toFixed(1)} cm, h: ${(selectedItem.height / kalibrasyon).toFixed(1)} cm`; previewLabel.style.left = (pos.x + 15) + 'px'; previewLabel.style.top = (pos.y - 35) + 'px'; previewLabel.style.display = 'block'; previewLabel.classList.remove('hidden'); } }
             } else {
-                const startDist = Math.hypot(dragStartPos.x - selectedItem.center.x, dragStartPos.y - selectedItem.center.y); if (startDist > 0) selectedItem.radius = originalStartPos.radius * (Math.hypot(pos.x - selectedItem.center.x, pos.y - selectedItem.center.y) / startDist); if (selectedItem.vertices) selectedItem.vertices = null; const previewLabel = document.getElementById('polygon-preview-label'); if (previewLabel) { const sides = selectedItem.sideCount || selectedItem.type; let kenarPx = selectedItem.radius; if (sides >= 3) kenarPx = 2 * selectedItem.radius * Math.sin(Math.PI / sides); previewLabel.innerText = sides === 0 ? `r: ${(kenarPx / 30).toFixed(1)} cm` : `a: ${(kenarPx / 30).toFixed(1)} cm`; previewLabel.style.left = (pos.x + 15) + 'px'; previewLabel.style.top = (pos.y - 35) + 'px'; previewLabel.style.display = 'block'; previewLabel.classList.remove('hidden'); }
+                const sTaşıDist = Math.hypot(dragSTaşıPos.x - selectedItem.center.x, dragSTaşıPos.y - selectedItem.center.y); if (sTaşıDist > 0) selectedItem.radius = originalSTaşıPos.radius * (Math.hypot(pos.x - selectedItem.center.x, pos.y - selectedItem.center.y) / sTaşıDist); if (selectedItem.vertices) selectedItem.vertices = null; const previewLabel = document.getElementById('polygon-preview-label'); if (previewLabel) { const sides = selectedItem.sideCount || selectedItem.type; let kenarPx = selectedItem.radius; if (sides >= 3) kenarPx = 2 * selectedItem.radius * Math.sin(Math.PI / sides); previewLabel.innerText = sides === 0 ? `r: ${(kenarPx / 30).toFixed(1)} cm` : `a: ${(kenarPx / 30).toFixed(1)} cm`; previewLabel.style.left = (pos.x + 15) + 'px'; previewLabel.style.top = (pos.y - 35) + 'px'; previewLabel.style.display = 'block'; previewLabel.classList.remove('hidden'); }
             }
         }
         redrawAllStrokes();
         if (typeof isConnected !== 'undefined' && isConnected) {
-            // ?? KES�N ��Z�M: 3D d�nd�rme ve konum koordinatlar� (rotationX/Y/Z ve pos3D) s�zge�ten kurtar�ld�, PC'ye g�nderiliyor!
-            window.sendNetworkData({
+            // ?? KESİN ÇÖZÜM: 3D döndürme ve konum koordinatları (roTaşıonX/Y/Z ve pos3D) süzgeçten kurTaşıldı, PC'ye gönderiliyor!
+            window.sendNetworkDaTaşı
                 type: 'sekil_guncelle',
                 stroke: {
                     id: selectedItem.id,
@@ -3488,67 +3487,67 @@ canvas.addEventListener('pointermove', (e) => {
                     y: selectedItem.y,
                     width: selectedItem.width,
                     height: selectedItem.height,
-                    rotation: selectedItem.rotation || 0,
-                    rotationX: selectedItem.rotationX,
-                    rotationY: selectedItem.rotationY,
-                    rotationZ: selectedItem.rotationZ,
+                    roTaşıon: selectedItem.roTaşıon || 0,
+                    roTaşıonX: selectedItem.roTaşıonX,
+                    roTaşıonY: selectedItem.roTaşıonY,
+                    roTaşıonZ: selectedItem.roTaşıonZ,
                     pos3D: selectedItem.pos3D,
                     radius: selectedItem.radius,
                     cx: selectedItem.cx,
                     cy: selectedItem.cy,
                     center: selectedItem.center,
-                    // ?? 2. A� SENKRONU: Boyut m�h�rlerini PC'ye f�rlat�yoruz!
+                    // ?? 2. AĞ SENKRONU: Boyut muhur_disclaimerlerini PC'ye fırlatıyoruz!
                     originalX: selectedItem.originalX,
                     originalY: selectedItem.originalY,
                     originalW: selectedItem.originalW,
                     originalH: selectedItem.originalH
                 }
             });
-            window.sendNetworkData({ type: 'secimi_senkronize_et', strokeId: selectedItem.id });
+            window.sendNetworkDaTaşı type: 'secimi_senkronize_et', strokeId: selectedItem.id });
         }
         return;
     }
 
-    if (['ruler', 'gonye', 'aciolcer', 'pergel', 'none'].includes(currentTool)) return;
+    if (['ruler', 'Gönye', 'aciolcer', 'pergel', 'none'].includes(currentTool)) return;
     clearTimeout(snapHoverTimer);
-    if (['point', 'straightLine', 'pen', 'segment'].includes(currentTool)) { const potentialSnap = findSnapPoint(pos); if (potentialSnap) { snapHoverTimer = setTimeout(() => { snapTarget = potentialSnap; snapIndicator.style.left = `${snapTarget.x}px`; snapIndicator.style.top = `${snapTarget.y}px`; snapIndicator.style.display = 'block'; }, 25); } else { snapTarget = null; snapIndicator.style.display = 'none'; } }
+    if (['point', 'straightLine', 'pen', 'segment'].includes(currentTool)) { const potentialSnap = findSnapPoint(pos); if (potentialSnap) { snapHoverTimer = setTimeout(() => { snapTaşıet = potentialSnap; snapIndicator.style.left = `${snapTaşıet.x}px`; snapIndicator.style.top = `${snapTaşıet.y}px`; snapIndicator.style.display = 'block'; }, 25); } else { snapTaşıet = null; snapIndicator.style.display = 'none'; } }
     if (currentTool === 'eraser') { eraserPreview.style.left = `${pos.x}px`; eraserPreview.style.top = `${pos.y}px`; eraserPreview.style.display = 'block'; } else if (typeof eraserPreview !== 'undefined' && eraserPreview) eraserPreview.style.display = 'none';
 
-    let previewActive = false; const endPos = snapTarget || pos;
-    const aktifCizimVarMi = isDrawingLine || isDrawingInfinityLine || isDrawingSegment || isDrawingRay || isDrawingRectangle || (window.tempPolygonData && window.tempPolygonData.center) || (currentTool === 'snapshot' && typeof snapshotStart !== 'undefined' && snapshotStart);
+    let previewActive = false; const endPos = snapTaşıet || pos;
+    const aktifCizimVarMi = isDrawingLine || isDrawingInfinityLine || isDrawingSegment || isDrawingRay || isDrawingRecTaşıle || (window.tempPolygonDaTaşı& window.tempPolygonDaTaşıenter) || (currentTool === 'snapshot' && typeof snapshotSTaşı !== 'undefined' && snapshotSTaşı);
 
     if (aktifCizimVarMi) {
         redrawAllStrokes(); const ctx = canvas.getContext('2d'); ctx.save(); ctx.strokeStyle = window.currentLineColor || '#000000'; ctx.lineWidth = 3; ctx.setLineDash([5, 5]);
 
-        if (['straightLine', 'line', 'segment', 'ray'].includes(currentTool) && lineStartPoint) {
-            ctx.beginPath(); const dx = endPos.x - lineStartPoint.x; const dy = endPos.y - lineStartPoint.y;
-            if (dx !== 0 || dy !== 0) { const devCarpan = 5000; if (currentTool === 'line') { ctx.moveTo(lineStartPoint.x - dx * devCarpan, lineStartPoint.y - dy * devCarpan); ctx.lineTo(lineStartPoint.x + dx * devCarpan, lineStartPoint.y + dy * devCarpan); } else if (currentTool === 'ray') { ctx.moveTo(lineStartPoint.x, lineStartPoint.y); ctx.lineTo(lineStartPoint.x + dx * devCarpan, lineStartPoint.y + dy * devCarpan); } else { ctx.moveTo(lineStartPoint.x, lineStartPoint.y); ctx.lineTo(endPos.x, endPos.y); } } else { ctx.moveTo(lineStartPoint.x, lineStartPoint.y); ctx.lineTo(endPos.x, endPos.y); } ctx.stroke();
+        if (['straightLine', 'line', 'segment', 'ray'].includes(currentTool) && lineSTaşıPoint) {
+            ctx.beginPath(); const dx = endPos.x - lineSTaşıPoint.x; const dy = endPos.y - lineSTaşıPoint.y;
+            if (dx !== 0 || dy !== 0) { const devCarpan = 5000; if (currentTool === 'line') { ctx.moveTo(lineSTaşıPoint.x - dx * devCarpan, lineSTaşıPoint.y - dy * devCarpan); ctx.lineTo(lineSTaşıPoint.x + dx * devCarpan, lineSTaşıPoint.y + dy * devCarpan); } else if (currentTool === 'ray') { ctx.moveTo(lineSTaşıPoint.x, lineSTaşıPoint.y); ctx.lineTo(lineSTaşıPoint.x + dx * devCarpan, lineSTaşıPoint.y + dy * devCarpan); } else { ctx.moveTo(lineSTaşıPoint.x, lineSTaşıPoint.y); ctx.lineTo(endPos.x, endPos.y); } } else { ctx.moveTo(lineSTaşıPoint.x, lineSTaşıPoint.y); ctx.lineTo(endPos.x, endPos.y); } ctx.stroke();
         }
-        else if (isDrawingRectangle && rectStartPoint) { ctx.beginPath(); ctx.rect(Math.min(rectStartPoint.x, endPos.x), Math.min(rectStartPoint.y, endPos.y), Math.abs(endPos.x - rectStartPoint.x), Math.abs(endPos.y - rectStartPoint.y)); ctx.stroke(); }
-        else if (window.tempPolygonData && window.tempPolygonData.center) {
-            const cx = window.tempPolygonData.center.x; const cy = window.tempPolygonData.center.y; const radius = Math.hypot(endPos.x - cx, endPos.y - cy); const angleRad = Math.atan2(endPos.y - cy, endPos.x - cx); window.tempPolygonData.radius = radius; window.tempPolygonData.rotation = angleRad * 180 / Math.PI; const sides = window.tempPolygonData.type;
+        else if (isDrawingRecTaşıle && rectSTaşıPoint) { ctx.beginPath(); ctx.rect(Math.min(rectSTaşıPoint.x, endPos.x), Math.min(rectSTaşıPoint.y, endPos.y), Math.abs(endPos.x - rectSTaşıPoint.x), Math.abs(endPos.y - rectSTaşıPoint.y)); ctx.stroke(); }
+        else if (window.tempPolygonDaTaşı& window.tempPolygonDaTaşıenter) {
+            const cx = window.tempPolygonDaTaşıenter.x; const cy = window.tempPolygonDaTaşıenter.y; const radius = Math.hypot(endPos.x - cx, endPos.y - cy); const angleRad = Math.aTaşı(endPos.y - cy, endPos.x - cx); window.tempPolygonDaTaşıadius = radius; window.tempPolygonDaTaşıoTaşıon = angleRad * 180 / Math.PI; const sides = window.tempPolygonDaTaşıype;
             ctx.beginPath(); if (sides === 0) ctx.arc(cx, cy, radius, 0, Math.PI * 2); else if (sides >= 3) { for (let i = 0; i <= sides; i++) { const polyAngle = (i * 2 * Math.PI / sides) + angleRad; const px = cx + radius * Math.cos(polyAngle); const py = cy + radius * Math.sin(polyAngle); if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py); } } ctx.stroke();
             const previewLabel = document.getElementById('polygon-preview-label'); if (previewLabel) { let kenarPx = radius; if (sides >= 3) kenarPx = 2 * radius * Math.sin(Math.PI / sides); previewLabel.innerText = sides === 0 ? `r: ${(kenarPx / 30).toFixed(1)} cm` : `a: ${(kenarPx / 30).toFixed(1)} cm`; previewLabel.style.left = (endPos.x + 15) + 'px'; previewLabel.style.top = (endPos.y - 35) + 'px'; previewLabel.style.display = 'block'; previewLabel.classList.remove('hidden'); }
         }
-        else if (currentTool === 'snapshot' && snapshotStart) { ctx.strokeStyle = '#00ffcc'; ctx.beginPath(); ctx.rect(Math.min(snapshotStart.x, endPos.x), Math.min(snapshotStart.y, endPos.y), Math.abs(endPos.x - snapshotStart.x), Math.abs(endPos.y - snapshotStart.y)); ctx.stroke(); }
+        else if (currentTool === 'snapshot' && snapshotSTaşı) { ctx.strokeStyle = '#00ffcc'; ctx.beginPath(); ctx.rect(Math.min(snapshotSTaşı.x, endPos.x), Math.min(snapshotSTaşı.y, endPos.y), Math.abs(endPos.x - snapshotSTaşı.x), Math.abs(endPos.y - snapshotSTaşı.y)); ctx.stroke(); }
         ctx.restore(); previewActive = true;
 
-        // ?? KES�N ��Z�M: Tablet dokunu�lar�ndaki PC g�nderim engelini kald�r�yoruz!
+        // ?? KESİN ÇÖZÜM: Taşıet dokunuşlarındaki PC gönderim engelini kaldırıyoruz!
         const isTouchActive = (e.touches && e.touches.length > 0) || isDrawing || aktifCizimVarMi;
         if (typeof isConnected !== 'undefined' && isConnected && (e.buttons > 0 || isTouchActive)) {
             const anlikPos = typeof getPointerPos === 'function' ? getPointerPos(e) : { x: e.clientX, y: e.clientY };
-            let previewData = null;
-            if (['straightLine', 'line', 'segment', 'ray'].includes(currentTool) && typeof lineStartPoint !== 'undefined' && lineStartPoint) previewData = { tool: currentTool, start: lineStartPoint, end: anlikPos };
-            // ?? ��Z�M 4 ���N D�KD�RTGEN �SM� DE D�ZELT�LD�:
-            else if (currentTool === 'draw_rectangle' && typeof rectStartPoint !== 'undefined' && rectStartPoint) previewData = { tool: 'draw_rectangle', start: rectStartPoint, end: anlikPos };
-            // ?? ��Z�M 3: KENAR SAYISI VE D�N�� A�ISI A�A EKLEND�:
-            else if (window.tempPolygonData && window.tempPolygonData.center) previewData = { tool: 'polygon', start: window.tempPolygonData.center, end: anlikPos, radius: Math.hypot(anlikPos.x - window.tempPolygonData.center.x, anlikPos.y - window.tempPolygonData.center.y), sides: window.tempPolygonData.type, rotation: Math.atan2(anlikPos.y - window.tempPolygonData.center.y, anlikPos.x - window.tempPolygonData.center.x) };
-            if (previewData) window.sendNetworkData({ type: 'aktif_onizleme', arac: 'cizim_onizleme', payload: previewData });
+            let previewDaTaşı null;
+            if (['straightLine', 'line', 'segment', 'ray'].includes(currentTool) && typeof lineSTaşıPoint !== 'undefined' && lineSTaşıPoint) previewDaTaşı { tool: currentTool, sTaşı: lineSTaşıPoint, end: anlikPos };
+            // ?? ÇÖZÜM 4 İÇİN Dikdörtgen İSMİ DE DÜZELTİLDİ:
+            else if (currentTool === 'draw_recTaşıle' && typeof rectSTaşıPoint !== 'undefined' && rectSTaşıPoint) previewDaTaşı { tool: 'draw_recTaşıle', sTaşı: rectSTaşıPoint, end: anlikPos };
+            // ?? ÇÖZÜM 3: KENAR SAYISI VE DÖNÜŞ AÇISI AĞA EKLENDİ:
+            else if (window.tempPolygonDaTaşı& window.tempPolygonDaTaşıenter) previewDaTaşı { tool: 'polygon', sTaşı: window.tempPolygonDaTaşıenter, end: anlikPos, radius: Math.hypot(anlikPos.x - window.tempPolygonDaTaşıenter.x, anlikPos.y - window.tempPolygonDaTaşıenter.y), sides: window.tempPolygonDaTaşıype, roTaşıon: Math.aTaşı(anlikPos.y - window.tempPolygonDaTaşıenter.y, anlikPos.x - window.tempPolygonDaTaşıenter.x) };
+            if (previewDaTaşıwindow.sendNetworkDaTaşı type: 'aktif_onizleme', arac: 'cizim_onizleme', payload: previewDaTaşı);
         }
     }
 
     if (previewActive) return;
-    if (currentTool === 'lasso') { currentMousePos = pos; if (typeof isDrawingLasso !== 'undefined' && isDrawingLasso && typeof lassoPoints !== 'undefined' && lassoPoints.length > 0) { let startPoint = lassoPoints[0]; const toleransScale = (typeof globalScale !== 'undefined' && globalScale > 0) ? globalScale : 1; window.lassoIsClosing = (Math.hypot(pos.x - startPoint.x, pos.y - startPoint.y) < (40 / toleransScale)); } redrawAllStrokes(); return; }
+    if (currentTool === 'lasso') { currentMousePos = pos; if (typeof isDrawingLasso !== 'undefined' && isDrawingLasso && typeof lassoPoints !== 'undefined' && lassoPoints.length > 0) { let sTaşıPoint = lassoPoints[0]; const toleransScale = (typeof globalScale !== 'undefined' && globalScale > 0) ? globalScale : 1; window.lassoIsClosing = (Math.hypot(pos.x - sTaşıPoint.x, pos.y - sTaşıPoint.y) < (40 / toleransScale)); } redrawAllStrokes(); return; }
     if (!isDrawing) return;
 
     if (currentTool === 'pen') {
@@ -3557,10 +3556,10 @@ canvas.addEventListener('pointermove', (e) => {
         curStroke.path.push({ x: pos.x, y: pos.y, p: pInfoMove.type === 'pen' ? pInfoMove.pressure : 1 }); 
         redrawAllStrokes();
 
-        // ?? CANLI ��Z�M (LIVE INK) AKTARIMI ??
-        // Kalem hen�z havadayken, yaz�lan k�sm�n tamam� saliseler i�inde PC'ye f�rlat�l�r
+        // ?? CANLI ÇİZİM (LIVE INK) AKTaşıMI ??
+        // Kalem henüz havadayken, yazIşın kısmın Taşımı saliseler içinde PC'ye fırlatılır
         if (typeof isConnected !== 'undefined' && isConnected) {
-            window.sendNetworkData({ 
+            window.sendNetworkDaTaşı 
                 type: 'aktif_onizleme', 
                 arac: 'cizim_onizleme', 
                 payload: { tool: 'pen', path: curStroke.path, color: curStroke.color, baseWidth: curStroke.baseWidth } 
@@ -3570,18 +3569,18 @@ canvas.addEventListener('pointermove', (e) => {
 }, { passive: false });
 
 
-// --- POINTERUP (T�M ��Z�M VE ARA� ��LEMLER�N�N B�T���) ---
+// --- POINTERUP (TÜM ÇİZİM VE ARAÇ İŞLEMLERİNİN BİTİŞİ) ---
 
 canvas.addEventListener('pointerup', (e) => {
     isDrawing = false;
 
-    // Kilitleri serbest b�rak
+    // Kilitleri serbest bırak
     if (canvas.hasPointerCapture && canvas.hasPointerCapture(e.pointerId)) {
         canvas.releasePointerCapture(e.pointerId);
     }
     if (e.pointerType === 'touch' && e.cancelable) e.preventDefault();
 
-    // --- PARDUS ��FT S�NYAL ENGELLEY�C� ---
+    // --- PARDUS ÇİFT SİNYAL ENGELLEYİCİ ---
     if (e.pointerType === 'mouse') {
         let hasTouch = false;
         for (let p of pointers.values()) {
@@ -3593,37 +3592,37 @@ canvas.addEventListener('pointerup', (e) => {
     pointers.delete(e.pointerId);
     if (pointers.size < 2) lastDist = 0;
 
-    const finalPos = snapTarget || currentMousePos;
+    const finalPos = snapTaşıet || currentMousePos;
 
-    // --- ?? K�PR� 3: 3D ��LEM�N� B�T�R VE SAHNEYE KOY ---
+    // --- ?? KÖPRÜ 3: 3D İŞLEMİNİ BİTİR VE SAHNEYE KOY ---
     if (window.Scene3D && window.Scene3D.isInit) {
-        if (window.Scene3D.isDragging || window.Scene3D.isDrawing || window.Scene3D.isRotatingShape) {
+        if (window.Scene3D.isDragging || window.Scene3D.isDrawing || window.Scene3D.isRoTaşıngShape) {
             const wasDrawing = window.Scene3D.isDrawing;
             const wasDragging = window.Scene3D.isDragging;
             window.Scene3D.onUp();
 
             if (wasDrawing) {
-                // ?? KES�N ��Z�M: "Ta��" (move) butonuna otomatik ge�meyi �PTAL ettik. Sistem bo�ta kal�r.
+                // ?? KESİN ÇÖZÜM: "Taşı" (move) butonuna otomatik geçmeyi İPTaşıettik. Sistem boşTaşıalır.
                 window.active3DShapeTool = null;
                 currentTool = 'none';
-                if (typeof setActiveTool === 'function') setActiveTool('none');
+                if (typeof seTaşıiveTool === 'function') seTaşıiveTool('none');
 
                 const mainBtn = document.getElementById('btn-3d-menu');
                 if (mainBtn) mainBtn.classList.remove('active');
 
-                if (typeof window.sendNetworkData === 'function') window.sendNetworkData({ type: 'onizleme_bitir' });
+                if (typeof window.sendNetworkDaTaşı== 'function') window.sendNetworkDaTaşı type: 'onizleme_bitir' });
             }
-            if (!wasDragging) return; // Ta��ma i�lemi i�in 2D motoruna devam etmesine izin ver
+            if (!wasDragging) return; // Taşıma işlemi için 2D motoruna devam etmesine izin ver
         }
     }
 
 
-    // --- A) F�Z�KSEL ARA�LAR (CETVEL, G�NYE, PERGEL vb.) ---
-    const isPhysicalTool = ['ruler', 'gonye', 'aciolcer', 'pergel'].includes(currentTool);
+    // --- A) FİZİKSEL ARAÇLAR (CETVEL, Gönye, PERGEL vb.) ---
+    const isPhysicalTool = ['ruler', 'Gönye', 'aciolcer', 'pergel'].includes(currentTool);
     if (isPhysicalTool) {
         isDrawing = false;
         if (currentTool === 'ruler' && window.RulerTool && window.RulerTool.finalizeDraw) window.RulerTool.finalizeDraw();
-        if (currentTool === 'gonye' && window.GonyeTool && window.GonyeTool.finalizeDraw) window.GonyeTool.finalizeDraw();
+        if (currentTool === 'Gönye' && window.GönyeTool && window.GönyeTool.finalizeDraw) window.GönyeTool.finalizeDraw();
         if (currentTool === 'aciolcer' && window.AciolcerTool && window.AciolcerTool.finalizeDraw) window.AciolcerTool.finalizeDraw();
         if (currentTool === 'pergel' && window.PergelTool && window.PergelTool.finalizeDraw) window.PergelTool.finalizeDraw();
 
@@ -3631,9 +3630,9 @@ canvas.addEventListener('pointerup', (e) => {
             const lastS = drawnStrokes[drawnStrokes.length - 1];
             if (lastS) {
                 if (!lastS.id) lastS.id = Date.now() + Math.random();
-                if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
-                    window.sendNetworkData({ type: 'onizleme_bitir' });
-                    window.sendNetworkData({ type: 'yeni_cizim', stroke: lastS });
+                if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) {
+                    window.sendNetworkDaTaşı type: 'onizleme_bitir' });
+                    window.sendNetworkDaTaşı type: 'yeni_cizim', stroke: lastS });
                 }
             }
         }, 50);
@@ -3642,13 +3641,13 @@ canvas.addEventListener('pointerup', (e) => {
         return;
     }
 
-    // --- B) TA�IMA (MOVE) MANTI�I ---
+    // --- B) TaşıMA (MOVE) MANTIĞI ---
     if (currentTool === 'move' && isMoving) {
         isMoving = false;
         selectedPointKey = null;
         if (returnToSnapshot) {
             returnToSnapshot = false;
-            setActiveTool('snapshot');
+            seTaşıiveTool('snapshot');
             if (typeof animateButton !== 'undefined' && animateButton) animateButton.classList.add('active');
             document.body.classList.add('cursor-snapshot');
         }
@@ -3656,74 +3655,74 @@ canvas.addEventListener('pointerup', (e) => {
         return;
     }
 
-    // --- C) NORMAL ��ZG�LER (DO�RU, I�IN, SEGMENT) ---
-    if (lineStartPoint && finalPos) {
+    // --- C) NORMAL ÇİZGİLER (Doğru, Işın, SEGMENT) ---
+    if (lineSTaşıPoint && finalPos) {
         let strokeObj = null;
         const cizgiRengi = window.isToolThemeBlack ? '#000000' : (window.currentLineColor || '#FFFFFF');
 
-        if (isDrawingLine) strokeObj = { type: 'straightLine', p1: lineStartPoint, p2: finalPos, color: cizgiRengi, width: 4 };
+        if (isDrawingLine) strokeObj = { type: 'straightLine', p1: lineSTaşıPoint, p2: finalPos, color: cizgiRengi, width: 4 };
         else if (isDrawingInfinityLine) {
             const l1 = nextPointChar; const l2 = advanceChar(l1); nextPointChar = advanceChar(l2);
-            strokeObj = { type: 'line', p1: lineStartPoint, p2: finalPos, color: cizgiRengi, width: 4, label1: l1, label2: l2 };
+            strokeObj = { type: 'line', p1: lineSTaşıPoint, p2: finalPos, color: cizgiRengi, width: 4, label1: l1, label2: l2 };
         }
         else if (isDrawingSegment) {
             const l1 = nextPointChar; const l2 = advanceChar(l1); nextPointChar = advanceChar(l2);
-            strokeObj = { type: 'segment', p1: lineStartPoint, p2: finalPos, color: cizgiRengi, width: 4, label1: l1, label2: l2 };
+            strokeObj = { type: 'segment', p1: lineSTaşıPoint, p2: finalPos, color: cizgiRengi, width: 4, label1: l1, label2: l2 };
         }
         else if (isDrawingRay) {
             const l1 = nextPointChar; const l2 = advanceChar(l1); nextPointChar = advanceChar(l2);
-            strokeObj = { type: 'ray', p1: lineStartPoint, p2: finalPos, color: cizgiRengi, width: 4, label1: l1, label2: l2 };
+            strokeObj = { type: 'ray', p1: lineSTaşıPoint, p2: finalPos, color: cizgiRengi, width: 4, label1: l1, label2: l2 };
         }
 
         if (strokeObj) {
             strokeObj.id = Date.now() + Math.random();
             drawnStrokes.push(strokeObj);
 
-            // ?? S�H�RL� ��Z�M: Ger�ek �izimi atmadan �nce �nizlemeleri yokediyoruz!
-            if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
-                window.sendNetworkData({ type: 'onizleme_bitir' });
-                window.sendNetworkData({ type: 'yeni_cizim', stroke: strokeObj });
+            // ?? SİHİRLİ ÇÖZÜM: Gerçek çizimi atmadan önce önizlemeleri yokediyoruz!
+            if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) {
+                window.sendNetworkDaTaşı type: 'onizleme_bitir' });
+                window.sendNetworkDaTaşı type: 'yeni_cizim', stroke: strokeObj });
             }
             window.nextPointChar = nextPointChar;
             if (typeof redrawAllStrokes === 'function') redrawAllStrokes();
         }
     }
 
-    // --- D) �OKGENLER (POLYGON TOOL) ---
-    if (currentTool && currentTool.startsWith('draw_polygon_')) {
-        if (window.tempPolygonData && window.tempPolygonData.center) {
-            const finalRadius = window.tempPolygonData.radius || 0;
+    // --- D) Çokgenler (POLYGON TOOL) ---
+    if (currentTool && currentTool.sTaşısWith('draw_polygon_')) {
+        if (window.tempPolygonDaTaşı& window.tempPolygonDaTaşıenter) {
+            const finalRadius = window.tempPolygonDaTaşıadius || 0;
             if (finalRadius > 5) {
-                const currentType = window.tempPolygonData.type;
+                const currentType = window.tempPolygonDaTaşıype;
 
                 if (currentType === 0) window.PolygonTool.finalizeCircle(finalRadius);
-                else window.PolygonTool.finalizeDraw(finalRadius, window.tempPolygonData.rotation);
+                else window.PolygonTool.finalizeDraw(finalRadius, window.tempPolygonDaTaşıoTaşıon);
 
-                // ?? S�H�RL� ��Z�M: �nizlemeyi an�nda sildiriyoruz
-                if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
-                    window.sendNetworkData({ type: 'onizleme_bitir' });
+                // ?? SİHİRLİ ÇÖZÜM: Önizlemeyi anında sildiriyoruz
+                if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) {
+                    window.sendNetworkDaTaşı type: 'onizleme_bitir' });
                 }
 
                 setTimeout(() => {
                     const lastS = drawnStrokes[drawnStrokes.length - 1];
-                    if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected && lastS) {
-                        window.sendNetworkData({ type: 'yeni_cizim', stroke: lastS });
+                    if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected && lastS) {
+                        window.sendNetworkDaTaşı type: 'yeni_cizim', stroke: lastS });
                     }
                 }, 50);
 
                 if (typeof polygonPreviewLabel !== 'undefined' && polygonPreviewLabel) polygonPreviewLabel.classList.add('hidden');
-                if (window.tempPolygonData) window.tempPolygonData.center = null;
+                if (window.tempPolygonDaTaşıwindow.tempPolygonDaTaşıenter = null;
                 if (window.PolygonTool && window.PolygonTool.handleDrawClick) window.PolygonTool.handleDrawClick(null, currentType);
             }
         }
     }
 
-    // --- E) CANLANDIR (KUTU SNAPSHOT) ---
-    if (currentTool === 'snapshot' && snapshotStart && currentMousePos) {
-        const x = Math.round(Math.min(snapshotStart.x, currentMousePos.x));
-        const y = Math.round(Math.min(snapshotStart.y, currentMousePos.y));
-        const w = Math.round(Math.abs(currentMousePos.x - snapshotStart.x));
-        const h = Math.round(Math.abs(currentMousePos.y - snapshotStart.y));
+    // --- E) Canlandır (KUTU SNAPSHOT) ---
+    if (currentTool === 'snapshot' && snapshotSTaşı && currentMousePos) {
+        const x = Math.round(Math.min(snapshotSTaşı.x, currentMousePos.x));
+        const y = Math.round(Math.min(snapshotSTaşı.y, currentMousePos.y));
+        const w = Math.round(Math.abs(currentMousePos.x - snapshotSTaşı.x));
+        const h = Math.round(Math.abs(currentMousePos.y - snapshotSTaşı.y));
 
         if (w > 10 && h > 10) {
             const tempCanvas = document.createElement('canvas');
@@ -3731,7 +3730,7 @@ canvas.addEventListener('pointerup', (e) => {
 
             tempCanvas.width = w; tempCanvas.height = h;
 
-            // G�r�nt� netli�ini en �st d�zeye ��kar
+            // Görüntü netliğini en üst düzeye çıkar
             tempCtx.imageSmoothingEnabled = true;
             tempCtx.imageSmoothingQuality = 'high';
 
@@ -3739,79 +3738,79 @@ canvas.addEventListener('pointerup', (e) => {
             if (bgCanvas) tempCtx.drawImage(bgCanvas, x, y, w, h, 0, 0, w, h);
             tempCtx.drawImage(canvas, x, y, w, h, 0, 0, w, h);
             
-            // ?? BEYAZ ARKA PLANI �EFFAF YAPMA MANTI�I: 
-            // Kutu kopyas� kareli zemine vb. yap��t�r�ld���nda beyazlar�n alttaki �izgileri �rtmemesi i�in
+            // ?? BEYAZ ARKA PLANI ŞEFFAF YAPMA MANTIĞI: 
+            // Kutu kopyası kareli zemine vb. yapıştırıldIşında beyazların altTaşı çizgileri örtmemesi için
             try {
-                const imgData = tempCtx.getImageData(0, 0, w, h);
-                const data = imgData.data;
-                for (let i = 0; i < data.length; i += 4) {
-                    const r = data[i];
-                    const g = data[i + 1];
-                    const b = data[i + 2];
-                    // Beyaza �ok yak�n olan pikselleri (�rne�in rgb de�eri 240 ve �st� olanlar�) tam �effaf (alpha = 0) yap�yoruz
+                const imgDaTaşı tempCtx.getImageDaTaşı, 0, w, h);
+                const daTaşı imgDaTaşıaTaşı
+                for (let i = 0; i < daTaşıength; i += 4) {
+                    const r = daTaşı];
+                    const g = daTaşı + 1];
+                    const b = daTaşı + 2];
+                    // Beyaza çok yakın olan pikselleri (örneğin rgb değeri 240 ve üstü olanları) Taşışeffaf (alpha = 0) yapıyoruz
                     if (r >= 240 && g >= 240 && b >= 240) {
-                        data[i + 3] = 0; 
+                        daTaşı + 3] = 0; 
                     }
                 }
-                tempCtx.putImageData(imgData, 0, 0);
+                tempCtx.putImageDaTaşımgDaTaşı0, 0);
             } catch (e) {
-                console.warn("CORS veya resim izni nedeniyle arka plan �effafla�t�r�lamad�:", e);
+                console.warn("CORS veya resim izni nedeniyle arka plan şeffaflaştırılamadı:", e);
             }
 
-            const finalImage = tempCanvas.toDataURL('image/png', 1.0);
+            const finalImage = tempCanvas.toDaTaşıL('image/png', 1.0);
 
             const newImgStroke = {
-                type: 'image', imgData: finalImage, x: x, y: y, width: w, height: h,
+                type: 'image', imgDaTaşıfinalImage, x: x, y: y, width: w, height: h,
                 id: Date.now() + Math.random() + 1, isBoxCopy: true, isBackground: false
             };
             drawnStrokes.push(newImgStroke);
 
-            if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
-                window.sendNetworkData({ type: 'onizleme_bitir' });
-                window.sendNetworkData({ type: 'yeni_cizim', stroke: newImgStroke });
+            if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) {
+                window.sendNetworkDaTaşı type: 'onizleme_bitir' });
+                window.sendNetworkDaTaşı type: 'yeni_cizim', stroke: newImgStroke });
             }
 
-            if (typeof setActiveTool === 'function') setActiveTool('move');
+            if (typeof seTaşıiveTool === 'function') seTaşıiveTool('move');
             else currentTool = 'move';
 
             selectedItem = newImgStroke;
-            snapshotStart = null;
+            snapshotSTaşı = null;
             redrawAllStrokes();
         }
     }
 
-    // --- F) D�KD�RTGEN ARACI ---
-    if (isDrawingRectangle && rectStartPoint && finalPos) {
-        const widthPx = Math.abs(finalPos.x - rectStartPoint.x);
-        const heightPx = Math.abs(finalPos.y - rectStartPoint.y);
+    // --- F) Dikdörtgen ARACI ---
+    if (isDrawingRecTaşıle && rectSTaşıPoint && finalPos) {
+        const widthPx = Math.abs(finalPos.x - rectSTaşıPoint.x);
+        const heightPx = Math.abs(finalPos.y - rectSTaşıPoint.y);
 
         if (widthPx > 10 && heightPx > 10) {
-            const startX = Math.min(rectStartPoint.x, finalPos.x);
-            const startY = Math.min(rectStartPoint.y, finalPos.y);
+            const sTaşıX = Math.min(rectSTaşıPoint.x, finalPos.x);
+            const sTaşıY = Math.min(rectSTaşıPoint.y, finalPos.y);
             const color = window.isToolThemeBlack ? '#000000' : (window.currentLineColor || '#000000');
 
             const rectLabels = [nextPointChar];
             for (let i = 0; i < 3; i++) { nextPointChar = advanceChar(nextPointChar); rectLabels.push(nextPointChar); }
             nextPointChar = advanceChar(nextPointChar);
 
-            const rectangleStroke = {
-                type: 'rectangle', x: startX, y: startY, width: widthPx, height: heightPx, rotation: 0,
+            const recTaşıleStroke = {
+                type: 'recTaşıle', x: sTaşıX, y: sTaşıY, width: widthPx, height: heightPx, roTaşıon: 0,
                 color: color, labels: rectLabels, showEdgeLabels: true, showAngleLabels: false,
                 id: Date.now() + Math.random()
             };
 
-            drawnStrokes.push(rectangleStroke);
+            drawnStrokes.push(recTaşıleStroke);
 
-            if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
-                window.sendNetworkData({ type: 'onizleme_bitir' }); // ?? Ekledik
-                window.sendNetworkData({ type: 'yeni_cizim', stroke: rectangleStroke });
+            if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) {
+                window.sendNetworkDaTaşı type: 'onizleme_bitir' }); // ?? Ekledik
+                window.sendNetworkDaTaşı type: 'yeni_cizim', stroke: recTaşıleStroke });
             }
             window.nextPointChar = nextPointChar;
             if (typeof redrawAllStrokes === 'function') redrawAllStrokes();
         }
     }
 
-    // --- G) AKILLI KALEM (PEN) VE �EK�L TANIMA (G�VENL� S�R�M) ---
+    // --- G) AKILLI KALEM (PEN) VE ŞEKİL TaşıMA (GÜVENLİ SÜRÜM) ---
     if (currentTool === 'pen') {
         let lastStroke = drawnStrokes[drawnStrokes.length - 1];
 
@@ -3821,15 +3820,15 @@ canvas.addEventListener('pointerup', (e) => {
             if (lastStroke.path && lastStroke.path.length <= 3) {
                 if (lastStroke.path[0]) lastStroke.path.push({ x: lastStroke.path[0].x + 0.1, y: lastStroke.path[0].y + 0.1 });
                 setTimeout(() => {
-                    if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
-                        window.sendNetworkData({ type: 'yeni_cizim', stroke: lastStroke });
+                    if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) {
+                        window.sendNetworkDaTaşı type: 'yeni_cizim', stroke: lastStroke });
                     }
                 }, 50);
             }
             else {
                 let correctedShape = null;
-                if (typeof akilliSekilTani === 'function') {
-                    try { correctedShape = akilliSekilTani(lastStroke); } catch (err) { }
+                if (typeof akilliSekilTaşı === 'function') {
+                    try { correctedShape = akilliSekilTaşı(lastStroke); } catch (err) { }
                 }
 
                 if (correctedShape) {
@@ -3840,8 +3839,8 @@ canvas.addEventListener('pointerup', (e) => {
                         drawnStrokes.push(...correctedShape);
 
                         setTimeout(() => {
-                            if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
-                                window.sendNetworkData({ type: 'akilli_sekil_toplu', strokes: correctedShape });
+                            if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) {
+                                window.sendNetworkDaTaşı type: 'akilli_sekil_toplu', strokes: correctedShape });
                             }
                         }, 50);
                     }
@@ -3850,8 +3849,8 @@ canvas.addEventListener('pointerup', (e) => {
                         drawnStrokes.push(correctedShape);
 
                         setTimeout(() => {
-                            if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
-                                window.sendNetworkData({ type: 'yeni_cizim', stroke: correctedShape });
+                            if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) {
+                                window.sendNetworkDaTaşı type: 'yeni_cizim', stroke: correctedShape });
                             }
                         }, 50);
                     }
@@ -3865,8 +3864,8 @@ canvas.addEventListener('pointerup', (e) => {
                     };
 
                     setTimeout(() => {
-                        if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
-                            window.sendNetworkData({ type: 'yeni_cizim', stroke: safePenStroke });
+                        if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) {
+                            window.sendNetworkDaTaşı type: 'yeni_cizim', stroke: safePenStroke });
                         }
                     }, 50);
                 }
@@ -3877,20 +3876,20 @@ canvas.addEventListener('pointerup', (e) => {
     // --- GENEL SIFIRLAMA ---
     isDrawing = false;
     isDrawingLine = isDrawingInfinityLine = isDrawingSegment = isDrawingRay = false;
-    isDrawingRectangle = false;
-    lineStartPoint = null;
-    rectStartPoint = null;
-    snapTarget = null;
-    window.isImageRotating = false;
+    isDrawingRecTaşıle = false;
+    lineSTaşıPoint = null;
+    rectSTaşıPoint = null;
+    snapTaşıet = null;
+    window.isImageRoTaşıng = false;
     window.isImageResizing = false;
     if (typeof snapIndicator !== 'undefined' && snapIndicator) snapIndicator.style.display = 'none';
 
-    // Olas� t�m hayaletleri zorla sil (Garanti Protokol�)
-    if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
-        window.sendNetworkData({ type: 'onizleme_bitir' });
+    // Olası tüm hayaletleri zorla sil (Garanti Protokolü)
+    if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) {
+        window.sendNetworkDaTaşı type: 'onizleme_bitir' });
     }
 
-    // --- H) KESK�N N��ANCI LASSO (SERBEST KES�M) ---
+    // --- H) KESKİN NİŞANCI LASSO (SERBEST KESİM) ---
     if (currentTool === 'lasso' && window.isDraggingLassoPoint) {
         window.isDraggingLassoPoint = false;
 
@@ -3898,11 +3897,11 @@ canvas.addEventListener('pointerup', (e) => {
             isDrawingLasso = true;
             lassoPoints = [{ x: currentMousePos.x, y: currentMousePos.y }];
         } else {
-            let startPoint = lassoPoints[0];
-            const mesafe = Math.hypot(currentMousePos.x - startPoint.x, currentMousePos.y - startPoint.y);
+            let sTaşıPoint = lassoPoints[0];
+            const mesafe = Math.hypot(currentMousePos.x - sTaşıPoint.x, currentMousePos.y - sTaşıPoint.y);
 
             if (mesafe < 40) {
-                lassoPoints.push({ x: startPoint.x, y: startPoint.y });
+                lassoPoints.push({ x: sTaşıPoint.x, y: sTaşıPoint.y });
 
                 let minX = Math.min(...lassoPoints.map(p => p.x));
                 let minY = Math.min(...lassoPoints.map(p => p.y));
@@ -3922,7 +3921,7 @@ canvas.addEventListener('pointerup', (e) => {
                 tempCtx.closePath();
                 tempCtx.clip();
 
-                // Kaliteyi art�r
+                // Kaliteyi artır
                 tempCtx.imageSmoothingEnabled = true;
                 tempCtx.imageSmoothingQuality = 'high';
 
@@ -3933,7 +3932,7 @@ canvas.addEventListener('pointerup', (e) => {
                 tempCtx.drawImage(canvas, minX, minY, w, h, 0, 0, w, h);
                 tempCtx.restore();
 
-                const finalImage = tempCanvas.toDataURL('image/png', 1.0);
+                const finalImage = tempCanvas.toDaTaşıL('image/png', 1.0);
 
                 let detectedColor = (typeof window.isToolThemeBlack !== 'undefined' && window.isToolThemeBlack) ? '#222222' : '#ffffff';
 
@@ -3955,13 +3954,13 @@ canvas.addEventListener('pointerup', (e) => {
                     for (let sp of samplePoints) {
                         let r = 0, g = 0, b = 0, a = 0;
                         
-                        let mainData = mainCtx.getImageData(sp.x, sp.y, 1, 1).data;
-                        if (mainData[3] > 0) {
-                            r = mainData[0]; g = mainData[1]; b = mainData[2]; a = mainData[3];
+                        let mainDaTaşı mainCtx.getImageDaTaşıp.x, sp.y, 1, 1).daTaşı
+                        if (mainDaTaşı] > 0) {
+                            r = mainDaTaşı]; g = mainDaTaşı]; b = mainDaTaşı]; a = mainDaTaşı];
                         } else if (bgCtx) {
-                            let bgData = bgCtx.getImageData(sp.x, sp.y, 1, 1).data;
-                            if (bgData[3] > 0) {
-                                r = bgData[0]; g = bgData[1]; b = bgData[2]; a = bgData[3];
+                            let bgDaTaşı bgCtx.getImageDaTaşıp.x, sp.y, 1, 1).daTaşı
+                            if (bgDaTaşı] > 0) {
+                                r = bgDaTaşı]; g = bgDaTaşı]; b = bgDaTaşı]; a = bgDaTaşı];
                             }
                         }
                         
@@ -3970,24 +3969,24 @@ canvas.addEventListener('pointerup', (e) => {
                             break;
                         }
                     }
-                } catch (e) { console.warn("Renk �rnekleme hatas�:", e); }
+                } catch (e) { console.warn("Renk örnekleme haTaşı:", e); }
 
                 const maskStroke = { type: 'lasso-mask', points: lassoPoints.map(p => ({ x: p.x, y: p.y })), fillColor: detectedColor, id: Date.now() + Math.random() };
                 drawnStrokes.push(maskStroke);
 
-                const newImgStroke = { type: 'image', imgData: finalImage, x: minX + 30, y: minY + 30, width: w, height: h, rotation: 0, isBackground: false, imgObj: null, id: Date.now() + Math.random() };
+                const newImgStroke = { type: 'image', imgDaTaşıfinalImage, x: minX + 30, y: minY + 30, width: w, height: h, roTaşıon: 0, isBackground: false, imgObj: null, id: Date.now() + Math.random() };
 
                 const tempImg = new Image();
                 tempImg.onload = () => { newImgStroke.imgObj = tempImg; if (typeof redrawAllStrokes === 'function') redrawAllStrokes(); };
                 tempImg.src = finalImage;
                 drawnStrokes.push(newImgStroke);
 
-                if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
-                    window.sendNetworkData({ type: 'yeni_cizim', stroke: maskStroke });
-                    window.sendNetworkData({ type: 'yeni_cizim', stroke: newImgStroke });
+                if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) {
+                    window.sendNetworkDaTaşı type: 'yeni_cizim', stroke: maskStroke });
+                    window.sendNetworkDaTaşı type: 'yeni_cizim', stroke: newImgStroke });
                 }
 
-                if (typeof setActiveTool === 'function') setActiveTool('move'); else currentTool = 'move';
+                if (typeof seTaşıiveTool === 'function') seTaşıiveTool('move'); else currentTool = 'move';
                 selectedItem = newImgStroke;
                 isDrawingLasso = false; window.lassoIsClosing = false; currentMousePos = null; lassoPoints = [];
             } else {
@@ -3999,18 +3998,18 @@ canvas.addEventListener('pointerup', (e) => {
     } else {
         redrawAllStrokes();
     }
-}, { passive: false }); // <--- pointerup fonksiyonu burada B�TT�==============================================================================
+}, { passive: false }); // <--- pointerup fonksiyonu burada BİTTİ==============================================================================
 
 
-// ?? KES�N ��Z�M: �� i�e ge�ip sonsuz d�ng�ye giren (Z�plamaya sebep olan) Hatal� Kod Temizlendi!
+// ?? KESİN ÇÖZÜM: İç içe geçip sonsuz döngüye giren (Zıplamaya sebep olan) HaTaşı Kod Temizlendi!
 canvas.addEventListener('wheel', (e) => {
     if (e.ctrlKey) {
         e.preventDefault();
 
-        // Yaln�zca 'Ta��' (move) arac� se�iliyken fare ile zoom yap�labilir
+        // Yalnızca 'Taşı' (move) aracı seçiliyken fare ile zoom yapılabilir
         if (currentTool !== 'move') return;
 
-        const zoomStep = e.deltaY > 0 ? 0.95 : 1.05;
+        const zoomStep = e.delTaşı> 0 ? 0.95 : 1.05;
 
         const mainBg = drawnStrokes.find(s => s.isBackground === true && !s.isPatch);
         if (mainBg) {
@@ -4037,7 +4036,7 @@ canvas.addEventListener('wheel', (e) => {
             redrawAllStrokes();
 
             if (typeof isConnected !== 'undefined' && isConnected) {
-                window.sendNetworkData({
+                window.sendNetworkDaTaşı
                     type: 'zoom_senkron', x: mainBg.x, y: mainBg.y, width: mainBg.width, height: mainBg.height
                 });
             }
@@ -4046,120 +4045,120 @@ canvas.addEventListener('wheel', (e) => {
 }, { passive: false });
 
 
-// --- POINTERCANCEL (KES�NT� DURUMUNDA SIFIRLAMA) ---
+// --- POINTERCANCEL (KESİNTİ DURUMUNDA SIFIRLAMA) ---
 canvas.addEventListener('pointercancel', (e) => {
     // --- BUNLARI EKLE ---
     pointers.delete(e.pointerId);
     lastDist = 0;
     // --------------------
 
-    // ��lemi iptal et ve t�m bayraklar� (flag) indir
+    // İşlemi ipTaşıet ve tüm bayrakları (flag) indir
     isDrawing = false;
     isMoving = false;
-    isPinching = false; // Varsa zoom i�lemini de durdur
-    isDrawingRectangle = false;
-    rectStartPoint = null;
+    isPinching = false; // Varsa zoom işlemini de durdur
+    isDrawingRecTaşıle = false;
+    rectSTaşıPoint = null;
 
-    // Ge�ici verileri temizle
-    snapshotStart = null;
-    snapTarget = null;
-    lineStartPoint = null;
-    window.tempPolygonData = null;
+    // Geçici verileri temizle
+    snapshotSTaşı = null;
+    snapTaşıet = null;
+    lineSTaşıPoint = null;
+    window.tempPolygonDaTaşı null;
 
-    // Aray�z elemanlar�n� gizle
+    // Arayüz elemanlarını gizle
     if (snapIndicator) snapIndicator.style.display = 'none';
     if (polygonPreviewLabel) polygonPreviewLabel.classList.add('hidden');
     if (eraserPreview) eraserPreview.style.display = 'none';
 
-    // Yar�m kalan �nizlemeleri ekrandan temizlemek i�in
+    // Yarım kalan önizlemeleri ekrandan temizlemek için
     redrawAllStrokes();
 
-    console.log("Pointer i�lemi bir sistem kesintisi nedeniyle iptal edildi.");
+    console.log("Pointer işlemi bir sistem kesintisi nedeniyle ipTaşıedildi.");
 });
 
 
-// --- BUNLARI EKLE: Tablet ekran�ndan d��ar� ta�an parmaklar� zorla sil ---
+// --- BUNLARI EKLE: Taşıet ekranından dışarı Taşın parmakları zorla sil ---
 canvas.addEventListener('pointerout', (e) => { pointers.delete(e.pointerId); if (pointers.size < 2) lastDist = 0; });
 canvas.addEventListener('pointerleave', (e) => { pointers.delete(e.pointerId); if (pointers.size < 2) lastDist = 0; });
 
 
-// --- YAPI�TIRMA (PASTE) DESTE�� (CTRL+V) ---
+// --- YAPIŞTIRMA (PASTE) DESTEĞİ (CTRL+V) ---
 window.addEventListener('paste', (e) => {
     // Panodaki verileri al
-    const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+    const items = (e.clipboardDaTaşı| e.originalEvent.clipboardDaTaşıitems;
 
-    // Verileri tara (Resim var m�?)
+    // Verileri Taşı (Resim var mı?)
     for (let index in items) {
         const item = items[index];
 
-        // E�er bu bir dosya ise ve tipi 'image' i�eriyorsa
+        // Eğer bu bir dosya ise ve tipi 'image' içeriyorsa
         if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
-            const blob = item.getAsFile();
+            const blob = item.geTaşıile();
             const reader = new FileReader();
 
             reader.onload = (event) => {
                 const img = new Image();
                 img.onload = () => {
-                    // Resmi makul bir boyuta getir (Dosya y�klemedeki mant���n ayn�s�)
-                    let startWidth = 300;
-                    let scaleFactor = startWidth / img.width;
-                    let startHeight = img.height * scaleFactor;
+                    // Resmi makul bir boyuTaşıetir (Dosya Yüklemedeki mantIşın aynısı)
+                    let sTaşıWidth = 300;
+                    let scaleFactor = sTaşıWidth / img.width;
+                    let sTaşıHeight = img.height * scaleFactor;
 
-                    // Resmi Haf�zaya 'image' nesnesi olarak ekle
+                    // Resmi Hafızaya 'image' nesnesi olarak ekle
                     drawnStrokes.push({
                         type: 'image',
                         img: img,
-                        x: canvas.width / 2, // Ekran�n ortas�na koy
+                        x: canvas.width / 2, // Ekranın orTaşına koy
                         y: canvas.height / 2,
-                        width: startWidth,
-                        height: startHeight,
-                        rotation: 0
+                        width: sTaşıWidth,
+                        height: sTaşıHeight,
+                        roTaşıon: 0
                     });
 
-                    redrawAllStrokes(); // Ekrana �iz
+                    redrawAllStrokes(); // Ekrana çiz
 
-                    // ��lem ba�ar�l� sesi (�ste�e ba�l�)
+                    // İşlem başarılı sesi (İsteğe bağlı)
                     if (window.audio_click) {
                         window.audio_click.currentTime = 0;
                         window.audio_click.play();
                     }
                 };
-                img.src = event.target.result;
+                img.src = event.Taşıet.result;
             };
 
-            reader.readAsDataURL(blob);
-            e.preventDefault(); // Sayfan�n varsay�lan yap��t�rma davran���n� engelle
+            reader.readAsDaTaşıL(blob);
+            e.preventDefault(); // Sayfanın varsayIşın yapıştırma davranIşınIşıngelle
         }
     }
 });
 
-// --- app.js EN ALTINA EKLEY�N (EKS�K OLAN PAR�ALAR) ---
+// --- app.js EN ALTINA EKLEYİN (EKSİK OLAN PARÇALAR) ---
 
 function updatePageLabel() {
-    if (pageCountLabel) pageCountLabel.innerText = `Sayfa: ${currentPDFPage} / ${totalPDFPages}`;
+    if (pageCountLabel) pageCountLabel.innerText = `Sayfa: ${currentPDFPage} / ${toTaşıDFPages}`;
 }
 
 window.renderPDFPage = async function(num) {
     if (!currentPDF) return;
 
-    // ?? BEYAZ EKRAN VE DONMA ��Z�M�: H�zl� sayfa de�i�imlerinde PDF motorunun t�kanmas�n� engelle
-    if (window.currentRenderTask) {
-        try { window.currentRenderTask.cancel(); } catch(e){}
+    // ?? BEYAZ EKRAN VE DONMA ÇÖZÜMÜ: Hızlı sayfa değişimlerinde PDF motorunun tIşınmasınIşıngelle
+    if (window.currentRenderTaşı) {
+        try { window.currentRenderTaşı.cancel(); } catch(e){}
     }
 
     try {
         const page = await currentPDF.getPage(num);
 
-        // --- BURASI DE���T�: OTOMAT�K VE Y�KSEK ��Z�N�RL�K AYARI ---
+        // --- BURASI DEĞİŞTİ: OTOMATİK VE YÜKSEK ÇÖZÜNÜRLÜK AYARI ---
         const dpr = window.devicePixelRatio || 1;
-        const KALITE_CARPANI = 2; // Daha g�venli bir katsay� (3 �ok y�ksekti, donan�ma �arp�yordu)
+        const KALITE_CARPANI = 2; // Daha güvenli bir katsayı (3 çok yüksekti, donanıma çarpıyordu)
         const hdScale = dpr * KALITE_CARPANI;
 
         let viewport = page.getViewport({ scale: hdScale });
 
-        // G�VENL�K ZIRHI: Mobil ve baz� PC taray�c�lar�nda canvas limiti 4096px'dir.
-        // E�er sayfa �ok b�y�kse (�rne�in 5000px), �l�e�i g�venli bir s�n�ra zorla d���r!
-        // Bu sayede "sayfa yar�m geldi" veya "canvas dondu" hatalar�n� K�K�NDEN �nleriz!
+        // GÜVENLİK ZIRHI: Mobil ve bazı PC Taşıyıcılarında canvas limiti 4096px'dir.
+        // Eğer sayfa çok büyükse (örneğin 5000px), ölçeği güvenli bir sınıra zorla düşür!
+        // Bu sayede "sayfa yarım geldi" veya "canvas dondu" haTaşırını KÖKÜNDEN önleriz!
         if (viewport.height > 3500 || viewport.width > 3500) {
             const maxDim = Math.max(viewport.height, viewport.width);
             const safeScale = hdScale * (3500 / maxDim);
@@ -4172,33 +4171,33 @@ window.renderPDFPage = async function(num) {
         tempCanvas.height = viewport.height;
         tempCanvas.width = viewport.width;
 
-        // --- BURASI EKLEND�: YAZI KENARLARINI KESK�NLE�T�RME F�LTRES� ---
+        // --- BURASI EKLENDİ: YAZI KENARLARINI KESKİNLEŞTİRME FİLTRESİ ---
         tempCtx.imageSmoothingEnabled = true;
         tempCtx.imageSmoothingQuality = 'high';
         
-        // JPEG format�nda arka plan�n siyah ��kmas�n� �nlemek i�in beyaz zemin
+        // JPEG formatında arka planın siyah çıkmasınIşınlemek için beyaz zemin
         tempCtx.fillStyle = '#FFFFFF';
         tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
         // ----------------------------------------------------------------
 
-        window.currentRenderTask = page.render({
+        window.currentRenderTaşı = page.render({
             canvasContext: tempCtx,
             viewport: viewport
         });
 
-        await window.currentRenderTask.promise;
+        await window.currentRenderTaşı.promise;
 
     const img = new Image();
     img.onload = () => {
         window.addNewImageToCanvas(img, true);
 
-        // --- KUTU KOPYALARINI PDF SAYFASINA G�RE GER� Y�KLEME YAMASI ---
+        // --- KUTU KOPYALARINI PDF SAYFASINA GÖRE GERİ YükleME YAMASI ---
         if (window.boxCopies) {
             window.boxCopies.forEach(copy => {
                 if (!copy.pageOwner || copy.pageOwner === num) {
                     if (!copy.imgObj) {
                         const tImg = new Image();
-                        tImg.src = copy.imgData;
+                        tImg.src = copy.imgDaTaşı
                         tImg.onload = () => {
                             copy.imgObj = tImg;
                             if (window.drawnStrokes && !window.drawnStrokes.includes(copy)) {
@@ -4217,18 +4216,18 @@ window.renderPDFPage = async function(num) {
         }
     };
 
-    // ?? ��TE 2. ADIMDAK� DE����KL���N YAPILDI�I YER BURASI ??
-    // A�� fel� eden 20MB PNG yerine %80 kalite JPEG (1MB alt�) kullanarak donmay� ve yar�m y�klemeyi bitiriyoruz!
-    const sayfaResmi = tempCanvas.toDataURL('image/jpeg', 0.8);
+    // ?? İŞTE 2. ADIMDAKİ DEĞİŞİKLİĞİN YAPILDIĞI YER BURASI ??
+    // Ağı felç eden 20MB PNG yerine %80 kalite JPEG (1MB altı) kullanarak donmayı ve yarım Yüklemeyi bitiriyoruz!
+    const sayfaResmi = tempCanvas.toDaTaşıL('image/jpeg', 0.8);
     img.src = sayfaResmi;
 
-    if (pageCountLabel) pageCountLabel.innerText = `Sayfa: ${num} / ${totalPDFPages}`;
+    if (pageCountLabel) pageCountLabel.innerText = `Sayfa: ${num} / ${toTaşıDFPages}`;
     
     } catch (e) {
         if (e.name === 'RenderingCancelledException') {
-            console.log("H�zl� sayfa de�i�imi nedeniyle �nceki �izim iptal edildi.");
+            console.log("Hızlı sayfa değişimi nedeniyle önceki çizim ipTaşıedildi.");
         } else {
-            console.warn("PDF Render hatas�:", e);
+            console.warn("PDF Render haTaşı:", e);
         }
     }
 }
@@ -4236,41 +4235,41 @@ window.renderPDFPage = async function(num) {
 
 
 window.addNewImageToCanvas = function(img, isPDF = false, pcKordinatlari = null) {
-    let startWidth, startHeight, posX, posY;
+    let sTaşıWidth, sTaşıHeight, posX, posY;
 
-    // E�er PC isek, tabletin bize g�nderdi�i adaptStrokeToScreen'den ge�mi� kusursuz koordinatlar� kullan!
+    // Eğer PC isek, Taşıetin bize gönderdiği adaptStrokeToScreen'den geçmiş kusursuz koordinatları kullan!
     if (pcKordinatlari) {
-        startWidth = pcKordinatlari.width;
-        startHeight = pcKordinatlari.height;
+        sTaşıWidth = pcKordinatlari.width;
+        sTaşıHeight = pcKordinatlari.height;
         posX = pcKordinatlari.x;
         posY = pcKordinatlari.y;
     } else {
-        // E�er Tabletsek kendi ekran�m�za g�re hesapla
-        startWidth = canvas.width * 0.8;
-        if (img.width < startWidth) startWidth = img.width;
-        let scaleFactor = startWidth / img.width;
-        startHeight = img.height * scaleFactor;
+        // Eğer Taşıetsek kendi ekranımıza göre hesapla
+        sTaşıWidth = canvas.width * 0.8;
+        if (img.width < sTaşıWidth) sTaşıWidth = img.width;
+        let scaleFactor = sTaşıWidth / img.width;
+        sTaşıHeight = img.height * scaleFactor;
 
-        if (startHeight > canvas.height * 0.8) {
-            startHeight = canvas.height * 0.8;
-            let scaleFactorH = startHeight / img.height;
-            startWidth = img.width * scaleFactorH;
+        if (sTaşıHeight > canvas.height * 0.8) {
+            sTaşıHeight = canvas.height * 0.8;
+            let scaleFactorH = sTaşıHeight / img.height;
+            sTaşıWidth = img.width * scaleFactorH;
         }
 
-        posX = (canvas.width / 2) - (startWidth / 2);
-        posY = (canvas.height / 2) - (startHeight / 2);
+        posX = (canvas.width / 2) - (sTaşıWidth / 2);
+        posY = (canvas.height / 2) - (sTaşıHeight / 2);
     }
 
     const newStroke = {
         type: 'image',
         id: Date.now() + Math.random(),
         img: img,
-        imgData: img.src, // ?? KES�N ��Z�M: PDF'in tahta_durumu ile a�dan ge�erken kaybolmamas� i�in imgData eklendi!
+        imgDaTaşıimg.src, // ?? KESİN ÇÖZÜM: PDF'in Taşıa_durumu ile ağdan geçerken kaybolmaması için imgDaTaşıklendi!
         x: posX,
         y: posY,
-        width: startWidth,
-        height: startHeight,
-        rotation: 0,
+        width: sTaşıWidth,
+        height: sTaşıHeight,
+        roTaşıon: 0,
         isBackground: true
     };
 
@@ -4297,16 +4296,16 @@ window.addNewImageToCanvas = function(img, isPDF = false, pcKordinatlari = null)
 
             redrawAllStrokes();
 
-            // ?? ��Z�M 1: Tabletin resmi an�nda g�rebilmesi i�in k���k bir gecikmeyle ekran� zorla tazeliyoruz. 
-            // Bu sayede "bo�lu�a t�klama" zorunlulu�u ortadan kalkar ve PDF an�nda g�r�n�r!
+            // ?? ÇÖZÜM 1: Taşıetin resmi anında görebilmesi için küçük bir gecikmeyle ekranı zorla Taşıliyoruz. 
+            // Bu sayede "boşluğa tıklama" zorunluluğu orTaşın kalkar ve PDF anında görünür!
             setTimeout(() => { if (typeof window.redrawAllStrokes === 'function') window.redrawAllStrokes(); }, 150);
 
-            // ?? PC'nin donan�m� zay�f oldu�u i�in ve PDF kitap g�nderimi �nceden kapat�ld��� i�in, 
-            // Tablet her hal�karda �izdi�i hafifletilmi� JPEG sayfay� PC'ye g�ndermek zorunda!
+            // ?? PC'nin donanımı zayıf olduğu için ve PDF kiTaşıgönderimi önceden kapatıldığı için, 
+            // Taşıet her halükarda çizdiği hafifletilmiş JPEG sayfayı PC'ye göndermek zorunda!
             if (!pcKordinatlari && typeof isConnected !== 'undefined' && isConnected) {
-                window.sendNetworkData({
-                    type: 'arka_plan_resmi_aktar',
-                    imgData: img.src,
+                window.sendNetworkDaTaşı
+                    type: 'arka_plan_resmi_akTaşı,
+                    imgDaTaşıimg.src,
                     isPDF: isPDF,
                     kordinatlar: { x: newStroke.x, y: newStroke.y, width: newStroke.width, height: newStroke.height },
                     canvasW: canvas.width,
@@ -4314,29 +4313,29 @@ window.addNewImageToCanvas = function(img, isPDF = false, pcKordinatlari = null)
                 });
             }
 
-    // ?? KES�N ��Z�M: Y�kleme i�leminden sonra Ta�� butonunun kendi kendine aktif olmas�n� engellemek i�in arac� Kalem'e s�f�rla.
-    if (typeof setActiveTool === 'function') setActiveTool('pen');
+    // ?? KESİN ÇÖZÜM: Yükleme işleminden sonra Taşı butonunun kendi kendine aktif olmasınIşıngellemek için aracı Kalem'e sıfırla.
+    if (typeof seTaşıiveTool === 'function') seTaşıiveTool('pen');
 }
 
 
 
-// --- ARA� RENG� DE���T�RME MANTI�I (S�YAH / NEON / TOK MAV�) ---
+// --- ARAÇ RENGİ DEĞİŞTİRME MANTIĞI (SİYAH / NEON / TOK MAVİ) ---
 const toolColorBtn = document.getElementById('btn-tool-color');
 let isBlackTheme = false;
-window.isToolThemeBlack = false; // Di�er dosyalar i�in global de�i�ken
+window.isToolThemeBlack = false; // Diğer dosyalar için global değişken
 
 if (toolColorBtn) {
     toolColorBtn.addEventListener('click', () => {
         isBlackTheme = !isBlackTheme;
         window.isToolThemeBlack = isBlackTheme; // Durumu kaydet
 
-        // Buton yaz�s�n� g�ncelle
-        toolColorBtn.innerText = isBlackTheme ? "Ara� Rengi: Neon" : "Ara� Rengi: Siyah";
+        // Buton yazIşını güncelle
+        toolColorBtn.innerText = isBlackTheme ? "Araç Rengi: Neon" : "Araç Rengi: Siyah";
 
-        // O an ekranda a��k olan t�m fiziksel ara�lar� bul ve rengini de�i�tir
-        const elements = document.querySelectorAll('.ruler-container, .gonye-container, .aciolcer-container, #compass-container');
+        // O an ekranda açık olan tüm fiziksel araçları bul ve rengini değiştir
+        const eleMenüsü= document.querySelectorAll('.ruler-conTaşıer, .Gönye-conTaşıer, .aciolcer-conTaşıer, #compass-conTaşıer');
 
-        elements.forEach(el => {
+        eleMenüsüforEach(el => {
             if (isBlackTheme) {
                 el.classList.add('tool-black-theme');
             } else {
@@ -4344,19 +4343,19 @@ if (toolColorBtn) {
             }
         });
 
-        // ?? S�NKRON�ZASYON: Tema de�i�imini di�er cihazlara (PC'ye) bildir
-        if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
-            window.sendNetworkData({ type: 'fiziksel_arac_temasi', isBlackTheme: isBlackTheme });
+        // ?? SİNKRONİZASYON: Tema değişimini diğer cihazlara (PC'ye) bildir
+        if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) {
+            window.sendNetworkDaTaşı type: 'fiziksel_arac_temasi', isBlackTheme: isBlackTheme });
         }
     });
 }
 
-// --- ARA�LAR A�ILDI�INDA RENG� HATIRLA (YAMA) ---
-// Sayfa tamamen y�klendikten sonra ara�lar�n 'show' fonksiyonlar�na ekleme yap�yoruz
+// --- ARAÇLAR AÇILDIşınDA RENGİ HATIRLA (YAMA) ---
+// Sayfa Taşımen Yüklendikten sonra araçların 'show' fonksiyonlarına ekleme yapıyoruz
 window.addEventListener('load', () => {
     const toolsList = [
         { objName: 'RulerTool', elementProp: 'rulerElement' },
-        { objName: 'GonyeTool', elementProp: 'gonyeElement' },
+        { objName: 'GönyeTool', elementProp: 'GönyeElement' },
         { objName: 'AciolcerTool', elementProp: 'aciolcerElement' },
         { objName: 'PergelTool', elementProp: 'pergelElement' }
     ];
@@ -4367,9 +4366,9 @@ window.addEventListener('load', () => {
             // Orijinal show fonksiyonunu sakla
             const originalShow = toolObj.show.bind(toolObj);
 
-            // Yeni show fonksiyonu tan�mla
+            // Yeni show fonksiyonu Taşımla
             toolObj.show = function () {
-                originalShow(); // �nce normal a��lma i�lemini yap
+                originalShow(); // Önce normal açılma işlemini yap
 
                 // Sonra tema rengini kontrol et ve uygula
                 if (this[toolInfo.elementProp]) {
@@ -4384,61 +4383,61 @@ window.addEventListener('load', () => {
     });
 });
 
-// --- YARDIM V�DEOLARI S�STEM� ---
+// --- YARDIM VİDEOLARI SİSTEMİ ---
 
-// 1. V�DEO L�STES� (�eviriye Uygun Hale Getirildi)
+// 1. VİDEO LİSTESİ (Çeviriye Uygun Hale Getirildi)
 const tutorialVideos = [
     { id: "vid_cetvel", dosya: "cetvel-vid.mp4" },
-    { id: "vid_gonye", dosya: "gonye-vid.mp4" },
+    { id: "vid_Gönye", dosya: "Gönye-vid.mp4" },
     { id: "vid_aciolcer", dosya: "aciolcer-vid.mp4" },
     { id: "vid_pergel", dosya: "pergel-vid.mp4" },
-    { id: "vid_canlandir", dosya: "canlandir-vid.mp4" },
+    { id: "vid_Canlandır", dosya: "Canlandır-vid.mp4" },
     { id: "vid_cizgi", dosya: "cizgi-vid.mp4" },
-    { id: "vid_cokgenler", dosya: "cokgenler-vid.mp4" },
+    { id: "vid_Çokgenler", dosya: "Çokgenler-vid.mp4" },
     { id: "vid_kalem", dosya: "kalem-vid.mp4" },
-    { id: "vid_kitap", dosya: "kitap-yukleme-vid.mp4" },
+    { id: "vid_kiTaşı, dosya: "kiTaşıYükleme-vid.mp4" },
     { id: "vid_oyunlar", dosya: "oyunlar-vid.mp4" }
 ];
 
 
-// Elementleri Se�
+// Elementleri Seç
 const helpBtn = document.getElementById('btn-help');
 const helpModal = document.getElementById('help-modal');
 const closeHelpBtn = document.getElementById('close-help');
-const videoListContainer = document.getElementById('video-list-container');
+const videoListConTaşıer = document.getElementById('video-list-conTaşıer');
 const videoPlayer = document.getElementById('main-video-player');
 const videoTitleLabel = document.getElementById('video-title-label');
 
-// Listeyi Olu�tur (�oklu Dil Destekli)
+// Listeyi Oluştur (Çoklu Dil Destekli)
 function loadVideoList() {
-    videoListContainer.innerHTML = '';
+    videoListConTaşıer.innerHTML = '';
 
-    // O anki se�ili dili al (E�er bo�sa 'tr' kabul et)
+    // O anki seçili dili al (Eğer boşsa 'tr' kabul et)
     const t = translations[currentLang || 'tr'];
 
     tutorialVideos.forEach((vid) => {
         const btn = document.createElement('button');
         btn.className = 'video-item-btn';
 
-        // �eviriden ba�l��� al (E�er �eviri dosyas�na eklemeyi unutursan hata vermesin diye id'yi yazar)
+        // Çeviriden başlığı al (Eğer çeviri dosyasına eklemeyi unutursan haTaşıermesin diye id'yi yazar)
         const videoBaslik = t[vid.id] || vid.id;
 
         btn.innerText = `? ${videoBaslik}`;
 
         btn.onclick = () => {
-            // T�m butonlar�n rengini s�f�rla, buna renk ver
+            // Tüm butonların rengini sıfırla, buna renk ver
             document.querySelectorAll('.video-item-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
             // Videoyu oynat
             videoPlayer.src = `videolar/${vid.dosya}`;
-            videoTitleLabel.innerText = videoBaslik; // Oynat�c�n�n �st�ndeki ba�l��� da �evir
+            videoTitleLabel.innerText = videoBaslik; // OynatIşının üstündeki başlığı da çevir
             videoPlayer.play();
         };
-        videoListContainer.appendChild(btn);
+        videoListConTaşıer.appendChild(btn);
     });
 }
-// A�ma/Kapama Olaylar�
+// Açma/Kapama Olayları
 if (helpBtn && helpModal) {
     helpBtn.addEventListener('click', () => {
         helpModal.classList.remove('hidden');
@@ -4448,29 +4447,29 @@ if (helpBtn && helpModal) {
     closeHelpBtn.addEventListener('click', () => {
         helpModal.classList.add('hidden');
         videoPlayer.pause();
-        videoPlayer.src = ""; // Videoyu durdur ve s�f�rla
+        videoPlayer.src = ""; // Videoyu durdur ve sıfırla
     });
 }
 
-// --- KES�N ��Z�M: PDF KAPATMA BUTONU (Global Dinleyici) ---
+// --- KESİN ÇÖZÜM: PDF KAPATMA BUTONU (Global Dinleyici) ---
 document.addEventListener('click', function (e) {
-    const btn = e.target.closest('#btn-close-pdf');
+    const btn = e.Taşıet.closest('#btn-close-pdf');
 
     if (btn) {
-        console.log("PDF Kapat�l�yor...");
+        console.log("PDF Kapatılıyor...");
 
-        // 1. PC'YE KAPATMA EMR� G�NDER
-        if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
-            window.sendNetworkData({ type: 'pdf_kapat' });
+        // 1. PC'YE KAPATMA EMRİ GÖNDER
+        if (typeof window.sendNetworkDaTaşı== 'function' && typeof isConnected !== 'undefined' && isConnected) {
+            window.sendNetworkDaTaşı type: 'pdf_kapat' });
         }
 
         e.preventDefault();
         e.stopPropagation();
 
-        // ?? 2. S�H�RL� ��Z�M: filter yerine splice ile haf�za kopmadan temizlik yap�yoruz ??
+        // ?? 2. SİHİRLİ ÇÖZÜM: filter yerine splice ile hafıza kopmadan temizlik yapıyoruz ??
         if (window.drawnStrokes) {
             for (let i = window.drawnStrokes.length - 1; i >= 0; i--) {
-                // PDF, Resim, arka plan, lasso maskesi ve yamalar�n hepsini temizle
+                // PDF, Resim, arka plan, lasso maskesi ve yamaların hepsini temizle
                 const s = window.drawnStrokes[i];
                 if (s.isBackground === true || s.type === 'lasso-mask' || s.isPatch === true) {
                     window.drawnStrokes.splice(i, 1);
@@ -4478,14 +4477,14 @@ document.addEventListener('click', function (e) {
             }
         }
 
-        // 3. De�i�kenleri S�f�rla
+        // 3. Değişkenleri Sıfırla
         if (typeof currentPDF !== 'undefined') currentPDF = null;
         if (typeof pdfImageStroke !== 'undefined') pdfImageStroke = null;
         if (typeof currentPDFPage !== 'undefined') currentPDFPage = 1;
-        if (typeof totalPDFPages !== 'undefined') totalPDFPages = 0;
+        if (typeof toTaşıDFPages !== 'undefined') toTaşıDFPages = 0;
         if (typeof backgroundImage !== 'undefined') backgroundImage = null;
 
-        // 4. Butonlar� Gizle
+        // 4. Butonları Gizle
         const controls = document.getElementById('pdf-controls');
         if (controls) {
             controls.classList.add('hidden');
@@ -4494,7 +4493,7 @@ document.addEventListener('click', function (e) {
         btn.classList.add('hidden');
         btn.style.display = 'none';
 
-        // 5. Ekran� Temizle ve Kalanlar� Yeniden �iz
+        // 5. Ekranı Temizle ve Kalanları Yeniden Çiz
         if (typeof redrawAllStrokes === 'function') {
             const canvas = document.getElementById('drawing-canvas');
             if (canvas) {
@@ -4514,15 +4513,15 @@ document.addEventListener('click', function (e) {
 }, true);
 
 
-// --- BA�LANGI� ---
-// --- AKILLI EKRAN BOYUTLANDIRMA (ADRES �UBU�U ZIPLAMASINI ENGELLER) ---
+// --- BAŞLANGIÇ ---
+// --- AKILLI EKRAN BOYUTLANDIRMA (ADRES ÇUBUĞU ZIPLAMASINIşınGELLER) ---
 let lastWindowWidth = window.innerWidth;
 
 function resizeCanvas() {
     const newWidth = window.innerWidth;
     const newHeight = window.innerHeight;
 
-    // Ger�ekten ekran d�nd�yse veya boyut de�i�tiyse g�ncelle
+    // Gerçekten ekran döndüyse veya boyut değiştiyse güncelle
     lastWindowWidth = newWidth;
 
     if (window.Scene3D && window.Scene3D.camera) {
@@ -4545,128 +4544,128 @@ function resizeCanvas() {
 
     redrawAllStrokes();
 
-    // canvas.height = newHeight; sat�r�n�n hemen alt�na ekle
+    // canvas.height = newHeight; satIşının hemen altına ekle
     setupCanvasResolution();
 }
 
 window.addEventListener('load', resizeCanvas);
 window.addEventListener('resize', resizeCanvas);
 
-// --- app.js EN ALT SATIR (EDGE, CHROME, TABLET UYUMLU F�NAL) ---
+// --- app.js EN ALT SATIR (EDGE, CHROME, TaşıET UYUMLU FİNAL) ---
 
 {
     let deferredPrompt;
-    const installPopup = document.getElementById('install-popup');
-    const btnInstall = document.getElementById('btn-popup-install');
+    const insTaşıPopup = document.getElementById('insTaşı-popup');
+    const btnInsTaşı = document.getElementById('btn-popup-insTaşı');
     const btnClose = document.getElementById('btn-popup-close');
     const iosInstructions = document.getElementById('ios-instructions');
 
-    // 1. Taray�c� sinyali (Install Prompt)
-    window.addEventListener('beforeinstallprompt', (e) => {
+    // 1. Taşıyıcı sinyali (InsTaşı Prompt)
+    window.addEventListener('beforeinsTaşıprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
 
-        // Popup'� g�ster
-        if (installPopup) installPopup.style.display = 'flex';
+        // Popup'ı göster
+        if (insTaşıPopup) insTaşıPopup.style.display = 'flex';
     });
 
-    // 2. iOS (iPhone/iPad) Kontrol�
+    // 2. iOS (iPhone/iPad) Kontrolü
     const isIos = /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
-    const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator.standalone);
+    const isInSTaşıaloneMode = ('sTaşıalone' in window.navigator) && (window.navigator.sTaşıalone);
 
-    if (isIos && !isInStandaloneMode) {
+    if (isIos && !isInSTaşıaloneMode) {
         setTimeout(() => {
-            if (installPopup) {
-                installPopup.style.display = 'flex';
-                if (btnInstall) btnInstall.style.display = 'none'; // iPhone'da butonu gizle
-                if (iosInstructions) iosInstructions.style.display = 'block'; // Tarifi g�ster
+            if (insTaşıPopup) {
+                insTaşıPopup.style.display = 'flex';
+                if (btnInsTaşı) btnInsTaşı.style.display = 'none'; // iPhone'da butonu gizle
+                if (iosInstructions) iosInstructions.style.display = 'block'; // Taşıfi göster
             }
         }, 3000);
     }
 
-    // --- BUTONLARI �ALI�TIRAN FONKS�YON (EDGE DOKUNMAT�K HATASI ��Z�M�) ---
+    // --- BUTONLARI ÇALIŞTIşın FONKSİYON (EDGE DOKUNMATİK HATaşı ÇÖZÜMÜ) ---
     const activateButton = (btn, actionCallback) => {
         if (!btn) return;
 
         const handler = async (e) => {
-            // Edge'in dokunmay� yutmas�n� engelle
+            // Edge'in dokunmayı yutmasınIşıngelle
             e.stopPropagation();
             e.preventDefault();
 
-            // ��lemi ger�ekle�tir
+            // İşlemi gerçekleştir
             await actionCallback();
         };
 
-        // Hem t�klama hem parmak dokunu�unu dinle
+        // Hem tıklama hem parmak dokunuşunu dinle
         btn.addEventListener('click', handler);
-        btn.addEventListener('touchstart', handler, { passive: false });
+        btn.addEventListener('touchsTaşı', handler, { passive: false });
     };
 
-    // --- BUTONLARA G�REVLER�N� VER ---
+    // --- BUTONLARA GÖREVLERİNİ VER ---
 
-    // A) Y�kle Butonu
-    activateButton(btnInstall, async () => {
+    // A) Yükle Butonu
+    activateButton(btnInsTaşı, async () => {
         if (deferredPrompt) {
             deferredPrompt.prompt();
             const { outcome } = await deferredPrompt.userChoice;
-            console.log("Sonu�:", outcome);
+            console.log("Sonuç:", outcome);
             deferredPrompt = null;
         }
-        if (installPopup) installPopup.style.display = 'none';
+        if (insTaşıPopup) insTaşıPopup.style.display = 'none';
 
-        // ?? S�H�RL� DOKUNU�: PC'deki y�kleme penceresini de kapatmas� i�in komut g�nder
-        if (typeof isConnected !== 'undefined' && isConnected && typeof sendNetworkData === 'function') {
-            sendNetworkData({ type: 'yukleme_penceresini_kapat' });
+        // ?? SİHİRLİ DOKUNUŞ: PC'deki Yükleme penceresini de kapatması için komut gönder
+        if (typeof isConnected !== 'undefined' && isConnected && typeof sendNetworkDaTaşı== 'function') {
+            sendNetworkDaTaşı type: 'Yükleme_penceresini_kapat' });
         }
     });
 
-    // B) Kapat (Hay�r) Butonu
+    // B) Kapat (Hayır) Butonu
     activateButton(btnClose, async () => {
-        if (installPopup) installPopup.style.display = 'none';
+        if (insTaşıPopup) insTaşıPopup.style.display = 'none';
 
-        // ?? S�H�RL� DOKUNU�: PC'deki y�kleme penceresini de kapatmas� i�in komut g�nder
-        if (typeof isConnected !== 'undefined' && isConnected && typeof sendNetworkData === 'function') {
-            sendNetworkData({ type: 'yukleme_penceresini_kapat' });
+        // ?? SİHİRLİ DOKUNUŞ: PC'deki Yükleme penceresini de kapatması için komut gönder
+        if (typeof isConnected !== 'undefined' && isConnected && typeof sendNetworkDaTaşı== 'function') {
+            sendNetworkDaTaşı type: 'Yükleme_penceresini_kapat' });
         }
     });
 }
 
-// --- app.js EN ALTA EKLE: D�ND�RME FONKS�YONU ---
+// --- app.js EN ALTaşıKLE: DÖNDÜRME FONKSİYONU ---
 
 /**
- * Bir HTML elementine d�nd�rme �zelli�i ekler.
- * @param {HTMLElement} element - D�nd�r�lecek olan kopya kutusu (div)
+ * Bir HTML elementine döndürme özelliği ekler.
+ * @param {HTMLElement} element - Döndürülecek olan kopya kutusu (div)
  */
 
 // ==========================================
-// --- TARAYICI DOKUNMAT�K �AKI�MA ��Z�M� ---
+// --- TaşıYICI DOKUNMATİK ÇAKIŞMA ÇÖZÜMÜ ---
 // ==========================================
-// Taray�c�n�n adres �ubu�u veya "sayfay� yenile" hareketinin
-// d�nd�rme (rotate) ve ta��ma i�lemlerini bozmas�n� engeller.
+// TaşıyIşının adres çubuğu veya "sayfayı yenile" hareketinin
+// döndürme (roTaşı) ve Taşıma işlemlerini bozmasınIşıngeller.
 window.addEventListener('touchmove', function (e) {
-    // E�er dokunulan �ey d�nd�rme kulpuysa veya kopyalanan resimse:
-    if (e.target.closest('.rotate-handle') ||
-        e.target.classList.contains('rotate-handle') ||
-        e.target.closest('.resize-handle') ||
-        e.target.tagName.toLowerCase() === 'img') {
+    // Eğer dokunulan şey döndürme kulpuysa veya kopyalanan resimse:
+    if (e.Taşıet.closest('.roTaşı-handle') ||
+        e.Taşıet.classList.conTaşıs('roTaşı-handle') ||
+        e.Taşıet.closest('.resize-handle') ||
+        e.Taşıet.Taşıame.toLowerCase() === 'img') {
 
-        // Taray�c�ya "Kar��ma, kayd�rma yapma!" diyoruz.
+        // Taşıyıcıya "Karışma, kaydırma yapma!" diyoruz.
         e.preventDefault();
     }
-}, { passive: false }); // passive: false �ok �nemlidir, taray�c�y� durdurmaya izin verir.
+}, { passive: false }); // passive: false çok önemlidir, Taşıyıcıyı durdurmaya izin verir.
 // ==========================================
 
 
 // =========================================================
-// MOB�L TARAYICI ZIPLAMA ��Z�M�: KATI EKRAN K�L�D� (app.js)
+// MOBİL TaşıYICI ZIPLAMA ÇÖZÜMÜ: KATI EKRAN KİLİDİ (app.js)
 // =========================================================
 function lockScreenSize() {
-    // Ekran�n o anki ger�ek piksel boyutunu al
+    // Ekranın o anki gerçek piksel boyutunu al
     let w = window.innerWidth || document.documentElement.clientWidth || window.screen.width || 1024;
     let h = window.innerHeight || document.documentElement.clientHeight || window.screen.height || 768;
-    const dpr = window.devicePixelRatio || 1; // ?? HD Oran�
+    const dpr = window.devicePixelRatio || 1; // ?? HD Oranı
 
-    // Ana Kanvas� Sabitle
+    // Ana Kanvası Sabitle
     const canvas = document.getElementById('drawing-canvas');
     if (canvas) {
         canvas.style.width = w + 'px';
@@ -4675,7 +4674,7 @@ function lockScreenSize() {
         canvas.height = h * dpr;
     }
 
-    // ?? EKS�K OLAN KISIM: Arka Plan Kanvas�n� da Ana Kanvasla Beton Gibi Sabitle (Sayfa Bas�kl���n� Yok Eder)
+    // ?? EKSİK OLAN KISIM: Arka Plan Kanvasını da Ana Kanvasla Beton Gibi Sabitle (Sayfa BasıklIşını Yok Eder)
     const bgCanvas = document.getElementById('bg-canvas');
     if (bgCanvas) {
         bgCanvas.style.width = w + 'px';
@@ -4694,49 +4693,49 @@ function lockScreenSize() {
     }
 }
 
-// 1. Sayfa y�klendi�inde boyutlar� kilitle
+// 1. Sayfa Yüklendiğinde boyutları kilitle
 window.addEventListener('load', lockScreenSize);
 
-// 2. Tablet yan �evrilirse (yatay/dikey) yeni boyuta g�re tekrar kilitle
-window.addEventListener('orientationchange', () => {
+// 2. Taşıet yan çevrilirse (yaTaşıdikey) yeni boyuTaşıöre tekrar kilitle
+window.addEventListener('orienTaşıonchange', () => {
     setTimeout(lockScreenSize, 300);
 });
 
-// KR�T�K NOKTA: 'resize' eventini (adres �ubu�u hareketlerini) D�NLEM�YORUZ!
-// B�ylece adres �ubu�u kaybolsa/��ksa bile sayfa esnemez, �izgiler z�plamaz.
+// KRİTİK NOKTaşı'resize' eventini (adres çubuğu hareketlerini) DİNLEMİYORUZ!
+// Böylece adres çubuğu kaybolsa/çıksa bile sayfa esnemez, çizgiler zıplamaz.
 
 // =======================================================
-// CANLANDIR (SNAPSHOT) - TABLET/PC UYUMLU Y�ZEN KOPYA
+// Canlandır (SNAPSHOT) - TaşıET/PC UYUMLU YÜZEN KOPYA
 // =======================================================
-function olusturYuzenKopya(imgSrc, startX, startY, width, height) {
-    // ?? S�H�RL� D�ZELTME: HD piksel de�erlerini DOM i�in CSS pikseline d�n��t�r
+function olusturYuzenKopya(imgSrc, sTaşıX, sTaşıY, width, height) {
+    // ?? SİHİRLİ DÜZELTME: HD piksel değerlerini DOM için CSS pikseline dönüştür
     const canvasEl = document.getElementById('drawing-canvas');
     const dpr = canvasEl ? (canvasEl.width / canvasEl.getBoundingClientRect().width) : (window.devicePixelRatio || 1);
 
-    // Gelen koordinatlar�n HD olup olmad���n� kontrol et ve �l�ekle
+    // Gelen koordinatların HD olup olmadIşını kontrol et ve ölçekle
     const isHD = width > (canvasEl ? canvasEl.getBoundingClientRect().width : window.innerWidth);
     const scale = isHD ? dpr : 1;
 
-    const cssX = startX / scale;
-    const cssY = startY / scale;
+    const cssX = sTaşıX / scale;
+    const cssY = sTaşıY / scale;
     const cssW = width / scale;
     const cssH = height / scale;
 
-    // 1. Ana Kapsay�c� Kutu
-    const container = document.createElement('div');
-    container.className = 'yuzen-kopya-container';
-    container.style.position = 'absolute';
-    container.style.left = cssX + 'px';
-    container.style.top = cssY + 'px';
-    container.style.width = cssW + 'px';
-    container.style.height = cssH + 'px';
-    container.style.border = '2px dashed #00ffcc';
-    container.style.cursor = 'grab';
-    container.style.zIndex = '9999';
-    container.style.boxSizing = 'border-box';
-    container.style.transformOrigin = 'center center';
-    container.style.touchAction = 'none'; // KR�T�K: Tablette sayfa kaymas�n� yasaklar
-    container.dataset.rotation = '0';
+    // 1. Ana Kapsayıcı Kutu
+    const conTaşıer = document.createElement('div');
+    conTaşıer.className = 'yuzen-kopya-conTaşıer';
+    conTaşıer.style.position = 'absolute';
+    conTaşıer.style.left = cssX + 'px';
+    conTaşıer.style.top = cssY + 'px';
+    conTaşıer.style.width = cssW + 'px';
+    conTaşıer.style.height = cssH + 'px';
+    conTaşıer.style.border = '2px dashed #00ffcc';
+    conTaşıer.style.cursor = 'grab';
+    conTaşıer.style.zIndex = '9999';
+    conTaşıer.style.boxSizing = 'border-box';
+    conTaşıer.style.transformOrigin = 'center center';
+    conTaşıer.style.touchAction = 'none'; // KRİTİK: Taşıette sayfa kaymasını yasaklar
+    conTaşıer.daTaşıt.roTaşıon = '0';
 
     // 2. Kopyalanan Resim
     const img = document.createElement('img');
@@ -4745,38 +4744,38 @@ function olusturYuzenKopya(imgSrc, startX, startY, width, height) {
     img.style.height = '100%';
     img.style.display = 'block';
     img.style.pointerEvents = 'none';
-    container.appendChild(img);
+    conTaşıer.appendChild(img);
 
-    // 3. D�nd�rme (Ye�il) Butonu ve Sap�
-    const rotateLine = document.createElement('div');
-    rotateLine.style.position = 'absolute';
-    rotateLine.style.top = '-20px';
-    rotateLine.style.left = '50%';
-    rotateLine.style.width = '2px';
-    rotateLine.style.height = '20px';
-    rotateLine.style.backgroundColor = '#00ff00';
-    rotateLine.style.transform = 'translateX(-50%)';
-    container.appendChild(rotateLine);
+    // 3. Döndürme (Yeşil) Butonu ve Sapı
+    const roTaşıLine = document.createElement('div');
+    roTaşıLine.style.position = 'absolute';
+    roTaşıLine.style.top = '-20px';
+    roTaşıLine.style.left = '50%';
+    roTaşıLine.style.width = '2px';
+    roTaşıLine.style.height = '20px';
+    roTaşıLine.style.backgroundColor = '#00ff00';
+    roTaşıLine.style.transform = 'translateX(-50%)';
+    conTaşıer.appendChild(roTaşıLine);
 
-    const rotateBtn = document.createElement('div');
-    rotateBtn.className = 'rotate-handle'; // Tablette kaymay� durduran mevcut s�n�f�n�z
-    rotateBtn.style.position = 'absolute';
-    rotateBtn.style.top = '-40px';
-    rotateBtn.style.left = '50%';
-    rotateBtn.style.transform = 'translateX(-50%)';
-    rotateBtn.style.width = '30px';
-    rotateBtn.style.height = '30px';
-    rotateBtn.style.backgroundColor = '#00ff00';
-    rotateBtn.style.borderRadius = '50%';
-    rotateBtn.style.cursor = 'grab';
-    rotateBtn.style.border = '2px solid white';
-    rotateBtn.style.boxShadow = '0px 2px 5px rgba(0,0,0,0.5)';
-    rotateBtn.style.touchAction = 'none'; // KR�T�K
-    container.appendChild(rotateBtn);
+    const roTaşıBtn = document.createElement('div');
+    roTaşıBtn.className = 'roTaşı-handle'; // Taşıette kaymayı durduran mevcut sınIşınız
+    roTaşıBtn.style.position = 'absolute';
+    roTaşıBtn.style.top = '-40px';
+    roTaşıBtn.style.left = '50%';
+    roTaşıBtn.style.transform = 'translateX(-50%)';
+    roTaşıBtn.style.width = '30px';
+    roTaşıBtn.style.height = '30px';
+    roTaşıBtn.style.backgroundColor = '#00ff00';
+    roTaşıBtn.style.borderRadius = '50%';
+    roTaşıBtn.style.cursor = 'grab';
+    roTaşıBtn.style.border = '2px solid white';
+    roTaşıBtn.style.boxShadow = '0px 2px 5px rgba(0,0,0,0.5)';
+    roTaşıBtn.style.touchAction = 'none'; // KRİTİK
+    conTaşıer.appendChild(roTaşıBtn);
 
-    // 4. Yeniden Boyutland�rma (Pembe) Butonu
+    // 4. Yeniden Boyutlandırma (Pembe) Butonu
     const resizeBtn = document.createElement('div');
-    resizeBtn.className = 'resize-handle'; // Tablette kaymay� durduran mevcut s�n�f�n�z
+    resizeBtn.className = 'resize-handle'; // Taşıette kaymayı durduran mevcut sınIşınız
     resizeBtn.style.position = 'absolute';
     resizeBtn.style.bottom = '-15px';
     resizeBtn.style.right = '-15px';
@@ -4787,168 +4786,168 @@ function olusturYuzenKopya(imgSrc, startX, startY, width, height) {
     resizeBtn.style.cursor = 'nwse-resize';
     resizeBtn.style.border = '2px solid white';
     resizeBtn.style.boxShadow = '0px 2px 5px rgba(0,0,0,0.5)';
-    resizeBtn.style.touchAction = 'none'; // KR�T�K
-    container.appendChild(resizeBtn);
+    resizeBtn.style.touchAction = 'none'; // KRİTİK
+    conTaşıer.appendChild(resizeBtn);
 
-    document.body.appendChild(container);
+    document.body.appendChild(conTaşıer);
 
-    // --- TABLET UYUMLU ETK�LE��M MANTI�I ---
+    // --- TaşıET UYUMLU ETKİLEŞİM MANTIĞI ---
     let mode = 'none';
-    let startEvtX, startEvtY, initialLeft, initialTop, initialWidth, initialHeight, initialRotation, centerX, centerY;
-    let activePointerId = null; // Parma�� takip etmek i�in kilit ID'si
+    let sTaşıEvtX, sTaşıEvtY, initialLeft, initialTop, initialWidth, initialHeight, initialRoTaşıon, centerX, centerY;
+    let activePointerId = null; // Parmağı Taşıp etmek için kilit ID'si
 
-    // D�nd�rmeye Ba�la
-    rotateBtn.addEventListener('pointerdown', (e) => {
+    // Döndürmeye Başla
+    roTaşıBtn.addEventListener('pointerdown', (e) => {
         e.stopPropagation(); e.preventDefault();
-        mode = 'rotate';
+        mode = 'roTaşı';
         activePointerId = e.pointerId;
-        rotateBtn.setPointerCapture(activePointerId); // KR�T�K: Parma�� ye�il butona kilitle!
+        roTaşıBtn.setPointerCapture(activePointerId); // KRİTİK: Parmağı yeşil butona kilitle!
 
-        const rect = container.getBoundingClientRect();
+        const rect = conTaşıer.getBoundingClientRect();
         centerX = rect.left + rect.width / 2;
         centerY = rect.top + rect.height / 2;
-        initialRotation = parseFloat(container.dataset.rotation) || 0;
-        container.dataset.startAngle = Math.atan2(e.clientY - centerY, e.clientX - centerX) * 180 / Math.PI;
+        initialRoTaşıon = parseFloat(conTaşıer.daTaşıt.roTaşıon) || 0;
+        conTaşıer.daTaşıt.sTaşıAngle = Math.aTaşı(e.clientY - centerY, e.clientX - centerX) * 180 / Math.PI;
     });
 
-    // Boyutland�rmaya Ba�la
+    // Boyutlandırmaya Başla
     resizeBtn.addEventListener('pointerdown', (e) => {
         e.stopPropagation(); e.preventDefault();
         mode = 'resize';
         activePointerId = e.pointerId;
-        resizeBtn.setPointerCapture(activePointerId); // KR�T�K: Parma�� pembe butona kilitle!
+        resizeBtn.setPointerCapture(activePointerId); // KRİTİK: Parmağı pembe butona kilitle!
 
-        startEvtX = e.clientX; startEvtY = e.clientY;
-        initialWidth = container.offsetWidth; initialHeight = container.offsetHeight;
+        sTaşıEvtX = e.clientX; sTaşıEvtY = e.clientY;
+        initialWidth = conTaşıer.offsetWidth; initialHeight = conTaşıer.offsetHeight;
     });
 
-    // S�r�klemeye Ba�la
-    container.addEventListener('pointerdown', (e) => {
-        if (e.target === rotateBtn || e.target === resizeBtn) return;
+    // Sürüklemeye Başla
+    conTaşıer.addEventListener('pointerdown', (e) => {
+        if (e.Taşıet === roTaşıBtn || e.Taşıet === resizeBtn) return;
         e.stopPropagation(); e.preventDefault();
         mode = 'drag';
         activePointerId = e.pointerId;
-        container.setPointerCapture(activePointerId); // KR�T�K: Parma�� resme kilitle!
+        conTaşıer.setPointerCapture(activePointerId); // KRİTİK: Parmağı resme kilitle!
 
-        container.style.cursor = 'grabbing';
-        startEvtX = e.clientX; startEvtY = e.clientY;
-        initialLeft = container.offsetLeft; initialTop = container.offsetTop;
+        conTaşıer.style.cursor = 'grabbing';
+        sTaşıEvtX = e.clientX; sTaşıEvtY = e.clientY;
+        initialLeft = conTaşıer.offsetLeft; initialTop = conTaşıer.offsetTop;
     });
 
     // Hareket Etme (Move)
     const onMove = (e) => {
         if (mode === 'none') return;
-        if (e.pointerId !== activePointerId) return; // �kinci parmakla yap�lan m�dahaleleri engeller
+        if (e.pointerId !== activePointerId) return; // İkinci parmakla yapIşın müdahaleleri engeller
         e.preventDefault();
 
         if (mode === 'drag') {
-            container.style.left = (initialLeft + (e.clientX - startEvtX)) + 'px';
-            container.style.top = (initialTop + (e.clientY - startEvtY)) + 'px';
+            conTaşıer.style.left = (initialLeft + (e.clientX - sTaşıEvtX)) + 'px';
+            conTaşıer.style.top = (initialTop + (e.clientY - sTaşıEvtY)) + 'px';
         } else if (mode === 'resize') {
-            const newWidth = Math.max(30, initialWidth + (e.clientX - startEvtX));
-            container.style.width = newWidth + 'px';
-            container.style.height = initialHeight * (newWidth / initialWidth) + 'px';
-        } else if (mode === 'rotate') {
-            const currentAngle = Math.atan2(e.clientY - centerY, e.clientX - centerX) * 180 / Math.PI;
-            const finalRotation = initialRotation + (currentAngle - parseFloat(container.dataset.startAngle));
-            container.style.transform = `rotate(${finalRotation}deg)`;
-            container.dataset.rotation = finalRotation;
+            const newWidth = Math.max(30, initialWidth + (e.clientX - sTaşıEvtX));
+            conTaşıer.style.width = newWidth + 'px';
+            conTaşıer.style.height = initialHeight * (newWidth / initialWidth) + 'px';
+        } else if (mode === 'roTaşı') {
+            const currenTaşıle = Math.aTaşı(e.clientY - centerY, e.clientX - centerX) * 180 / Math.PI;
+            const finalRoTaşıon = initialRoTaşıon + (currenTaşıle - parseFloat(conTaşıer.daTaşıt.sTaşıAngle));
+            conTaşıer.style.transform = `roTaşı(${finalRoTaşıon}deg)`;
+            conTaşıer.daTaşıt.roTaşıon = finalRoTaşıon;
         }
     };
 
-    // Parma�� Kald�rma (B�rakma)
+    // Parmağı Kaldırma (Bırakma)
     const onUp = (e) => {
         if (mode === 'none') return;
 
-        // Kilidi serbest b�rak
-        if (e.target.hasPointerCapture && e.target.hasPointerCapture(e.pointerId)) {
-            e.target.releasePointerCapture(e.pointerId);
+        // Kilidi serbest bırak
+        if (e.Taşıet.hasPointerCapture && e.Taşıet.hasPointerCapture(e.pointerId)) {
+            e.Taşıet.releasePointerCapture(e.pointerId);
         }
 
-        if (mode === 'drag') container.style.cursor = 'grab';
+        if (mode === 'drag') conTaşıer.style.cursor = 'grab';
         mode = 'none';
         activePointerId = null;
     };
 
     window.addEventListener('pointermove', onMove, { passive: false });
     window.addEventListener('pointerup', onUp);
-    window.addEventListener('pointercancel', onUp); // Taray�c� hatas�nda da b�rak
+    window.addEventListener('pointercancel', onUp); // Taşıyıcı haTaşında da bırak
 
-    // --- BO�LU�A TIKLAYINCA ANA KANVASA M�H�RLE (TABLET �OKLU KOPYA �NLEY�C�) ---
+    // --- BOŞLUĞA TIKLAYINCA ANA KANVASA muhur_disclaimerLE (TaşıET ÇOKLU KOPYA ÖNLEYİCİ) ---
     setTimeout(() => {
-        let isStamped = false; // �oklu kopyay� engelleyen kilit
+        let isSTaşıed = false; // Çoklu kopyayIşıngelleyen kilit
 
         const disariTiklama = (e) => {
-            if (isStamped || container.contains(e.target)) return;
+            if (isSTaşıed || conTaşıer.conTaşıs(e.Taşıet)) return;
 
-            // E�er d�nd�rme veya boyutland�rma butonlar�na bas�l�yorsa m�h�rleme yapma
-            if (e.target.closest('.rotate-handle') || e.target.closest('.resize-handle')) return;
+            // Eğer döndürme veya boyutlandırma butonlarına basılıyorsa muhur_disclaimerleme yapma
+            if (e.Taşıet.closest('.roTaşı-handle') || e.Taşıet.closest('.resize-handle')) return;
 
-            isStamped = true;
+            isSTaşıed = true;
             window.removeEventListener('pointerdown', disariTiklama, true);
 
-            // Sizin orijinal canvas referans�n�za (canvas) g�re tam uyumlu koordinat yakalama
-            const containerRect = container.getBoundingClientRect();
+            // Sizin orijinal canvas referansınıza (canvas) göre Taşıuyumlu koordinat yakalama
+            const conTaşıerRect = conTaşıer.getBoundingClientRect();
             const canvasRect = canvas.getBoundingClientRect();
 
-            let xKoordinati = parseFloat(container.style.left);
-            let yKoordinati = parseFloat(container.style.top);
-            let genislik = parseFloat(container.style.width);
-            let yukseklik = parseFloat(container.style.height);
+            let xKoordinati = parseFloat(conTaşıer.style.left);
+            let yKoordinati = parseFloat(conTaşıer.style.top);
+            let genislik = parseFloat(conTaşıer.style.width);
+            let yukseklik = parseFloat(conTaşıer.style.height);
 
-            // Dokunmatik ekrandan el �ekildi�inde koordinat kaybolursa fiziksel pikselleri kurtar
+            // Dokunmatik ekrandan el çekildiğinde koordinat kaybolursa fiziksel pikselleri kurTaşı
             if (isNaN(xKoordinati) || isNaN(yKoordinati)) {
-                xKoordinati = containerRect.left - canvasRect.left;
-                yKoordinati = containerRect.top - canvasRect.top;
-                genislik = containerRect.width;
-                yukseklik = containerRect.height;
+                xKoordinati = conTaşıerRect.left - canvasRect.left;
+                yKoordinati = conTaşıerRect.top - canvasRect.top;
+                genislik = conTaşıerRect.width;
+                yukseklik = conTaşıerRect.height;
             }
 
-            // Hatal�/bo� t�klamalar� engelle
+            // HaTaşı/boş tıklamalarIşıngelle
             if (genislik < 5 || yukseklik < 5) {
-                if (container && container.parentNode) container.parentNode.removeChild(container);
+                if (conTaşıer && conTaşıer.parentNode) conTaşıer.parentNode.removeChild(conTaşıer);
                 return;
             }
 
-            // PDF ve Sayfa Haf�zas�yla tam uyumlu yeni kopya objesi
+            // PDF ve Sayfa Hafızasıyla Taşıuyumlu yeni kopya objesi
             const newCopy = {
                 type: 'image',
-                imgData: imgSrc,
-                x: xKoordinati - canvasRect.left, // Kanvas�n sol bo�lu�unu net olarak d���yoruz
-                y: yKoordinati - canvasRect.top,  // Kanvas�n �st bo�lu�unu net olarak d���yoruz
+                imgDaTaşıimgSrc,
+                x: xKoordinati - canvasRect.left, // Kanvasın sol boşluğunu net olarak düşüyoruz
+                y: yKoordinati - canvasRect.top,  // Kanvasın üst boşluğunu net olarak düşüyoruz
                 width: genislik,
                 height: yukseklik,
-                rotation: parseFloat(container.dataset.rotation) || 0,
+                roTaşıon: parseFloat(conTaşıer.daTaşıt.roTaşıon) || 0,
                 isBackground: false,
                 isBoxCopy: true,
                 pageOwner: typeof currentPDFPage !== 'undefined' ? currentPDFPage : 1,
                 imgObj: null
             };
 
-            // Kanvas �izim motoru tetikleyicisi
+            // Kanvas çizim motoru tetikleyicisi
             const imgObj = new Image();
             imgObj.src = imgSrc;
             imgObj.onload = () => {
                 newCopy.imgObj = imgObj;
 
-                // Ana �izim dizisine ekle
+                // Ana çizim dizisine ekle
                 if (typeof drawnStrokes !== 'undefined') {
                     drawnStrokes.push(newCopy);
                 }
 
-                // PDF sayfa haf�za dizisine ekle
+                // PDF sayfa hafıza dizisine ekle
                 if (!window.boxCopies) window.boxCopies = [];
                 window.boxCopies.push(newCopy);
 
-                // Kanvas ekran�n� an�nda tazeleyip resmi g�r�n�r k�l
+                // Kanvas ekranınIşınında Taşıleyip resmi görünür kıl
                 if (window.redrawAllStrokes) window.redrawAllStrokes();
 
-                console.log("Kutu kopyas� ba�ar�yla kanvas haf�zas�na m�h�rlendi!");
+                console.log("Kutu kopyası başarıyla kanvas hafızasına muhur_disclaimerlendi!");
             };
 
-            // Ge�ici �izgili kutuyu ve di�er izleyicileri temizle
-            if (container && container.parentNode) {
-                container.parentNode.removeChild(container);
+            // Geçici çizgili kutuyu ve diğer izleyicileri temizle
+            if (conTaşıer && conTaşıer.parentNode) {
+                conTaşıer.parentNode.removeChild(conTaşıer);
             }
             window.removeEventListener('pointermove', onMove);
             window.removeEventListener('pointerup', onUp);
@@ -4959,25 +4958,25 @@ function olusturYuzenKopya(imgSrc, startX, startY, width, height) {
     }, 200);
 }
 
-// Dosyan�n en alt�na ekle
+// Dosyanın en altına ekle
 window.addEventListener('load', () => {
     setTimeout(setupCanvasResolution, 500);
 });
 
 
 // ===================================================================
-// --- AKILLI �EK�L TANIMA V15 (KUSURSUZ YILDIZ VE ��GEN AYRIMI) ---
+// --- AKILLI ŞEKİL TaşıMA V15 (KUSURSUZ YILDIZ VE ÜÇGEN AYRIMI) ---
 // ===================================================================
-function akilliSekilTani(stroke) {
+function akilliSekilTaşı(stroke) {
     if (!stroke || stroke.type !== 'pen' || stroke.path.length < 15) return null;
 
     const pts = stroke.path;
-    const start = pts[0];
+    const sTaşı = pts[0];
     const end = pts[pts.length - 1];
-    const directDistance = Math.hypot(end.x - start.x, end.y - start.y);
+    const directDisTaşıe = Math.hypot(end.x - sTaşı.x, end.y - sTaşı.y);
 
-    let totalDistance = 0;
-    for (let i = 1; i < pts.length; i++) totalDistance += Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+    let toTaşıisTaşıe = 0;
+    for (let i = 1; i < pts.length; i++) toTaşıisTaşıe += Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
 
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
     pts.forEach(p => {
@@ -4996,32 +4995,32 @@ function akilliSekilTani(stroke) {
     const col = stroke.color;
     const wid = stroke.baseWidth || 3;
 
-    // 1. D�Z ��ZG�
-    if (directDistance > 50 && (totalDistance / directDistance) < 1.15) {
-        return { type: 'straightLine', p1: start, p2: end, color: col, width: wid };
+    // 1. Düz Çizgi
+    if (directDisTaşıe > 50 && (toTaşıisTaşıe / directDisTaşıe) < 1.15) {
+        return { type: 'straightLine', p1: sTaşı, p2: end, color: col, width: wid };
     }
 
-    // 2. KAPALI �EK�LLER (Kapanma Tolerans�)
-    const tamKapaliMi = directDistance < (maxBoyut * 0.3) && directDistance < 50;
-    if (!tamKapaliMi) return null;
+    // 2. KAPALI ŞEKİLLER (Kapanma Toleransı)
+    const TaşıapaliMi = directDisTaşıe < (maxBoyut * 0.3) && directDisTaşıe < 50;
+    if (!TaşıapaliMi) return null;
 
-    // A�IRI KARMA�IK KARALAMA KORUMASI 
-    if (totalDistance > (w + h) * 4) return null;
+    // AŞIRI KARMAŞIK KARALAMA KORUMASI 
+    if (toTaşıisTaşıe > (w + h) * 4) return null;
 
-    // --- B�LGESEL F�Z�KSEL KANITLAR ---
+    // --- BÖLGESEL FİZİKSEL KANITLAR ---
     let topMinX = Infinity, topMaxX = -Infinity;
     let bottomMinX = Infinity, bottomMaxX = -Infinity;
     let leftMinY = Infinity, leftMaxY = -Infinity;
     let rightMinY = Infinity, rightMaxY = -Infinity;
     let distTL = Infinity, distTR = Infinity, distBL = Infinity, distBR = Infinity;
-    let totalR = 0;
+    let toTaşı = 0;
 
     pts.forEach(p => {
         if (p.y < minY + h * 0.35) { if (p.x < topMinX) topMinX = p.x; if (p.x > topMaxX) topMaxX = p.x; }
         if (p.y > maxY - h * 0.35) { if (p.x < bottomMinX) bottomMinX = p.x; if (p.x > bottomMaxX) bottomMaxX = p.x; }
         if (p.x < minX + w * 0.35) { if (p.y < leftMinY) leftMinY = p.y; if (p.y > leftMaxY) leftMaxY = p.y; }
         if (p.x > maxX - w * 0.35) { if (p.y < rightMinY) rightMinY = p.y; if (p.y > rightMaxY) rightMaxY = p.y; }
-        totalR += Math.hypot(p.x - cx, p.y - cy);
+        toTaşı += Math.hypot(p.x - cx, p.y - cy);
 
         const dTL = Math.hypot(p.x - minX, p.y - minY); if (dTL < distTL) distTL = dTL;
         const dTR = Math.hypot(p.x - maxX, p.y - minY); if (dTR < distTR) distTR = dTR;
@@ -5035,69 +5034,69 @@ function akilliSekilTani(stroke) {
     let rightH = Math.max(1, rightMaxY - rightMinY);
     let avgCornerDist = (distTL + distTR + distBL + distBR) / 4;
 
-    let avgR = totalR / pts.length;
+    let avgR = toTaşı / pts.length;
     let sapma = 0;
     pts.forEach(p => { sapma += Math.abs(Math.hypot(p.x - cx, p.y - cy) - avgR); });
     let sapmaOrani = sapma / (pts.length * avgR);
 
     // ==========================================
-    // 1. YILDIZ KONTROL� (Nokta Sayma �ptal, Derinlik �l��m� Geldi)
+    // 1. YILDIZ KONTROLÜ (NokTaşıayma İpTaşı Derinlik Ölçümü Geldi)
     // ==========================================
-    let isStar = false;
+    let isSTaşı= false;
     if (Math.abs(w - h) < maxBoyut * 0.6) {
         let altSolMaxY = -Infinity;
         let altSagMaxY = -Infinity;
-        let altOrtaMaxY = -Infinity;
+        let altOrTaşıxY = -Infinity;
 
         pts.forEach(p => {
-            // �eklin sa�, sol ve orta alt k�s�mlar�n�n "En derin" (MaxY) noktalar�n� buluyoruz
+            // Şeklin sağ, sol ve orTaşılt kısımlarIşın "En derin" (MaxY) nokTaşırını buluyoruz
             if (p.x < cx - w * 0.15) { if (p.y > altSolMaxY) altSolMaxY = p.y; }
             else if (p.x > cx + w * 0.15) { if (p.y > altSagMaxY) altSagMaxY = p.y; }
-            else { if (p.y > altOrtaMaxY) altOrtaMaxY = p.y; }
+            else { if (p.y > altOrTaşıxY) altOrTaşıxY = p.y; }
         });
 
-        // ��gende alt �izgi d�zd�r, altOrtaMaxY di�erlerine e�ittir.
-        // Y�ld�zda ise ortada bo�luk oldu�u i�in altOrtaMaxY belirgin �ekilde DAHA YUKARIDADIR.
+        // Üçgende alt çizgi düzdür, altOrTaşıxY diğerlerine eşittir.
+        // Yıldızda ise orTaşı boşluk olduğu için altOrTaşıxY belirgin şekilde DAHA YUKARIDADIR.
         if (topW < w * 0.5 &&
             altSolMaxY > cy + h * 0.10 &&
             altSagMaxY > cy + h * 0.10 &&
-            altOrtaMaxY < Math.min(altSolMaxY, altSagMaxY) - h * 0.10) {
-            isStar = true;
+            altOrTaşıxY < Math.min(altSolMaxY, altSagMaxY) - h * 0.10) {
+            isSTaşı= true;
         }
     }
 
     // ==========================================
-    // 2. KALP KONTROL� 
+    // 2. KALP KONTROLÜ 
     // ==========================================
     let isHeart = false;
-    if (!isStar && Math.abs(w - h) < maxBoyut * 0.5) {
+    if (!isSTaşı&& Math.abs(w - h) < maxBoyut * 0.5) {
         let ustKisim = pts.filter(p => p.y < cy);
         let solTepe = ustKisim.filter(p => p.x < cx - w * 0.15);
         let sagTepe = ustKisim.filter(p => p.x > cx + w * 0.15);
-        let ortaCukur = ustKisim.filter(p => Math.abs(p.x - cx) <= w * 0.15);
+        let orTaşıkur = ustKisim.filter(p => Math.abs(p.x - cx) <= w * 0.15);
 
-        if (solTepe.length > 0 && sagTepe.length > 0 && ortaCukur.length > 0) {
+        if (solTepe.length > 0 && sagTepe.length > 0 && orTaşıkur.length > 0) {
             let solMaxY = Math.min(...solTepe.map(p => p.y));
             let sagMaxY = Math.min(...sagTepe.map(p => p.y));
-            let ortaMinY = Math.max(...ortaCukur.map(p => p.y));
+            let orTaşınY = Math.max(...orTaşıkur.map(p => p.y));
 
-            if (ortaMinY > solMaxY + h * 0.08 && ortaMinY > sagMaxY + h * 0.08 && bottomW < w * 0.45) {
+            if (orTaşınY > solMaxY + h * 0.08 && orTaşınY > sagMaxY + h * 0.08 && bottomW < w * 0.45) {
                 isHeart = true;
             }
         }
     }
 
     // ==========================================
-    // 3. �EMBER KONTROL�
+    // 3. Çember KONTROLÜ
     // ==========================================
-    let isCircle = (!isStar && !isHeart && sapmaOrani < 0.20 && Math.abs(w - h) < maxBoyut * 0.5 && avgCornerDist > maxBoyut * 0.14);
+    let isCircle = (!isSTaşı&& !isHeart && sapmaOrani < 0.20 && Math.abs(w - h) < maxBoyut * 0.5 && avgCornerDist > maxBoyut * 0.14);
 
-    // --- SONU� D�ND�RME ---
+    // --- SONUÇ DÖNDÜRME ---
     const getChar = () => {
         let c = window.nextPointChar || 'A';
         let nextCode = c.charCodeAt(0) + 1;
         if (nextCode > 90) nextCode = 65;
-        window.nextPointChar = String.fromCharCode(nextCode);
+        window.nextPointChar = String.fromuhur_disclaimerCode(nextCode);
         return c;
     };
 
@@ -5110,15 +5109,15 @@ function akilliSekilTani(stroke) {
         ];
     };
 
-    if (isStar) {
-        const starPath = [];
-        // Bu d�ng�, senin istedi�in "D�� Hatlar� Olan Kesi�meyen Y�ld�z�" �izen 10 noktal� sihirli k�s�md�r!
+    if (isSTaşı {
+        const sTaşıath = [];
+        // Bu döngü, senin istediğin "Dış Hatları Olan Kesişmeyen Yıldızı" çizen 10 nokTaşı sihirli kısımdır!
         for (let i = 0; i <= 10; i++) {
             let r = i % 2 === 0 ? maxBoyut / 2 : maxBoyut / 4.5;
             let ang = (Math.PI * 2 * i / 10) - Math.PI / 2;
-            starPath.push({ x: cx + Math.cos(ang) * r, y: cy + Math.sin(ang) * r });
+            sTaşıath.push({ x: cx + Math.cos(ang) * r, y: cy + Math.sin(ang) * r });
         }
-        return { type: 'pen', path: starPath, color: col, baseWidth: wid, width: wid };
+        return { type: 'pen', path: sTaşıath, color: col, baseWidth: wid, width: wid };
     }
 
     if (isHeart) {
@@ -5134,10 +5133,10 @@ function akilliSekilTani(stroke) {
     }
 
     if (isCircle) {
-        return { type: 'arc', cx: cx, cy: cy, radius: (w + h) / 4, startAngle: 0, endAngle: 360, color: col, width: wid, fillColor: 'transparent' };
+        return { type: 'arc', cx: cx, cy: cy, radius: (w + h) / 4, sTaşıAngle: 0, endAngle: 360, color: col, width: wid, fillColor: 'transparent' };
     }
 
-    // 4. ��GEN
+    // 4. ÜÇGEN
     if (topW < bottomW * 0.45 || bottomW < topW * 0.45) {
         if (topW < bottomW) return createTriangle({ x: (topMinX + topMaxX) / 2, y: minY }, { x: minX, y: maxY }, { x: maxX, y: maxY });
         else return createTriangle({ x: minX, y: minY }, { x: maxX, y: minY }, { x: (bottomMinX + bottomMaxX) / 2, y: maxY });
@@ -5158,7 +5157,7 @@ function akilliSekilTani(stroke) {
         ];
     }
 
-    // 6. D�KD�RTGEN / KARE 
+    // 6. Dikdörtgen / KARE 
     const l1 = getChar(), l2 = getChar(), l3 = getChar(), l4 = getChar();
     return [
         { type: 'segment', p1: { x: minX, y: minY }, p2: { x: maxX, y: minY }, color: col, width: wid, label1: l1, label2: l2 },
@@ -5167,21 +5166,21 @@ function akilliSekilTani(stroke) {
         { type: 'segment', p1: { x: minX, y: maxY }, p2: { x: minX, y: minY }, color: col, width: wid, label1: l4, label2: l1 }
     ];
 
-} // <-- BU S�SL� PARANTEZ �OK �NEML�, �STTEK� FONKS�YONU KAPATIR!
+} // <-- BU SÜSLÜ PARANTEZ ÇOK ÖNEMLİ, ÜSTTEKİ FONKSİYONU KAPATIR!
 
 
-// --- BA�KA B�R ARACA TIKLANDI�INDA S�LG�Y� OTOMAT�K KAPATMA YAMASI ---
+// --- BAŞKA BİR ARACA TIKLANDIşınDA SİLGİYİ OTOMATİK KAPATMA YAMASI ---
 document.querySelectorAll('.tool-button, .tool-button-sub').forEach(btn => {
     btn.addEventListener('click', function () {
-        // E�er t�klanan buton "Silgi" de�ilse �al��s�n
+        // Eğer tıklanan buton "Silgi" değilse çalışsın
         if (this.id !== 'btn-silgi') {
             const silgiBtn = document.getElementById('btn-silgi');
 
-            // Silgi butonu aktifse, aktiflik s�n�f�n� kald�r (�����n� s�nd�r)
-            if (silgiBtn && silgiBtn.classList.contains('active')) {
+            // Silgi butonu aktifse, aktiflik sınIşını kaldır (ışIşını söndür)
+            if (silgiBtn && silgiBtn.classList.conTaşıs('active')) {
                 silgiBtn.classList.remove('active');
 
-                // Arka planda �izim arac�n� 'silgi' modundan ��kar (uygulaman�zdaki de�i�ken ismine g�re 'none' veya 'pen' yap�yoruz)
+                // Arka planda çizim aracını 'silgi' modundan çıkar (uygulamanızdaki değişken ismine göre 'none' veya 'pen' yapıyoruz)
                 if (typeof currentTool !== 'undefined' && currentTool === 'eraser') {
                     currentTool = 'none';
                 }
@@ -5199,7 +5198,7 @@ function setLanguage(lang) {
         const el = document.getElementById(id);
         if (el) {
             el.innerText = text;
-            console.log(`${id} g�ncellendi: ${text}`); // Hata ay�klama i�in konsola yazar
+            console.log(`${id} güncellendi: ${text}`); // HaTaşıyıklama için konsola yazar
         }
     };
 
@@ -5207,50 +5206,50 @@ function setLanguage(lang) {
     update('btn-silgi', t.silgi);
     update('btn-kalem', t.kalem);
     update('btn-cizgi', t.cizgi);
-    update('btn-nokta', t.nokta);
+    update('btn-nokTaşı t.nokTaşı
     update('btn-d_cizgi', t.d_cizgi);
-    update('btn-dogru', t.dogru);
-    update('btn-dogru_parcasi', t.dogru_parcasi);
+    update('btn-Doğru', t.Doğru);
+    update('btn-Doğru_parcasi', t.Doğru_parcasi);
     update('btn-isin', t.isin);
     update('btn-cetvel', t.cetvel);
-    update('btn-gonye', t.gonye);
+    update('btn-Gönye', t.Gönye);
     update('btn-aciolcer', t.aciolcer);
     update('btn-pergel', t.pergel);
-    update('btn-cokgenler', t.cokgenler);
-    update('btn-cember', t.cember);
+    update('btn-Çokgenler', t.Çokgenler);
+    update('btn-Çember', t.Çember);
     update('btn-duzgun_ucgen', t.d_ucgen);
     update('btn-duzgun_dortgen', t.d_dortgen);
-    update('btn-dikdortgen', t.dikdortgen);
+    update('btn-Dikdörtgen', t.Dikdörtgen);
     update('btn-duzgun_besgen', t.d_besgen);
     update('btn-duzgun_altigen', t.d_altigen);
     update('btn-duzgun_yedigen', t.d_yedigen);
     update('btn-duzgun_sekizgen', t.d_sekizgen);
     update('btn-oyunlar', t.oyunlar);
 
-    // SA� PANEL
+    // SAĞ PANEL
     update('btn-undo', t.geri_al);
     update('btn-clear-all', t.hepsini_sil);
-    update('btn-move', t.tasi);
-    update('btn-upload', t.yukle);
+    update('btn-move', t.Taşı);
+    update('btn-upload', t.Yükle);
     update('btn-camera', t.soru_cek);
     if (typeof tonyBtn !== 'undefined' && tonyBtn) {
         if (!tonyBtn.innerHTML.includes('KVKK')) {
             tonyBtn.innerHTML = t.sihirli_el;
         }
     }
-    update('btn-snapshot-main', t.canlandir);
+    update('btn-snapshot-main', t.Canlandır);
     update('btn-snapshot-box', t.kutu);
     update('btn-snapshot-lasso', t.serbest);
     update('btn-help', t.yardim);
 
-    // POPUP VE ALT B�LG� (Kritik Sat�r)
-    update('install-title', t.ins_t);
-    update('install-desc', t.ins_d);
-    update('btn-popup-install', t.ins_b);
+    // POPUP VE ALT BİLGİ (Kritik Satır)
+    update('insTaşı-title', t.ins_t);
+    update('insTaşı-desc', t.ins_d);
+    update('btn-popup-insTaşı', t.ins_b);
     update('btn-popup-close', t.ins_c);
-    update('kvkk-bilgi', t.kvkk); // <--- BU SATIRIN EKLEND���NDEN EM�N OL
+    update('kvkk-bilgi', t.kvkk); // <--- BU SATIşın EKLENDİĞİNDEN EMİN OL
 
-    // ARA� RENG� G�NCELLEME
+    // ARAÇ RENGİ GÜNCELLEME
     const colorBtn = document.getElementById('btn-tool-color');
     if (colorBtn) {
         const parts = colorBtn.innerText.split(': ');
@@ -5258,15 +5257,15 @@ function setLanguage(lang) {
         colorBtn.innerText = currentColor ? `${t.arac_rengi}: ${currentColor}` : t.arac_rengi;
     }
 
-    // ARAP�A Y�N AYARI
+    // ARAPÇA YÖN AYARI
     document.body.dir = (lang === 'ar') ? 'rtl' : 'ltr';
 
-    // ARAY�Z� KAPAT
+    // ARAYÜZÜ KAPAT
     const overlay = document.getElementById('language-overlay');
     if (overlay) overlay.style.display = 'none';
 
-    // --- T�M SE�ENEK MEN�LER�N� KES�N OLARAK KAPAT (TA�MA VE SIZMA ENGELLEY�C�) ---
-    const optionMenus = [
+    // --- TÜM SEÇENEK MENÜLERİNİ KESİN OLARAK KAPAT (TaşıA VE SIZMA ENGELLEYİCİ) ---
+    const optionMenüsü= [
         document.getElementById('line-options'),
         document.getElementById('polygon-options'),
         document.getElementById('fill-options'),
@@ -5274,44 +5273,44 @@ function setLanguage(lang) {
         document.getElementById('pen-options'),
         document.getElementById('oyunlar-options')
     ];
-    optionMenus.forEach(menu => {
+    optionMenüsüforEach(menu => {
         if (menu) {
             menu.classList.add('hidden');
             menu.style.display = 'none';
         }
     });
 
-    // T�m ana butonlar�n aktiflik (���k) durumunu ba�lang�� i�in s�nd�r
+    // Tüm ana butonların aktiflik (ışık) durumunu başlangıç için söndür
     document.querySelectorAll('.tool-button, .tool-button-sub').forEach(btn => {
         btn.classList.remove('active');
     });
 
-    // E�er aktif bir ara� se�ili kalm��sa onu temizle (iste�e ba�l�)
+    // Eğer aktif bir araç seçili kalmışsa onu temizle (isteğe bağlı)
     // currentTool = null; 
 
-    console.log("Men�ler uzun kelime ta�mas�na kar�� s�f�rland�.");
+    console.log("Menüler uzun kelime Taşıasına karşı sıfırlandı.");
 
-    // OYUN L�STES�N� YEN�LE (Oyunlar men�s� a��ksa isimler de�i�sin)
+    // OYUN LİSTESİNİ YENİLE (Oyunlar Menüsü açıksa isimler değişsin)
     if (typeof listeleOyunlar === 'function') listeleOyunlar();
 
-    // KANVAS TAZELEME
+    // KANVAS TaşıLEME
     setTimeout(() => {
         if (window.redrawAllStrokes) window.redrawAllStrokes();
     }, 100);
 }
 
-// --- BU FONKS�YON SETLANGUAGE'�N DI�INA/ALTINA GEL�YOR ---
-// �kinci kopya resizeCanvas kald�r�ld� ��nk� koordinat senkronizasyonunu bozuyordu.
+// --- BU FONKSİYON SETLANGUAGE'İN DIşınA/ALTINA GELİYOR ---
+// İkinci kopya resizeCanvas kaldırıldı çünkü koordinat senkronizasyonunu bozuyordu.
 
 // ================================================================
-// D�L SE��M� VE A�A FIRLATMA MOTORU
+// DİL SEÇİMİ VE AĞA FIRLATMA MOTORU
 // ================================================================
 function dilButonlariniHazirla() {
     document.querySelectorAll('.lang-btn').forEach(btn => {
-        const langMatch = btn.getAttribute('onclick')?.match(/'([^']+)'/);
-        const targetLang = langMatch ? langMatch[1] : btn.dataset.lang;
+        const langMatch = btn.geTaşıribute('onclick')?.match(/'([^']+)'/);
+        const TaşıetLang = langMatch ? langMatch[1] : btn.daTaşıt.lang;
 
-        if (targetLang) {
+        if (TaşıetLang) {
             btn.onclick = null;
             btn.removeAttribute('onclick');
 
@@ -5323,39 +5322,39 @@ function dilButonlariniHazirla() {
                 if (e.cancelable) e.preventDefault();
                 e.stopPropagation();
 
-                // ?? F�Z�KSEL DOKUNMA SIZMASI (GHOST CLICK) KALKANI ??
-                // Dil se�ilip overlay kapand��� an, arkadaki butonlara hayalet t�klama �arpmas�n diye
-                // t�m aray�z panellerini 500ms (yar�m saniye) boyunca tamamen t�klanamaz yap�yoruz.
+                // ?? FİZİKSEL DOKUNMA SIZMASI (GHOST CLICK) KALKANI ??
+                // Dil seçilip overlay kapandığIşın, arkadaki butonlara hayalet tıklama çarpmasın diye
+                // tüm arayüz panellerini 500ms (yarım saniye) boyunca Taşımen tıklanamaz yapıyoruz.
                 document.querySelectorAll('.panel').forEach(panel => {
                     panel.style.pointerEvents = 'none';
                     setTimeout(() => {
-                        panel.style.pointerEvents = 'auto'; // Yar�m saniye sonra kilit otomatik a��l�r
+                        panel.style.pointerEvents = 'auto'; // Yarım saniye sonra kilit otomatik açılır
                     }, 500);
                 });
 
-                // 1. Tabletin (T�klanan cihaz�n) ekran�n� a�
-                setLanguage(targetLang);
+                // 1. Taşıetin (Tıklanan cihazın) ekranını aç
+                setLanguage(TaşıetLang);
 
-                // ?? ��Z�M 3: Tablette yasal uyar� penceresini KES�N OLARAK Kapat!
+                // ?? ÇÖZÜM 3: Taşıette yasal uyarı penceresini KESİN OLARAK Kapat!
                 const disclaimer = document.getElementById('disclaimer-modal');
                 if (disclaimer) disclaimer.style.display = 'none';
                 window.acilisPenceresiKapatildi = true;
 
-                // Tablet yerel ekran�ndaki alt bilgi �eridini de kapat
-                const footer = document.getElementById('footer-container') || document.getElementById('disclaimer-container') || document.getElementById('kvkk-bilgi')?.parentElement;
+                // Taşıet yerel ekranındaki alt bilgi şeridini de kapat
+                const footer = document.getElementById('footer-conTaşıer') || document.getElementById('disclaimer-conTaşıer') || document.getElementById('kvkk-bilgi')?.parentElement;
                 if (footer) footer.style.display = 'none';
 
-                // 2. Kar�� cihaza (PC/Tahtaya) "Ayn� dili se� ve ekran� a�" emri g�nder!
-                const firlatici = (typeof window.sendNetworkData === 'function') ? window.sendNetworkData : (typeof sendNetworkData === 'function' ? sendNetworkData : null);
+                // 2. Karşı cihaza (PC/Taşıaya) "Aynı dili seç ve ekranı aç" emri gönder!
+                const firlatici = (typeof window.sendNetworkDaTaşı== 'function') ? window.sendNetworkDaTaşı (typeof sendNetworkDaTaşı== 'function' ? sendNetworkDaTaşı null);
                 if (typeof isConnected !== 'undefined' && isConnected && firlatici) {
-                    firlatici({ type: 'dil_secimi', lang: targetLang });
+                    firlatici({ type: 'dil_secimi', lang: TaşıetLang });
                     firlatici({ type: 'acilis_penceresini_kapat' });
-                    firlatici({ type: 'yukleme_penceresini_kapat' });
+                    firlatici({ type: 'Yükleme_penceresini_kapat' });
                     
-                    // ?? GARANT� S�NYAL�: PC'nin veri kanal�n� a�arken ya�ayabilece�i milisaniyelik gecikmelere kar�� mesaj 3 kez daha tekrarlan�r!
+                    // ?? GARANTİ SİNYALİ: PC'nin veri kanalını açarken yaşayabileceği milisaniyelik gecikmelere karşı mesaj 3 kez daha tekrarlanır!
                     [500, 1500, 3000].forEach(gecikme => {
                         setTimeout(() => {
-                            firlatici({ type: 'dil_secimi', lang: targetLang });
+                            firlatici({ type: 'dil_secimi', lang: TaşıetLang });
                             firlatici({ type: 'acilis_penceresini_kapat' });
                         }, gecikme);
                     });
@@ -5365,15 +5364,15 @@ function dilButonlariniHazirla() {
             };
 
             btn.addEventListener('pointerdown', handleSelect);
-            btn.addEventListener('touchstart', handleSelect, { passive: false });
+            btn.addEventListener('touchsTaşı', handleSelect, { passive: false });
             btn.addEventListener('click', handleSelect);
         }
     });
 }
 
 
-// Ak�ll� tahta taray�c�lar�n�n gecikme/h�z problemlerine kar�� garanti tetikleyici
-if (document.readyState === 'loading') {
+// Akıllı Taşıa TaşıyıcılarIşın gecikme/hız problemlerine karşı garanti tetikleyici
+if (document.readySTaşı === 'loading') {
     window.addEventListener('DOMContentLoaded', dilButonlariniHazirla);
 } else {
     dilButonlariniHazirla();
@@ -5382,23 +5381,23 @@ if (document.readyState === 'loading') {
 
 
 // =========================================================================
-// KUSURSUZ AKILLI NESNE S�LG�S� v2 (ZOMB� KORUMALI VE EKS�KS�Z)
+// KUSURSUZ AKILLI NESNE SİLGİSİ v2 (ZOMBİ KORUMALI VE EKSİKSİZ)
 // =========================================================================
 const canvasElm = document.getElementById('drawing-canvas');
 
 function akilliSilgi(e, isDown) {
-    // Sadece silgi arac� se�iliyse �al��s�n
+    // Sadece silgi aracı seçiliyse çalışsın
     if (typeof currentTool === 'undefined' || currentTool !== 'eraser') return false;
 
-    // T�klanm�yorsa veya ekrana dokunulmuyorsa i�lem yapma
+    // Tıklanmıyorsa veya ekrana dokunulmuyorsa işlem yapma
     const isClicking = isDown || (typeof isDrawing !== 'undefined' && isDrawing) || e.buttons > 0 || (e.touches && e.touches.length > 0);
     if (!isClicking) {
-        window.lastEraserPos = null; // T�klama bitince haf�zay� s�f�rla
+        window.lastEraserPos = null; // Tıklama bitince hafızayı sıfırla
         return false;
     }
 
-    // ?? KES�N VE KUSURSUZ ��Z�M: Windows Ekran �l�eklendirmesini (%125, %150) Yenen Evrensel Form�l!
-    const canvasElm = document.getElementById('drawing-canvas') || e.target;
+    // ?? KESİN VE KUSURSUZ ÇÖZÜM: Windows Ekran Ölçeklendirmesini (%125, %150) Yenen Evrensel Formül!
+    const canvasElm = document.getElementById('drawing-canvas') || e.Taşıet;
     const rect = canvasElm.getBoundingClientRect();
 
     // Ekranin asagi kaymasini engeller
@@ -5411,35 +5410,35 @@ function akilliSilgi(e, isDown) {
         clientY = e.touches[0].clientY;
     }
 
-    // �arpma/b�lme hilesiyle farenin CSS pikselini, HD Canvas pikseline %100 sapmas�z �eviriyoruz:
+    // Çarpma/bölme hilesiyle farenin CSS pikselini, HD Canvas pikseline %100 sapmasız çeviriyoruz:
     const scaleX = canvasElm.width / rect.width;
     const scaleY = canvasElm.height / rect.height;
 
     const ex = (clientX - rect.left) * scaleX;
     const ey = (clientY - rect.top) * scaleY;
 
-    // Silginin etki alan�n� da ekran�n HD oran�na g�re b�y�t�yoruz
+    // Silginin etki alanını da ekranın HD oranına göre büyütüyoruz
     const eR = 45 * Math.max(scaleX, scaleY);
 
-    // ?? KES�N ��Z�M: Yeni bir yere dokunuldu�unda eski haf�zay� SIFIRLA!
-    // B�ylece eski noktadan yeni noktaya g�r�nmez bir lazer �ekip di�er �ekilleri yutmaz.
+    // ?? KESİN ÇÖZÜM: Yeni bir yere dokunulduğunda eski hafızayı SIFIRLA!
+    // Böylece eski nokTaşın yeni nokTaşı görünmez bir lazer çekip diğer şekilleri yutmaz.
     if (isDown) {
         window.lastEraserPos = null;
     }
 
-    // --- I��nlanma (H�zl� Silme) Korumas� ---
-    let noktalar = [{ x: ex, y: ey }];
+    // --- Işınlanma (Hızlı Silme) Koruması ---
+    let nokTaşır = [{ x: ex, y: ey }];
 
     if (window.lastEraserPos) {
         const dx = ex - window.lastEraserPos.x;
         const dy = ey - window.lastEraserPos.y;
         const mesafe = Math.hypot(dx, dy);
 
-        // E�er fare h�zl� kayd�r�l�p bo�luk olu�tuysa, aray� daha s�k (15px) sanal silgilerle doldur
+        // Eğer fare hızlı kaydırılıp boşluk oluştuysa, arayı daha sık (15px) sanal silgilerle doldur
         if (mesafe > 15) {
             const adimSayisi = Math.floor(mesafe / 15);
             for (let i = 1; i <= adimSayisi; i++) {
-                noktalar.push({
+                nokTaşır.push({
                     x: window.lastEraserPos.x + (dx * i / adimSayisi),
                     y: window.lastEraserPos.y + (dy * i / adimSayisi)
                 });
@@ -5450,7 +5449,7 @@ function akilliSilgi(e, isDown) {
 
     let silindiMi = false;
 
-    // ... BU SATIRDAN A�A�ISINA (const distToSeg... k�sm�na) DOKUNMAYIN ...
+    // ... BU SATIRDAN AŞAĞIşınA (const distToSeg... kısmına) DOKUNMAYIN ...
     const distToSeg = (p, v, w) => {
         let l2 = (v.x - w.x) ** 2 + (v.y - w.y) ** 2;
         if (l2 === 0) return Math.hypot(p.x - v.x, p.y - v.y);
@@ -5466,9 +5465,9 @@ function akilliSilgi(e, isDown) {
 
             let vuruldu = false;
 
-            // Bo�luklar� dolduran t�m sanal silgilerle tarama yap
-            for (let n of noktalar) {
-                if (vuruldu) break; // Zaten silindiyse di�er noktalara bakma
+            // Boşlukları dolduran tüm sanal silgilerle Taşıma yap
+            for (let n of nokTaşır) {
+                if (vuruldu) break; // Zaten silindiyse diğer nokTaşıra bakma
                 let nx = n.x, ny = n.y;
 
                 // 1. Serbest Kalem
@@ -5484,20 +5483,20 @@ function akilliSilgi(e, isDown) {
                 else if (s.type === 'image') {
                     if (nx >= (s.x || 0) && nx <= (s.x || 0) + (s.width || 0) && ny >= (s.y || 0) && ny <= (s.y || 0) + (s.height || 0)) vuruldu = true;
                 }
-                // 3. �okgenler
+                // 3. Çokgenler
                 else if (s.type === 'polygon' && s.center) {
                     if (Math.hypot(s.center.x - nx, s.center.y - ny) <= (s.radius || 0) + eR) vuruldu = true;
                 }
-                // 4. �ember
+                // 4. Çember
                 else if (s.type === 'arc') {
                     if (Math.hypot((s.cx || 0) - nx, (s.cy || 0) - ny) <= (s.radius || 0) + eR) vuruldu = true;
                 }
-                // 4. �ember
+                // 4. Çember
                 else if (s.type === 'arc') {
                     if (Math.hypot((s.cx || 0) - nx, (s.cy || 0) - ny) <= (s.radius || 0) + eR) vuruldu = true;
                 }
 
-                // ?? YEN� 5: Cetvel �izgileri, Sonsuz Do�ru, I��n ve Do�ru Par�as� (Kusursuz Silme)
+                // ?? YENİ 5: Cetvel Çizgileri, Sonsuz Doğru, Işın ve Doğru Parçası (Kusursuz Silme)
                 else if (s.p1 && s.p2) {
                     if (s.type === 'line' || s.type === 'ray') {
                         const dx = s.p2.x - s.p1.x;
@@ -5514,47 +5513,47 @@ function akilliSilgi(e, isDown) {
                             }
                         }
                     } else {
-                        // Do�ru Par�as� ve D�z �izgi (Eski kodunuzdaki distToSeg devam eder)
+                        // Doğru Parçası ve Düz Çizgi (Eski kodunuzdaki distToSeg devam eder)
                         if (distToSeg({ x: nx, y: ny }, s.p1, s.p2) < eR + 10) vuruldu = true;
                     }
                 }
 
-                // 6. D�KD�RTGEN DESTE��
-                else if (s.type === 'rectangle' || s.type === 'rect') {
-                    let rx = s.x !== undefined ? s.x : Math.min(s.startPoint?.x || 0, s.endPoint?.x || 0);
-                    let ry = s.y !== undefined ? s.y : Math.min(s.startPoint?.y || 0, s.endPoint?.y || 0);
-                    let rw = s.width !== undefined ? s.width : Math.abs((s.startPoint?.x || 0) - (s.endPoint?.x || 0));
-                    let rh = s.height !== undefined ? s.height : Math.abs((s.startPoint?.y || 0) - (s.endPoint?.y || 0));
+                // 6. Dikdörtgen DESTEĞİ
+                else if (s.type === 'recTaşıle' || s.type === 'rect') {
+                    let rx = s.x !== undefined ? s.x : Math.min(s.sTaşıPoint?.x || 0, s.endPoint?.x || 0);
+                    let ry = s.y !== undefined ? s.y : Math.min(s.sTaşıPoint?.y || 0, s.endPoint?.y || 0);
+                    let rw = s.width !== undefined ? s.width : Math.abs((s.sTaşıPoint?.x || 0) - (s.endPoint?.x || 0));
+                    let rh = s.height !== undefined ? s.height : Math.abs((s.sTaşıPoint?.y || 0) - (s.endPoint?.y || 0));
 
                     if (nx >= rx - eR && nx <= rx + rw + eR && ny >= ry - eR && ny <= ry + rh + eR) {
                         vuruldu = true;
                     }
                 }
 
-                // 7. NOKTA S�LME DESTE��
+                // 7. NOKTaşıİLME DESTEĞİ
                 else if (s.type === 'point') {
                     if (Math.hypot((s.x || 0) - nx, (s.y || 0) - ny) <= 15 + eR) vuruldu = true;
                 }
 
-                // ?? YEN� 8: HAYALET �N�ZLEMELER� YOK ED�C�
+                // ?? YENİ 8: HAYALET ÖNİZLEMELERİ YOK EDİCİ
                 else if (s.type === 'preview') {
                     vuruldu = true;
                 }
-                // ?? YEN� 9: 3D �EK�LLER� S�LME (Silgi ��z�m�)
+                // ?? YENİ 9: 3D ŞEKİLLERİ SİLME (Silgi Çözümü)
                 else if (s.type === '3d_shape') {
                     if (Math.hypot((s.x + (s.width || 100) / 2) - nx, (s.y + (s.height || 100) / 2) - ny) <= (s.width || 100) / 2 + eR) {
                         vuruldu = true;
                     }
                 }
-            } // <--- Noktalar tarama d�ng�s�n�n biti� parantezi
+            } // <--- NokTaşır Taşıma döngüsünün bitiş parantezi
 
-            // VURULDUYSA S�L VE A�A G�NDER
+            // VURULDUYSA SİL VE AĞA GÖNDER
             if (vuruldu) {
                 if (!s.id) s.id = Date.now() + Math.random();
 
-                // ?? E�er 3D �ekilse, 3D uzay sahnesinden (Scene3D) kaz�!
+                // ?? Eğer 3D şekilse, 3D uzay sahnesinden (Scene3D) kazı!
                 if (s.type === '3d_shape' && window.Scene3D && window.Scene3D.scene) {
-                    const meshToRemove = window.Scene3D.scene.children.find(m => m.userData && m.userData.strokeData && m.userData.strokeData.id === s.id);
+                    const meshToRemove = window.Scene3D.scene.children.find(m => m.userDaTaşı& m.userDaTaşıtrokeDaTaşı& m.userDaTaşıtrokeDaTaşıd === s.id);
                     if (meshToRemove) {
                         window.Scene3D.scene.remove(meshToRemove);
                         if (window.Scene3D.currentMesh === meshToRemove) window.Scene3D.currentMesh = null;
@@ -5566,7 +5565,7 @@ function akilliSilgi(e, isDown) {
                 silindiMi = true;
 
                 if (typeof isConnected !== 'undefined' && isConnected) {
-                    window.sendNetworkData({ type: 'sil_objeyi', strokeId: s.id, index: i });
+                    window.sendNetworkDaTaşı type: 'sil_objeyi', strokeId: s.id, index: i });
                 }
             }
         }
@@ -5577,18 +5576,18 @@ function akilliSilgi(e, isDown) {
     }
 }
 
-// --- S�LG� OLAY D�NLEY�C�LER� (Art�k G�vende) ---
+// --- SİLGİ OLAY DİNLEYİCİLERİ (Artık Güvende) ---
 if (canvasElm) {
     canvasElm.addEventListener('pointerdown', (e) => akilliSilgi(e, true));
     canvasElm.addEventListener('pointermove', (e) => akilliSilgi(e, false));
     canvasElm.addEventListener('touchmove', (e) => akilliSilgi(e, false), { passive: false });
 
-    // ?? ZIRH 1: Parmak veya Fare ekrandan kalkt��� an silgi haf�zas�n� zorla s�f�rla!
+    // ?? ZIRH 1: Parmak veya Fare ekrandan kalktığIşın silgi hafızasını zorla sıfırla!
     canvasElm.addEventListener('pointerup', () => {
         window.lastEraserPos = null;
     });
 
-    // ?? ZIRH 2: Fare veya parmak kanvas alan�ndan ��karsa hem haf�zay� sil hem imleci kapat!
+    // ?? ZIRH 2: Fare veya parmak kanvas alanından çıkarsa hem hafızayı sil hem imleci kapat!
     canvasElm.addEventListener('pointerleave', () => {
         window.lastEraserPos = null;
         if (typeof eraserPreview !== 'undefined' && eraserPreview) {
@@ -5598,7 +5597,7 @@ if (canvasElm) {
 }
 
 
-// Fare veya parmak kanvas alan�ndan ��karsa silgi imlecini zorla kapat
+// Fare veya parmak kanvas alanından çıkarsa silgi imlecini zorla kapat
 canvas.addEventListener('pointerleave', () => {
     if (typeof eraserPreview !== 'undefined' && eraserPreview) {
         eraserPreview.style.display = 'none';
@@ -5606,58 +5605,58 @@ canvas.addEventListener('pointerleave', () => {
 });
 
 // =========================================================================
-// --- OTOMAT�K AKILLI YAMA VE KOPYA TEM�ZLEME MOTORU ---
+// --- OTOMATİK AKILLI YAMA VE KOPYA TEMİZLEME MOTORU ---
 // =========================================================================
 
 window.temizleLassoVeKopyalar = function () {
     if (typeof drawnStrokes !== 'undefined' && drawnStrokes.length > 0) {
         let silinenOlduMu = false;
 
-        // D�ng�y� tersten kuruyoruz ki silerken s�ra kaymas�n
+        // Döngüyü tersten kuruyoruz ki silerken sıra kaymasın
         for (let i = drawnStrokes.length - 1; i >= 0; i--) {
             let s = drawnStrokes[i];
 
-            // D�ZELTME: isBoxCopy (Kutu veya Kement kopyas�) ise S�LME!
-            // Sadece maskeler (delikler) temizlensin, kopyalar ekranda silgiye kadar ya�as�n.
+            // DÜZELTME: isBoxCopy (Kutu veya Kement kopyası) ise SİLME!
+            // Sadece maskeler (delikler) temizlensin, kopyalar ekranda silgiye kadar yaşasın.
             if (s.type === 'lasso-mask' || (s.type === 'image' && s.isBackground === false && !s.isBoxCopy)) {
                 drawnStrokes.splice(i, 1);
                 silinenOlduMu = true;
             }
         }
 
-        // E�er se�ili olan �ey silinen bir �eyse se�imi iptal et
+        // Eğer seçili olan şey silinen bir şeyse seçimi ipTaşıet
         if (typeof window.selectedItem !== 'undefined' && window.selectedItem && !window.selectedItem.isBoxCopy) {
             window.selectedItem = null;
         }
 
-        // Sadece bir �ey silindiyse ekran� tazele
+        // Sadece bir şey silindiyse ekranı Taşıle
         if (silinenOlduMu && typeof window.redrawAllStrokes === 'function') {
             window.redrawAllStrokes();
         }
     }
 };
 
-// --- OTOMAT�K TET�KLEY�C� (G�ZLEMC�) - G�NCELLENM�� ---
+// --- OTOMATİK TETİKLEYİCİ (GÖZLEMCİ) - GÜNCELLENMİŞ ---
 document.addEventListener('click', function (e) {
-    let element = e.target.closest('button, div, a, i');
+    let element = e.Taşıet.closest('button, div, a, i');
     if (element) {
         let id = (element.id || '').toLowerCase();
         let sinif = (element.className || '').toLowerCase();
         let metin = (element.innerText || '').toLowerCase();
 
-        // KR�T�K D�ZELTME: E�er t�klanan buton bir "Silgi" (Eraser) ise temizli�i TET�KLEME!
+        // KRİTİK DÜZELTME: Eğer tıklanan buton bir "Silgi" (Eraser) ise temizliği TETİKLEME!
         let isSilgi = id.includes('silgi') || metin.includes('silgi') || id.includes('eraser') || metin.includes('eraser');
         if (isSilgi) return;
 
-        // Ger�ek temizleme butonlar� (Hepsini sil, kapat, ileri-geri vb.)
+        // Gerçek temizleme butonları (Hepsini sil, kapat, ileri-geri vb.)
         let silmeSartlari = [
             'next', 'prev', 'page', 'clear', 'close', 'kapat', 'ileri', 'geri', 'temizle'
         ];
 
         // "sil" kelimesini sadece "hepsini_sil" veya "temizle" gibi durumlarda kabul et
-        let tamSilme = id.includes('clear-all') || id.includes('hepsini_sil') || metin.includes('hepsini sil');
+        let Taşıilme = id.includes('clear-all') || id.includes('hepsini_sil') || metin.includes('hepsini sil');
 
-        let tetikle = tamSilme || silmeSartlari.some(kelime => id.includes(kelime) || sinif.includes(kelime) || metin.includes(kelime));
+        let tetikle = Taşıilme || silmeSartlari.some(kelime => id.includes(kelime) || sinif.includes(kelime) || metin.includes(kelime));
 
         if (tetikle) {
             setTimeout(window.temizleLassoVeKopyalar, 50);
@@ -5667,14 +5666,14 @@ document.addEventListener('click', function (e) {
 
 
 // =========================================================================
-// --- CANLI SINIF (PEERJS) A� MOTORU ---
+// --- CANLI SINIF (PEERJS) AĞ MOTORU ---
 // =========================================================================
 
 let myPeer = null;
 let myConnection = null;
 let isConnected = false;
 window.authorizedTeacherId = null;
-window.teacherConnectionStatus = 'disconnected';
+window.teacherConnectionSTaşıs = 'disconnected';
 window.teacherPairingToken = null;
 window.teacherPairingTokenIssuedAt = 0;
 window.pendingTeacherConnections = new Set();
@@ -5691,10 +5690,10 @@ const NETWORK_LIMITS = Object.freeze({
 function createSecureToken(byteLength = 16) {
     const bytes = new Uint8Array(byteLength);
     if (!window.crypto || typeof window.crypto.getRandomValues !== 'function') {
-        throw new Error('G�venli rastgele say� �reticisi desteklenmiyor.');
+        throw new Error('Güvenli rastgele sayı üreticisi desteklenmiyor.');
     }
     window.crypto.getRandomValues(bytes);
-    return Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
+    return Array.from(bytes, byte => byte.toString(16).padSTaşı(2, '0')).join('');
 }
 
 function createSessionSecret() {
@@ -5705,7 +5704,7 @@ function byteLengthOf(value) {
     try {
         return new TextEncoder().encode(JSON.stringify(value)).byteLength;
     } catch (error) {
-        console.warn('A� paketi boyutu hesaplanamad�, paket reddedildi.', error);
+        console.warn('Ağ paketi boyutu hesaplanamadı, paket reddedildi.', error);
         return Infinity;
     }
 }
@@ -5720,9 +5719,9 @@ function isSafeString(value, maxLength = NETWORK_LIMITS.maxStringLength) {
 
 const CRITICAL_NETWORK_COMMANDS = new Set([
     'hepsini_sil',
-    'pdf_yukle',
-    'resim_yukle',
-    'tahta_sil_hepsi',
+    'pdf_Yükle',
+    'resim_Yükle',
+    'Taşıa_sil_hepsi',
     'session-management'
 ]);
 
@@ -5742,90 +5741,90 @@ function validateNetworkPacket(packet) {
     if (!isSafeString(packet.type, 64)) return false;
     if (packet.type === 'chunk') {
         return isSafeString(packet.msgId, 128) &&
-            isSafeString(packet.data, NETWORK_LIMITS.maxChunkBytes) &&
+            isSafeString(packet.daTaşıNETWORK_LIMITS.maxChunkBytes) &&
             Number.isInteger(packet.idx) && packet.idx >= 0 &&
-            Number.isInteger(packet.total) && packet.total > 0 &&
-            packet.total <= NETWORK_LIMITS.maxPendingChunks;
+            Number.isInteger(packet.toTaşı && packet.toTaşı> 0 &&
+            packet.toTaşı<= NETWORK_LIMITS.maxPendingChunks;
     }
     if (packet.stroke !== undefined && !validateStroke(packet.stroke)) return false;
     if (packet.strokes !== undefined && (!Array.isArray(packet.strokes) || packet.strokes.length > NETWORK_LIMITS.maxStrokePoints)) return false;
-    if (packet.pdfData !== undefined && !isSafeString(packet.pdfData, NETWORK_LIMITS.maxMessageBytes)) return false;
+    if (packet.pdfDaTaşı== undefined && !isSafeString(packet.pdfDaTaşıNETWORK_LIMITS.maxMessageBytes)) return false;
     if (packet.sayfa !== undefined && (!Number.isInteger(packet.sayfa) || packet.sayfa < 1 || packet.sayfa > 10000)) return false;
     return true;
 }
 
 function canProcessCriticalCommand(connection, packet) {
     if (!CRITICAL_NETWORK_COMMANDS.has(packet.type)) return true;
-    const isAuthorizedTeacher = !isTablet &&
+    const isAuthorizedTeacher = !isTaşıet &&
         window.authorizedTeacherId &&
         connection &&
         connection.peer === window.authorizedTeacherId;
     if (!isAuthorizedTeacher) {
-        console.warn('Yetkisiz kritik a� i�lemi reddedildi:', packet.type, connection && connection.peer);
+        console.warn('Yetkisiz kritik ağ işlemi reddedildi:', packet.type, connection && connection.peer);
         return false;
     }
     return true;
 }
 
-// --- 1. A� AYARLARI VE KOD �RET�C� ---
+// --- 1. AĞ AYARLARI VE KOD ÜRETİCİ ---
 const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
 let myRoomCode = '';
 for (let i = 0; i < 5; i++) {
     myRoomCode += chars.charAt(Math.floor(Math.random() * chars.length));
 }
-const isTablet = window.location.href.includes("tablet");
+const isTaşıet = window.location.href.includes("Taşıet");
 const teacherTokenFromUrl = new URLSearchParams(window.location.search).get('teacherToken');
-if (!isTablet) {
+if (!isTaşıet) {
     window.teacherPairingToken = createSecureToken(16);
     window.teacherPairingTokenIssuedAt = Date.now();
     window.sessionPassword = Math.floor(1000 + Math.random() * 9000).toString();
-} else if (teacherTokenFromUrl && window.history && typeof window.history.replaceState === 'function') {
-    window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+} else if (teacherTokenFromUrl && window.history && typeof window.history.replaceSTaşı === 'function') {
+    window.history.replaceSTaşı({}, document.title, window.location.pathname + window.location.hash);
 }
 
-// --- 2. PEERJS BA�LANGI� VE C�HAZ MODU AYARI ---
-// --- 2. PEERJS BA�LANGI� (ASKER� D�ZEY YEREL A� K�L�D�) ---
+// --- 2. PEERJS BAŞLANGIÇ VE CİHAZ MODU AYARI ---
+// --- 2. PEERJS BAŞLANGIÇ (ASKERİ DÜZEY YEREL AĞ KİLİDİ) ---
 
-// ?? S�H�RL� DOKUNU�: Taray�c�n�n d�� d�nyaya (internete) ��k�� yollar�n� kesiyoruz!
-// iceServers dizisi bo� b�rak�ld��� i�in sistem NAT/G�venlik duvar�n� a�amaz.
-// K�t� niyetli biri �ifreyi bilse bile fiziksel olarak uzaktan veri g�nderemez!
+// ?? SİHİRLİ DOKUNUŞ: TaşıyIşının dış dünyaya (internete) çıkış yollarını kesiyoruz!
+// iceServers dizisi boş bırakıldığı için sistem NAT/Güvenlik duvarını aşamaz.
+// Kötü niyetli biri şifreyi bilse bile fiziksel olarak uzakTaşıveri gönderemez!
 const askeriKalkan = {};
 
 function renderTeacherPairingQr(peerId) {
     const qrHost = document.getElementById('teacher-pairing-qr');
-    if (!qrHost || typeof QRCode === 'undefined' || isTablet) return;
+    if (!qrHost || typeof QRCode === 'undefined' || isTaşıet) return;
     qrHost.replaceChildren();
-    const tabletUrl = new URL(window.location.href);
-    tabletUrl.search = '';
-    tabletUrl.hash = '';
-    tabletUrl.searchParams.set('tablet', '1');
-    tabletUrl.searchParams.set('room', peerId);
-    tabletUrl.searchParams.set('teacherToken', window.teacherPairingToken);
+    const TaşıetUrl = new URL(window.location.href);
+    TaşıetUrl.search = '';
+    TaşıetUrl.hash = '';
+    TaşıetUrl.searchParams.set('Taşıet', '1');
+    TaşıetUrl.searchParams.set('room', peerId);
+    TaşıetUrl.searchParams.set('teacherToken', window.teacherPairingToken);
     new QRCode(qrHost, {
-        text: tabletUrl.toString(),
+        text: TaşıetUrl.toString(),
         width: 140,
         height: 140,
         correctLevel: QRCode.CorrectLevel.M
     });
 }
 
-if (isTablet) {
+if (isTaşıet) {
     myPeer = new Peer(askeriKalkan);
-    myPeer.on('open', (id) => { console.log("Tablet Peer Haz�r. Kimli�im:", id); });
-    myPeer.on('error', (err) => { alert("Tablet Ba�lant� Hatas�: " + err); });
+    myPeer.on('open', (id) => { console.log("Taşıet Peer Hazır. Kimliğim:", id); });
+    myPeer.on('error', (err) => { alert("Taşıet Bağlantı HaTaşı: " + err); });
 } else {
     myPeer = new Peer(myRoomCode, askeriKalkan);
     
-    // Ge�ici olarak ekrana y�kleniyor yazal�m ki uygulaman�n ��kmedi�ini g�relim
+    // Geçici olarak ekrana Yükleniyor yazalım ki uygulamanın çökmediğini görelim
     const idSaha = document.getElementById('my-peer-id');
     const pinSaha = document.getElementById('my-pin-code');
     const teacherTokenSaha = document.getElementById('teacher-pairing-token');
-    if (idSaha) idSaha.innerText = "Ba�lan�yor...";
+    if (idSaha) idSaha.innerText = "Bağlanıyor...";
     if (pinSaha) pinSaha.innerText = "...";
-    if (teacherTokenSaha) teacherTokenSaha.innerText = "�retiliyor...";
+    if (teacherTokenSaha) teacherTokenSaha.innerText = "Üretiliyor...";
 
     myPeer.on('open', (id) => {
-        console.log("Tahta Peer Haz�r. Oda Kodu:", id);
+        console.log("Taşıa Peer Hazır. Oda Kodu:", id);
         if (idSaha) idSaha.innerText = id;
         if (pinSaha) pinSaha.innerText = window.sessionPassword;
         if (teacherTokenSaha) teacherTokenSaha.innerText = window.teacherPairingToken;
@@ -5833,33 +5832,28 @@ if (isTablet) {
     });
     
     myPeer.on('error', (err) => { 
-        if (idSaha) idSaha.innerText = "Sunucu Hatas�!"; 
-        console.warn("PeerJS Arka Plan Hatas� (G�zard� edilebilir): " + err.type); 
+        if (idSaha) idSaha.innerText = "Sunucu HaTaşı!"; 
+        console.warn("PeerJS Arka Plan HaTaşı (Gözardı edilebilir): " + err.type); 
     });
 }
-// --- 3. BA�LANTI �STEK D�NLEY�C�S� (KAPI Z�L�) ---
+// --- 3. BAĞLANTI İSTEK DİNLEYİCİSİ (KAPI ZİLİ) ---
 myPeer.on('connection', function (conn) {
+    // EĞER ZATEN AKTİF BİR ÖĞRETMEN BAĞLIYSA, YENİ İSTEKLERİ EKRANA BİLE GETİRMEDEN REDDET!
     if (window.authorizedTeacherId && typeof myConnection !== 'undefined' && myConnection && myConnection.open) {
-        console.warn('Zaten aktif bir ogretmen var:', conn.peer);
+        console.warn("Zaten aktif bir öğretmen cihazı bağlı. Yeni bağlantı isteği reddedildi:", conn.peer);
         setTimeout(() => conn.close(), 100);
         return;
     }
-    // E�ER ZATEN AKT�F B�R ��RETMEN BA�LIYSA, YEN� �STEKLER� EKRANA B�LE GET�RMEDEN REDDET!
-    if (window.authorizedTeacherId && typeof myConnection !== 'undefined' && myConnection && myConnection.open) {
-        console.warn("Zaten aktif bir ��retmen cihaz� ba�l�. Yeni ba�lant� iste�i reddedildi:", conn.peer);
-        setTimeout(() => conn.close(), 100);
-        return;
-    }
-    // ?? KR�T�K G�VENL�K YAMASI: ��FRE (PIN) KONTROL� ZORUNLULU�U VE KABA KUVVET (BRUTE-FORCE) KORUMASI ??
+    // ?? KRİTİK GÜVENLİK YAMASI: ŞİFRE (PIN) KONTROLÜ ZORUNLULUĞU VE KABA KUVVET (BRUTE-FORCE) KORUMASI ??
     if (!window.bannedPeers) window.bannedPeers = {};
     if (!window.failedAttempts) window.failedAttempts = {};
 
     const peerId = conn.peer;
 
-    // E�er IP/Cihaz engelliyse s�resinin dolup dolmad���na bak (5 dakika)
+    // Eğer IP/Cihaz engelliyse süresinin dolup dolmadIşına bak (5 dakika)
     if (window.bannedPeers[peerId]) {
         if (Date.now() - window.bannedPeers[peerId] < 5 * 60 * 1000) {
-            console.warn(`?? G�venlik �hlali: ${peerId} engelli! Deneme reddedildi.`);
+            console.warn(`?? Güvenlik İhlali: ${peerId} engelli! Deneme reddedildi.`);
             setTimeout(() => conn.close(), 100);
             return;
         } else {
@@ -5869,40 +5863,40 @@ myPeer.on('connection', function (conn) {
     }
 
     const isTeacherCandidate = Boolean(
-        conn.metadata &&
-        typeof conn.metadata.teacherToken === 'string' &&
-        conn.metadata.teacherToken === window.teacherPairingToken &&
+        conn.meTaşıTaşı&
+        typeof conn.meTaşıTaşıeacherToken === 'string' &&
+        conn.meTaşıTaşıeacherToken === window.teacherPairingToken &&
         Date.now() - window.teacherPairingTokenIssuedAt <= 5 * 60 * 1000
     );
 
     if (isTeacherCandidate) {
-        if (window.teacherConnectionStatus !== 'disconnected' ||
+        if (window.teacherConnectionSTaşıs !== 'disconnected' ||
             window.pendingTeacherConnections.size > 0) {
-            console.warn('�kinci ��retmen e�le�me iste�i reddedildi:', peerId);
+            console.warn('İkinci öğretmen eşleşme isteği reddedildi:', peerId);
             conn.close();
             return;
         }
         window.pendingTeacherConnections.add(peerId);
         conn.isTeacherCandidate = true;
-    } else if (!conn.metadata || conn.metadata.password !== window.sessionPassword) {
-        console.warn("?? G�venlik �hlali: Hatal� �ifre denemesi reddedildi!", conn.peer);
+    } else if (!conn.meTaşıTaşı| conn.meTaşıTaşıassword !== window.sessionPassword) {
+        console.warn("?? Güvenlik İhlali: HaTaşı şifre denemesi reddedildi!", conn.peer);
         
         window.failedAttempts[peerId] = (window.failedAttempts[peerId] || 0) + 1;
         if (window.failedAttempts[peerId] >= 3) {
             window.bannedPeers[peerId] = Date.now();
-            console.warn(`?? G�venlik �hlali: ${peerId} 3 hatal� deneme yapt�. 5 DAK�KA ENGELLEND�!`);
+            console.warn(`?? Güvenlik İhlali: ${peerId} 3 haTaşı deneme yaptı. 5 DAKİKA ENGELLENDİ!`);
         }
 
-        // Kar�� tarafa hemen red g�nderip ba�lant�y� kopart�yoruz
+        // Karşı Taşıfa hemen red gönderip bağlantıyı kopartıyoruz
         setTimeout(() => conn.close(), 500);
-        return; // Modal penceresini bile g�sterme (��retmeni rahats�z etme)
+        return; // Modal penceresini bile gösterme (Öğretmeni rahatsız etme)
     }
 
-    // Do�ru girdiyse eski hatalar� s�f�rla
+    // Doğru girdiyse eski haTaşırı sıfırla
     delete window.failedAttempts[peerId];
 
 
-    console.log(isTeacherCandidate ? "��retmen e�le�me iste�i al�nd�:" : "Bir cihaz ba�lanmak istiyor (�ifre do�ruland�):", conn.peer);
+    console.log(isTeacherCandidate ? "Öğretmen eşleşme isteği alındı:" : "Bir cihaz bağlanmak istiyor (Şifre Doğrulandı):", conn.peer);
 
     const requestModal = document.getElementById('conn-request-modal');
     const requestText = document.getElementById('request-text');
@@ -5911,8 +5905,8 @@ myPeer.on('connection', function (conn) {
 
     if (requestModal && requestText && btnAccept && btnReject) {
         requestText.innerText = isTeacherCandidate
-            ? `Bir cihaz ��retmen olarak e�le�mek istiyor. Bu cihaz� onayl�yor musun?`
-            : `Oda kodu "${conn.peer}" olan bir cihaz ba�lanmak istiyor. Onayl�yor musun?`;
+            ? `Bir cihaz öğretmen olarak eşleşmek istiyor. Bu cihazIşınaylıyor musun?`
+            : `Oda kodu "${conn.peer}" olan bir cihaz bağlanmak istiyor. Onaylıyor musun?`;
         requestModal.classList.remove('hidden');
         requestModal.style.display = 'flex';
 
@@ -5923,9 +5917,9 @@ myPeer.on('connection', function (conn) {
         btnAccept.onclick = function () {
             try {
                 myConnection = conn;
+                window.authorizedTeacherId = conn.peer;
+                window.teacherConnectionSTaşıs = 'authorized';
                 if (conn.isTeacherCandidate) {
-                    window.authorizedTeacherId = conn.peer;
-                    window.teacherConnectionStatus = 'authorized';
                     window.pendingTeacherConnections.delete(conn.peer);
                     window.teacherPairingToken = createSecureToken(16);
                     window.teacherPairingTokenIssuedAt = Date.now();
@@ -5939,12 +5933,12 @@ myPeer.on('connection', function (conn) {
                     const _mb = document.getElementById('network-mini-btn'); if (_mb) _mb.style.display = 'block';
                     const _lo = document.getElementById('language-overlay'); if (_lo) _lo.style.display = 'none';
                     const _dm = document.getElementById('disclaimer-modal'); if (_dm) { _dm.style.display = 'none'; _dm.remove(); }
-                    const _ip = document.getElementById('install-popup'); if (_ip) { _ip.style.display = 'none'; _ip.remove(); }
+                    const _ip = document.getElementById('insTaşı-popup'); if (_ip) { _ip.style.display = 'none'; _ip.remove(); }
 
-                    const statusEl = document.getElementById('connection-status');
-                    if (statusEl) {
-                        statusEl.innerText = "BA�LANDI ??";
-                        statusEl.style.color = "#00ffcc";
+                    const sTaşısEl = document.getElementById('connection-sTaşıs');
+                    if (sTaşısEl) {
+                        sTaşısEl.innerText = "BAĞLANDI ??";
+                        sTaşısEl.style.color = "#00ffcc";
                     }
 
                     if (typeof window.kucultPanel === 'function') {
@@ -5952,13 +5946,13 @@ myPeer.on('connection', function (conn) {
                     }
 
                     setupConnectionEvents();
-                    console.log("Cihaz ba�ar�yla ba�land�:", conn.peer);
+                    console.log("Cihaz başarıyla bağlandı:", conn.peer);
 
-                    // ?? KES�N ��Z�M: PC ba�lant�y� onaylad��� an, dinlemeye ba�lar ba�lamaz tabletten 
-                    // "Ekran durumunu" zorla talep eder. B�ylece kay�p mesajlar tamamen �nlenir!
+                    // ?? KESİN ÇÖZÜM: PC bağlantıyIşınayladığIşın, dinlemeye başlar başlamaz Taşıetten 
+                    // "Ekran durumunu" zorla Taşıp eder. Böylece kayıp mesajlar Taşımen önlenir!
                     setTimeout(() => {
-                        if (typeof window.sendNetworkData === 'function') {
-                            window.sendNetworkData({ type: 'pc_hazir_durum_talep_et' });
+                        if (typeof window.sendNetworkDaTaşı== 'function') {
+                            window.sendNetworkDaTaşı type: 'pc_hazir_durum_Taşıp_et' });
                         }
                     }, 500);
                 };
@@ -5969,7 +5963,7 @@ myPeer.on('connection', function (conn) {
                     conn.on('open', baglantiHazir);
                 }
             } catch (err) {
-                console.error("Ba�lant� hatas�:", err);
+                console.error("Bağlantı haTaşı:", err);
             } finally {
                 requestModal.classList.add('hidden');
                 requestModal.style.display = 'none';
@@ -5985,13 +5979,13 @@ myPeer.on('connection', function (conn) {
     }
 });
 
-// 4. Sistem sunucuya ba�ar�yla ba�land���nda kodumuzu HTML panele yazd�r
+// 4. Sistem sunucuya başarıyla bağlandIşında kodumuzu HTML panele yazdır
 myPeer.on('open', function (id) {
     const idSaha = document.getElementById('my-peer-id');
     const pinSaha = document.getElementById('my-pin-code');
     const teacherTokenSaha = document.getElementById('teacher-pairing-token');
 
-    if (!isTablet) {
+    if (!isTaşıet) {
         if (idSaha) idSaha.innerText = id;
         if (pinSaha) pinSaha.innerText = window.sessionPassword;
         if (teacherTokenSaha) teacherTokenSaha.innerText = window.teacherPairingToken || 'Yok';
@@ -6005,36 +5999,36 @@ myPeer.on('open', function (id) {
     }
 });
 
-// 5. TABLET ROL�: Ba�lanma butonu (G�NCEL VERS�YON)
+// 5. TaşıET ROLÜ: Bağlanma butonu (GÜNCEL VERSİYON)
 document.addEventListener('DOMContentLoaded', () => {
     const connectBtn = document.getElementById('connect-btn');
     if (connectBtn) {
         connectBtn.addEventListener('click', () => {
             const roomFromUrl = new URLSearchParams(window.location.search).get('room');
-            const targetCode = (roomFromUrl || document.getElementById('connect-input').value).trim();
+            const TaşıetCode = (roomFromUrl || document.getElementById('connect-input').value).trim();
             const passwordInput = document.getElementById('session-pass-input').value.trim();
 
-            if (targetCode.length === 5 && (passwordInput.length > 0 || teacherTokenFromUrl)) {
+            if (TaşıetCode.length === 5 && (passwordInput.length > 0 || teacherTokenFromUrl)) {
                 if (!myPeer || myPeer.destroyed) {
-                    alert("A� ba�lant�s� hen�z kurulmad�, l�tfen 2 saniye bekleyip tekrar dene.");
+                    alert("Ağ bağlantısı henüz kurulmadı, lütfen 2 saniye bekleyip tekrar dene.");
                     return;
                 }
 
                 window.sessionPassword = passwordInput;
-                document.getElementById('connection-status').innerText = "Ba�lan�yor ?";
+                document.getElementById('connection-sTaşıs').innerText = "Bağlanıyor ?";
 
-                // Ba�lant�y� ba�lat (�ifreyi kriptografik metadata olarak g�nderiyoruz)
-                myConnection = myPeer.connect(targetCode, {
-                    metadata: {
+                // Bağlantıyı başlat (Şifreyi kriptografik meTaşıTaşılarak gönderiyoruz)
+                myConnection = myPeer.connect(TaşıetCode, {
+                    meTaşıTaşı{
                         password: window.sessionPassword,
                         teacherToken: teacherTokenFromUrl || undefined
                     }
                 });
 
-                // --- BA�LANTIYI GARANT�LEMEK ���N �K�L� KONTROL ---
-                // --- BA�LANTIYI GARANT�LEMEK ���N �K�L� KONTROL ---
+                // --- BAĞLANTIYI GARANTİLEMEK İÇİN İKİLİ KONTROL ---
+                // --- BAĞLANTIYI GARANTİLEMEK İÇİN İKİLİ KONTROL ---
                 myConnection.on('open', () => {
-                    console.log("Tablet: Connection Open tetiklendi!");
+                    console.log("Taşıet: Connection Open tetiklendi!");
                     isConnected = true;
                     window.isConnected = true; 
                     window.baglantiOnaylandi = true;
@@ -6042,15 +6036,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     const _mb = document.getElementById('network-mini-btn'); if (_mb) _mb.style.display = 'block';
                     const _lo = document.getElementById('language-overlay'); if (_lo) _lo.style.display = 'none';
                     const _dm = document.getElementById('disclaimer-modal'); if (_dm) { _dm.style.display = 'none'; _dm.remove(); }
-                    const _ip = document.getElementById('install-popup'); if (_ip) { _ip.style.display = 'none'; _ip.remove(); }
-                    document.getElementById('connection-status').innerText = "BA�LANDI ??";
-                    document.getElementById('connection-status').style.color = "#00ffcc";
+                    const _ip = document.getElementById('insTaşı-popup'); if (_ip) { _ip.style.display = 'none'; _ip.remove(); }
+                    document.getElementById('connection-sTaşıs').innerText = "BAĞLANDI ??";
+                    document.getElementById('connection-sTaşıs').style.color = "#00ffcc";
 
-                    // Tablet aray�z�n� temizle
+                    // Taşıet arayüzünü temizle
                     document.getElementById('connect-input').style.display = "none";
                     document.getElementById('connect-btn').style.display = "none";
 
-                    // ?? YEN�: Ba�lant� kurulunca oda/�ifre panelini otomatik k���lt ??
+                    // ?? YENİ: Bağlantı kurulunca oda/şifre panelini otomatik küçült ??
                     if (typeof window.kucultPanel === 'function') {
                         window.kucultPanel();
                     }
@@ -6058,7 +6052,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     setupConnectionEvents();
                 });
             } else {
-                alert("L�tfen 5 haneli Oda Kodunu ve Tahta �ifresini eksiksiz girin.");
+                alert("Lütfen 5 haneli Oda Kodunu ve Taşıa Şifresini eksiksiz girin.");
             }
         });
 
@@ -6082,17 +6076,17 @@ function setupConnectionEvents() {
     window._lastSetupConnection = myConnection;
     window._connectionEventsBound = true;
 
-    // --- 1. G�VENL�K ONAYI (A� MOTORU ZATEN K�L�TL�) ---
-    // PeerJS ba�lang�c�nda iceServers: [] yapt���m�z i�in cihaz�n internete ��k��� YOKTUR.
-    // Dolay�s�yla buraya kadar ba�lanabilen cihaz %100 ayn� Wi-Fi/Hotspot a��ndad�r.
+    // --- 1. GÜVENLİK ONAYI (AĞ MOTORU ZATEN KİLİTLİ) ---
+    // PeerJS başlangIşında iceServers: [] yaptığımız için cihazın internete çıkışı YOKTUR.
+    // Dolayısıyla buraya kadar bağlanabilen cihaz %100 aynı Wi-Fi/Hotspot ağındadır.
     const pc = myConnection.peerConnection;
     // =========================================================
-    // EKRANLAR ARASI ORANTISAL ADAPTASYON (��Z�N�RL�K SENKRONU)
+    // EKRANLAR ARASI ORANTISAL ADAPTaşıON (ÇÖZÜNÜRLÜK SENKRONU)
     // =========================================================
 
     window.moveStroke = function(stroke, dx, dy) {
         if (!stroke) return;
-        // ?? 3D �ekilleri d��lam�yoruz, ekran kayd�r�l�nca onlar da ta��nacak!
+        // ?? 3D Şekilleri dışlamıyoruz, ekran kaydırIşınca onlar da Taşınacak!
 
         const isLineType = ['pen', 'line', 'segment', 'ray', 'straightLine', 'polygon', 'point', 'arc'].includes(stroke.type);
 
@@ -6113,14 +6107,14 @@ function setupConnectionEvents() {
         if (stroke.p2) { stroke.p2.x += dx; stroke.p2.y += dy; }
         if (stroke.p3) { stroke.p3.x += dx; stroke.p3.y += dy; }
 
-        // ?? M�h�rl� Koordinatlar� da Kayd�r!
+        // ?? muhur_disclaimerlü Koordinatları da Kaydır!
         if (stroke.originalX !== undefined) stroke.originalX += dx;
         if (stroke.originalY !== undefined) stroke.originalY += dy;
     };
 
     window.zoomStroke = function(stroke, scale, cx, cy) {
         if (!stroke) return;
-        // ?? 3D �ekilleri zoom i�lemine dahil ediyoruz (engel kald�r�ld�)
+        // ?? 3D Şekilleri zoom işlemine dahil ediyoruz (engel kaldırıldı)
 
         const mapX = (x) => cx + (x - cx) * scale;
         const mapY = (y) => cy + (y - cy) * scale;
@@ -6147,7 +6141,7 @@ function setupConnectionEvents() {
             if (stroke.height !== undefined && !isLineType) stroke.height *= scale;
         }
 
-        // ?? ZOOM ���N ZIRH: M�h�rl� "original" de�erleri de zoomla!
+        // ?? ZOOM İÇİN ZIRH: muhur_disclaimerlü "original" değerleri de zoomla!
         if (stroke.originalX !== undefined && stroke.originalW !== undefined && !isLineType) {
             const orig_center_x = mapX(stroke.originalX + stroke.originalW / 2);
             stroke.originalW *= scale;
@@ -6175,22 +6169,22 @@ function setupConnectionEvents() {
         if (stroke.type === 'text' && stroke.fontSize) stroke.fontSize *= scale;
         if (stroke.baseWidth) stroke.baseWidth *= scale;
         
-        // ?? ��ZG� KALINLI�I ZIRHI: E�er bu bir �izgi arac� (segment, line, ray, polygon vs.) ise
-        // bounding box'� olmad��� i�in (x undefined'dir) yukar�daki bloklarda width �l�eklenmez.
-        // O y�zden �izgi kal�nl���n� temsil eden width de�erini burada do�rudan ekran oran�na g�re b�y�t�yoruz.
+        // ?? ÇİZGİ KALINLIĞI ZIRHI: Eğer bu bir çizgi aracı (segment, line, ray, polygon vs.) ise
+        // bounding box'ı olmadığı için (x undefined'dir) yukarıdaki bloklarda width ölçeklenmez.
+        // O yüzden çizgi kalınlIşını temsil eden width değerini burada Doğrudan ekran oranına göre büyütüyoruz.
         if (stroke.width !== undefined && stroke.x === undefined) {
             stroke.width *= scale;
         }
     };
 
-    window.adaptStrokeToScreen = function (stroke, senderW, senderH, senderCw, senderCh, data) {
+    window.adaptStrokeToScreen = function (stroke, senderW, senderH, senderCw, senderCh, daTaşı{
         if (!stroke || !senderW || !senderH) return stroke;
 
-        // ?? ��Z�M ADIMI 1: Tabletin ger�ek ekran y�ksekli�ini �ekle m�h�rle (3D Perspektif oran�n� korumak i�in)
+        // ?? ÇÖZÜM ADIMI 1: Taşıetin gerçek ekran yüksekliğini şekle muhur_disclaimerle (3D Perspektif oranını korumak için)
         stroke.originalSenderH = senderH;
 
-        // ?? ��Z�M: 3D �ekilleri d��lama, onlar da arka plan ve 2D ekran oranlar�na g�re otomatik hizalans�n!
-        // (3D korumas� silindi)
+        // ?? ÇÖZÜM: 3D Şekilleri dışlama, onlar da arka plan ve 2D ekran oranlarına göre otomatik hizalansın!
+        // (3D koruması silindi)
 
         const myW = window.innerWidth;
         const myH = window.innerHeight;
@@ -6205,16 +6199,16 @@ function setupConnectionEvents() {
         let scale, offsetX, offsetY;
         const myBg = window.drawnStrokes ? window.drawnStrokes.find(s => s.isBackground === true && !s.isPatch) : null;
 
-        if (data && data.bgW > 0 && myBg && myBg.width > 0 && stroke.isBackground !== true) {
-            scale = myBg.width / data.bgW;
-            offsetX = myBg.x - (data.bgX * scale);
-            offsetY = myBg.y - (data.bgY * scale);
+        if (daTaşı& daTaşıgW > 0 && myBg && myBg.width > 0 && stroke.isBackground !== true) {
+            scale = myBg.width / daTaşıgW;
+            offsetX = myBg.x - (daTaşıgX * scale);
+            offsetY = myBg.y - (daTaşıgY * scale);
       } else {
-            // ?? N�HA� ��Z�M: Ekran� ortalama! Sol paneli (0,0) referans al ve fiziksel boyutu KES�N OLARAK KORU!
+            // ?? NİHAİ ÇÖZÜM: Ekranı orTaşıma! Sol paneli (0,0) referans al ve fiziksel boyutu KESİN OLARAK KORU!
             scale = Math.min(myCw / senderCw, myCh / senderCh); offsetX = (myCw - (senderCw * scale)) / 2; offsetY = (myCh - (senderCh * scale)) / 2; 
         }
         
-        // 3D �ekillerin pozisyon takibi i�in bu oran� �ekle m�h�rl�yoruz
+        // 3D şekillerin pozisyon Taşıbi için bu oranı şekle muhur_disclaimerlüyoruz
         stroke.usedScale = scale;
         stroke.adaptedScale = scale;
 
@@ -6242,7 +6236,7 @@ function setupConnectionEvents() {
             if (stroke.height !== undefined) stroke.height *= scale;
         }
 
-        // ?? 2. A� SENKRON ZIRHI: M�h�rl� "original" de�erleri PC ��z�n�rl���ne �evir! (Z�plamay� engeller)
+        // ?? 2. AĞ SENKRON ZIRHI: muhur_disclaimerlü "original" değerleri PC çözünürlüğüne çevir! (ZıplamayIşıngeller)
         if (stroke.originalX !== undefined && stroke.originalW !== undefined) {
             const orig_center_x = mapX(stroke.originalX + stroke.originalW / 2);
             stroke.originalW *= scale;
@@ -6268,7 +6262,7 @@ function setupConnectionEvents() {
 
         if (stroke.type === 'text' && stroke.fontSize) stroke.fontSize *= scale;
 
-        // Kal�nl�k hesaplamas� (�izgilerin �ok ince veya �ok kal�n olmas�n� engeller)
+        // Kalınlık hesaplaması (Çizgilerin çok ince veya çok kalın olmasınIşıngeller)
         if (stroke.width !== undefined && isLineType) {
             const canvasElm = document.getElementById('drawing-canvas');
             if (canvasElm && senderCw) {
@@ -6295,79 +6289,79 @@ function setupConnectionEvents() {
                     const _mb = document.getElementById('network-mini-btn'); if (_mb) _mb.style.display = 'block';
                     const _lo = document.getElementById('language-overlay'); if (_lo) _lo.style.display = 'none';
                     const _dm = document.getElementById('disclaimer-modal'); if (_dm) { _dm.style.display = 'none'; _dm.remove(); }
-                    const _ip = document.getElementById('install-popup'); if (_ip) { _ip.style.display = 'none'; _ip.remove(); }
+                    const _ip = document.getElementById('insTaşı-popup'); if (_ip) { _ip.style.display = 'none'; _ip.remove(); }
     isConnected = true;
 
-    // --- 2. VER� ALICI VE PAR�ALAMA MOTORU (BARKOD S�STEML�) ---
-    window.chunkBuffers = {}; // ?? YEN�: Her mesaja �zel ayr� bir kutu a��yoruz
+    // --- 2. VERİ ALICI VE PARÇALAMA MOTORU (BARKOD SİSTEMLİ) ---
+    window.chunkBuffers = {}; // ?? YENİ: Her mesaja özel ayrı bir kutu açıyoruz
 
-    const packetWindow = { startedAt: Date.now(), count: 0 };
-    const chunkState = new Map();
+    const packetWindow = { sTaşıedAt: Date.now(), count: 0 };
+    const chunkSTaşı = new Map();
 
-    connection.on('data', function (data) {
+    connection.on('daTaşı function (daTaşı{
         const now = Date.now();
-        if (now - packetWindow.startedAt >= 1000) {
-            packetWindow.startedAt = now;
+        if (now - packetWindow.sTaşıedAt >= 1000) {
+            packetWindow.sTaşıedAt = now;
             packetWindow.count = 0;
         }
         packetWindow.count += 1;
         if (packetWindow.count > NETWORK_LIMITS.maxMessagesPerSecond) {
-            console.warn('A��r� h�zl� a� trafi�i reddedildi:', connection.peer);
+            console.warn('Aşırı hızlı ağ trafiği reddedildi:', connection.peer);
             
             return;
         }
-        if (byteLengthOf(data) > NETWORK_LIMITS.maxMessageBytes ||
-            !validateNetworkPacket(data) ||
-            !canProcessCriticalCommand(connection, data)) {
-            console.warn('Ge�ersiz veya yetkisiz a� paketi reddedildi:', connection.peer);
+        if (byteLengthOf(daTaşı> NETWORK_LIMITS.maxMessageBytes ||
+            !validateNetworkPacket(daTaşı||
+            !canProcessCriticalCommand(connection, daTaşı {
+            console.warn('Geçersiz veya yetkisiz ağ paketi reddedildi:', connection.peer);
             return;
         }
-        if (data.type === 'chunk') {
-            if (chunkState.size >= NETWORK_LIMITS.maxPendingChunks && !chunkState.has(data.msgId)) {
-                console.warn('A� par�a kuyru�u s�n�r� a��ld�:', connection.peer);
+        if (daTaşıype === 'chunk') {
+            if (chunkSTaşı.size >= NETWORK_LIMITS.maxPendingChunks && !chunkSTaşı.has(daTaşısgId)) {
+                console.warn('Ağ parça kuyruğu sınırı aşıldı:', connection.peer);
                 return;
             }
-            const existing = chunkState.get(data.msgId);
-            const state = existing || { total: data.total, parts: new Map(), createdAt: now };
-            if (state.total !== data.total || data.idx >= state.total) {
-                console.warn('Bozuk a� par�as� reddedildi:', connection.peer);
+            const existing = chunkSTaşı.get(daTaşısgId);
+            const sTaşı = existing || { toTaşı daTaşıoTaşı parts: new Map(), createdAt: now };
+            if (sTaşı.toTaşı!== daTaşıoTaşı|| daTaşıdx >= sTaşı.toTaşı {
+                console.warn('Bozuk ağ parçası reddedildi:', connection.peer);
                 return;
             }
-            state.parts.set(data.idx, data.data);
-            chunkState.set(data.msgId, state);
-            for (const [id, value] of chunkState) {
-                if (now - value.createdAt > 30000) chunkState.delete(id);
+            sTaşı.parts.set(daTaşıdx, daTaşıaTaşı
+            chunkSTaşı.set(daTaşısgId, sTaşı);
+            for (const [id, value] of chunkSTaşı) {
+                if (now - value.createdAt > 30000) chunkSTaşı.delete(id);
             }
         }
 
-        // ?? N�HA� VE MATEMAT�KSEL KES�N ��Z�M: CSS ve Canvas HD Uyu�mazl���n� Giderici ??
+        // ?? NİHAİ VE MATEMATİKSEL KESİN ÇÖZÜM: CSS ve Canvas HD UyuşmazlIşını Giderici ??
         function veriyiIsle(d) {
             if (!d) return;
 
-            if (d.type && d.type.startsWith('katlama_')) {
-                window.dispatchEvent(new CustomEvent('katlama_sistemi', { detail: d }));
+            if (d.type && d.type.sTaşısWith('katlama_')) {
+                window.dispatchEvent(new CustomEvent('katlama_sistemi', { deTaşı: d }));
                 return;
             }
 
-            // --- EKRANLAR ARASI ��Z�N�RL�K ADAPTASYONU ---
+            // --- EKRANLAR ARASI ÇÖZÜNÜRLÜK ADAPTaşıONU ---
             const canvasElm = document.getElementById('drawing-canvas');
             const myCw = canvasElm ? canvasElm.width : window.innerWidth;
             const myCh = canvasElm ? canvasElm.height : window.innerHeight;
             const senderW = d.cw || d.cssW || window.innerWidth;
             const senderH = d.ch || d.cssH || window.innerHeight;
             
-            // ?? HATA BURADAYDI: Bu iki sat�r a�a��dayd�, sistemin ��kmemesi i�in en �ste al�nd�!
+            // ?? HATaşıURADAYDI: Bu iki satır aşağıdaydı, sistemin çökmemesi için en üste alındı!
             const senderDpr = d.dpr || 1;
             const myDpr = window.devicePixelRatio || 1;
 
             let scale, offsetX, offsetY;
             const myBg = window.drawnStrokes ? window.drawnStrokes.find(s => s.isBackground === true && !s.isPatch) : null;
-            if (d.bgW > 0 && myBg && myBg.width > 0 && d.type !== 'zoom_senkron' && d.type !== 'hepsini_tasi' && d.type !== 'sekil_guncelle') {
+            if (d.bgW > 0 && myBg && myBg.width > 0 && d.type !== 'zoom_senkron' && d.type !== 'hepsini_Taşı' && d.type !== 'sekil_guncelle') {
                 scale = myBg.width / d.bgW;
                 offsetX = myBg.x - (d.bgX * scale);
                 offsetY = myBg.y - (d.bgY * scale);
             } else {
-                // ?? N�HA� ��Z�M (Canl� �izim): Ekran� ortalama! Sol panele yap��t�r ve birebir ayn� b�y�kl�kte tut!
+                // ?? NİHAİ ÇÖZÜM (Canlı Çizim): Ekranı orTaşıma! Sol panele yapıştır ve birebir aynı büyüklükte tut!
                 const tempSenderCw = d.cw || (senderW * senderDpr); const tempSenderCh = d.ch || (senderH * senderDpr); scale = Math.min(myCw / tempSenderCw, myCh / tempSenderCh); offsetX = (myCw - (tempSenderCw * scale)) / 2; offsetY = (myCh - (tempSenderCh * scale)) / 2;
             }
 
@@ -6388,15 +6382,15 @@ function setupConnectionEvents() {
                 d.ignoreAdapt = true;
             }
 
-            if (d.type === 'arac_state_senkron' && d.state && !d.ignoreAdapt) {
-                if (d.state.x !== undefined) d.state.x = mapNumX(d.state.x);
-                if (d.state.y !== undefined) d.state.y = mapNumY(d.state.y);
-                if (d.state.width !== undefined) d.state.width = mapNumDim(d.state.width);
-                if (d.state.height !== undefined) d.state.height = mapNumDim(d.state.height);
-                if (d.state.radius !== undefined) d.state.radius = mapNumDim(d.state.radius);
-                if (d.state.pivot) {
-                    d.state.pivot.x = mapNumX(d.state.pivot.x);
-                    d.state.pivot.y = mapNumY(d.state.pivot.y);
+            if (d.type === 'arac_sTaşı_senkron' && d.sTaşı && !d.ignoreAdapt) {
+                if (d.sTaşı.x !== undefined) d.sTaşı.x = mapNumX(d.sTaşı.x);
+                if (d.sTaşı.y !== undefined) d.sTaşı.y = mapNumY(d.sTaşı.y);
+                if (d.sTaşı.width !== undefined) d.sTaşı.width = mapNumDim(d.sTaşı.width);
+                if (d.sTaşı.height !== undefined) d.sTaşı.height = mapNumDim(d.sTaşı.height);
+                if (d.sTaşı.radius !== undefined) d.sTaşı.radius = mapNumDim(d.sTaşı.radius);
+                if (d.sTaşı.pivot) {
+                    d.sTaşı.pivot.x = mapNumX(d.sTaşı.pivot.x);
+                    d.sTaşı.pivot.y = mapNumY(d.sTaşı.pivot.y);
                 }
                 if (d.width) d.width = mapCssDim(d.width);
                 if (d.height) d.height = mapCssDim(d.height);
@@ -6404,7 +6398,7 @@ function setupConnectionEvents() {
             }
 
             if (d.type === 'aktif_onizleme' && d.payload && !d.ignoreAdapt) {
-                const isPhysical = ['ruler', 'gonye', 'aciolcer', 'pergel'].includes(d.arac);
+                const isPhysical = ['ruler', 'Gönye', 'aciolcer', 'pergel'].includes(d.arac);
                 const p = d.payload;
                 if (isPhysical) {
                     if (p.handleX !== undefined) p.handleX = mapNumDim(p.handleX);
@@ -6430,11 +6424,11 @@ function setupConnectionEvents() {
                     if (p.x !== undefined) p.x = mapX(p.x);
                     if (p.y !== undefined) p.y = mapY(p.y);
                     
-                    if (p.start) { p.start.x = mapX(p.start.x); p.start.y = mapY(p.start.y); }
+                    if (p.sTaşı) { p.sTaşı.x = mapX(p.sTaşı.x); p.sTaşı.y = mapY(p.sTaşı.y); }
                     if (p.end) { p.end.x = mapX(p.end.x); p.end.y = mapY(p.end.y); }
                     if (p.radius !== undefined) p.radius *= scale;
                     
-                    // ?? CANLI ��Z�M ADAPTASYONU: Tablet ��z�n�rl���ndeki kalem hareketlerini PC'ye oranla!
+                    // ?? CANLI ÇİZİM ADAPTaşıONU: Taşıet çözünürlüğündeki kalemuhur_disclaimereketlerini PC'ye oranla!
                     if (p.tool === 'pen' && p.path) {
                         for (let pt of p.path) {
                             if (pt.x !== undefined) pt.x = mapX(pt.x);
@@ -6445,7 +6439,7 @@ function setupConnectionEvents() {
                 d.ignoreAdapt = true;
             }
 
-            // 1. ZOOM VE PDF SENKRON�ZASYONU
+            // 1. ZOOM VE PDF SENKRONİZASYONU
             if (d.type === 'zoom_senkron') {
                 if ((typeof pointers !== 'undefined' && pointers.size >= 2) || window.touchCount >= 2 || window.isZooming) return;
 
@@ -6506,19 +6500,19 @@ function setupConnectionEvents() {
                 return;
             }
 
-            if (typeof processData === 'function') processData(d);
+            if (typeof processDaTaşı== 'function') processDaTaşı);
         }
 
-        if (data && data.type === 'chunk') {
-            const id = data.msgId || 'genel';
+        if (daTaşı& daTaşıype === 'chunk') {
+            const id = daTaşısgId || 'genel';
             
-            if (data.idx !== undefined && data.total !== undefined) {
-                if (!window.chunkBuffers[id]) window.chunkBuffers[id] = { chunks: new Array(data.total), count: 0 };
-                if (window.chunkBuffers[id].chunks && !window.chunkBuffers[id].chunks[data.idx]) {
-                    window.chunkBuffers[id].chunks[data.idx] = data.data;
+            if (daTaşıdx !== undefined && daTaşıoTaşı!== undefined) {
+                if (!window.chunkBuffers[id]) window.chunkBuffers[id] = { chunks: new Array(daTaşıoTaşı, count: 0 };
+                if (window.chunkBuffers[id].chunks && !window.chunkBuffers[id].chunks[daTaşıdx]) {
+                    window.chunkBuffers[id].chunks[daTaşıdx] = daTaşıaTaşı
                     window.chunkBuffers[id].count++;
                 }
-                if (window.chunkBuffers[id].count === data.total) {
+                if (window.chunkBuffers[id].count === daTaşıoTaşı {
                     const fullStr = window.chunkBuffers[id].chunks.join('');
                     if (new TextEncoder().encode(fullStr).byteLength <= NETWORK_LIMITS.maxMessageBytes) {
                         try {
@@ -6526,15 +6520,15 @@ function setupConnectionEvents() {
                             if (validateNetworkPacket(completePacket) && canProcessCriticalCommand(connection, completePacket)) {
                                 veriyiIsle(completePacket);
                             }
-                        } catch (e) { console.warn('Bozuk a� paketi reddedildi.', e); }
+                        } catch (e) { console.warn('Bozuk ağ paketi reddedildi.', e); }
                     }
                     delete window.chunkBuffers[id];
                 }
             } else {
                 if (!window.chunkBuffers[id]) window.chunkBuffers[id] = "";
                 if (typeof window.chunkBuffers[id] === 'string') {
-                    window.chunkBuffers[id] += data.data;
-                    if (data.isLast) {
+                    window.chunkBuffers[id] += daTaşıaTaşı
+                    if (daTaşısLast) {
                         const fullStr = window.chunkBuffers[id];
                         if (new TextEncoder().encode(fullStr).byteLength <= NETWORK_LIMITS.maxMessageBytes) {
                             try {
@@ -6542,7 +6536,7 @@ function setupConnectionEvents() {
                                 if (validateNetworkPacket(completePacket) && canProcessCriticalCommand(connection, completePacket)) {
                                     veriyiIsle(completePacket);
                                 }
-                            } catch (e) { console.warn('Bozuk a� paketi reddedildi.', e); }
+                            } catch (e) { console.warn('Bozuk ağ paketi reddedildi.', e); }
                         }
                         delete window.chunkBuffers[id];
                     }
@@ -6551,30 +6545,30 @@ function setupConnectionEvents() {
             return;
         }
 
-        veriyiIsle(data);
+        veriyiIsle(daTaşı
     });
 
 
-    function processData(data) {
+    function processDaTaşıaTaşı{
 
-        // ?? KORUMA ZIRHI: Canvas hen�z ba�lat�lmad�ysa (�rn. 300px ise) a�� i�lemeden �nce tam boyuta getir!
+        // ?? KORUMA ZIRHI: Canvas henüz başlatılmadıysa (örn. 300px ise) ağı işlemeden önce TaşıboyuTaşıetir!
         const cnv = document.getElementById('drawing-canvas');
         if (cnv && cnv.width <= 300 && typeof lockScreenSize === 'function') {
             lockScreenSize();
         }
 
-        // ?? YEN� ALICI: TABLETTEN GELEN KUSURSUZ RESM� VE PDF'� EKRANA ��ZER (MERKEZLEME GARANT�L�)
-        if (data.type === 'arka_plan_resmi_aktar') {
+        // ?? YENİ ALICI: TaşıETTEN GELEN KUSURSUZ RESMİ VE PDF'İ EKRANA ÇİZER (MERKEZLEME GARANTİLİ)
+        if (daTaşıype === 'arka_plan_resmi_akTaşı) {
             const img = new Image();
             img.onload = () => {
                 if (typeof addNewImageToCanvas === 'function') {
                     const canvas = document.getElementById('drawing-canvas');
                     let pcMerkez = null;
                     
-                    // PC'de resmi ekran�n tam ortas�na yeniden hesapla (Sa�a kaymay� KES�N �nler)
+                    // PC'de resmi ekranın TaşıorTaşına yeniden hesapla (Sağa kaymayı KESİN önler)
                     if (canvas) {
-                        let startWidth = canvas.width * 0.8;
-                        let sW = startWidth;
+                        let sTaşıWidth = canvas.width * 0.8;
+                        let sW = sTaşıWidth;
                         if (img.width < sW) sW = img.width;
                         let scaleFactor = sW / img.width;
                         let sH = img.height * scaleFactor;
@@ -6591,22 +6585,22 @@ function setupConnectionEvents() {
                         };
                     }
                     
-                    window.addNewImageToCanvas(img, data.isPDF, pcMerkez);
+                    window.addNewImageToCanvas(img, daTaşısPDF, pcMerkez);
                     setTimeout(() => { if (window.redrawAllStrokes) window.redrawAllStrokes(); }, 100);
                 }
             };
-            img.src = data.imgData;
+            img.src = daTaşımgDaTaşı
             return;
         } 
 
-// ?? YEN� ALICI: TABLETTEN GELEN KUSURSUZ KAYDIRMA (PAN) S�NYAL�N� ��LER
-        if (data.type === 'hepsini_tasi') {
-            const senderDpr = data.dpr || 1;
+// ?? YENİ ALICI: TaşıETTEN GELEN KUSURSUZ KAYDIRMA (PAN) SİNYALİNİ İŞLER
+        if (daTaşıype === 'hepsini_Taşı') {
+            const senderDpr = daTaşıpr || 1;
             const myDpr = window.devicePixelRatio || 1;
             const scale = myDpr / senderDpr; 
 
-            const diffX = data.dx * scale;
-            const diffY = data.dy * scale;
+            const diffX = daTaşıx * scale;
+            const diffY = daTaşıy * scale;
 
             if (window.drawnStrokes) {
                 const mainBg = window.drawnStrokes.find(s => s.isBackground === true && !s.isPatch);
@@ -6614,7 +6608,7 @@ function setupConnectionEvents() {
                     mainBg.x += diffX;
                     mainBg.y += diffY;
                 }
-                // Zemindeki �izimleri ve �ekilleri de ayn� oranda kayd�r
+                // Zemindeki çizimleri ve şekilleri de aynı oranda kaydır
                 window.drawnStrokes.forEach(s => {
                     if (!s.isBackground && typeof window.moveStroke === 'function') {
                         window.moveStroke(s, diffX, diffY);
@@ -6625,20 +6619,20 @@ function setupConnectionEvents() {
             return;
         }
 
-if (!data || !data.type) return;
+if (!daTaşı| !daTaşıype) return;
         if (!window.drawnStrokes) window.drawnStrokes = [];
 
-// ?? KES�N ��Z�M: PC haz�r oldu�unu bildirdi�inde, Tablet zaten �izim alan�na ge�mi�se durumunu PC'ye zorla f�rlat�r!
-        if (data.type === 'pc_hazir_durum_talep_et') {
+// ?? KESİN ÇÖZÜM: PC hazır olduğunu bildirdiğinde, Taşıet zaten çizim alanına geçmişse durumunu PC'ye zorla fırlatır!
+        if (daTaşıype === 'pc_hazir_durum_Taşıp_et') {
             if (window.acilisPenceresiKapatildi && typeof currentLang !== 'undefined' && currentLang) {
-                const firlatici = (typeof window.sendNetworkData === 'function') ? window.sendNetworkData : (typeof sendNetworkData === 'function' ? sendNetworkData : null);
+                const firlatici = (typeof window.sendNetworkDaTaşı== 'function') ? window.sendNetworkDaTaşı (typeof sendNetworkDaTaşı== 'function' ? sendNetworkDaTaşı null);
                 if (firlatici) {
-                    // Pe� pe�e at�� yaparak PC'nin veri kanal�nda bu mesaj� ka��rmas�n� engelle
+                    // Peş peşe atış yaparak PC'nin veri kanalında bu mesajı kaçırmasınIşıngelle
                     [50, 500, 1500].forEach(gecikme => {
                         setTimeout(() => {
                             firlatici({ type: 'dil_secimi', lang: currentLang });
                             firlatici({ type: 'acilis_penceresini_kapat' });
-                            firlatici({ type: 'yukleme_penceresini_kapat' });
+                            firlatici({ type: 'Yükleme_penceresini_kapat' });
                         }, gecikme);
                     });
                 }
@@ -6646,64 +6640,64 @@ if (!data || !data.type) return;
             return;
         }
 
-        // ?? D�L SE��M� HER ZAMAN GE�S�N VE EKRANI ZORLA A�SIN ??
-        if (data.type === 'dil_secimi') {
-            if (typeof setLanguage === 'function') setLanguage(data.lang);
+        // ?? DİL SEÇİMİ HER ZAMAN GEÇSİN VE EKRANI ZORLA AÇSIN ??
+        if (daTaşıype === 'dil_secimi') {
+            if (typeof setLanguage === 'function') setLanguage(daTaşıang);
 
-            // PC i�in tam ekran temizli�i (G�r�nmez CSS Balyozu!)
+            // PC için Taşıekran temizliği (Görünmez CSS Balyozu!)
             const pcZirhi = document.createElement('style');
             pcZirhi.innerHTML = `
-                /* PC ekran�n� kilitleyen ne kadar pencere/panel varsa K�K�NDEN yok eder */
+                /* PC ekranını kilitleyen ne kadar pencere/panel varsa KÖKÜNDEN yok eder */
                 #language-overlay, .language-overlay,
                 #disclaimer-modal, .disclaimer-modal,
-                #footer-container, .footer-container,
-                #install-popup, .install-popup,
+                #footer-conTaşıer, .footer-conTaşıer,
+                #insTaşı-popup, .insTaşı-popup,
                 #network-panel, .network-panel,
                 #connect-panel, .connect-panel,
-                .start-screen, #start-screen,
-                .intro-container, #intro-container,
+                .sTaşı-screen, #sTaşı-screen,
+                .intro-conTaşıer, #intro-conTaşıer,
                 .modal, .overlay, #conn-request-modal {
-                    display: none !important;
-                    opacity: 0 !important;
-                    pointer-events: none !important;
-                    z-index: -9999 !important;
+                    display: none !imporTaşı;
+                    opacity: 0 !imporTaşı;
+                    pointer-events: none !imporTaşı;
+                    z-index: -9999 !imporTaşı;
                 }
                 
-                #app-container {
-                    display: block !important;
-                    opacity: 1 !important;
-                    visibility: visible !important;
+                #app-conTaşıer {
+                    display: block !imporTaşı;
+                    opacity: 1 !imporTaşı;
+                    visibility: visible !imporTaşı;
                 }
                 
-                /* �izim Alan� ve Sol/Sa� Men�leri KES�N OLARAK �NE �IKARIR */
+                /* Çizim Alanı ve Sol/Sağ Menüleri KESİN OLARAK ÖNE ÇIKARIR */
                 #drawing-canvas, #bg-canvas {
-                    display: block !important;
-                    visibility: visible !important;
-                    opacity: 1 !important;
+                    display: block !imporTaşı;
+                    visibility: visible !imporTaşı;
+                    opacity: 1 !imporTaşı;
                 }
                 .left-panel, .right-panel, .panel {
-                    display: flex !important;
-                    visibility: visible !important;
-                    opacity: 1 !important;
+                    display: flex !imporTaşı;
+                    visibility: visible !imporTaşı;
+                    opacity: 1 !imporTaşı;
                 }
             `;
             document.head.appendChild(pcZirhi);
 
-            // HTML i�inden de JavaScript ile gizleyelim (�ifte G�venlik)
-            ['language-overlay', 'disclaimer-modal', 'footer-container', 'network-panel', 'connect-panel', 'start-screen'].forEach(id => {
+            // HTML içinden de JavaScript ile gizleyelim (Çifte Güvenlik)
+            ['language-overlay', 'disclaimer-modal', 'footer-conTaşıer', 'network-panel', 'connect-panel', 'sTaşı-screen'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
             });
             
-            const appCont = document.getElementById('app-container');
+            const appCont = document.getElementById('app-conTaşıer');
             if (appCont) appCont.style.display = 'block';
 
-            // PC a� panelini k���lten/yok eden yerel fonksiyonu tetikle (E�er HTML'de varsa)
+            // PC ağ panelini küçülten/yok eden yerel fonksiyonu tetikle (Eğer HTML'de varsa)
             if (typeof window.kucultPanel === 'function') {
                 window.kucultPanel();
             }
 
-            // Ekran kilitleri a��ld�ktan hemen sonra canvas'� temiz bir �ekilde yenile
+            // Ekran kilitleri açıldıkTaşıheMenüsünra canvas'ı temiz bir şekilde yenile
             setTimeout(() => {
                 if (typeof window.redrawAllStrokes === 'function') window.redrawAllStrokes();
                 if (typeof lockScreenSize === 'function') lockScreenSize();
@@ -6713,17 +6707,17 @@ if (!data || !data.type) return;
         }
 
 
-        // G�VENL�K DUVARI
+        // GÜVENLİK DUVARI
         if (!window.baglantiOnaylandi) return;
 
-        // --- A) TOPLU �EK�L ALICISI (�OKGENLER VE ��GENLER) ---
-        if (data.type === 'akilli_sekil_toplu') {
-            if (data.strokes && Array.isArray(data.strokes)) {
-                data.strokes.forEach(s => {
+        // --- A) TOPLU ŞEKİL ALICISI (Çokgenler VE ÜÇGENLER) ---
+        if (daTaşıype === 'akilli_sekil_toplu') {
+            if (daTaşıtrokes && Array.isArray(daTaşıtrokes)) {
+                daTaşıtrokes.forEach(s => {
                     if (typeof adaptStrokeToScreen === 'function') {
-                        const senderCw = data.cw || data.cssW;
-                        const senderCh = data.ch || data.cssH;
-                        adaptStrokeToScreen(s, data.cssW, data.cssH, senderCw, senderCh, data);
+                        const senderCw = daTaşıw || daTaşıssW;
+                        const senderCh = daTaşıh || daTaşıssH;
+                        adaptStrokeToScreen(s, daTaşıssW, daTaşıssH, senderCw, senderCh, daTaşı
                     }
                     const isDuplicate = s.id && window.drawnStrokes.some(ds => ds.id === s.id);
                     if (!isDuplicate) window.drawnStrokes.push(s);
@@ -6734,25 +6728,25 @@ if (!data || !data.type) return;
         }
 
 
-        // --- B) TEK�L ��Z�M/KALEM/RES�M ALICISI ---
-        if (data.type === 'yeni_cizim') {
-            const stroke = data.stroke;
+        // --- B) TEKİL ÇİZİM/KALEM/RESİM ALICISI ---
+        if (daTaşıype === 'yeni_cizim') {
+            const stroke = daTaşıtroke;
             if (!stroke) return;
 
-            // ?? EKRAN SENKRON�ZASYONU: Gelen stroke'u Kendi Ekran�m�za (�� Piksellere) �evir!
-            // E�ER BUNU YAPMAZSAK, ��Z�MLER FARKLI EKRANLARDA PDF �LE UYU�MAZ!
+            // ?? EKRAN SENKRONİZASYONU: Gelen stroke'u Kendi Ekranımıza (İç Piksellere) Çevir!
+            // EĞER BUNU YAPMAZSAK, ÇİZİMLER FARKLI EKRANLARDA PDF İLE UYUŞMAZ!
             const isArr = Array.isArray(stroke);
             const strokesArr = isArr ? stroke : [stroke];
             
             strokesArr.forEach(s => {
                 if (typeof adaptStrokeToScreen === 'function') {
-                    const senderCw = data.cw || data.cssW;
-                    const senderCh = data.ch || data.cssH;
-                    adaptStrokeToScreen(s, data.cssW, data.cssH, senderCw, senderCh, data);
+                    const senderCw = daTaşıw || daTaşıssW;
+                    const senderCh = daTaşıh || daTaşıssH;
+                    adaptStrokeToScreen(s, daTaşıssW, daTaşıssH, senderCw, senderCh, daTaşı
                 }
             });
 
-            // E�er veride bir anormallik olup dizi (array) gelirse diye g�venlik �nlemi
+            // Eğer veride bir anormallik olup dizi (array) gelirse diye güvenlik önlemi
             if (isArr) {
                 strokesArr.forEach(s => {
                     const isExist = s.id && window.drawnStrokes.some(ex => ex.id === s.id);
@@ -6762,16 +6756,16 @@ if (!data || !data.type) return;
                 return;
             }
 
-            // Normal Tekil �izim (Kalem karalamas� vs.)
+            // Normal Tekil Çizim (Kalem karalaması vs.)
             const existingIndex = stroke.id ? window.drawnStrokes.findIndex(s => s.id === stroke.id) : -1;
 
             if (existingIndex !== -1) {
                 window.drawnStrokes[existingIndex] = stroke;
                 if (window.redrawAllStrokes) window.redrawAllStrokes();
             } else {
-                if (stroke.type === 'image' && stroke.imgData) {
+                if (stroke.type === 'image' && stroke.imgDaTaşı{
                     const tempImg = new Image();
-                    tempImg.src = stroke.imgData;
+                    tempImg.src = stroke.imgDaTaşı
                     tempImg.onload = () => {
                         stroke.imgObj = tempImg;
                         window.drawnStrokes.push(stroke);
@@ -6781,12 +6775,12 @@ if (!data || !data.type) return;
                     window.drawnStrokes.push(stroke);
                     if (window.redrawAllStrokes) window.redrawAllStrokes();
 
-                    // ?? E�ER GELEN ��Z�M 3D �EK�LSE PC MOTORUNU TET�KLE ??
+                    // ?? EĞER GELEN ÇİZİM 3D ŞEKİLSE PC MOTORUNU TETİKLE ??
                     if (stroke.type === '3d_shape' && window.Scene3D) {
                         if (!window.Scene3D.isInit) window.Scene3D.init();
-                        if (window.Scene3D.container) {
-                            window.Scene3D.container.style.display = 'block';
-                            window.Scene3D.container.style.zIndex = '9995';
+                        if (window.Scene3D.conTaşıer) {
+                            window.Scene3D.conTaşıer.style.display = 'block';
+                            window.Scene3D.conTaşıer.style.zIndex = '9995';
                         }
                         if (typeof window.Scene3D.addShapeFromNetwork === 'function') {
                             window.Scene3D.addShapeFromNetwork(stroke);
@@ -6797,44 +6791,44 @@ if (!data || !data.type) return;
             return;
         }
 
-        // --- C) F�Z�KSEL ARA�LAR VE D��ER FONKS�YONLAR ---
-        if (data.type === 'arac_senkron') {
-            // ?? G�VENL�K YAMASI: Sadece izin verilen ara�lara CSS m�dahalesi yap�labilir
-            const allowedSelectors = ['.yuzen-kopya-container'];
-            if (!allowedSelectors.includes(data.selector)) {
-                console.warn("?? G�venlik �hlali: �zin verilmeyen CSS m�dahalesi engellendi!", data.selector);
+        // --- C) FİZİKSEL ARAÇLAR VE DİĞER FONKSİYONLAR ---
+        if (daTaşıype === 'arac_senkron') {
+            // ?? GÜVENLİK YAMASI: Sadece izin verilen araçlara CSS müdahalesi yapılabilir
+            const allowedSelectors = ['.yuzen-kopya-conTaşıer'];
+            if (!allowedSelectors.includes(daTaşıelector)) {
+                console.warn("?? Güvenlik İhlali: İzin verilmeyen CSS müdahalesi engellendi!", daTaşıelector);
                 return;
             }
 
-            const el = document.querySelector(data.selector);
+            const el = document.querySelector(daTaşıelector);
             if (el) {
-                if (data.display !== undefined) el.style.display = data.display;
-                if (data.left !== undefined) el.style.left = data.left;
-                if (data.top !== undefined) el.style.top = data.top;
-                if (data.transform !== undefined) el.style.transform = data.transform;
-                if (data.width !== undefined) el.style.width = data.width;
-                if (data.height !== undefined) el.style.height = data.height;
+                if (daTaşıisplay !== undefined) el.style.display = daTaşıisplay;
+                if (daTaşıeft !== undefined) el.style.left = daTaşıeft;
+                if (daTaşıop !== undefined) el.style.top = daTaşıop;
+                if (daTaşıransform !== undefined) el.style.transform = daTaşıransform;
+                if (daTaşıidth !== undefined) el.style.width = daTaşıidth;
+                if (daTaşıeight !== undefined) el.style.height = daTaşıeight;
             }
         }
 
         // --- BURAYA EKLENECEK TEK SATIR ---
         window.isConnected = true;
 
-        if (data.type === 'sekil_guncelle') {
-            const stroke = data.stroke;
+        if (daTaşıype === 'sekil_guncelle') {
+            const stroke = daTaşıtroke;
             if (!stroke) return;
             if (typeof adaptStrokeToScreen === 'function') {
-                const senderCw = data.cw || data.cssW;
-                const senderCh = data.ch || data.cssH;
-                const senderW = data.cssW || data.cw;
-                const senderH = data.cssH || data.ch;
-                adaptStrokeToScreen(stroke, senderW, senderH, senderCw, senderCh, data);
+                const senderCw = daTaşıw || daTaşıssW;
+                const senderCh = daTaşıh || daTaşıssH;
+                const senderW = daTaşıssW || daTaşıw;
+                const senderH = daTaşıssH || daTaşıh;
+                adaptStrokeToScreen(stroke, senderW, senderH, senderCw, senderCh, daTaşı
             }
 
             let index = -1;
 
-            // ?? K�ML�K UYU�MAZLI�I ��Z�M�: 
-            // Gelen �ekil arka plan (resim/PDF) ise, ID'ye bakmadan direkt bul!
+            // ?? KİMLİK UYUŞMAZLIĞI ÇÖZÜMÜ: 
+            // Gelen şekil arka plan (resim/PDF) ise, ID'ye bakmadan direkt bul!
             if (stroke.isBackground === true) {
                 index = window.drawnStrokes.findIndex(s => s.isBackground === true);
             } else {
@@ -6846,9 +6840,9 @@ if (!data || !data.type) return;
                 const hedef = window.drawnStrokes[index];
 
                 if (hedef.isBackground === true) {
-                    // ?? ��Z�M 3: Tabletin mutlak koordinatlar�, PC'nin �zel merkez hizalamas�n� ezmesin diye
-                    // Arka plan sekil_guncelle i�lemlerini KES�N OLARAK YASAKLIYORUZ! 
-                    // Bu i�lem art�k sadece �stteki 'hepsini_tasi' ile p�r�zs�zce yap�lacak.
+                    // ?? ÇÖZÜM 3: Taşıetin mutlak koordinatları, PC'nin özel merkez hizalamasını ezmesin diye
+                    // Arka plan sekil_guncelle işlemlerini KESİN OLARAK YASAKLIYORUZ! 
+                    // Bu işlem artık sadece üstteki 'hepsini_Taşı' ile pürüzsüzce yapılacak.
                     return; 
                 }
 
@@ -6856,25 +6850,25 @@ if (!data || !data.type) return;
                 hedef.y = stroke.y;
                 hedef.width = stroke.width;
                 hedef.height = stroke.height;
-                if (stroke.rotation !== undefined) hedef.rotation = stroke.rotation;
+                if (stroke.roTaşıon !== undefined) hedef.roTaşıon = stroke.roTaşıon;
 
                 if (stroke.radius !== undefined) hedef.radius = stroke.radius;
                 if (stroke.cx !== undefined) hedef.cx = stroke.cx;
                 if (stroke.cy !== undefined) hedef.cy = stroke.cy;
                 if (stroke.center !== undefined) hedef.center = stroke.center;
 
-               // ?? ��Z�M: Koordinatlar� a�da zorla ezmeyi b�rakt�k (Z�plamay� engeller). Sadece g�venli verileri al.
-                if (stroke.rotationX !== undefined) hedef.rotationX = stroke.rotationX;
-                if (stroke.rotationY !== undefined) hedef.rotationY = stroke.rotationY;
-                if (stroke.rotationZ !== undefined) hedef.rotationZ = stroke.rotationZ;
+               // ?? ÇÖZÜM: Koordinatları ağda zorla ezmeyi bıraktık (ZıplamayIşıngeller). Sadece güvenli verileri al.
+                if (stroke.roTaşıonX !== undefined) hedef.roTaşıonX = stroke.roTaşıonX;
+                if (stroke.roTaşıonY !== undefined) hedef.roTaşıonY = stroke.roTaşıonY;
+                if (stroke.roTaşıonZ !== undefined) hedef.roTaşıonZ = stroke.roTaşıonZ;
                 if (stroke.meshScale !== undefined) hedef.meshScale = stroke.meshScale;
 
-                // ?? KES�N ��Z�M: Tabletteki (A�� / Kenar uzunlu�u / �ember form�l�) etiketlerini PC'de de G�STER!
+                // ?? KESİN ÇÖZÜM: Taşıetteki (Açı / Kenar uzunluğu / Çember formülü) etiketlerini PC'de de GÖSTER!
 
-                // ?? 3. A� SENKRONU: PC'nin 3D d�nd�rme ve boyutlar� kabul etmesi i�in gelen verileri kaydet!
-                if (stroke.rotationX !== undefined) hedef.rotationX = stroke.rotationX;
-                if (stroke.rotationY !== undefined) hedef.rotationY = stroke.rotationY;
-                if (stroke.rotationZ !== undefined) hedef.rotationZ = stroke.rotationZ;
+                // ?? 3. AĞ SENKRONU: PC'nin 3D döndürme ve boyutları kabul etmesi için gelen verileri kaydet!
+                if (stroke.roTaşıonX !== undefined) hedef.roTaşıonX = stroke.roTaşıonX;
+                if (stroke.roTaşıonY !== undefined) hedef.roTaşıonY = stroke.roTaşıonY;
+                if (stroke.roTaşıonZ !== undefined) hedef.roTaşıonZ = stroke.roTaşıonZ;
                 if (stroke.originalW !== undefined) {
                     hedef.originalW = stroke.originalW;
                     hedef.originalH = stroke.originalH;
@@ -6882,61 +6876,61 @@ if (!data || !data.type) return;
                     hedef.originalY = stroke.originalY;
                 }
 
-                // ?? KES�N ��Z�M: Tabletteki (A�� / Kenar uzunlu�u / �ember form�l�) etiketlerini PC'de de G�STER!
-                if (data.stroke.showEdgeLabels !== undefined) hedef.showEdgeLabels = data.stroke.showEdgeLabels;
-                if (data.stroke.showAngleLabels !== undefined) hedef.showAngleLabels = data.stroke.showAngleLabels;
-                if (data.stroke.showCircleInfo !== undefined) hedef.showCircleInfo = data.stroke.showCircleInfo;
+                // ?? KESİN ÇÖZÜM: Taşıetteki (Açı / Kenar uzunluğu / Çember formülü) etiketlerini PC'de de GÖSTER!
+                if (daTaşıtroke.showEdgeLabels !== undefined) hedef.showEdgeLabels = daTaşıtroke.showEdgeLabels;
+                if (daTaşıtroke.showAngleLabels !== undefined) hedef.showAngleLabels = daTaşıtroke.showAngleLabels;
+                if (daTaşıtroke.showCircleInfo !== undefined) hedef.showCircleInfo = daTaşıtroke.showCircleInfo;
 
-                // ?? PC MOTORU: TABLETTEN GELEN S�R�KLEME VE D�ND�RME B�LG�S�N� SAHNEYE UYGULA
+                // ?? PC MOTORU: TaşıETTEN GELEN SÜRÜKLEME VE DÖNDÜRME BİLGİSİNİ SAHNEYE UYGULA
                 if (hedef.type === '3d_shape' && window.Scene3D && window.Scene3D.scene) {
-                    const sceneMesh = window.Scene3D.scene.children.find(m => m.userData && m.userData.strokeData && m.userData.strokeData.id === hedef.id);
+                    const sceneMesh = window.Scene3D.scene.children.find(m => m.userDaTaşı& m.userDaTaşıtrokeDaTaşı& m.userDaTaşıtrokeDaTaşıd === hedef.id);
                     if (sceneMesh) {
                         
-                        // ?? N�HA� ��Z�M 2: Konum ve boyutland�rmay� burada YAPMIYORUZ! 
-                // Z�plamalar�n ana sebebi buydu. �izim motoru (redrawAllStrokes) zaten onu 
-                // PC'de olmas� gereken milimetrik konuma ta��yor. Sadece Z eksenini koruyup b�rak�yoruz.
-                if (data.stroke.pos3D && data.stroke.pos3D.z !== undefined) {
-                    sceneMesh.position.z = data.stroke.pos3D.z;
+                        // ?? NİHAİ ÇÖZÜM 2: Konum ve boyutlandırmayı burada YAPMIYORUZ! 
+                // Zıplamaların ana sebebi buydu. Çizim motoru (redrawAllStrokes) zaten onu 
+                // PC'de olması gereken milimetrik konuma Taşıyor. Sadece Z eksenini koruyup bırakıyoruz.
+                if (daTaşıtroke.pos3D && daTaşıtroke.pos3D.z !== undefined) {
+                    sceneMesh.position.z = daTaşıtroke.pos3D.z;
                 }
 
-                        // Rotasyon ayarlar�n� koru
-                        // Rotasyon ayarlarini koru
-                                                // Rotasyon ayarlarini koru (SLERP Hedefi)
-                        if (data.stroke.rotationX !== undefined) {
-                            if (!sceneMesh.userData.targetQuaternion) {
-                                sceneMesh.userData.targetQuaternion = sceneMesh.quaternion.clone();
+                        // RoTaşıon ayarlarını koru
+                        // RoTaşıon ayarlarini koru
+                                                // RoTaşıon ayarlarini koru (SLERP Hedefi)
+                        if (daTaşıtroke.roTaşıonX !== undefined) {
+                            if (!sceneMesh.userDaTaşıargetQuaternion) {
+                                sceneMesh.userDaTaşıargetQuaternion = sceneMesh.quaternion.clone();
                             }
-                            const targetEuler = new THREE.Euler(data.stroke.rotationX, data.stroke.rotationY, data.stroke.rotationZ, 'XYZ');
-                            sceneMesh.userData.targetQuaternion.setFromEuler(targetEuler);
+                            const TaşıetEuler = new THREE.Euler(daTaşıtroke.roTaşıonX, daTaşıtroke.roTaşıonY, daTaşıtroke.roTaşıonZ, 'XYZ');
+                            sceneMesh.userDaTaşıargetQuaternion.setFromEuler(TaşıetEuler);
                         }
 
-                        if (data.stroke.x !== undefined && data.stroke.y !== undefined && window.Scene3D && window.Scene3D.camera) {
-                            const normCoords = window.Scene3D.getNormalizedCoords(data.stroke.x, data.stroke.y);
+                        if (daTaşıtroke.x !== undefined && daTaşıtroke.y !== undefined && window.Scene3D && window.Scene3D.camera) {
+                            const normCoords = window.Scene3D.getNormalizedCoords(daTaşıtroke.x, daTaşıtroke.y);
                             window.Scene3D.raycaster.setFromCamera(normCoords, window.Scene3D.camera);
                             const intersection = new THREE.Vector3();
                             if (window.Scene3D.raycaster.ray.intersectPlane(window.Scene3D.plane, intersection)) {
-                                if (data.stroke.pos3D && data.stroke.pos3D.z !== undefined) {
-                                    intersection.z = data.stroke.pos3D.z;
+                                if (daTaşıtroke.pos3D && daTaşıtroke.pos3D.z !== undefined) {
+                                    intersection.z = daTaşıtroke.pos3D.z;
                                 }
-                                if (!sceneMesh.userData.targetPosition) {
+                                if (!sceneMesh.userDaTaşıargetPosition) {
                                     sceneMesh.position.copy(intersection);
-                                    sceneMesh.userData.targetPosition = intersection.clone();
+                                    sceneMesh.userDaTaşıargetPosition = intersection.clone();
                                 } else {
-                                    sceneMesh.userData.targetPosition.copy(intersection);
+                                    sceneMesh.userDaTaşıargetPosition.copy(intersection);
                                 }
                             }
                         }
 
                         // Boyut (Scale) bilgisini aninda WebGL motoruna yansit (Gecikmesiz)
-                        if (data.stroke.meshScale !== undefined) {
-                            sceneMesh.scale.setScalar(data.stroke.meshScale);
+                        if (daTaşıtroke.meshScale !== undefined) {
+                            sceneMesh.scale.setScalar(daTaşıtroke.meshScale);
                         }
 
                         // Surgu acinim bilgisini senkronize et
-                        if (data.stroke.openRatio !== undefined) {
-                            hedef.openRatio = data.stroke.openRatio;
-                            if (sceneMesh.userData && sceneMesh.userData.strokeData) {
-                                sceneMesh.userData.strokeData.openRatio = data.stroke.openRatio;
+                        if (daTaşıtroke.openRatio !== undefined) {
+                            hedef.openRatio = daTaşıtroke.openRatio;
+                            if (sceneMesh.userDaTaşı& sceneMesh.userDaTaşıtrokeDaTaşı{
+                                sceneMesh.userDaTaşıtrokeDaTaşıpenRatio = daTaşıtroke.openRatio;
                             }
                             // Animasyon (Lerp) pruzsuz calismasi icin buradaki anlik guncellemeler Scene3D.animate icine alindi.
                         }
@@ -6949,7 +6943,7 @@ if (!data || !data.type) return;
                     // ==========================================
                     // Eger yansitilan sekil sadece bir 3D model ise (ve uzerinde 2D yazi/etiket yoksa)
                     // koca 2D sayfa cizim motorunu (redrawAllStrokes) saniyede 60 kez calistirmaya ASLA gerek yoktur!
-                    // WebGL motoru zaten (requestAnimationFrame) ile aninda kendi goruntusunu gunceller.
+                    // WebGL motoru zaten (requesTaşımationFrame) ile aninda kendi goruntusunu gunceller.
                     // Bu return komutu sayfa kilitlenmesini ve agdaki ping gecikmelerini SIFIRA indirir.
                     if (!hedef.showEdgeLabels && !hedef.showAngleLabels && !hedef.showCircleInfo) {
                         return; 
@@ -6960,12 +6954,12 @@ if (!data || !data.type) return;
             }
         }
 
-        if (data.type === 'sil_objeyi') {
-            const zombiIndex = window.drawnStrokes.findIndex(s => s.id === data.strokeId);
+        if (daTaşıype === 'sil_objeyi') {
+            const zombiIndex = window.drawnStrokes.findIndex(s => s.id === daTaşıtrokeId);
 
-            // ?? KES�N ��Z�M: 3D �ekil ise PC'nin uzay sahnesinden de TAMAMEN S�L!
+            // ?? KESİN ÇÖZÜM: 3D Şekil ise PC'nin uzay sahnesinden de TaşıMenüsüL!
             if (window.Scene3D && window.Scene3D.scene) {
-                const meshToRemove = window.Scene3D.scene.children.find(m => m.userData && m.userData.strokeData && m.userData.strokeData.id === data.strokeId);
+                const meshToRemove = window.Scene3D.scene.children.find(m => m.userDaTaşı& m.userDaTaşıtrokeDaTaşı& m.userDaTaşıtrokeDaTaşıd === daTaşıtrokeId);
                 if (meshToRemove) {
                     window.Scene3D.scene.remove(meshToRemove);
                     if (window.Scene3D.currentMesh === meshToRemove) window.Scene3D.currentMesh = null;
@@ -6974,19 +6968,19 @@ if (!data || !data.type) return;
             }
 
             if (zombiIndex !== -1) window.drawnStrokes.splice(zombiIndex, 1);
-            else if (data.index !== undefined && window.drawnStrokes[data.index]) window.drawnStrokes.splice(data.index, 1);
+            else if (daTaşındex !== undefined && window.drawnStrokes[daTaşındex]) window.drawnStrokes.splice(daTaşındex, 1);
 
             if (window.redrawAllStrokes) window.redrawAllStrokes();
         }
 
-                if (data.type === 'geri_al') {
+                if (daTaşıype === 'geri_al') {
             const popped = window.drawnStrokes.pop();
-            // ?? 3D �EK�LSE GER� ALIRKEN PC SAHNES�NDEN DE KALDIR
+            // ?? 3D ŞEKİLSE GERİ ALIRKEN PC SAHNESİNDEN DE KALDIR
             if (popped && popped.type === '3d_shape' && window.Scene3D && window.Scene3D.scene) {
-                const meshToRemove = window.Scene3D.scene.children.find(m => m.userData && m.userData.strokeData && m.userData.strokeData.id === popped.id);
+                const meshToRemove = window.Scene3D.scene.children.find(m => m.userDaTaşı& m.userDaTaşıtrokeDaTaşı& m.userDaTaşıtrokeDaTaşıd === popped.id);
                 if (meshToRemove) {
                     meshToRemove.traverse((child) => {
-                        if (child.isMesh || child.isLineSegments) {
+                        if (child.isMesh || child.isLineSegMenüsü {
                             if (child.geometry) child.geometry.dispose();
                             if (child.material) {
                                 if (Array.isArray(child.material)) child.material.forEach(mat => mat.dispose());
@@ -7000,7 +6994,7 @@ if (!data || !data.type) return;
                 }
             }
 
-            // YEN�: PC EKRANINDA DA KAT �Z� BIRAK
+            // YENİ: PC EKRANINDA DA KAT İZİ BIRAK
             if (popped && popped.isPatch === true && popped.foldLine) {
                 const p1 = popped.foldLine[0];
                 const p2 = popped.foldLine[1];
@@ -7019,26 +7013,26 @@ if (!data || !data.type) return;
             if (window.redrawAllStrokes) window.redrawAllStrokes();
         }
 
-        else if (data.type === 'sil_belirli' && data.id) {
-            const index = window.drawnStrokes.findIndex(s => s.id === data.id);
+        else if (daTaşıype === 'sil_belirli' && daTaşıd) {
+            const index = window.drawnStrokes.findIndex(s => s.id === daTaşıd);
             if (index !== -1) {
                 window.drawnStrokes.splice(index, 1);
                 if (window.redrawAllStrokes) window.redrawAllStrokes();
             }
         }
-        else if (data.type === 'hepsini_sil') {
-            // PC ���N KES�N ��Z�M: Haf�za ba�lant�s�n� koparmadan filtreleme yap�yoruz!
+        else if (daTaşıype === 'hepsini_sil') {
+            // PC İÇİN KESİN ÇÖZÜM: Hafıza bağlantIşını koparmadan filtreleme yapıyoruz!
             const korunacakZeminler = window.drawnStrokes.filter(stroke => stroke.isBackground === true);
 
-            window.drawnStrokes.length = 0; // 1. Orijinal haf�zan�n i�ini tamamen bo�alt
-            window.drawnStrokes.push(...korunacakZeminler); // 2. Sadece PDF ve arka planlar� geri koy
+            window.drawnStrokes.length = 0; // 1. Orijinal hafIşının içini Taşımen boşalt
+            window.drawnStrokes.push(...korunacakZeminler); // 2. Sadece PDF ve arka planları geri koy
 
-            // ?? PC'N�N 3D UZAYINI TAMAMEN TEM�ZLE ??
+            // ?? PC'NİN 3D UZAYINI TaşıMEN TEMİZLE ??
             if (window.Scene3D && window.Scene3D.scene) {
                 const toRemove = window.Scene3D.scene.children.filter(c => c.type === 'Mesh' || c.type === 'Group');
                 toRemove.forEach(m => {
                     m.traverse((child) => {
-                        if (child.isMesh || child.isLineSegments) {
+                        if (child.isMesh || child.isLineSegMenüsü {
                             if (child.geometry) child.geometry.dispose();
                             if (child.material) {
                                 if (Array.isArray(child.material)) child.material.forEach(mat => mat.dispose());
@@ -7052,40 +7046,40 @@ if (!data || !data.type) return;
                 if (typeof window.Scene3D.updateHandlePositions === 'function') window.Scene3D.updateHandlePositions();
             }
 
-            // PC taraf�ndaki kay�tl� veriyi de temizle (LocalStorage)
+            // PC Taşıfındaki kayıtlı veriyi de temizle (LocalStorage)
             if (window.localStorage) {
                 window.localStorage.removeItem('drawnStrokes');
             }
-            // Ekran� yenile
+            // Ekranı yenile
             if (window.redrawAllStrokes) window.redrawAllStrokes();
 
-            console.log("PC: Silme komutu al�nd�. �izimler ve kopyalar u�uruldu, sadece zemin korundu.");
+            console.log("PC: Silme komutu alındı. Çizimler ve kopyalar uçuruldu, sadece zemin korundu.");
         }
 
-        if (data.type === 'pdf_yukle') {
+        if (daTaşıype === 'pdf_Yükle') {
             try {
-                const base64Data = data.pdfData.split(',')[1];
-                const binaryString = window.atob(base64Data);
+                const base64DaTaşı daTaşıdfDaTaşıplit(',')[1];
+                const binaryString = window.atob(base64DaTaşı
                 const len = binaryString.length;
                 const bytes = new Uint8Array(len);
                 for (let i = 0; i < len; i++) { bytes[i] = binaryString.charCodeAt(i); }
                 if (typeof pdfjsLib !== 'undefined') {
                     pdfjsLib.getDocument(bytes).promise.then(pdf => {
-                        window.currentPDF = pdf; window.totalPDFPages = pdf.numPages; window.currentPDFPage = 1;
+                        window.currentPDF = pdf; window.toTaşıDFPages = pdf.numPages; window.currentPDFPage = 1;
                         if (document.getElementById('pdf-controls')) document.getElementById('pdf-controls').classList.remove('hidden');
                         if (typeof renderPDFPage === 'function') window.renderPDFPage(1);
                     });
                 }
-            } catch (e) { console.error("PDF Hatas�:", e); }
+            } catch (e) { console.error("PDF HaTaşı:", e); }
         }
 
-        if (data.type === 'pdf_sayfa_degis') { window.currentPDFPage = data.sayfa; if (typeof renderPDFPage === 'function') window.renderPDFPage(window.currentPDFPage); }
+        if (daTaşıype === 'pdf_sayfa_degis') { window.currentPDFPage = daTaşıayfa; if (typeof renderPDFPage === 'function') window.renderPDFPage(window.currentPDFPage); }
 
-        // (�kinci kopya arka_plan_resmi_aktar al�c�s� silindi, yukar�daki ana al�c� kullan�l�yor)
+        // (İkinci kopya arka_plan_resmi_akTaşıalıcısı silindi, yukarıdaki ana alıcı kullanılıyor)
 
-        // ?? YEN� EKLENEN B�L�M: PC'N�N PDF KAPATMA EMR�N� ALDI�I YER ??
-        if (data.type === 'pdf_kapat') {
-            // ?? S�H�RL� ��Z�M: PC taraf�nda da filter yerine splice kullan�yoruz ??
+        // ?? YENİ EKLENEN BÖLÜM: PC'NİN PDF KAPATMA EMRİNİ ALDIĞI YER ??
+        if (daTaşıype === 'pdf_kapat') {
+            // ?? SİHİRLİ ÇÖZÜM: PC Taşıfında da filter yerine splice kullanıyoruz ??
             if (window.drawnStrokes) {
                 for (let i = window.drawnStrokes.length - 1; i >= 0; i--) {
                     const s = window.drawnStrokes[i];
@@ -7097,7 +7091,7 @@ if (!data || !data.type) return;
             window.currentPDF = null;
             window.pdfImageStroke = null;
 
-            // K�rm�z� butonu PC ekran�ndan da garanti olmas� i�in gizle
+            // Kırmızı butonu PC ekranından da garanti olması için gizle
             const pcKapatBtn = document.getElementById('btn-close-pdf');
             if (pcKapatBtn) {
                 pcKapatBtn.classList.add('hidden');
@@ -7105,59 +7099,59 @@ if (!data || !data.type) return;
             }
 
             if (window.redrawAllStrokes) window.redrawAllStrokes();
-            console.log("PC: Tablet arka plan� kapatt�, ekran temizlendi.");
+            console.log("PC: Taşıet arka planı kapattı, ekran temizlendi.");
         }
 
 
-        // ?? N�KLEER ��Z�M: A�ILI� PENCERES�N� K�K�NDEN S�L ??
-        if (data.type === 'acilis_penceresini_kapat') {
+        // ?? NÜKLEER ÇÖZÜM: AÇILIŞ PENCERESİNİ KÖKÜNDEN SİL ??
+        if (daTaşıype === 'acilis_penceresini_kapat') {
             const acilisPenceresi = document.getElementById('disclaimer-modal');
             if (acilisPenceresi) {
-                // Sadece gizlemekle kalma, HTML'den tamamen kaz�!
+                // Sadece gizlemekle kalma, HTML'den Taşımen kazı!
                 acilisPenceresi.remove();
             }
 
-            // E�er isminde farkl�l�k varsa diye t�m uyar� pencerelerini gizle
+            // Eğer isminde farklılık varsa diye tüm uyarı pencerelerini gizle
             document.querySelectorAll('.modal, .overlay, [id*="modal"], [id*="disclaimer"]').forEach(el => {
                 el.style.display = 'none';
             });
 
-            // Z�rh: PC arka planda yeniden a�maya �al��mas�n diye CSS ile m�h�rle
+            // Zırh: PC arka planda yeniden açmaya çalışmasın diye CSS ile muhur_disclaimerle
             const muhur_disclaimer = document.createElement('style');
-            muhur_disclaimer.innerHTML = '#disclaimer-modal, .disclaimer-modal { display: none !important; opacity: 0 !important; pointer-events: none !important; z-index: -9999 !important; }';
+            muhur_disclaimer.innerHTML = '#disclaimer-modal, .disclaimer-modal { display: none !imporTaşı; opacity: 0 !imporTaşı; pointer-events: none !imporTaşı; z-index: -9999 !imporTaşı; }';
             document.head.appendChild(muhur_disclaimer);
 
-            console.log("PC: A��l�� penceresi K�K�NDEN silindi ve m�h�rlendi.");
+            console.log("PC: Açılış penceresi KÖKÜNDEN silindi ve muhur_disclaimerlendi.");
         }
 
 
-        // ?? PC: UYGULAMAYI Y�KLE PENCERES�N� KAPATMA S�NYAL� ??
-        if (data.type === 'yukleme_penceresini_kapat') {
-            const yuklemePenceresi = document.getElementById('install-popup');
-            if (yuklemePenceresi) {
-                yuklemePenceresi.remove(); // Sadece gizleme, HTML dosyas�ndan K�K�NDEN S�L!
+        // ?? PC: Uygulamayı Yükle PENCERESİNİ KAPATMA SİNYALİ ??
+        if (daTaşıype === 'Yükleme_penceresini_kapat') {
+            const YüklemePenceresi = document.getElementById('insTaşı-popup');
+            if (YüklemePenceresi) {
+                YüklemePenceresi.remove(); // Sadece gizleme, HTML dosyasından KÖKÜNDEN SİL!
             }
 
-            // Taray�c� arkadan i� �evirip geri getirmesin diye CSS M�hr� bas:
+            // Taşıyıcı arkadan iş çevirip geri getirmesin diye CSS Mührü bas:
             const muhur_disclaimer = document.createElement('style');
-            muhur_disclaimer.innerHTML = '#install-popup { display: none !important; opacity: 0 !important; z-index: -9999 !important; pointer-events: none !important; }';
+            muhur_disclaimer.innerHTML = '#insTaşı-popup { display: none !imporTaşı; opacity: 0 !imporTaşı; z-index: -9999 !imporTaşı; pointer-events: none !imporTaşı; }';
             document.head.appendChild(muhur_disclaimer);
 
-            console.log("PC: Y�kleme penceresi yok edildi ve m�h�rlendi.");
+            console.log("PC: Yükleme penceresi yok edildi ve muhur_disclaimerlendi.");
         }
 
 
-        if (data.type === 'arac_state_senkron') {
+        if (daTaşıype === 'arac_sTaşı_senkron') {
             let toolObj = null, el = null;
-            if (data.arac === 'ruler') { toolObj = window.RulerTool; el = document.querySelector('.ruler-container'); }
-            if (data.arac === 'gonye') { toolObj = window.GonyeTool; el = document.querySelector('.gonye-container'); }
-            if (data.arac === 'aciolcer') { toolObj = window.AciolcerTool; el = document.querySelector('.aciolcer-container'); }
-            if (data.arac === 'pergel') { toolObj = window.PergelTool; el = document.getElementById('compass-container'); }
+            if (daTaşırac === 'ruler') { toolObj = window.RulerTool; el = document.querySelector('.ruler-conTaşıer'); }
+            if (daTaşırac === 'Gönye') { toolObj = window.GönyeTool; el = document.querySelector('.Gönye-conTaşıer'); }
+            if (daTaşırac === 'aciolcer') { toolObj = window.AciolcerTool; el = document.querySelector('.aciolcer-conTaşıer'); }
+            if (daTaşırac === 'pergel') { toolObj = window.PergelTool; el = document.getElementById('compass-conTaşıer'); }
 
             if (toolObj) {
-                if (data.state) Object.assign(toolObj.state, data.state);
-                if (data.arac === 'pergel' && toolObj.state) {
-                    if (toolObj.state.isDrawing) {
+                if (daTaşıTaşı) Object.assign(toolObj.sTaşı, daTaşıTaşı);
+                if (daTaşırac === 'pergel' && toolObj.sTaşı) {
+                    if (toolObj.sTaşı.isDrawing) {
                         toolObj.previewCanvas.style.display = 'block';
                         toolObj.previewCanvas.width = window.innerWidth;
                         toolObj.previewCanvas.height = window.innerHeight;
@@ -7168,28 +7162,28 @@ if (!data || !data.type) return;
                     }
                 }
                 if (el) {
-                    if (data.display === 'none') {
-                        el.classList.add('hidden'); // ?? KES�N OLARAK G�ZLE
+                    if (daTaşıisplay === 'none') {
+                        el.classList.add('hidden'); // ?? KESİN OLARAK GİZLE
                         el.style.display = 'none';
                     } else {
-                        el.classList.remove('hidden'); // ?? KES�N OLARAK G�STER
-                        el.style.display = (data.arac === 'ruler' || data.arac === 'gonye') ? 'flex' : 'block';
+                        el.classList.remove('hidden'); // ?? KESİN OLARAK GÖSTER
+                        el.style.display = (daTaşırac === 'ruler' || daTaşırac === 'Gönye') ? 'flex' : 'block';
                     }
-                    if (data.width) el.style.width = data.width;
-                    if (data.height) el.style.height = data.height;
+                    if (daTaşıidth) el.style.width = daTaşıidth;
+                    if (daTaşıeight) el.style.height = daTaşıeight;
                 }
                 if (typeof toolObj.updateTransform === 'function') toolObj.updateTransform();
                 if (typeof toolObj.updateMarkings === 'function') toolObj.updateMarkings();
                 if (typeof toolObj.createLabels === 'function') toolObj.createLabels();
 
-                // ?? KES�N ��Z�M: Yans�ma (Titreme) Engelleme Kilidi
+                // ?? KESİN ÇÖZÜM: Yansıma (Titreme) Engelleme Kilidi
                 toolObj.lastNetworkReceiveTime = Date.now();
             }
         }
 
-        if (data.type === 'aktif_onizleme') {
-            const arac = data.arac;
-            const p = data.payload;
+        if (daTaşıype === 'aktif_onizleme') {
+            const arac = daTaşırac;
+            const p = daTaşıayload;
 
             if (arac === 'ruler' && window.RulerTool && window.RulerTool.drawCtx) {
                 const r = window.RulerTool;
@@ -7200,13 +7194,13 @@ if (!data || !data.type) return;
                 r.drawCtx.beginPath(); r.drawCtx.moveTo(0, 4); r.drawCtx.lineTo(p.handleX, 4);
                 r.drawCtx.strokeStyle = '#FFFFFF'; r.drawCtx.lineWidth = 3; r.drawCtx.stroke();
             }
-            else if (arac === 'gonye' && window.GonyeTool && window.GonyeTool.drawCtx) {
-                const g = window.GonyeTool;
+            else if (arac === 'Gönye' && window.GönyeTool && window.GönyeTool.drawCtx) {
+                const g = window.GönyeTool;
                 g.drawHandleElement.style.transition = 'none'; g.drawHandleElement.style.top = `${p.handleY}px`;
-                g.drawHandleLabel.innerText = `${(Math.abs(g.state.height - (p.handleY + 10)) / g.PIXELS_PER_CM).toFixed(1).replace('.', ',')} cm`;
+                g.drawHandleLabel.innerText = `${(Math.abs(g.sTaşı.height - (p.handleY + 10)) / g.PIXELS_PER_CM).toFixed(1).replace('.', ',')} cm`;
                 g.drawHandleLabel.style.display = 'block';
                 g.drawCtx.clearRect(0, 0, g.drawCanvas.width, g.drawCanvas.height);
-                g.drawCtx.beginPath(); g.drawCtx.moveTo(4, g.state.height); g.drawCtx.lineTo(4, p.handleY + 10);
+                g.drawCtx.beginPath(); g.drawCtx.moveTo(4, g.sTaşı.height); g.drawCtx.lineTo(4, p.handleY + 10);
                 g.drawCtx.strokeStyle = '#FFFFFF'; g.drawCtx.lineWidth = 3; g.drawCtx.stroke();
             }
             else if (arac === 'aciolcer' && window.AciolcerTool && window.AciolcerTool.previewCtx) {
@@ -7215,8 +7209,8 @@ if (!data || !data.type) return;
                 a.previewCtx.clearRect(0, 0, a.previewCanvas.width, a.previewCanvas.height);
                 a.previewCtx.beginPath(); a.previewCtx.moveTo(p.cx, p.cy); a.previewCtx.lineTo(p.px, p.py);
                 a.previewCtx.strokeStyle = '#FFFFFF'; a.previewCtx.lineWidth = 3; a.previewCtx.setLineDash([5, 5]); a.previewCtx.stroke(); a.previewCtx.setLineDash([]);
-                a.drawHandleLabel.style.display = 'block'; a.drawHandleLabel.innerText = `${p.angle.toFixed(0)}�`;
-                a.redLine.style.transition = 'none'; a.redLine.style.transform = `rotate(${-p.angle}deg)`;
+                a.drawHandleLabel.style.display = 'block'; a.drawHandleLabel.innerText = `${p.angle.toFixed(0)}°`;
+                a.redLine.style.transition = 'none'; a.redLine.style.transform = `roTaşı(${-p.angle}deg)`;
                 a.drawHandle.style.transform = `translateX(-50%) translate(${p.ldx}px, ${p.ldy + 5}px)`;
                 a.drawHandleLabel.style.transform = `translateX(-50%) translate(${p.ldx}px, ${p.ldy - 20}px)`;
             }
@@ -7232,7 +7226,7 @@ if (!data || !data.type) return;
                 clearTimeout(window.lazerTimer); window.lazerTimer = setTimeout(() => { lazer.style.display = 'none'; }, 150);
             }
             else if (arac === 'cizim_onizleme') {
-                // S�H�RL� D�ZELTME: filter yerine splice kullanarak haf�za kopmas�n� k�k�nden ��z�yoruz!
+                // SİHİRLİ DÜZELTME: filter yerine splice kullanarak hafıza kopmasını kökünden çözüyoruz!
                 for (let i = window.drawnStrokes.length - 1; i >= 0; i--) {
                     if (window.drawnStrokes[i].type === 'preview') window.drawnStrokes.splice(i, 1);
                 }
@@ -7242,9 +7236,9 @@ if (!data || !data.type) return;
                 if (window.redrawAllStrokes) window.redrawAllStrokes();
             }
 
-            // ?? YEN� EKLENEN: PC'N�N ��ZG� �N�ZLEMES�N� HAVADA ��ZMES� ??
+            // ?? YENİ EKLENEN: PC'NİN ÇİZGİ ÖNİZLEMESİNİ HAVADA ÇİZMESİ ??
             else if (arac === 'cizgi_onizleme') {
-                if (window.redrawAllStrokes) window.redrawAllStrokes(); // Kal�c� �izgileri ezmemek i�in �nce ekran� tazele
+                if (window.redrawAllStrokes) window.redrawAllStrokes(); // Kalıcı çizgileri ezmemek için önce ekranı Taşıle
 
                 const canvas = document.getElementById('drawing-canvas');
                 if (canvas) {
@@ -7252,26 +7246,26 @@ if (!data || !data.type) return;
                     ctx.save();
                     ctx.strokeStyle = p.color || '#000000';
                     ctx.lineWidth = 3;
-                    ctx.setLineDash([5, 5]); // Ayn� tabletteki gibi kesikli �izgi efekti
+                    ctx.setLineDash([5, 5]); // Aynı Taşıetteki gibi kesikli çizgi efekti
                     ctx.beginPath();
 
-                    const dx = p.endX - p.startX;
-                    const dy = p.endY - p.startY;
+                    const dx = p.endX - p.sTaşıX;
+                    const dy = p.endY - p.sTaşıY;
 
                     if (dx !== 0 || dy !== 0) {
                         const devCarpan = 5000;
                         if (p.tool === 'line') {
-                            ctx.moveTo(p.startX - dx * devCarpan, p.startY - dy * devCarpan);
-                            ctx.lineTo(p.startX + dx * devCarpan, p.startY + dy * devCarpan);
+                            ctx.moveTo(p.sTaşıX - dx * devCarpan, p.sTaşıY - dy * devCarpan);
+                            ctx.lineTo(p.sTaşıX + dx * devCarpan, p.sTaşıY + dy * devCarpan);
                         } else if (p.tool === 'ray') {
-                            ctx.moveTo(p.startX, p.startY);
-                            ctx.lineTo(p.startX + dx * devCarpan, p.startY + dy * devCarpan);
+                            ctx.moveTo(p.sTaşıX, p.sTaşıY);
+                            ctx.lineTo(p.sTaşıX + dx * devCarpan, p.sTaşıY + dy * devCarpan);
                         } else {
-                            ctx.moveTo(p.startX, p.startY);
+                            ctx.moveTo(p.sTaşıX, p.sTaşıY);
                             ctx.lineTo(p.endX, p.endY);
                         }
                     } else {
-                        ctx.moveTo(p.startX, p.startY);
+                        ctx.moveTo(p.sTaşıX, p.sTaşıY);
                         ctx.lineTo(p.endX, p.endY);
                     }
                     ctx.stroke();
@@ -7279,47 +7273,47 @@ if (!data || !data.type) return;
                 }
             }
 
-        } // <--- ?? EKS�K OLAN S�SL� PARANTEZ BURADA! (aktif_onizleme blo�unu kapat�r) ??
+        } // <--- ?? EKSİK OLAN SÜSLÜ PARANTEZ BURADA! (aktif_onizleme bloğunu kapatır) ??
 
-        if (data.type === 'onizleme_bitir') {
-            // S�H�RL� D�ZELTME: filter yerine splice kullanarak haf�za kopmas�n� k�k�nden ��z�yoruz!
+        if (daTaşıype === 'onizleme_bitir') {
+            // SİHİRLİ DÜZELTME: filter yerine splice kullanarak hafıza kopmasını kökünden çözüyoruz!
             for (let i = window.drawnStrokes.length - 1; i >= 0; i--) {
                 if (window.drawnStrokes[i].type === 'preview') window.drawnStrokes.splice(i, 1);
             }
 
             if (window.RulerTool && window.RulerTool.drawCtx) { window.RulerTool.drawHandleLabel.style.display = 'none'; window.RulerTool.drawCtx.clearRect(0, 0, window.RulerTool.drawCanvas.width, window.RulerTool.drawCanvas.height); }
-            if (window.GonyeTool && window.GonyeTool.drawCtx) { window.GonyeTool.drawHandleLabel.style.display = 'none'; window.GonyeTool.drawHandleElement.style.transition = 'top 0.1s ease-out'; window.GonyeTool.drawHandleElement.style.top = `${window.GonyeTool.state.height - 20}px`; window.GonyeTool.drawCtx.clearRect(0, 0, window.GonyeTool.drawCanvas.width, window.GonyeTool.drawCanvas.height); }
-            if (window.AciolcerTool && window.AciolcerTool.previewCtx) { window.AciolcerTool.drawHandleLabel.style.display = 'none'; window.AciolcerTool.previewCanvas.style.display = 'none'; window.AciolcerTool.redLine.style.transition = 'transform 0.1s ease-out'; window.AciolcerTool.redLine.style.transform = 'rotate(0deg)'; window.AciolcerTool.drawHandle.style.transition = 'transform 0.1s ease-out'; window.AciolcerTool.drawHandle.style.transform = 'translateX(-50%) translate(0px, 0px)'; window.AciolcerTool.previewCtx.clearRect(0, 0, window.AciolcerTool.previewCanvas.width, window.AciolcerTool.previewCanvas.height); }
+            if (window.GönyeTool && window.GönyeTool.drawCtx) { window.GönyeTool.drawHandleLabel.style.display = 'none'; window.GönyeTool.drawHandleElement.style.transition = 'top 0.1s ease-out'; window.GönyeTool.drawHandleElement.style.top = `${window.GönyeTool.sTaşı.height - 20}px`; window.GönyeTool.drawCtx.clearRect(0, 0, window.GönyeTool.drawCanvas.width, window.GönyeTool.drawCanvas.height); }
+            if (window.AciolcerTool && window.AciolcerTool.previewCtx) { window.AciolcerTool.drawHandleLabel.style.display = 'none'; window.AciolcerTool.previewCanvas.style.display = 'none'; window.AciolcerTool.redLine.style.transition = 'transform 0.1s ease-out'; window.AciolcerTool.redLine.style.transform = 'roTaşı(0deg)'; window.AciolcerTool.drawHandle.style.transition = 'transform 0.1s ease-out'; window.AciolcerTool.drawHandle.style.transform = 'translateX(-50%) translate(0px, 0px)'; window.AciolcerTool.previewCtx.clearRect(0, 0, window.AciolcerTool.previewCanvas.width, window.AciolcerTool.previewCanvas.height); }
             let lazer = document.getElementById('sanal-lazer'); if (lazer) lazer.style.display = 'none';
             if (window.redrawAllStrokes) window.redrawAllStrokes();
         }
 
-        if (data.type === 'secimi_senkronize_et') {
-            const index = window.drawnStrokes.findIndex(s => s.id === data.strokeId);
+        if (daTaşıype === 'secimi_senkronize_et') {
+            const index = window.drawnStrokes.findIndex(s => s.id === daTaşıtrokeId);
             if (index !== -1) {
-                // ?? PC'deki LOKAL de�i�kenleri ez ve arac� zorla 'move' yap (Butonlar g�r�ns�n)
+                // ?? PC'deki LOKAL değişkenleri ez ve aracı zorla 'move' yap (Butonlar görünsün)
                 selectedItem = window.drawnStrokes[index];
                 window.selectedItem = selectedItem;
 
-                if (typeof setActiveTool === 'function') setActiveTool('move');
+                if (typeof seTaşıiveTool === 'function') seTaşıiveTool('move');
                 else currentTool = 'move';
 
                 if (window.redrawAllStrokes) window.redrawAllStrokes();
             }
         }
 
-        if (data.type === 'secimi_kaldir') {
+        if (daTaşıype === 'secimi_kaldir') {
             selectedItem = null;
             window.selectedItem = null;
             if (window.redrawAllStrokes) window.redrawAllStrokes();
         }
 
-        // ?? S�NKRON�ZASYON: Fiziksel Ara� Temas� (Siyah/Neon) PC'ye yans�t�l�yor
-        if (data.type === 'fiziksel_arac_temasi') {
-            window.isToolThemeBlack = data.isBlackTheme;
-            const elements = document.querySelectorAll('.ruler-container, .gonye-container, .aciolcer-container, #compass-container');
-            elements.forEach(el => {
-                if (data.isBlackTheme) {
+        // ?? SİNKRONİZASYON: Fiziksel Araç Teması (Siyah/Neon) PC'ye yansıtılıyor
+        if (daTaşıype === 'fiziksel_arac_temasi') {
+            window.isToolThemeBlack = daTaşısBlackTheme;
+            const eleMenüsü= document.querySelectorAll('.ruler-conTaşıer, .Gönye-conTaşıer, .aciolcer-conTaşıer, #compass-conTaşıer');
+            eleMenüsüforEach(el => {
+                if (daTaşısBlackTheme) {
                     el.classList.add('tool-black-theme');
                 } else {
                     el.classList.remove('tool-black-theme');
@@ -7328,184 +7322,184 @@ if (!data || !data.type) return;
             // PC'deki butonun metnini de senkronize et
             const colorBtn = document.getElementById('btn-tool-color');
             if (colorBtn) {
-                colorBtn.innerText = data.isBlackTheme ? "Ara� Rengi: Neon" : "Ara� Rengi: Siyah";
+                colorBtn.innerText = daTaşısBlackTheme ? "Araç Rengi: Neon" : "Araç Rengi: Siyah";
             }
         }
-    } // <--- processData fonksiyonu TAM BURADA kusursuzca kapan�r
+    } // <--- processDaTaşıonksiyonu TaşıBURADA kusursuzca kapanır
 
-    // --- 3. BA�LANTI KOPMASI DURUMU ---
+    // --- 3. BAĞLANTI KOPMASI DURUMU ---
     connection.on('close', function () {
         window._connectionEventsBound = false;
         window._lastSetupConnection = null;
         if (connection.isTeacherCandidate && window.authorizedTeacherId === connection.peer) {
             window.authorizedTeacherId = null;
-            window.teacherConnectionStatus = 'disconnected';
-            window.teacherPairingToken = isTablet ? null : createSecureToken(16);
-            window.teacherPairingTokenIssuedAt = isTablet ? 0 : Date.now();
+            window.teacherConnectionSTaşıs = 'disconnected';
+            window.teacherPairingToken = isTaşıet ? null : createSecureToken(16);
+            window.teacherPairingTokenIssuedAt = isTaşıet ? 0 : Date.now();
         }
         window.pendingTeacherConnections.delete(connection.peer);
         isConnected = false;
-        const statusEl = document.getElementById('connection-status');
-        if (statusEl) {
-            statusEl.innerText = "Ba�lant� Koptu ??";
-            statusEl.style.color = "#ff4444";
+        const sTaşısEl = document.getElementById('connection-sTaşıs');
+        if (sTaşısEl) {
+            sTaşısEl.innerText = "Bağlantı Koptu ??";
+            sTaşısEl.style.color = "#ff4444";
         }
-        // Ba�lant� koptu�unda sayfay� yenilemek en garantili ��z�md�r:
+        // Bağlantı Koptuğunda sayfayı yenilemek en garantili çözümdür:
         setTimeout(() => { location.reload(); }, 2000);
     });
 
-    // --- S�H�RL� E��TLEME (�K� PENCERE ���N ISRARCI VE ZIRHLI VERS�YON) ---
+    // --- SİHİRLİ EŞİTLEME (İKİ PENCERE İÇİN ISRARCI VE ZIRHLI VERSİYON) ---
     let denemeSayisi = 0;
     const pencereSyncTimer = setInterval(() => {
         if (!isConnected || !myConnection || !myConnection.open) return;
 
-        // ?? YEN� ��Z�M: BA�LANTI SONRADAN B�LE GELSE D�L� VE EKRAN K�L�D�N� SENKRON�ZE ET
-        if (typeof currentLang !== 'undefined' && currentLang && typeof sendNetworkData !== 'undefined') {
-            sendNetworkData({ type: 'dil_secimi', lang: currentLang });
+        // ?? YENİ ÇÖZÜM: BAĞLANTI SONRADAN BİLE GELSE DİLİ VE EKRAN KİLİDİNİ SENKRONİZE ET
+        if (typeof currentLang !== 'undefined' && currentLang && typeof sendNetworkDaTaşı== 'undefined') {
+            sendNetworkDaTaşı type: 'dil_secimi', lang: currentLang });
         }
 
-        // 1. Yasal Uyar� Kontrol� ve Sinyali
-        if ((window.acilisPenceresiKapatildi || (document.getElementById('disclaimer-modal') && document.getElementById('disclaimer-modal').style.display === 'none')) && typeof sendNetworkData !== 'undefined') {
-            sendNetworkData({ type: 'acilis_penceresini_kapat' });
+        // 1. Yasal Uyarı Kontrolü ve Sinyali
+        if ((window.acilisPenceresiKapatildi || (document.getElementById('disclaimer-modal') && document.getElementById('disclaimer-modal').style.display === 'none')) && typeof sendNetworkDaTaşı== 'undefined') {
+            sendNetworkDaTaşı type: 'acilis_penceresini_kapat' });
         }
 
-        // ?? 2. YEN�: Y�kle Penceresi Kontrol� ve Sinyali ??
-        const tabletPopup = document.getElementById('install-popup');
-        if ((!tabletPopup || tabletPopup.style.display === 'none' || tabletPopup.classList.contains('hidden')) && typeof sendNetworkData !== 'undefined') {
-            sendNetworkData({ type: 'yukleme_penceresini_kapat' });
+        // ?? 2. YENİ: Yükle Penceresi Kontrolü ve Sinyali ??
+        const TaşıetPopup = document.getElementById('insTaşı-popup');
+        if ((!TaşıetPopup || TaşıetPopup.style.display === 'none' || TaşıetPopup.classList.conTaşıs('hidden')) && typeof sendNetworkDaTaşı== 'undefined') {
+            sendNetworkDaTaşı type: 'Yükleme_penceresini_kapat' });
         }
 
-        console.log("PC'ye t�m pencerelerin durum e�itlemesi g�nderiliyor... (Deneme: " + (denemeSayisi + 1) + ")");
+        console.log("PC'ye tüm pencerelerin durum eşitlemesi gönderiliyor... (Deneme: " + (denemeSayisi + 1) + ")");
 
         denemeSayisi++;
-        if (denemeSayisi >= 4) clearInterval(pencereSyncTimer); // 4 saniye boyunca tahtay� bombalar, sonra durur
+        if (denemeSayisi >= 4) clearInterval(pencereSyncTimer); // 4 saniye boyunca Taşıayı bombalar, sonra durur
     }, 1000);
 
-} // <--- setupConnectionEvents fonksiyonu tam burada kusursuzca kapan�yor
+} // <--- setupConnectionEvents fonksiyonu Taşıburada kusursuzca kapanıyor
 
 // =========================================================
-// 7. G�VENL� VE KAYIPSIZ VER� FIRLATMA FONKS�YONU (ZIRHLI VE BARKODLU VERS�YON)
+// 7. GÜVENLİ VE KAYIPSIZ VERİ FIRLATMA FONKSİYONU (ZIRHLI VE BARKODLU VERSİYON)
 // =========================================================
 window.mySessionId = Date.now().toString() + Math.random().toString();
 
-window.sendNetworkData = function (dataPackage) {
-    if (!dataPackage) return;
-    if (dataPackage.type === 'aktif_onizleme') {
+window.sendNetworkDaTaşı function (daTaşıckage) {
+    if (!daTaşıckage) return;
+    if (daTaşıckage.type === 'aktif_onizleme') {
         if (!window.lastPreviewTime) window.lastPreviewTime = 0;
         if (Date.now() - window.lastPreviewTime < 50) return;
         window.lastPreviewTime = Date.now();
     }
-    const boardLocalOnly = new Set(['arka_plan_resmi_aktar', 'pdf_yukle', 'resim_yukle']);
+    const boardLocalOnly = new Set(['arka_plan_resmi_akTaşı, 'pdf_Yükle', 'resim_Yükle']);
 
-    // YANKI KORUMASI ���N K�ML�K DAMGASI
-    dataPackage.senderId = window.mySessionId;
+    // YANKI KORUMASI İÇİN KİMLİK DAMGASI
+    daTaşıckage.senderId = window.mySessionId;
 
-    // Boyutlar� damgala (PC'de do�ru hizalama i�in)
+    // Boyutları damgala (PC'de Doğru hizalama için)
     const canvasElm = document.getElementById('drawing-canvas');
     if (canvasElm) {
-        dataPackage.cw = canvasElm.width;
-        dataPackage.ch = canvasElm.height;
-        dataPackage.cssW = window.innerWidth;
-        dataPackage.cssH = window.innerHeight;
-        dataPackage.dpr = window.devicePixelRatio || 1;
+        daTaşıckage.cw = canvasElm.width;
+        daTaşıckage.ch = canvasElm.height;
+        daTaşıckage.cssW = window.innerWidth;
+        daTaşıckage.cssH = window.innerHeight;
+        daTaşıckage.dpr = window.devicePixelRatio || 1;
     }
 
     if (window.drawnStrokes) {
         const bg = window.drawnStrokes.find(s => s.isBackground === true && !s.isPatch);
         if (bg) {
-            dataPackage.bgX = bg.x;
-            dataPackage.bgY = bg.y;
-            dataPackage.bgW = bg.width;
-            dataPackage.bgH = bg.height;
+            daTaşıckage.bgX = bg.x;
+            daTaşıckage.bgY = bg.y;
+            daTaşıckage.bgW = bg.width;
+            daTaşıckage.bgH = bg.height;
         }
     }
 
-    // G�vence: �izim g�nderiliyorsa ve ID'si yoksa ID ata!
-    if (dataPackage.type === 'yeni_cizim' && dataPackage.stroke && !dataPackage.stroke.id) {
-        dataPackage.stroke.id = Date.now() + Math.random();
+    // Güvence: Çizim gönderiliyorsa ve ID'si yoksa ID aTaşı
+    if (daTaşıckage.type === 'yeni_cizim' && daTaşıckage.stroke && !daTaşıckage.stroke.id) {
+        daTaşıckage.stroke.id = Date.now() + Math.random();
     }
 
     
 
-    const dataString = JSON.stringify(dataPackage);
+    const daTaşıring = JSON.stringify(daTaşıckage);
     const CHUNK_SIZE = 8000;
 
-    // DURUM 1: Tabletsek Tahtaya G�nder
+    // DURUM 1: Taşıetsek Taşıaya Gönder
     if (typeof isConnected !== 'undefined' && isConnected && typeof myConnection !== 'undefined' && myConnection && (myConnection.open || window.isConnected)) {
-        if (dataString.length <= CHUNK_SIZE) {
-            myConnection.send(dataPackage);
+        if (daTaşıring.length <= CHUNK_SIZE) {
+            myConnection.send(daTaşıckage);
         } else {
             let i = 0; let chunkIndex = 0;
             const kargoBarkodu = Date.now().toString() + Math.floor(Math.random() * 1000);
-            const totalChunks = Math.ceil(dataString.length / CHUNK_SIZE);
+            const toTaşıhunks = Math.ceil(daTaşıring.length / CHUNK_SIZE);
             function paketGonder() {
                 if (!myConnection || (!myConnection.open && !window.isConnected)) return;
-                if (myConnection.dataChannel && myConnection.dataChannel.bufferedAmount > 64000) { setTimeout(paketGonder, 50); return; }
-                if (i < dataString.length) {
-                    myConnection.send({ type: 'chunk', msgId: kargoBarkodu, data: dataString.substring(i, i + CHUNK_SIZE), idx: chunkIndex, total: totalChunks, isLast: (chunkIndex === totalChunks - 1) });
+                if (myConnection.daTaşıannel && myConnection.daTaşıannel.bufferedAmount > 64000) { setTimeout(paketGonder, 50); return; }
+                if (i < daTaşıring.length) {
+                    myConnection.send({ type: 'chunk', msgId: kargoBarkodu, daTaşıdaTaşıring.substring(i, i + CHUNK_SIZE), idx: chunkIndex, toTaşı toTaşıhunks, isLast: (chunkIndex === toTaşıhunks - 1) });
                     i += CHUNK_SIZE; chunkIndex++; setTimeout(paketGonder, 5);
                 }
             }
             paketGonder();
         }
     }
-    // DURUM 2: Tahtaysak Tabletlere G�nder
+    // DURUM 2: Taşıaysak Taşıetlere Gönder
     else if (typeof window.aktifBaglantilar !== 'undefined') {
-        if (boardLocalOnly.has(dataPackage.type)) {
-            console.info('Hassas dosya paketi ��renci cihazlar�na aktar�lmad�:', dataPackage.type);
+        if (boardLocalOnly.has(daTaşıckage.type)) {
+            console.info('Hassas dosya paketi öğrenci cihazlarına akTaşılmadı:', daTaşıckage.type);
             return;
         }
         for (let id in window.aktifBaglantilar) {
             const conn = window.aktifBaglantilar[id];
             if (conn && conn.open) {
-                if (dataString.length <= CHUNK_SIZE) {
-                    conn.send(dataPackage);
+                if (daTaşıring.length <= CHUNK_SIZE) {
+                    conn.send(daTaşıckage);
                 } else {
                     let i = 0; let chunkIndex = 0;
                     const kargoBarkodu = Date.now().toString() + Math.floor(Math.random() * 1000);
-                    const totalChunks = Math.ceil(dataString.length / CHUNK_SIZE);
-                    function paketGonderTahta() {
+                    const toTaşıhunks = Math.ceil(daTaşıring.length / CHUNK_SIZE);
+                    function paketGonderTaşıa() {
                         if (!conn || (!conn.open && !window.isConnected)) return;
-                        if (conn.dataChannel && conn.dataChannel.bufferedAmount > 64000) { setTimeout(paketGonderTahta, 50); return; }
-                        if (i < dataString.length) {
-                            conn.send({ type: 'chunk', msgId: kargoBarkodu, data: dataString.substring(i, i + CHUNK_SIZE), idx: chunkIndex, total: totalChunks, isLast: (chunkIndex === totalChunks - 1) });
-                            i += CHUNK_SIZE; chunkIndex++; setTimeout(paketGonderTahta, 5);
+                        if (conn.daTaşıannel && conn.daTaşıannel.bufferedAmount > 64000) { setTimeout(paketGonderTaşıa, 50); return; }
+                        if (i < daTaşıring.length) {
+                            conn.send({ type: 'chunk', msgId: kargoBarkodu, daTaşıdaTaşıring.substring(i, i + CHUNK_SIZE), idx: chunkIndex, toTaşı toTaşıhunks, isLast: (chunkIndex === toTaşıhunks - 1) });
+                            i += CHUNK_SIZE; chunkIndex++; setTimeout(paketGonderTaşıa, 5);
                         }
                     }
-                    paketGonderTahta();
+                    paketGonderTaşıa();
                 }
             }
         }
     }
 };
 window.networkResZirhi = true;
-// ?? 1. ZIRH: EKRAN KAYDIRMA VE YAYLANMA ENGELLEY�C� ??
+// ?? 1. ZIRH: EKRAN KAYDIRMA VE YAYLANMA ENGELLEYİCİ ??
 const palmZirhi = document.createElement('style');
 palmZirhi.innerHTML = `
     body, html {
-        overscroll-behavior: none !important; /* Ekran�n lastik gibi yaylanmas�n� bitirir */
+        overscroll-behavior: none !imporTaşı; /* Ekranın lastik gibi yaylanmasını bitirir */
     }
     #drawing-canvas {
-        touch-action: none !important; /* Taray�c�ya kayd�rma yapmay� kesinlikle yasaklar */
-        -webkit-user-select: none !important;
-        -webkit-touch-callout: none !important;
+        touch-action: none !imporTaşı; /* Taşıyıcıya kaydırma yapmayı kesinlikle yasaklar */
+        -webkit-user-select: none !imporTaşı;
+        -webkit-touch-callout: none !imporTaşı;
     }
 `;
 document.head.appendChild(palmZirhi);
 
-// iOS/Safari ve Android'in inat�� kayd�rma (scroll) huylar�n� zorla durduran motor
+// iOS/Safari ve Android'in inatçı kaydırma (scroll) huylarını zorla durduran motor
 const cCnv = document.getElementById('drawing-canvas');
 if (cCnv) {
-    cCnv.addEventListener('touchstart', function (e) { e.preventDefault(); }, { passive: false });
+    cCnv.addEventListener('touchsTaşı', function (e) { e.preventDefault(); }, { passive: false });
     cCnv.addEventListener('touchmove', function (e) { e.preventDefault(); }, { passive: false });
 }
 
-// ?? AKILLI ZIRH: Avu� ��iyle Sayfa Kaymas�n� Engeller, Zoom'u Bozmaz!
+// ?? AKILLI ZIRH: Avuç İçiyle Sayfa KaymasınIşıngeller, Zoom'u Bozmaz!
 const smartCanvas = document.getElementById('drawing-canvas');
 if (smartCanvas) {
     smartCanvas.addEventListener('touchmove', function (e) {
-        // E�er ekrana sadece 1 temas varsa (avu� i�i veya tek parmak s�rt�nmesi)
-        // sayfan�n lastik gibi kaymas�n� kesin olarak kilitler!
+        // Eğer ekrana sadece 1 temas varsa (avuç içi veya tek parmak sürtünmesi)
+        // sayfanın lastik gibi kaymasını kesin olarak kilitler!
         if (e.touches && e.touches.length === 1 && e.cancelable) {
             e.preventDefault();
         }
@@ -7514,52 +7508,52 @@ if (smartCanvas) {
 
 
 // =========================================================
-// ?? �ZEL KON� A�INIM MOTORU (Kusursuz Yelpaze ve Kapak Sistemi)
+// ?? ÖZEL KONİ AÇINIM MOTORU (Kusursuz Yelpaze ve Kapak Sistemi)
 // =========================================================
 window.CustomConeEngine = {
     create: function(radius, height, mainMat, edgeMat) {
         const innerGroup = new THREE.Group();
-        innerGroup.userData.isCustomCone = true;
-        innerGroup.userData.r = radius;
-        innerGroup.userData.h = height;
-        innerGroup.userData.s = Math.hypot(radius, height);
+        innerGroup.userDaTaşısCustomCone = true;
+        innerGroup.userDaTaşı = radius;
+        innerGroup.userDaTaşı = height;
+        innerGroup.userDaTaşı = Math.hypot(radius, height);
 
-        const segments = 32;
+        const segMenüsü= 32;
         const lateralGeo = new THREE.BufferGeometry();
-        const numVerts = segments + 2;
+        const numVerts = segMenüsü+ 2;
         const posArray = new Float32Array(numVerts * 3);
-        lateralGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        lateralGeo.seTaşıribute('position', new THREE.BufferAttribute(posArray, 3));
         
         const indices = [];
-        for (let i = 1; i <= segments; i++) {
-            // ?? 1. ��Z�M: Y�zeyleri d��a �evirdik, "Alttan g�r�nme" ill�zyonu bitti!
+        for (let i = 1; i <= segMenüsü i++) {
+            // ?? 1. ÇÖZÜM: Yüzeyleri dışa çevirdik, "AltTaşıgörünme" illüzyonu bitti!
             indices.push(0, i, i + 1);
         }
         lateralGeo.setIndex(indices);
         const lateralMesh = new THREE.Mesh(lateralGeo, mainMat);
         lateralMesh.material.side = THREE.DoubleSide;
         
-        // �izgi Geometrisi
-        const edgePos = new Float32Array((segments + 3) * 3);
+        // Çizgi Geometrisi
+        const edgePos = new Float32Array((segMenüsü+ 3) * 3);
         const lateralEdgeGeo = new THREE.BufferGeometry();
-        lateralEdgeGeo.setAttribute('position', new THREE.BufferAttribute(edgePos, 3));
+        lateralEdgeGeo.seTaşıribute('position', new THREE.BufferAttribute(edgePos, 3));
         const lateralEdges = new THREE.Line(lateralEdgeGeo, edgeMat);
         
-        // Taban (Kapak) Geometrisi
+        // Taşın (Kapak) Geometrisi
         const baseGeo = new THREE.CircleGeometry(radius, 32);
-        baseGeo.translate(0, -radius, 0); // Kapa��n d�nme mente�esini tam arka noktaya al�yoruz
+        baseGeo.translate(0, -radius, 0); // Kapağın dönme menteşesini Taşıarka nokTaşı alıyoruz
         
         const baseMesh = new THREE.Mesh(baseGeo, mainMat);
         baseMesh.material.side = THREE.DoubleSide;
-        const baseEdges = new THREE.LineSegments(new THREE.EdgesGeometry(baseGeo), edgeMat);
+        const baseEdges = new THREE.LineSegMenüsünew THREE.EdgesGeometry(baseGeo), edgeMat);
         baseMesh.add(baseEdges);
         
         innerGroup.add(lateralMesh); innerGroup.add(baseMesh); innerGroup.add(lateralEdges);
-        innerGroup.userData.lateralMesh = lateralMesh; innerGroup.userData.baseMesh = baseMesh; innerGroup.userData.lateralEdges = lateralEdges;
+        innerGroup.userDaTaşıateralMesh = lateralMesh; innerGroup.userDaTaşıaseMesh = baseMesh; innerGroup.userDaTaşıateralEdges = lateralEdges;
         
         const outerGroup = new THREE.Group();
-        outerGroup.userData = innerGroup.userData;
-        outerGroup.userData.innerGroup = innerGroup;
+        outerGroup.userDaTaşı innerGroup.userDaTaşı
+        outerGroup.userDaTaşınnerGroup = innerGroup;
         outerGroup.add(innerGroup);
         
         this.update(outerGroup, 0); 
@@ -7567,35 +7561,35 @@ window.CustomConeEngine = {
     },
     
     update: function(group, ratio) {
-        const innerGroup = group.userData.innerGroup || group;
-        const r = innerGroup.userData.r; 
-        const h = innerGroup.userData.h; 
-        const s = innerGroup.userData.s; 
-        const segments = 32;
-        const pos = innerGroup.userData.lateralMesh.geometry.attributes.position.array;
-        const epos = innerGroup.userData.lateralEdges.geometry.attributes.position.array;
+        const innerGroup = group.userDaTaşınnerGroup || group;
+        const r = innerGroup.userDaTaşı; 
+        const h = innerGroup.userDaTaşı; 
+        const s = innerGroup.userDaTaşı; 
+        const segMenüsü= 32;
+        const pos = innerGroup.userDaTaşıateralMesh.geometry.attributes.position.array;
+        const epos = innerGroup.userDaTaşıateralEdges.geometry.attributes.position.array;
         
-        // ?? 2. ��Z�M: Motordan "rotation" (e�im) komutlar�n� tamamen S�LD�K. 
-        // Art�k koni ekran�n �st�ne bakarak dimdik duracak ve Ye�il Ta��ma Butonu kusursuz �al��acak!
+        // ?? 2. ÇÖZÜM: Motordan "roTaşıon" (eğim) komutlarını TaşıMenüsüLDİK. 
+        // Artık koni ekranın üstüne bakarak dimdik duracak ve Yeşil Taşıma Butonu kusursuz çalışacak!
 
         const apexX = 0; const apexY = 0; const apexZ = h / 2;
         pos[0] = apexX; pos[1] = apexY; pos[2] = apexZ;
         epos[0] = apexX; epos[1] = apexY; epos[2] = apexZ;
         
-        for (let i = 0; i <= segments; i++) {
-            // ?? 3. ��Z�M: Y�rt�lma �izgisini (alpha=0) tam �N TARAFA (-Y ekseni) ald�k.
-            const alpha = (i / segments) * 2 * Math.PI; 
+        for (let i = 0; i <= segMenüsü i++) {
+            // ?? 3. ÇÖZÜM: Yırtılma çizgisini (alpha=0) TaşıÖN TaşıFA (-Y ekseni) aldık.
+            const alpha = (i / segMenüsü * 2 * Math.PI; 
             
-            // 3D Kapal� Hal (Dimdik duruyor)
+            // 3D Kapalı Hal (Dimdik duruyor)
             const x3 = r * Math.sin(alpha); 
-            const y3 = -r * Math.cos(alpha); // Eksi y = Tam �n Taraf
+            const y3 = -r * Math.cos(alpha); // Eksi y = TaşıÖn Taşıf
             const z3 = -h / 2;
             
-            // 2D A��k Hal (Sa� kanat sa�a, sol kanat sola d�k�l�r)
-            const theta = (2 * Math.PI * r) / s; 
-            const sectorAngle = ((alpha - Math.PI) / Math.PI) * (theta / 2); 
+            // 2D Açık Hal (Sağ kanat sağa, sol kanat sola dökülür)
+            const theTaşı (2 * Math.PI * r) / s; 
+            const sectorAngle = ((alpha - Math.PI) / Math.PI) * (theTaşı 2); 
             const x2 = -s * Math.sin(sectorAngle); 
-            const y2 = 0; // Kar��dan g�r�nmesi i�in XZ d�zlemine yat�r�l�r
+            const y2 = 0; // KarşIşın görünmesi için XZ düzlemine yatırılır
             const z2 = h / 2 - s * Math.cos(sectorAngle); 
             
             const x = x3 * (1 - ratio) + x2 * ratio; 
@@ -7609,53 +7603,53 @@ window.CustomConeEngine = {
             epos[eIdx] = x; epos[eIdx + 1] = y; epos[eIdx + 2] = z;
         }
         
-        // Son siyah �izgiyi tepeye kapat
-        const lastIdx = (segments + 2) * 3;
+        // Son siyah çizgiyi tepeye kapat
+        const lastIdx = (segMenüsü+ 2) * 3;
         epos[lastIdx] = apexX; epos[lastIdx + 1] = apexY; epos[lastIdx + 2] = apexZ;
         
-        innerGroup.userData.lateralMesh.geometry.attributes.position.needsUpdate = true;
-        innerGroup.userData.lateralMesh.geometry.computeVertexNormals();
-        innerGroup.userData.lateralEdges.geometry.attributes.position.needsUpdate = true;
+        innerGroup.userDaTaşıateralMesh.geometry.attributes.position.needsUpdate = true;
+        innerGroup.userDaTaşıateralMesh.geometry.computeVertexNormals();
+        innerGroup.userDaTaşıateralEdges.geometry.attributes.position.needsUpdate = true;
         
-        // ?? 4. ��Z�M: Kapa��n (taban�n) mente�e gibi arkadan a�a�� do�ru bir kap� misali a��lmas�
-        const baseMesh = innerGroup.userData.baseMesh;
+        // ?? 4. ÇÖZÜM: Kapağın (Taşının) menteşe gibi arkadan aşağı Doğru bir kapı misali açılması
+        const baseMesh = innerGroup.userDaTaşıaseMesh;
         const hingeY = r * (1 - ratio);
         const hingeZ = (-h / 2) * (1 - ratio) + (h / 2 - s) * ratio;
         baseMesh.position.set(0, hingeY, hingeZ);
-        baseMesh.rotation.x = (Math.PI / 2) * ratio; // 0'dan (d�z) ba�layarak ekrana do�ru sark�p tam daire olur
+        baseMesh.roTaşıon.x = (Math.PI / 2) * ratio; // 0'dan (düz) başlayarak ekrana Doğru sarkıp Taşıdaire olur
 
-        // ?? 5. ��Z�M: Koninin a��l�rken tam kar��dan (XY d�zleminden) g�r�nmesi i�in rotasyonu otomatik d�zelt
-        if (group.userData.innerGroup) {
-            // Koninin a��k hali XZ d�zlemindedir (y=0). Kameran�n g�rmesi i�in onu kameran�n (Y=-30, Z=20) a��s�na tam dikmeliyiz.
-            const qClosed = new THREE.Quaternion().identity(); // Kapal�yken (ratio=0) kullan�c�n�n verdi�i rotasyona dokunma
+        // ?? 5. ÇÖZÜM: Koninin açılırken TaşıkarşIşın (XY düzleminden) görünmesi için roTaşıonu otomatik düzelt
+        if (group.userDaTaşınnerGroup) {
+            // Koninin açık hali XZ düzlemindedir (y=0). Kameranın görmesi için onu kameranın (Y=-30, Z=20) açIşına Taşıdikmeliyiz.
+            const qClosed = new THREE.Quaternion().identity(); // Kapalıyken (ratio=0) kullanIşının verdiği roTaşıona dokunma
             
-            // XZ d�zlemindeki �ekli ekrana tam paralel yat�rmak i�in, Z ekseni ekran�n '�st' noktas�na (Y=20, Z=30) gelmeli.
-            // Bunun i�in gereken kusursuz a�� Math.atan2(-20, 30)'dur. (-Math.PI / 2 yani -90 derece sadece d�z kamera i�indi)
-            const qOpenAbsolute = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.atan2(-20, 30));
+            // XZ düzlemindeki şekli ekrana Taşıparalel yatırmak için, Z ekseni ekranın 'üst' nokTaşına (Y=20, Z=30) gelmeli.
+            // Bunun için gereken kusursuz açı Math.aTaşı(-20, 30)'dur. (-Math.PI / 2 yani -90 derece sadece düz kamera içindi)
+            const qOpenAbsolute = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.aTaşı(-20, 30));
             
-            // D�� grubun dinamik rotasyonunu de�il, varsay�lan rotasyonunu kullan�yoruz. 
-            // Koniler ba�lang��ta X ve Z ekseninde -30 derece (-Math.PI/6) d�nd�r�lerek ekleniyor.
+            // Dış grubun dinamik roTaşıonunu değil, varsayIşın roTaşıonunu kullanıyoruz. 
+            // Koniler başlangıçTaşı ve Z ekseninde -30 derece (-Math.PI/6) döndürülerek ekleniyor.
             const defaultOuterQ = new THREE.Quaternion().setFromEuler(new THREE.Euler(-Math.PI / 6, 0, -Math.PI / 6, 'XYZ'));
             const qOuterInverse = defaultOuterQ.invert();
-            const qOpenTarget = qOuterInverse.multiply(qOpenAbsolute);
+            const qOpenTaşıet = qOuterInverse.multiply(qOpenAbsolute);
             
-            innerGroup.quaternion.copy(qClosed).slerp(qOpenTarget, ratio);
+            innerGroup.quaternion.copy(qClosed).slerp(qOpenTaşıet, ratio);
         }
     }
 };
 
 
 window.Scene3D = {
-    container: null, scene: null, camera: null, renderer: null, labelElement: null,
-    isInit: false, activeTool: 'none', version: "3.4 - KUSURSUZ ��Z�M",
+    conTaşıer: null, scene: null, camera: null, renderer: null, labelElement: null,
+    isInit: false, activeTool: 'none', version: "3.4 - KUSURSUZ ÇİZİM",
 
     currentMesh: null, previewMesh: null, previewLine: null, helperGroup: null,
     raycaster: null, mouse: null, plane: null,
-    rotateHandleBtn: null, resizeHandleBtn: null,
-    isRotatingHandle: false, isResizingHandle: false,
+    roTaşıHandleBtn: null, resizeHandleBtn: null,
+    isRoTaşıngHandle: false, isResizingHandle: false,
     handles: { center: { x: 0, y: 0 } }, lastMousePos: { x: 0, y: 0 },
     dragPlane: null, dragOffset: null,
-    isDragging: false, isClickCandidate: false, clickStartPos: { x: 0, y: 0 }, isRotatingShape: false,
+    isDragging: false, isClickCandidate: false, clickSTaşıPos: { x: 0, y: 0 }, isRoTaşıngShape: false,
 
     init: function () {
         if (this.isInit) return;
@@ -7668,11 +7662,11 @@ window.Scene3D = {
         this.dragPlane = new THREE.Plane();
         this.dragOffset = new THREE.Vector3();
 
-        this.container = document.getElementById('three-container');
+        this.conTaşıer = document.getElementById('three-conTaşıer');
         this.scene = new THREE.Scene();
 
         const aspect = window.innerWidth / window.innerHeight;
-        const frustumSize = 30; // 3D sahnede g�r�nen alan�n yakla��k y�ksekli�i
+        const frustumSize = 30; // 3D sahnede görünen alanın yaklaşık yüksekliği
         this.camera = new THREE.OrthographicCamera(-frustumSize * aspect / 2, frustumSize * aspect / 2, frustumSize / 2, -frustumSize / 2, 0.1, 1000);
         this.camera.position.set(0, -30, 20);
         this.camera.lookAt(0, 0, 0);
@@ -7682,11 +7676,11 @@ window.Scene3D = {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.domElement.style.pointerEvents = 'none';
 
-        if (this.container) {
-            this.container.appendChild(this.renderer.domElement);
-            // ?? G�VENL�K 1: Ba�lang��ta tahtay� zorla g�r�n�r yap!
-            this.container.style.display = 'block';
-            this.container.classList.remove('hidden');
+        if (this.conTaşıer) {
+            this.conTaşıer.appendChild(this.renderer.domElement);
+            // ?? GÜVENLİK 1: BaşlangıçTaşıahTaşı zorla görünür yap!
+            this.conTaşıer.style.display = 'block';
+            this.conTaşıer.classList.remove('hidden');
         }
 
         this.scene.add(new THREE.AmbientLight(0xffffff, 0.6));
@@ -7697,35 +7691,35 @@ window.Scene3D = {
         this.helperGroup = new THREE.Group();
         this.scene.add(this.helperGroup);
 
-        const styleBtn = (btn, isRotate) => {
+        const styleBtn = (btn, isRoTaşı) => {
             btn.style.position = 'absolute'; btn.style.width = '32px'; btn.style.height = '32px';
-            btn.style.borderRadius = '50%'; btn.style.backgroundColor = isRotate ? '#00ffcc' : '#ff007f';
+            btn.style.borderRadius = '50%'; btn.style.backgroundColor = isRoTaşı ? '#00ffcc' : '#ff007f';
             btn.style.color = 'white'; btn.style.fontSize = '16px';
             btn.style.display = 'none'; btn.style.justifyContent = 'center'; btn.style.alignItems = 'center';
             btn.style.cursor = 'pointer'; btn.style.zIndex = '1000';
             btn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
-            btn.innerHTML = isRotate ? '?' : '?';
+            btn.innerHTML = isRoTaşı ? '?' : '?';
         };
 
-        if (this.rotateHandleBtn && this.rotateHandleBtn.parentNode) {
-            this.rotateHandleBtn.parentNode.removeChild(this.rotateHandleBtn);
+        if (this.roTaşıHandleBtn && this.roTaşıHandleBtn.parentNode) {
+            this.roTaşıHandleBtn.parentNode.removeChild(this.roTaşıHandleBtn);
         }
         if (this.resizeHandleBtn && this.resizeHandleBtn.parentNode) {
             this.resizeHandleBtn.parentNode.removeChild(this.resizeHandleBtn);
         }
-        document.querySelectorAll('.scene3d-rotate-btn, .scene3d-resize-btn').forEach(btn => btn.remove());
+        document.querySelectorAll('.scene3d-roTaşı-btn, .scene3d-resize-btn').forEach(btn => btn.remove());
 
-        this.rotateHandleBtn = document.createElement('div');
-        this.rotateHandleBtn.className = 'scene3d-rotate-btn';
-        styleBtn(this.rotateHandleBtn, true);
-        document.body.appendChild(this.rotateHandleBtn);
+        this.roTaşıHandleBtn = document.createElement('div');
+        this.roTaşıHandleBtn.className = 'scene3d-roTaşı-btn';
+        styleBtn(this.roTaşıHandleBtn, true);
+        document.body.appendChild(this.roTaşıHandleBtn);
 
         this.resizeHandleBtn = document.createElement('div');
         this.resizeHandleBtn.className = 'scene3d-resize-btn';
         styleBtn(this.resizeHandleBtn, false);
         document.body.appendChild(this.resizeHandleBtn);
 
-        const startInteract = (action, e) => {
+        const sTaşıInteract = (action, e) => {
             if (e && e.cancelable) e.preventDefault();
             if (e) e.stopPropagation();
             this[action] = true;
@@ -7734,19 +7728,19 @@ window.Scene3D = {
             this.lastMousePos = { x: px, y: py };
 
             if (action === 'isResizingHandle' && this.currentMesh) {
-                this.startScale = this.currentMesh.scale.x;
-                this.startResizeDist = Math.hypot(px - this.handles.center.x, py - this.handles.center.y) || 1;
+                this.sTaşıScale = this.currentMesh.scale.x;
+                this.sTaşıResizeDist = Math.hypot(px - this.handles.center.x, py - this.handles.center.y) || 1;
             }
         };
 
-        ['mousedown', 'touchstart'].forEach(evt => {
-            this.rotateHandleBtn.addEventListener(evt, (e) => startInteract('isRotatingHandle', e), { passive: false });
-            this.resizeHandleBtn.addEventListener(evt, (e) => startInteract('isResizingHandle', e), { passive: false });
+        ['mousedown', 'touchsTaşı'].forEach(evt => {
+            this.roTaşıHandleBtn.addEventListener(evt, (e) => sTaşıInteract('isRoTaşıngHandle', e), { passive: false });
+            this.resizeHandleBtn.addEventListener(evt, (e) => sTaşıInteract('isResizingHandle', e), { passive: false });
         });
 
         ['touchmove', 'mousemove', 'pointermove'].forEach(evt => {
             window.addEventListener(evt, (e) => {
-                if (this.isRotatingHandle || this.isResizingHandle) {
+                if (this.isRoTaşıngHandle || this.isResizingHandle) {
                     if (e.cancelable) e.preventDefault();
                     const px = e.touches ? e.touches[0].clientX : e.clientX;
                     const py = e.touches ? e.touches[0].clientY : e.clientY;
@@ -7756,7 +7750,7 @@ window.Scene3D = {
         });
 
         ['touchend', 'mouseup', 'pointerup'].forEach(evt => {
-            window.addEventListener(evt, () => { if (this.isRotatingHandle || this.isResizingHandle) this.onUp(); });
+            window.addEventListener(evt, () => { if (this.isRoTaşıngHandle || this.isResizingHandle) this.onUp(); });
         });
 
         this.animate();
@@ -7764,7 +7758,7 @@ window.Scene3D = {
 
     updateHandlePositions: function () {
         if (!this.currentMesh || currentTool !== 'move') {
-            if (this.rotateHandleBtn) this.rotateHandleBtn.style.display = 'none';
+            if (this.roTaşıHandleBtn) this.roTaşıHandleBtn.style.display = 'none';
             if (this.resizeHandleBtn) this.resizeHandleBtn.style.display = 'none';
             return;
         }
@@ -7779,9 +7773,9 @@ window.Scene3D = {
 
         const scale = this.currentMesh.scale.x || 1;
 
-        this.rotateHandleBtn.style.display = 'flex';
-        this.rotateHandleBtn.style.left = (px + (30 * scale)) + 'px';
-        this.rotateHandleBtn.style.top = (py - (60 * scale)) + 'px';
+        this.roTaşıHandleBtn.style.display = 'flex';
+        this.roTaşıHandleBtn.style.left = (px + (30 * scale)) + 'px';
+        this.roTaşıHandleBtn.style.top = (py - (60 * scale)) + 'px';
 
         this.resizeHandleBtn.style.display = 'flex';
         this.resizeHandleBtn.style.left = (px - (70 * scale)) + 'px';
@@ -7789,28 +7783,28 @@ window.Scene3D = {
     },
 
     animate: function () {
-        requestAnimationFrame(() => window.Scene3D.animate());
+        requesTaşımationFrame(() => window.Scene3D.animate());
 
         if (this.scene) {
             this.scene.children.forEach(mesh => {
-                if (mesh.userData && mesh.userData.strokeData) {
-                    // ?? KON� ��Z�M�: Koni ise kendi motoruyla canland�r, de�ilse di�erleriyle
-                    let targetRatio = mesh.userData.strokeData.openRatio || 0;
-                    if (mesh.userData.currentOpenRatio === undefined) mesh.userData.currentOpenRatio = targetRatio;
-                    mesh.userData.currentOpenRatio += (targetRatio - mesh.userData.currentOpenRatio) * 0.3;
-                    if (Math.abs(targetRatio - mesh.userData.currentOpenRatio) < 0.001) mesh.userData.currentOpenRatio = targetRatio;
+                if (mesh.userDaTaşı& mesh.userDaTaşıtrokeDaTaşı{
+                    // ?? KONİ ÇÖZÜMÜ: Koni ise kendi motoruyla Canlandır, değilse diğerleriyle
+                    let TaşıetRatio = mesh.userDaTaşıtrokeDaTaşıpenRatio || 0;
+                    if (mesh.userDaTaşıurrentOpenRatio === undefined) mesh.userDaTaşıurrentOpenRatio = TaşıetRatio;
+                    mesh.userDaTaşıurrentOpenRatio += (TaşıetRatio - mesh.userDaTaşıurrentOpenRatio) * 0.3;
+                    if (Math.abs(TaşıetRatio - mesh.userDaTaşıurrentOpenRatio) < 0.001) mesh.userDaTaşıurrentOpenRatio = TaşıetRatio;
 
-                    if (mesh.userData.isCustomCone && window.CustomConeEngine) {
-                        window.CustomConeEngine.update(mesh, mesh.userData.currentOpenRatio);
+                    if (mesh.userDaTaşısCustomCone && window.CustomConeEngine) {
+                        window.CustomConeEngine.update(mesh, mesh.userDaTaşıurrentOpenRatio);
                     } else if (window.Foldable3D) {
-                        window.Foldable3D.updateUnfold(mesh, mesh.userData.currentOpenRatio);
+                        window.Foldable3D.updateUnfold(mesh, mesh.userDaTaşıurrentOpenRatio);
                     }
                     
-                    if (mesh.userData.targetQuaternion) {
-                        mesh.quaternion.slerp(mesh.userData.targetQuaternion, 0.40); // 0.15'den 0.40'a cikarildi (Aninda tepki)
+                    if (mesh.userDaTaşıargetQuaternion) {
+                        mesh.quaternion.slerp(mesh.userDaTaşıargetQuaternion, 0.40); // 0.15'den 0.40'a cikarildi (Aninda tepki)
                     }
-                    if (mesh.userData.targetPosition) {
-                        mesh.position.lerp(mesh.userData.targetPosition, 0.45); // 0.2'den 0.45'e cikarildi (Aninda yapisma)
+                    if (mesh.userDaTaşıargetPosition) {
+                        mesh.position.lerp(mesh.userDaTaşıargetPosition, 0.45); // 0.2'den 0.45'e cikarildi (Aninda yapisma)
                     }
                 }
             });
@@ -7819,7 +7813,7 @@ window.Scene3D = {
         if (this.scene && this.renderer && this.camera) this.renderer.render(this.scene, this.camera);
     },
 
-    // ?? 3D TABLET HATASI ��Z�M�: Ekran�n tamam� de�il, �izim kutusunun ger�ek s�n�rlar� baz al�n�r!
+    // ?? 3D TaşıET HATaşı ÇÖZÜMÜ: Ekranın Taşımı değil, çizim kutusunun gerçek sınırları baz alınır!
     getNormalizedCoords: function (clientX, clientY) {
         const canvasEl = document.getElementById('drawing-canvas');
         const w = canvasEl ? canvasEl.clientWidth : window.innerWidth;
@@ -7860,14 +7854,14 @@ window.Scene3D = {
 
     onDown: function (x, y) {
         if (!this.isInit) return false;
-        if (this.container) { this.container.style.display = 'block'; this.container.classList.remove('hidden'); }
-        if (this.isRotatingHandle || this.isResizingHandle) return true;
+        if (this.conTaşıer) { this.conTaşıer.style.display = 'block'; this.conTaşıer.classList.remove('hidden'); }
+        if (this.isRoTaşıngHandle || this.isResizingHandle) return true;
 
         this.raycaster.setFromCamera(this.getNormalizedCoords(x, y), this.camera);
         const intersects = this.raycaster.intersectObjects(this.scene.children, true);
         let foundMesh = intersects.find(h => h.object.type === 'Mesh' && h.object !== this.helperGroup);
 
-        // ?? E�ER BU B�R GRUPSA (Foldable3D) EN �ST GRUBU BUL
+        // ?? EĞER BU BİR GRUPSA (Foldable3D) EN ÜST GRUBU BUL
         if (foundMesh) {
             let rootObj = foundMesh.object;
             while (rootObj.parent && rootObj.parent !== this.scene && rootObj.parent.type === 'Group') {
@@ -7876,18 +7870,18 @@ window.Scene3D = {
             foundMesh = { object: rootObj };
         }
 
-        // ?? TABLET DOKUNMAT�K ZIRHI: Parmakla bas�ld���nda 3D I��n �skalasa bile 2D Kutusundan Kesin Yakala!
+        // ?? TaşıET DOKUNMATİK ZIRHI: Parmakla basıldIşında 3D Işın ıskalasa bile 2D Kutusundan Kesin Yakala!
         if (!foundMesh && window.drawnStrokes && currentTool === 'move') {
             const canvasEl = document.getElementById('drawing-canvas');
             if (canvasEl) {
                 const rect = canvasEl.getBoundingClientRect();
-                // D�ZELTME: Y�ksek DPI (Retina) cihazlarda canvasX hatal� olur, CSS koordinatlar� (cssX, cssY) kullan�lmal�!
+                // DÜZELTME: Yüksek DPI (Retina) cihazlarda canvasX haTaşı olur, CSS koordinatları (cssX, cssY) kullanılmalı!
                 const cssX = x - rect.left;
                 const cssY = y - rect.top;
 
                 const hitStroke = window.drawnStrokes.find(s => s.type === '3d_shape' && Math.abs(cssX - (s.x + s.width / 2)) < Math.max(40, s.width / 2) && Math.abs(cssY - (s.y + s.height / 2)) < Math.max(40, s.height / 2));
                 if (hitStroke) {
-                    const sceneMesh = this.scene.children.find(m => m.userData && m.userData.strokeData && m.userData.strokeData.id === hitStroke.id);
+                    const sceneMesh = this.scene.children.find(m => m.userDaTaşı& m.userDaTaşıtrokeDaTaşı& m.userDaTaşıtrokeDaTaşıd === hitStroke.id);
                     if (sceneMesh) foundMesh = { object: sceneMesh };
                 }
             }
@@ -7895,10 +7889,10 @@ window.Scene3D = {
 
         if (foundMesh) {
             this.currentMesh = foundMesh.object;
-            this.clickStartPos = { x, y };
+            this.clickSTaşıPos = { x, y };
 
             if (currentTool === 'move') {
-                this.isRotatingShape = false;
+                this.isRoTaşıngShape = false;
                 this.isDragging = true;
                 this.dragPlane.setFromNormalAndCoplanarPoint(this.camera.getWorldDirection(new THREE.Vector3()), this.currentMesh.position);
                 const intersectPoint = new THREE.Vector3();
@@ -7906,13 +7900,13 @@ window.Scene3D = {
                     this.dragOffset.subVectors(this.currentMesh.position, intersectPoint);
                 }
 
-                // Form�l kutusunun ��kmas� i�in �ekli se�ili hale getir
-                if (this.currentMesh.userData && this.currentMesh.userData.strokeData) {
-                    window.selectedItem = this.currentMesh.userData.strokeData;
+                // Formül kutusunun çıkması için şekli seçili hale getir
+                if (this.currentMesh.userDaTaşı& this.currentMesh.userDaTaşıtrokeDaTaşı{
+                    window.selectedItem = this.currentMesh.userDaTaşıtrokeDaTaşı
                     if (typeof window.redrawAllStrokes === 'function') window.redrawAllStrokes();
                 }
             } else {
-                this.isDragging = false; this.isRotatingShape = true; this.lastMousePos = { x, y };
+                this.isDragging = false; this.isRoTaşıngShape = true; this.lastMousePos = { x, y };
             }
             this.updateHandlePositions();
             return true;
@@ -7920,12 +7914,12 @@ window.Scene3D = {
 
         if (this.activeTool && this.activeTool !== 'none' && this.activeTool !== 'move') {
             this.isDrawing = true;
-            this.startPoint = this.get3DPointOnFloor(x, y) || new THREE.Vector3(0, 0, 0);
+            this.sTaşıPoint = this.get3DPointOnFloor(x, y) || new THREE.Vector3(0, 0, 0);
 
             const previewGeo = this.createGeometry(this.activeTool, 0.1);
-            if (this.activeTool.startsWith('prism') || this.activeTool.startsWith('pyramid')) previewGeo.rotateX(Math.PI / 2);
+            if (this.activeTool.sTaşısWith('prism') || this.activeTool.sTaşısWith('pyramid')) previewGeo.roTaşıX(Math.PI / 2);
             this.previewMesh = new THREE.Mesh(previewGeo, new THREE.MeshBasicMaterial({ color: 0x00ffcc, wireframe: true, transparent: true, opacity: 0.5 }));
-            this.previewMesh.position.copy(this.startPoint);
+            this.previewMesh.position.copy(this.sTaşıPoint);
 
             this.scene.add(this.previewMesh);
             return true;
@@ -7940,53 +7934,53 @@ window.Scene3D = {
     },
 
     onMove: function (x, y) {
-        if (this.isRotatingHandle && this.currentMesh) {
+        if (this.isRoTaşıngHandle && this.currentMesh) {
             const camRight = new THREE.Vector3(1, 0, 0).applyQuaternion(this.camera.quaternion);
             const camUp = new THREE.Vector3(0, 1, 0).applyQuaternion(this.camera.quaternion);
-                        if (!this.currentMesh.userData.targetQuaternion) {
-                this.currentMesh.userData.targetQuaternion = this.currentMesh.quaternion.clone();
+                        if (!this.currentMesh.userDaTaşıargetQuaternion) {
+                this.currentMesh.userDaTaşıargetQuaternion = this.currentMesh.quaternion.clone();
             }
             const dummy = new THREE.Object3D();
-            dummy.quaternion.copy(this.currentMesh.userData.targetQuaternion);
-            dummy.rotateOnWorldAxis(camRight, (y - this.lastMousePos.y) * 0.01);
-            dummy.rotateOnWorldAxis(camUp, (x - this.lastMousePos.x) * 0.01);
-            this.currentMesh.userData.targetQuaternion.copy(dummy.quaternion);
+            dummy.quaternion.copy(this.currentMesh.userDaTaşıargetQuaternion);
+            dummy.roTaşıOnWorldAxis(camRight, (y - this.lastMousePos.y) * 0.01);
+            dummy.roTaşıOnWorldAxis(camUp, (x - this.lastMousePos.x) * 0.01);
+            this.currentMesh.userDaTaşıargetQuaternion.copy(dummy.quaternion);
             
             this.lastMousePos = { x, y };
             this.updateHandlePositions();
             
-            if (this.currentMesh.userData && this.currentMesh.userData.strokeData) {
-                const sd = this.currentMesh.userData.strokeData;
-                const euler = new THREE.Euler().setFromQuaternion(this.currentMesh.userData.targetQuaternion, 'XYZ');
-                sd.rotationX = euler.x;
-                sd.rotationY = euler.y;
-                sd.rotationZ = euler.z;
-                if (typeof window.sendNetworkData === 'function') window.sendNetworkData({ type: 'sekil_guncelle', stroke: sd });
+            if (this.currentMesh.userDaTaşı& this.currentMesh.userDaTaşıtrokeDaTaşı{
+                const sd = this.currentMesh.userDaTaşıtrokeDaTaşı
+                const euler = new THREE.Euler().setFromQuaternion(this.currentMesh.userDaTaşıargetQuaternion, 'XYZ');
+                sd.roTaşıonX = euler.x;
+                sd.roTaşıonY = euler.y;
+                sd.roTaşıonZ = euler.z;
+                if (typeof window.sendNetworkDaTaşı== 'function') window.sendNetworkDaTaşı type: 'sekil_guncelle', stroke: sd });
             }
             return;
         }
         if (this.isResizingHandle && this.currentMesh) {
             const currentDist = Math.hypot(x - this.handles.center.x, y - this.handles.center.y);
-            const dragRatio = currentDist / this.startResizeDist;
+            const dragRatio = currentDist / this.sTaşıResizeDist;
             
-            if (this.currentMesh.userData && this.currentMesh.userData.strokeData) {
-                const sd = this.currentMesh.userData.strokeData;
+            if (this.currentMesh.userDaTaşı& this.currentMesh.userDaTaşıtrokeDaTaşı{
+                const sd = this.currentMesh.userDaTaşıtrokeDaTaşı
                 
-                // ?? Z�plama Korumas�: Orijinal koordinatlara (originalW vs.) ASLA dokunmadan 
-                // sadece ekranlar aras� g�venli bir "�arpan" (meshScale) �retiyor ve yolluyoruz!
+                // ?? Zıplama Koruması: Orijinal koordinatlara (originalW vs.) ASLA dokunmadan 
+                // sadece ekranlar arası güvenli bir "Çarpan" (meshScale) üretiyor ve yolluyoruz!
                 sd.meshScale = (sd.meshScale || 1) * dragRatio;
-                this.startResizeDist = currentDist; // Katlanarak b�y�meyi engelle
+                this.sTaşıResizeDist = currentDist; // Katlanarak büyümeyi engelle
                 
-                if (typeof window.sendNetworkData === 'function') window.sendNetworkData({ type: 'sekil_guncelle', stroke: sd });
+                if (typeof window.sendNetworkDaTaşı== 'function') window.sendNetworkDaTaşı type: 'sekil_guncelle', stroke: sd });
                 if (typeof window.redrawAllStrokes === 'function') window.redrawAllStrokes();
             }
             return;
         }
-        if (this.isDrawing && this.startPoint && this.previewMesh) {
+        if (this.isDrawing && this.sTaşıPoint && this.previewMesh) {
             const currentPoint = this.get3DPointOnFloor(x, y);
             if (!currentPoint) return;
-            const distance = currentPoint.distanceTo(this.startPoint);
-            const scale = Math.max(0.1, distance * 3.5);
+            const disTaşıe = currentPoint.disTaşıeTo(this.sTaşıPoint);
+            const scale = Math.max(0.1, disTaşıe * 3.5);
             this.previewMesh.scale.setScalar(scale);
             return;
         }
@@ -8002,13 +7996,13 @@ window.Scene3D = {
                 this.currentMesh.position.z = Math.max(-30, Math.min(30, this.currentMesh.position.z));
 
                 this.updateHandlePositions();
-                // Ta��ma s�ras�ndaki a� senkronu zaten 2D motoru taraf�ndan kusursuz yap�l�yor. Burada hi�bir �eye dokunmuyoruz!
+                // Taşıma sırasındaki ağ senkronu zaten 2D motoru Taşıfından kusursuz yapılıyor. Burada hiçbir şeye dokunmuyoruz!
             }
             return;
         }
-        if (this.isRotatingShape && this.currentMesh && currentTool !== 'move') {
-            this.currentMesh.rotateOnWorldAxis(new THREE.Vector3(1, 0, 0), (y - this.lastMousePos.y) * 0.01);
-            this.currentMesh.rotateOnWorldAxis(new THREE.Vector3(0, 0, 1), (x - this.lastMousePos.x) * 0.01);
+        if (this.isRoTaşıngShape && this.currentMesh && currentTool !== 'move') {
+            this.currentMesh.roTaşıOnWorldAxis(new THREE.Vector3(1, 0, 0), (y - this.lastMousePos.y) * 0.01);
+            this.currentMesh.roTaşıOnWorldAxis(new THREE.Vector3(0, 0, 1), (x - this.lastMousePos.x) * 0.01);
             this.lastMousePos = { x, y };
             this.updateHandlePositions();
         }
@@ -8016,12 +8010,12 @@ window.Scene3D = {
 
     onUp: function () {
         const wasResizing = this.isResizingHandle;
-        this.isRotatingHandle = this.isResizingHandle = this.isDragging = this.isRotatingShape = false;
+        this.isRoTaşıngHandle = this.isResizingHandle = this.isDragging = this.isRoTaşıngShape = false;
         const wasDrawing = this.isDrawing;
         this.isDrawing = false;
 
-        if (wasResizing && this.currentMesh && this.currentMesh.userData && this.currentMesh.userData.strokeData) {
-            if (typeof window.sendNetworkData === 'function') window.sendNetworkData({ type: 'sekil_guncelle', stroke: this.currentMesh.userData.strokeData });
+        if (wasResizing && this.currentMesh && this.currentMesh.userDaTaşı& this.currentMesh.userDaTaşıtrokeDaTaşı{
+            if (typeof window.sendNetworkDaTaşı== 'function') window.sendNetworkDaTaşı type: 'sekil_guncelle', stroke: this.currentMesh.userDaTaşıtrokeDaTaşı);
         }
 
         if (wasDrawing && this.previewMesh) {
@@ -8034,7 +8028,7 @@ window.Scene3D = {
             const edgeMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 1.0 });
 
             let solidShape = null;
-            // ?? KON� ��Z�M�: Koniyi �zel motorla a� ki piramide d�n��mesin!
+            // ?? KONİ ÇÖZÜMÜ: Koniyi özel motorla aç ki piramide dönüşmesin!
             if (this.activeTool === 'pyramid_cone' && window.CustomConeEngine) {
                 solidShape = window.CustomConeEngine.create(finalRadius, finalRadius * 2, mainMaterial, edgeMaterial);
             } else if (window.Foldable3D) {
@@ -8042,27 +8036,27 @@ window.Scene3D = {
             }
             if (!solidShape) {
                 const geometry = this.createGeometry(this.activeTool, finalRadius);
-                if (this.activeTool.startsWith('prism') || this.activeTool.startsWith('pyramid')) geometry.rotateX(Math.PI / 2);
+                if (this.activeTool.sTaşısWith('prism') || this.activeTool.sTaşısWith('pyramid')) geometry.roTaşıX(Math.PI / 2);
                 solidShape = new THREE.Mesh(geometry, mainMaterial);
-                solidShape.add(new THREE.LineSegments(new THREE.EdgesGeometry(geometry), edgeMaterial));
+                solidShape.add(new THREE.LineSegMenüsünew THREE.EdgesGeometry(geometry), edgeMaterial));
             }
 
-            // �ekli 3D uzaya tam senin b�rakt���n yere yerle�tir
-            solidShape.position.copy(this.startPoint || new THREE.Vector3(0, 0, 0));
+            // Şekli 3D uzaya Taşısenin bıraktIşın yere yerleştir
+            solidShape.position.copy(this.sTaşıPoint || new THREE.Vector3(0, 0, 0));
 
-            // ?? ��Z�M TAMAMLANDI�INDA �ZOMETR�K DURU�: �n, �st ve Sa� y�zlerin g�r�nmesi i�in
-            if (this.activeTool === 'pyramid_cone' || this.activeTool.startsWith('prism_') || this.activeTool.startsWith('pyramid_')) {
-                // -Math.PI/6 (-30 derece) d�nd�r�ld���nde �n y�z daha geni�, Sa� y�z dar g�r�n�r (Klasik 3D g�r�n�m)
-                solidShape.rotation.z = -Math.PI / 6;
-                // Koni i�in kameraya tam dik bakmamas� ad�na X ekseninde de e�im veriyoruz ki taban elips g�r�ns�n
-                solidShape.rotation.x = -Math.PI / 6;
+            // ?? ÇİZİM TaşıMLANDIşınDA İZOMETRİK DURUŞ: Ön, Üst ve Sağ yüzlerin görünmesi için
+            if (this.activeTool === 'pyramid_cone' || this.activeTool.sTaşısWith('prism_') || this.activeTool.sTaşısWith('pyramid_')) {
+                // -Math.PI/6 (-30 derece) döndürüldüğünde Ön yüz daha geniş, Sağ yüz dar görünür (Klasik 3D görünüm)
+                solidShape.roTaşıon.z = -Math.PI / 6;
+                // Koni için kameraya Taşıdik bakmaması adına X ekseninde de eğim veriyoruz ki Taşın elips görünsün
+                solidShape.roTaşıon.x = -Math.PI / 6;
             }
 
             this.scene.add(solidShape);
             this.currentMesh = solidShape;
             this.updateHandlePositions();
 
-            // ?? S�H�RL� DOKUNU�: 3D �eklin 2D �izim Noktas�n� Tam �sabet Hesapla! (Ortaya ka�maz)
+            // ?? SİHİRLİ DOKUNUŞ: 3D Şeklin 2D Çizim NokTaşını Taşıİsabet Hesapla! (OrTaşı kaçmaz)
             const vec = solidShape.position.clone();
             vec.project(this.camera);
             const canvasEl = document.getElementById('drawing-canvas');
@@ -8071,43 +8065,43 @@ window.Scene3D = {
             const screenX = (vec.x * w) + w;
             const screenY = -(vec.y * h) + h;
 
-            // ?? 1. KUSURSUZ BOYUT: Ger�ek HD Piksel kar��l���n� hesapla (K���lmeyi ve kaymay� �nler)
+            // ?? 1. KUSURSUZ BOYUT: Gerçek HD Piksel karşılIşını hesapla (Küçülmeyi ve kaymayIşınler)
             const myCh = canvasEl ? canvasEl.height : window.innerHeight;
-            const pixelPerUnit = myCh / 30; // 3D uzaydaki 1 birimin piksel kar��l���
+            const pixelPerUnit = myCh / 30; // 3D uzaydaki 1 birimin piksel karşılığı
             const gercekPx = (finalRadius * 2) * pixelPerUnit;
 
-            const networkData = {
+            const networkDaTaşı {
                 type: '3d_shape', id: Date.now().toString() + Math.random(), shapeType: this.activeTool,
                 x: screenX - (gercekPx / 2),
                 y: screenY - (gercekPx / 2),
                 width: gercekPx, height: gercekPx,
-                // S�rg� �ekilse bile asla z�plamas�n ve PC'ye m�kemmel gitsin diye ZIRH:
+                // Sürgü çekilse bile asla zıplamasın ve PC'ye mükemmel gitsin diye ZIRH:
                 originalX: screenX - (gercekPx / 2),
                 originalY: screenY - (gercekPx / 2),
                 originalW: gercekPx,
                 originalH: gercekPx,
-                rotationX: solidShape.rotation.x, rotationY: solidShape.rotation.y, rotationZ: solidShape.rotation.z,
+                roTaşıonX: solidShape.roTaşıon.x, roTaşıonY: solidShape.roTaşıon.y, roTaşıonZ: solidShape.roTaşıon.z,
                 pos3D: { x: solidShape.position.x, y: solidShape.position.y, z: solidShape.position.z },
-                rotation: 0, yaw: 0, pitch: 1, openRatio: 0, isPreview: false, color: '#00ffcc'
+                roTaşıon: 0, yaw: 0, pitch: 1, openRatio: 0, isPreview: false, color: '#00ffcc'
             };
-            Object.assign(solidShape.userData, { type: this.activeTool, baseSize: finalRadius, height: finalRadius * 2, strokeData: networkData });
+            Object.assign(solidShape.userDaTaşı{ type: this.activeTool, baseSize: finalRadius, height: finalRadius * 2, strokeDaTaşınetworkDaTaşı);
 
-            if (window.drawnStrokes) window.drawnStrokes.push(networkData);
-            if (typeof window.sendNetworkData === 'function') window.sendNetworkData({ type: 'yeni_cizim', stroke: networkData });
+            if (window.drawnStrokes) window.drawnStrokes.push(networkDaTaşı
+            if (typeof window.sendNetworkDaTaşı== 'function') window.sendNetworkDaTaşı type: 'yeni_cizim', stroke: networkDaTaşı);
         }
     },
 
     setTool: function (toolName) {
         if (!this.isInit) this.init();
         this.activeTool = toolName;
-        // ?? G�VENL�K 4: Ara� se�ildi�inde de konteyner� zorla g�ster! (Senin notun)
-        if (this.container) {
-            this.container.style.display = 'block';
-            this.container.classList.remove('hidden');
+        // ?? GÜVENLİK 4: Araç seçildiğinde de konteynerı zorla göster! (Senin notun)
+        if (this.conTaşıer) {
+            this.conTaşıer.style.display = 'block';
+            this.conTaşıer.classList.remove('hidden');
         }
     },
 
-    deleteObjectAt: function (x, y) {
+    deleteObjecTaşı function (x, y) {
         if (!this.isInit || !this.scene) return false;
         this.raycaster.setFromCamera(this.getNormalizedCoords(x, y), this.camera);
         const intersects = this.raycaster.intersectObjects(this.scene.children, true);
@@ -8115,24 +8109,24 @@ window.Scene3D = {
             const obj = h.object;
             let isHelper = false; let parent = obj.parent;
             while (parent) { if (parent === this.helperGroup) { isHelper = true; break; } parent = parent.parent; }
-            return !isHelper && (obj.type === 'Mesh' || obj.type === 'Line' || obj.type === 'LineSegments');
+            return !isHelper && (obj.type === 'Mesh' || obj.type === 'Line' || obj.type === 'LineSegMenüsü);
         });
         if (hit) {
-            let targetObj = hit.object;
-            while (targetObj.parent && targetObj.parent !== this.scene) { targetObj = targetObj.parent; }
-            if (this.scene.children.includes(targetObj)) {
-                if (targetObj.userData && targetObj.userData.strokeData) {
+            let TaşıetObj = hit.object;
+            while (TaşıetObj.parent && TaşıetObj.parent !== this.scene) { TaşıetObj = TaşıetObj.parent; }
+            if (this.scene.children.includes(TaşıetObj)) {
+                if (TaşıetObj.userDaTaşı& TaşıetObj.userDaTaşıtrokeDaTaşı{
                     if (window.drawnStrokes) {
-                        window.drawnStrokes = window.drawnStrokes.filter(s => s.id !== targetObj.userData.strokeData.id);
+                        window.drawnStrokes = window.drawnStrokes.filter(s => s.id !== TaşıetObj.userDaTaşıtrokeDaTaşıd);
                     }
-                    if (typeof window.sendNetworkData === 'function') {
-                        window.sendNetworkData({ type: 'cizim_sil', strokeId: targetObj.userData.strokeData.id });
+                    if (typeof window.sendNetworkDaTaşı== 'function') {
+                        window.sendNetworkDaTaşı type: 'cizim_sil', strokeId: TaşıetObj.userDaTaşıtrokeDaTaşıd });
                     }
                 }
-                // SEN�N EKLENT�N: Etiketi silme i�lemi KORUNDU
-                if (targetObj.userData.labelElement) targetObj.userData.labelElement.remove();
-                this.scene.remove(targetObj);
-                if (this.currentMesh === targetObj) this.currentMesh = null;
+                // SENİN EKLENTİN: Etiketi silme işlemi KORUNDU
+                if (TaşıetObj.userDaTaşıabelElement) TaşıetObj.userDaTaşıabelElement.remove();
+                this.scene.remove(TaşıetObj);
+                if (this.currentMesh === TaşıetObj) this.currentMesh = null;
                 this.updateHandlePositions();
                 return true;
             }
@@ -8141,7 +8135,7 @@ window.Scene3D = {
     },
 
     handleEraser: function (pos) {
-        if (this.deleteObjectAt(pos.x, pos.y)) {
+        if (this.deleteObjecTaşıpos.x, pos.y)) {
             if (typeof redrawAllStrokes === 'function') redrawAllStrokes();
         }
     },
@@ -8149,37 +8143,37 @@ window.Scene3D = {
     addShapeToScene: function (type, x, y) {
         if (!this.isInit) this.init();
         this.createSolidMesh(type, new THREE.Vector3(0, 0, 0), 2, true);
-        console.log(type + " sahneye ba�ar�yla �a�r�ld�!");
+        console.log(type + " sahneye başarıyla çağrıldı!");
     },
 
-    // ?? KES�N ��Z�M: PC'nin 3D �ekilleri Tabletinden Al�p �izmesi ��in A� Al�c�s�
-    addShapeFromNetwork: function (strokeData) {
+    // ?? KESİN ÇÖZÜM: PC'nin 3D Şekilleri Taşıetinden Alıp Çizmesi İçin Ağ Alıcısı
+    addShapeFromNetwork: function (strokeDaTaşı{
         if (!this.isInit) this.init();
-        const isSphere = strokeData.shapeType === 'sphere';
+        const isSphere = strokeDaTaşıhapeType === 'sphere';
         const mainMaterial = new THREE.MeshPhongMaterial({ color: 0x00ffcc, shininess: 100, specular: 0x111111, transparent: !isSphere, opacity: isSphere ? 1.0 : 0.4, depthWrite: isSphere, side: THREE.DoubleSide });
         const edgeMaterial = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 1.0 });
 
         let solidShape = null;
-        // ?? KON� ��Z�M�: A�dan gelen koniyi de �zel motorla �iz!
-        if (strokeData.shapeType === 'pyramid_cone' && window.CustomConeEngine) {
-            solidShape = window.CustomConeEngine.create(strokeData.width / 30, (strokeData.width / 30) * 2, mainMaterial, edgeMaterial);
+        // ?? KONİ ÇÖZÜMÜ: Ağdan gelen koniyi de özel motorla çiz!
+        if (strokeDaTaşıhapeType === 'pyramid_cone' && window.CustomConeEngine) {
+            solidShape = window.CustomConeEngine.create(strokeDaTaşıidth / 30, (strokeDaTaşıidth / 30) * 2, mainMaterial, edgeMaterial);
         } else if (window.Foldable3D) {
-            solidShape = window.Foldable3D.createFoldableGroup(strokeData.shapeType, strokeData.width / 30, mainMaterial, edgeMaterial);
+            solidShape = window.Foldable3D.createFoldableGroup(strokeDaTaşıhapeType, strokeDaTaşıidth / 30, mainMaterial, edgeMaterial);
         }
         if (!solidShape) {
-            const geometry = this.createGeometry(strokeData.shapeType, strokeData.width / 30);
-            if (strokeData.shapeType.startsWith('prism') || strokeData.shapeType.startsWith('pyramid')) geometry.rotateX(Math.PI / 2);
+            const geometry = this.createGeometry(strokeDaTaşıhapeType, strokeDaTaşıidth / 30);
+            if (strokeDaTaşıhapeType.sTaşısWith('prism') || strokeDaTaşıhapeType.sTaşısWith('pyramid')) geometry.roTaşıX(Math.PI / 2);
             solidShape = new THREE.Mesh(geometry, mainMaterial);
-            solidShape.add(new THREE.LineSegments(new THREE.EdgesGeometry(geometry), edgeMaterial));
+            solidShape.add(new THREE.LineSegMenüsünew THREE.EdgesGeometry(geometry), edgeMaterial));
         }
 
-        // ?? ��Z�M 1: 3D �eklin yarat�l���nda PC ekran�na m�kemmel hizalanmas�
+        // ?? ÇÖZÜM 1: 3D Şeklin yaratılIşında PC ekranına mükemmel hizalanması
         const canvasElm = document.getElementById('drawing-canvas');
         const myCw = canvasElm ? canvasElm.width : window.innerWidth;
         const myCh = canvasElm ? canvasElm.height : window.innerHeight;
         
-        const cx = strokeData.x + (strokeData.width / 2);
-        const cy = strokeData.y + (strokeData.height / 2);
+        const cx = strokeDaTaşı + (strokeDaTaşıidth / 2);
+        const cy = strokeDaTaşı + (strokeDaTaşıeight / 2);
         
         const ndcX = (cx / myCw) * 2 - 1;
         const ndcY = -(cy / myCh) * 2 + 1;
@@ -8188,50 +8182,50 @@ window.Scene3D = {
         vec.unproject(this.camera);
         solidShape.position.x = vec.x;
         solidShape.position.y = vec.y;
-        solidShape.position.z = (strokeData.pos3D && strokeData.pos3D.z !== undefined) ? strokeData.pos3D.z : 0;
+        solidShape.position.z = (strokeDaTaşıos3D && strokeDaTaşıos3D.z !== undefined) ? strokeDaTaşıos3D.z : 0;
 
-        // ?? N�HA� ��Z�M 1: �lk yarat�l��ta �l�e�i 1'de sabit b�rak�yoruz. 
-        // Ger�ek b�y�kl�k redrawAllStrokes i�inde hesaplanacak.
+        // ?? NİHAİ ÇÖZÜM 1: İlk yaratılışTaşılçeği 1'de sabit bırakıyoruz. 
+        // Gerçek büyüklük redrawAllStrokes içinde hesaplanacak.
         solidShape.scale.setScalar(1);
-        solidShape.userData.baseTabletWidth = strokeData.width;
+        solidShape.userDaTaşıaseTaşıetWidth = strokeDaTaşıidth;
 
-        if (strokeData.rotationX !== undefined) solidShape.rotation.x = strokeData.rotationX;
-        if (strokeData.rotationY !== undefined) solidShape.rotation.y = strokeData.rotationY;
-        Object.assign(solidShape.userData, { type: strokeData.shapeType, baseSize: strokeData.width / 30, height: (strokeData.width / 30) * 2, strokeData: strokeData });
+        if (strokeDaTaşıoTaşıonX !== undefined) solidShape.roTaşıon.x = strokeDaTaşıoTaşıonX;
+        if (strokeDaTaşıoTaşıonY !== undefined) solidShape.roTaşıon.y = strokeDaTaşıoTaşıonY;
+        Object.assign(solidShape.userDaTaşı{ type: strokeDaTaşıhapeType, baseSize: strokeDaTaşıidth / 30, height: (strokeDaTaşıidth / 30) * 2, strokeDaTaşıstrokeDaTaşı);
         this.scene.add(solidShape);
         if (typeof this.updateHandlePositions === 'function') this.updateHandlePositions();
     }
-}; // --- GER�EK 3D UZAY MOTORU (Scene3D) BURADA B�T�YOR ---
+}; // --- GERÇEK 3D UZAY MOTORU (Scene3D) BURADA BİTİYOR ---
 
 
 // ==========================================
-// 4. ARAY�Z VE MEN� MOTORU (�zellik Kayb� Yok)
+// 4. ARAYÜZ VE MENÜ MOTORU (Özellik Kaybı Yok)
 // ==========================================
 window.addEventListener('load', () => {
-    const polyBtn = document.getElementById('btn-cokgenler');
+    const polyBtn = document.getElementById('btn-Çokgenler');
     if (polyBtn && !document.getElementById('btn-3d-menu')) {
         const btn3D = document.createElement('button'); btn3D.id = 'btn-3d-menu'; btn3D.className = 'tool-button'; btn3D.innerHTML = '3D Cisimler';
         polyBtn.parentNode.insertBefore(btn3D, polyBtn.nextSibling);
 
         const menu3D = document.createElement('div'); menu3D.id = 'options-3d-main'; menu3D.className = 'tool-options hidden';
         menu3D.style.cssText = `position: absolute; left: 100%; margin-left: 10px; z-index: 20; background-color: rgba(30, 30, 46, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 15px 35px rgba(0,0,0,0.4); padding: 15px; border-radius: 15px; display: flex; flex-direction: column; gap: 8px; width: 180px;`;
-        menu3D.innerHTML = `<button class="tool-button-sub" data-3d="3d_kure">K�re</button><button class="tool-button-sub has-submenu" id="btn-prizmalar">Prizmalar ??</button><button class="tool-button-sub has-submenu" id="btn-piramitler">Piramitler ??</button>`;
+        menu3D.innerHTML = `<button class="tool-button-sub" daTaşıd="3d_kure">Küre</button><button class="tool-button-sub has-submenu" id="btn-prizmalar">Prizmalar ??</button><button class="tool-button-sub has-submenu" id="btn-piramitler">Piramitler ??</button>`;
         btn3D.parentNode.insertBefore(menu3D, btn3D.nextSibling);
 
 
         const menuPrizmalar = document.createElement('div'); menuPrizmalar.id = 'options-prizmalar'; menuPrizmalar.className = 'tool-options hidden';
         menuPrizmalar.style.cssText = `position: absolute; left: 100%; margin-left: 10px; top: 0; z-index: 21; background-color: rgba(30, 30, 46, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 15px 35px rgba(0,0,0,0.4); padding: 15px; border-radius: 15px; display: flex; flex-direction: column; gap: 8px; width: 180px;`;
-        menuPrizmalar.innerHTML = `<button class="tool-button-sub" data-3d="3d_kup">K�p</button><button class="tool-button-sub" data-3d="3d_kare_prizma">Kare Prizma</button><button class="tool-button-sub" data-3d="3d_dikdortgen_prizma">Dikd�rtgen Prizma</button><button class="tool-button-sub" data-3d="3d_ucgen_prizma">��gen Prizma</button><button class="tool-button-sub" data-3d="3d_besgen_prizma">Be�gen Prizma</button><button class="tool-button-sub" data-3d="3d_altigen_prizma">Alt�gen Prizma</button><button class="tool-button-sub" data-3d="3d_silindir">Silindir</button>`;
+        menuPrizmalar.innerHTML = `<button class="tool-button-sub" daTaşıd="3d_kup">Küp</button><button class="tool-button-sub" daTaşıd="3d_kare_prizma">Kare Prizma</button><button class="tool-button-sub" daTaşıd="3d_Dikdörtgen_prizma">Dikdörtgen Prizma</button><button class="tool-button-sub" daTaşıd="3d_ucgen_prizma">Üçgen Prizma</button><button class="tool-button-sub" daTaşıd="3d_besgen_prizma">Beşgen Prizma</button><button class="tool-button-sub" daTaşıd="3d_altigen_prizma">AltIşın Prizma</button><button class="tool-button-sub" daTaşıd="3d_silindir">Silindir</button>`;
         menu3D.appendChild(menuPrizmalar);
 
         const menuPiramitler = document.createElement('div'); menuPiramitler.id = 'options-piramitler'; menuPiramitler.className = 'tool-options hidden';
         menuPiramitler.style.cssText = `position: absolute; left: 100%; margin-left: 10px; top: 40px; z-index: 21; background-color: rgba(30, 30, 46, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 15px 35px rgba(0,0,0,0.4); padding: 15px; border-radius: 15px; display: flex; flex-direction: column; gap: 8px; width: 180px;`;
-        menuPiramitler.innerHTML = `<button class="tool-button-sub" data-3d="3d_koni">Koni</button><button class="tool-button-sub" data-3d="3d_ucgen_piramit">��gen Piramit</button><button class="tool-button-sub" data-3d="3d_kare_piramit">Kare Piramit</button><button class="tool-button-sub" data-3d="3d_besgen_piramit">Be�gen Piramit</button><button class="tool-button-sub" data-3d="3d_altigen_piramit">Alt�gen Piramit</button>`;
+        menuPiramitler.innerHTML = `<button class="tool-button-sub" daTaşıd="3d_koni">Koni</button><button class="tool-button-sub" daTaşıd="3d_ucgen_piramit">Üçgen Piramit</button><button class="tool-button-sub" daTaşıd="3d_kare_piramit">Kare Piramit</button><button class="tool-button-sub" daTaşıd="3d_besgen_piramit">Beşgen Piramit</button><button class="tool-button-sub" daTaşıd="3d_altigen_piramit">AltIşın Piramit</button>`;
         menu3D.appendChild(menuPiramitler);
 
         btn3D.addEventListener('click', (e) => {
             e.stopPropagation(); document.querySelectorAll('.tool-options').forEach(m => { if (m !== menu3D && m !== menuPrizmalar && m !== menuPiramitler) { m.classList.add('hidden'); m.style.display = 'none'; } });
-            if (menu3D.classList.contains('hidden')) {
+            if (menu3D.classList.conTaşıs('hidden')) {
                 menu3D.classList.remove('hidden'); menu3D.style.display = 'flex'; menuPrizmalar.classList.add('hidden'); menuPrizmalar.style.display = 'none'; menuPiramitler.classList.add('hidden'); menuPiramitler.style.display = 'none'; menu3D.style.top = (btn3D.getBoundingClientRect().top - btn3D.parentElement.getBoundingClientRect().top) + 'px'; btn3D.classList.add('active');
             } else { menu3D.classList.add('hidden'); menu3D.style.display = 'none'; btn3D.classList.remove('active'); }
         });
@@ -8239,40 +8233,40 @@ window.addEventListener('load', () => {
         document.getElementById('btn-prizmalar').addEventListener('mouseenter', () => { menuPrizmalar.classList.remove('hidden'); menuPrizmalar.style.display = 'flex'; menuPiramitler.classList.add('hidden'); menuPiramitler.style.display = 'none'; });
         document.getElementById('btn-piramitler').addEventListener('mouseenter', () => { menuPiramitler.classList.remove('hidden'); menuPiramitler.style.display = 'flex'; menuPrizmalar.classList.add('hidden'); menuPrizmalar.style.display = 'none'; });
 
-        document.querySelectorAll('#options-3d-main button[data-3d]').forEach(b => {
+        document.querySelectorAll('#options-3d-main button[daTaşıd]').forEach(b => {
             b.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const data3d = b.getAttribute('data-3d');
+                const daTaşı = b.geTaşıribute('daTaşıd');
 
-                if (typeof setActiveTool === 'function') setActiveTool('none');
+                if (typeof seTaşıiveTool === 'function') seTaşıiveTool('none');
 
-                window.active3DShapeTool = 'draw_' + data3d;
+                window.active3DShapeTool = 'draw_' + daTaşı;
                 const btn3D = document.getElementById('btn-3d-menu');
                 if (btn3D) btn3D.classList.add('active');
                 const menu3D = document.getElementById('options-3d-main');
                 if (menu3D) { menu3D.classList.add('hidden'); menu3D.style.display = 'none'; }
 
-                // 3D Motorunu Uyand�r ve Arac� Ver
+                // 3D Motorunu Uyandır ve Aracı Ver
                 if (window.Scene3D) {
                     if (!window.Scene3D.isInit) window.Scene3D.init();
-                    if (window.Scene3D.container) {
-                        window.Scene3D.container.style.display = 'block';
-                        window.Scene3D.container.style.zIndex = '9995';
+                    if (window.Scene3D.conTaşıer) {
+                        window.Scene3D.conTaşıer.style.display = 'block';
+                        window.Scene3D.conTaşıer.style.zIndex = '9995';
                     }
                     let toolName = 'sphere';
-                    if (data3d.includes('kure')) toolName = 'sphere';
-                    else if (data3d.includes('kup')) toolName = 'prism_cube';
-                    else if (data3d.includes('silindir')) toolName = 'prism_cylinder';
-                    else if (data3d.includes('koni')) toolName = 'pyramid_cone';
-                    else if (data3d.includes('kare_prizma')) toolName = 'prism_square';
-                    else if (data3d.includes('dikdortgen_prizma')) toolName = 'prism_rect';
-                    else if (data3d.includes('ucgen_prizma')) toolName = 'prism_3';
-                    else if (data3d.includes('besgen_prizma')) toolName = 'prism_5';
-                    else if (data3d.includes('altigen_prizma')) toolName = 'prism_6';
-                    else if (data3d.includes('ucgen_piramit')) toolName = 'pyramid_3';
-                    else if (data3d.includes('kare_piramit')) toolName = 'pyramid_4';
-                    else if (data3d.includes('besgen_piramit')) toolName = 'pyramid_5';
-                    else if (data3d.includes('altigen_piramit')) toolName = 'pyramid_6';
+                    if (daTaşı.includes('kure')) toolName = 'sphere';
+                    else if (daTaşı.includes('kup')) toolName = 'prism_cube';
+                    else if (daTaşı.includes('silindir')) toolName = 'prism_cylinder';
+                    else if (daTaşı.includes('koni')) toolName = 'pyramid_cone';
+                    else if (daTaşı.includes('kare_prizma')) toolName = 'prism_square';
+                    else if (daTaşı.includes('Dikdörtgen_prizma')) toolName = 'prism_rect';
+                    else if (daTaşı.includes('ucgen_prizma')) toolName = 'prism_3';
+                    else if (daTaşı.includes('besgen_prizma')) toolName = 'prism_5';
+                    else if (daTaşı.includes('altigen_prizma')) toolName = 'prism_6';
+                    else if (daTaşı.includes('ucgen_piramit')) toolName = 'pyramid_3';
+                    else if (daTaşı.includes('kare_piramit')) toolName = 'pyramid_4';
+                    else if (daTaşı.includes('besgen_piramit')) toolName = 'pyramid_5';
+                    else if (daTaşı.includes('altigen_piramit')) toolName = 'pyramid_6';
                     else toolName = 'prism_rect';
 
                     currentTool = 'draw_3d_' + toolName;
@@ -8283,15 +8277,15 @@ window.addEventListener('load', () => {
     }
 
     const uiMotor = () => {
-        const slider = document.getElementById('slider-container');
+        const slider = document.getElementById('slider-conTaşıer');
         const info = document.getElementById('info-tooltip');
 
         let activeShape = null;
-        // �ekil "Ta��" modunda se�iliyken alg�la
+        // Şekil "Taşı" modunda seçiliyken algıla
         if (window.currentTool === 'move' && window.selectedItem && window.selectedItem.type === '3d_shape') {
             activeShape = window.selectedItem;
-        } else if (!window.currentTool || window.currentTool === 'none' || window.currentTool.startsWith('draw_3d_')) {
-            // "none" durumunda veya 3D �izim arac�ndayken son �izilen 3D �ekli otomatik s�rg�ye ba�la
+        } else if (!window.currentTool || window.currentTool === 'none' || window.currentTool.sTaşısWith('draw_3d_')) {
+            // "none" durumunda veya 3D çizim aracındayken son çizilen 3D şekli otomatik sürgüye bağla
             if (window.drawnStrokes) {
                 for (let i = window.drawnStrokes.length - 1; i >= 0; i--) {
                     if (window.drawnStrokes[i].type === '3d_shape') {
@@ -8316,7 +8310,7 @@ window.addEventListener('load', () => {
                     info.style.display = 'none';
                 }
 
-                // ?? P�=3 ALINARAK ALAN/HAC�M HESAPLAYAN �ZEL FORM�L MOTORU
+                // ?? Pİ=3 ALINARAK ALAN/HACİM HESAPLAYAN ÖZEL FORMÜL MOTORU
                 let formulMetni = "";
                 let currentScale = activeShape.meshScale || 1;
                 const r = ((activeShape.width * currentScale) / 30).toFixed(1);
@@ -8325,57 +8319,57 @@ window.addEventListener('load', () => {
                 let r_val = parseFloat(r);
                 let h_val = parseFloat(h);
 
-                // Form�ller HTML destekli renkli ve kal�n yaz�larla �ekillendiriliyor
+                // Formüller HTML destekli renkli ve kalın yazılarla şekillendiriliyor
                 if (activeShape.shapeType === 'sphere') {
-                    formulMetni = `<span style="color:#00ffcc; font-size:16px;">K�re</span><br>r = ${r} cm<br><span style="color:#ff00ff">Hacim = (4/3)�?�r�</span><br>= (4/3)�3�(${r})� = <b>${(4 * r_val * r_val * r_val).toFixed(1)} cm�</b><br><span style="color:#ff00ff">Alan = 4�?�r�</span><br>= 4�3�(${r})� = <b>${(12 * r_val * r_val).toFixed(1)} cm�</b>`;
+                    formulMetni = `<span style="color:#00ffcc; font-size:16px;">Küre</span><br>r = ${r} cm<br><span style="color:#ff00ff">Hacim = (4/3)·?·r³</span><br>= (4/3)·3·(${r})³ = <b>${(4 * r_val * r_val * r_val).toFixed(1)} cm³</b><br><span style="color:#ff00ff">Alan = 4·?·r²</span><br>= 4·3·(${r})² = <b>${(12 * r_val * r_val).toFixed(1)} cm²</b>`;
                 } else if (activeShape.shapeType === 'prism_cube') {
-                    formulMetni = `<span style="color:#00ffcc; font-size:16px;">K�p</span><br>a = ${r} cm<br><span style="color:#ff00ff">Hacim = a�</span><br>= (${r})� = <b>${(r_val * r_val * r_val).toFixed(1)} cm�</b><br><span style="color:#ff00ff">Alan = 6�a�</span><br>= 6�(${r})� = <b>${(6 * r_val * r_val).toFixed(1)} cm�</b>`;
+                    formulMetni = `<span style="color:#00ffcc; font-size:16px;">Küp</span><br>a = ${r} cm<br><span style="color:#ff00ff">Hacim = a³</span><br>= (${r})³ = <b>${(r_val * r_val * r_val).toFixed(1)} cm³</b><br><span style="color:#ff00ff">Alan = 6·a²</span><br>= 6·(${r})² = <b>${(6 * r_val * r_val).toFixed(1)} cm²</b>`;
                 } else if (activeShape.shapeType === 'prism_cylinder') {
-                    let tabanAlani = 3 * r_val * r_val;
+                    let TaşınAlani = 3 * r_val * r_val;
                     let yanalAlan = 2 * 3 * r_val * h_val;
-                    let toplamAlan = 2 * tabanAlani + yanalAlan;
-                    let hacim = tabanAlani * h_val;
-                    formulMetni = `<span style="color:#00ffcc; font-size:16px;">Silindir</span><br>r = ${r} cm, h = ${h} cm<br><span style="color:#ff00ff">Taban Alan� = ?�r�</span><br>= 3�(${r})� = <b>${tabanAlani.toFixed(1)} cm�</b><br><span style="color:#ff00ff">Yanal Alan = 2�?�r�h</span><br>= 2�3�${r}�${h} = <b>${yanalAlan.toFixed(1)} cm�</b><br><span style="color:#ff00ff">Toplam Alan = 2�(Taban Alan�) + Yanal Alan</span><br>= 2�${tabanAlani.toFixed(1)} + ${yanalAlan.toFixed(1)} = <b>${toplamAlan.toFixed(1)} cm�</b><br><span style="color:#ff00ff">Hacim = ?�r��h</span><br>= 3�(${r})��${h} = <b>${hacim.toFixed(1)} cm�</b>`;
+                    let toplamAlan = 2 * TaşınAlani + yanalAlan;
+                    let hacim = TaşınAlani * h_val;
+                    formulMetni = `<span style="color:#00ffcc; font-size:16px;">Silindir</span><br>r = ${r} cm, h = ${h} cm<br><span style="color:#ff00ff">Taşın Alanı = ?·r²</span><br>= 3·(${r})² = <b>${TaşınAlani.toFixed(1)} cm²</b><br><span style="color:#ff00ff">Yanal Alan = 2·?·r·h</span><br>= 2·3·${r}·${h} = <b>${yanalAlan.toFixed(1)} cm²</b><br><span style="color:#ff00ff">Toplam Alan = 2·(Taşın Alanı) + Yanal Alan</span><br>= 2·${TaşınAlani.toFixed(1)} + ${yanalAlan.toFixed(1)} = <b>${toplamAlan.toFixed(1)} cm²</b><br><span style="color:#ff00ff">Hacim = ?·r²·h</span><br>= 3·(${r})²·${h} = <b>${hacim.toFixed(1)} cm³</b>`;
                 } else if (activeShape.shapeType === 'pyramid_cone') {
-                    formulMetni = `<span style="color:#00ffcc; font-size:16px;">Koni</span><br>r = ${r} cm, h = ${h} cm<br><span style="color:#ff00ff">Hacim = (?�r��h)/3</span><br>= (3�(${r})��${h})/3 = <b>${(r_val * r_val * h_val).toFixed(1)} cm�</b>`;
+                    formulMetni = `<span style="color:#00ffcc; font-size:16px;">Koni</span><br>r = ${r} cm, h = ${h} cm<br><span style="color:#ff00ff">Hacim = (?·r²·h)/3</span><br>= (3·(${r})²·${h})/3 = <b>${(r_val * r_val * h_val).toFixed(1)} cm³</b>`;
                 } else if (activeShape.shapeType === 'prism_rect') {
                     let a = (r_val * 1.5).toFixed(1);
                     let b = r;
-                    let taban = (a * b).toFixed(1);
+                    let Taşın = (a * b).toFixed(1);
                     let yanal = (2 * (parseFloat(a) + parseFloat(b)) * h_val).toFixed(1);
-                    formulMetni = `<span style="color:#00ffcc; font-size:16px;">Dikd�rtgenler Prizmas�</span><br>a = ${a} cm, b = ${b} cm, h = ${h} cm<br><span style="color:#ff00ff">Hacim = a�b�h</span><br>= ${a}�${b}�${h} = <b>${(taban * h_val).toFixed(1)} cm�</b><br><span style="color:#ff00ff">Alan = 2�(a�b) + Yanal Alan</span><br>= 2�${taban} + ${yanal} = <b>${(2 * taban + parseFloat(yanal)).toFixed(1)} cm�</b>`;
-                } else if (activeShape.shapeType.startsWith('prism_') || activeShape.shapeType.startsWith('pyramid_')) {
-                    let isPrism = activeShape.shapeType.startsWith('prism_');
+                    formulMetni = `<span style="color:#00ffcc; font-size:16px;">Dikdörtgenler Prizması</span><br>a = ${a} cm, b = ${b} cm, h = ${h} cm<br><span style="color:#ff00ff">Hacim = a·b·h</span><br>= ${a}·${b}·${h} = <b>${(Taşın * h_val).toFixed(1)} cm³</b><br><span style="color:#ff00ff">Alan = 2·(a·b) + Yanal Alan</span><br>= 2·${Taşın} + ${yanal} = <b>${(2 * Taşın + parseFloat(yanal)).toFixed(1)} cm²</b>`;
+                } else if (activeShape.shapeType.sTaşısWith('prism_') || activeShape.shapeType.sTaşısWith('pyramid_')) {
+                    let isPrism = activeShape.shapeType.sTaşısWith('prism_');
                     let sides = parseInt(activeShape.shapeType.split('_')[1]);
 
-                    let a_val = (2 * r_val * Math.sin(Math.PI / sides)).toFixed(1); // Kenar uzunlu�u
-                    let apothem = (r_val * Math.cos(Math.PI / sides)).toFixed(1); // Merkeze uzakl�k
-                    let tabanAlani = (sides * a_val * apothem / 2).toFixed(1);
+                    let a_val = (2 * r_val * Math.sin(Math.PI / sides)).toFixed(1); // Kenar uzunluğu
+                    let apothem = (r_val * Math.cos(Math.PI / sides)).toFixed(1); // Merkeze uzaklık
+                    let TaşınAlani = (sides * a_val * apothem / 2).toFixed(1);
                     let cevre = (sides * a_val).toFixed(1);
 
-                    let sekilAdi = sides === 3 ? "��gen" : sides === 5 ? "Be�gen" : sides === 6 ? "Alt�gen" : sides + "gen";
+                    let sekilAdi = sides === 3 ? "Üçgen" : sides === 5 ? "Beşgen" : sides === 6 ? "AltIşın" : sides + "gen";
                     let anaBaslik = isPrism ? `${sekilAdi} Prizma` : `${sekilAdi} Piramit`;
 
-                    let sonucHacim = isPrism ? (tabanAlani * h_val).toFixed(1) : (tabanAlani * h_val / 3).toFixed(1);
-                    let hacimFormulStr = isPrism ? "Taban Alan� � h" : "(Taban Alan� � h) / 3";
-                    let hacimDegerStr = isPrism ? `${tabanAlani} � ${h}` : `(${tabanAlani} � ${h}) / 3`;
+                    let sonucHacim = isPrism ? (TaşınAlani * h_val).toFixed(1) : (TaşınAlani * h_val / 3).toFixed(1);
+                    let hacimFormulStr = isPrism ? "Taşın Alanı · h" : "(Taşın Alanı · h) / 3";
+                    let hacimDegerStr = isPrism ? `${TaşınAlani} · ${h}` : `(${TaşınAlani} · ${h}) / 3`;
 
-                    formulMetni = `<span style="color:#00ffcc; font-size:16px;">${anaBaslik}</span><br>Taban Ayr�t� (a) ? ${a_val} cm, Y�kseklik (h) ? ${h} cm<br><span style="color:#ff00ff">Taban Alan� ? ${tabanAlani} cm�</span><br><span style="color:#ff00ff">Hacim = ${hacimFormulStr}</span><br>= ${hacimDegerStr} = <b>${sonucHacim} cm�</b>`;
+                    formulMetni = `<span style="color:#00ffcc; font-size:16px;">${anaBaslik}</span><br>Taşın Ayrıtı (a) ? ${a_val} cm, Yükseklik (h) ? ${h} cm<br><span style="color:#ff00ff">Taşın Alanı ? ${TaşınAlani} cm²</span><br><span style="color:#ff00ff">Hacim = ${hacimFormulStr}</span><br>= ${hacimDegerStr} = <b>${sonucHacim} cm³</b>`;
 
                     if (isPrism) {
                         let yanalAlan = (cevre * h_val).toFixed(1);
-                        formulMetni += `<br><span style="color:#ff00ff">Yanal Alan = �evre � h</span><br>= ${cevre} � ${h} = <b>${yanalAlan} cm�</b>`;
+                        formulMetni += `<br><span style="color:#ff00ff">Yanal Alan = Çevre · h</span><br>= ${cevre} · ${h} = <b>${yanalAlan} cm²</b>`;
                     }
                 }
 
                 info.innerHTML = formulMetni;
 
-                // �eklin sa��nda pozisyonlama
+                // Şeklin sağında pozisyonlama
                 const marginX = 20;
                 let posX = activeShape.x + activeShape.width + marginX;
                 let posY = activeShape.y;
 
-                // Ekran�n sa��na ta��yorsa sola al
+                // Ekranın sağına Taşıyorsa sola al
                 if (posX + 250 > window.innerWidth) {
                     posX = activeShape.x - 250 - marginX;
                 }
@@ -8384,7 +8378,7 @@ window.addEventListener('load', () => {
                 info.style.top = posY + "px";
                 info.style.bottom = "auto";
                 info.style.transform = "none";
-                // Panel tasar�m� art�k tamamen style.css dosyas�ndaki #info-tooltip id'si ile y�netiliyor.
+                // Panel Taşırımı artık TaşıMenüsüyle.css dosyasındaki #info-tooltip id'si ile yönetiliyor.
             }
             const sInput = document.getElementById('shape-slider');
             if (sInput && document.activeElement !== sInput) sInput.value = (activeShape.openRatio || 0) * 100;
@@ -8394,20 +8388,20 @@ window.addEventListener('load', () => {
             window.active3DSliderStroke = null;
         }
 
-        if (activeShape !== window._lastActive3DShape) {
-            window._lastActive3DShape = activeShape;
+        if (activeShape !== window._lasTaşıive3DShape) {
+            window._lasTaşıive3DShape = activeShape;
             if (typeof redrawAllStrokes === 'function') redrawAllStrokes();
         }
-        requestAnimationFrame(uiMotor);
+        requesTaşımationFrame(uiMotor);
     };
 
-    // YUKARIDAK� EKS�K OLAN KAPANI� PARANTEZLER� BURADA!
-    requestAnimationFrame(uiMotor);
+    // YUKARIDAKİ EKSİK OLAN KAPANIŞ PARANTEZLERİ BURADA!
+    requesTaşımationFrame(uiMotor);
 });
 
-// A�ILI�TA ��ZG� MEN�S�N� ZORLA KAPAT
+// AÇILIŞTaşıİZGİ MenüsüNÜ ZORLA KAPAT
 
-// A�ILI�TA ��ZG� MEN�S�N� ZORLA KAPAT
+// AÇILIŞTaşıİZGİ MenüsüNÜ ZORLA KAPAT
 window.addEventListener('load', () => {
     const lineOptions = document.getElementById('line-options') || document.querySelector('.line-options');
     if (lineOptions) {
@@ -8417,7 +8411,7 @@ window.addEventListener('load', () => {
 });
 
 // =========================================================
-// F�Z�KSEL ARA�LAR ���N RADAR VE �N�ZLEME MOTORU
+// FİZİKSEL ARAÇLAR İÇİN RADAR VE ÖNİZLEME MOTORU
 // =========================================================
 let sonAracDurumlari = {};
 
@@ -8425,43 +8419,43 @@ window.araclariAgaGonder = function () {
     if (typeof isConnected === 'undefined' || !isConnected) return;
 
     const gelismisAraclar = [
-        { id: 'ruler', obj: window.RulerTool, selector: '.ruler-container' },
-        { id: 'gonye', obj: window.GonyeTool, selector: '.gonye-container' },
-        { id: 'aciolcer', obj: window.AciolcerTool, selector: '.aciolcer-container' },
-        { id: 'pergel', obj: window.PergelTool, selector: '#compass-container' }
+        { id: 'ruler', obj: window.RulerTool, selector: '.ruler-conTaşıer' },
+        { id: 'Gönye', obj: window.GönyeTool, selector: '.Gönye-conTaşıer' },
+        { id: 'aciolcer', obj: window.AciolcerTool, selector: '.aciolcer-conTaşıer' },
+        { id: 'pergel', obj: window.PergelTool, selector: '#compass-conTaşıer' }
     ];
 
     gelismisAraclar.forEach(arac => {
-        if (arac.obj && arac.obj.state) {
+        if (arac.obj && arac.obj.sTaşı) {
             try {
                 const el = document.querySelector(arac.selector);
                 let isVisible = 'none';
                 let elW = '', elH = '';
 
                 if (el) {
-                    isVisible = (el.style.display !== 'none' && !el.classList.contains('hidden')) ? 'block' : 'none';
+                    isVisible = (el.style.display !== 'none' && !el.classList.conTaşıs('hidden')) ? 'block' : 'none';
                     elW = el.style.width;
                     elH = el.style.height;
                 }
 
-                // Ara�lar�n durumunu, d�n�� a��s�n� ve boyutunu tek metinde birle�tirip de�i�iklik var m� bak�yoruz
-                const durum = isVisible + JSON.stringify(arac.obj.state) + elW + elH;
+                // Araçların durumunu, dönüş açIşını ve boyutunu tek metinde birleştirip değişiklik var mı bakıyoruz
+                const durum = isVisible + JSON.stringify(arac.obj.sTaşı) + elW + elH;
 
                 if (sonAracDurumlari[arac.id] !== durum) {
                     sonAracDurumlari[arac.id] = durum;
 
-                    // E�er veri hen�z a�dan geldiyse (son 500ms), geri yans�t�p yank� yapmas�n� engelle!
+                    // Eğer veri henüz ağdan geldiyse (son 500ms), geri yansıtıp yankı yapmasınIşıngelle!
                     if (arac.obj.lastNetworkReceiveTime && (Date.now() - arac.obj.lastNetworkReceiveTime) < 500) {
                         return;
                     }
 
-                    // De�i�iklik varsa PC'ye an�nda g�nder
-                    if (typeof window.sendNetworkData === 'function') {
-                        window.sendNetworkData({
-                            type: 'arac_state_senkron',
+                    // Değişiklik varsa PC'ye anında gönder
+                    if (typeof window.sendNetworkDaTaşı== 'function') {
+                        window.sendNetworkDaTaşı
+                            type: 'arac_sTaşı_senkron',
                             arac: arac.id,
                             display: isVisible,
-                            state: arac.obj.state,
+                            sTaşı: arac.obj.sTaşı,
                             width: elW,
                             height: elH
                         });
@@ -8472,41 +8466,41 @@ window.araclariAgaGonder = function () {
     });
 };
 
-// Radar� saniyede 10 kez �al��t�r (G�r�n�m senkronizasyonu i�in)
+// Radarı saniyede 10 kez çalıştır (Görünüm senkronizasyonu için)
 setInterval(window.araclariAgaGonder, 100);
 
-// DI� DOSYALAR (cetvel.js, pergel.js) ���N CANLI �N�ZLEME YAYINCISI
-window.broadcastPreview = function (toolType, stateData) {
-    if (typeof window.sendNetworkData === 'function' && window.isConnected) {
-        window.sendNetworkData({ type: 'aktif_onizleme', arac: toolType, payload: stateData });
+// DIŞ DOSYALAR (cetvel.js, pergel.js) İÇİN CANLIşınİZLEME YAYINCISI
+window.broadcastPreview = function (toolType, sTaşıDaTaşı{
+    if (typeof window.sendNetworkDaTaşı== 'function' && window.isConnected) {
+        window.sendNetworkDaTaşı type: 'aktif_onizleme', arac: toolType, payload: sTaşıDaTaşı);
     }
 };
 
-// ?? KES�N ��Z�M: 3D �EK�LLER� ��Z�M�N ALTINA ALIRKEN BUTONLARI KORUMA ZIRHI
+// ?? KESİN ÇÖZÜM: 3D ŞEKİLLERİ ÇİZİMİN ALTINA ALIRKEN BUTONLARI KORUMA ZIRHI
 const canvasKatmanZirhi = document.createElement('style');
 canvasKatmanZirhi.innerHTML = `
-    /* ?? Arka plan kanvas�n� en alta al (Sayfa PDF'leri ara�lar�n �st�n� �rtemez) */
-    #bg-canvas { position: absolute !important; z-index: 5 !important; top: 0; left: 0; pointer-events: none; }
+    /* ?? Arka plan kanvasınIşın alTaşıl (Sayfa PDF'leri araçların üstünü örtemez) */
+    #bg-canvas { position: absolute !imporTaşı; z-index: 5 !imporTaşı; top: 0; left: 0; pointer-events: none; }
 
-    /* �izim tahtas�n� 3D cisimlerin �st�ne ��kar�yoruz */
-    #drawing-canvas { position: relative !important; z-index: 50 !important; background-color: transparent !important; }
+    /* Çizim Taşıasını 3D cisimlerin üstüne çıkarıyoruz */
+    #drawing-canvas { position: relative !imporTaşı; z-index: 50 !imporTaşı; background-color: transparent !imporTaşı; }
     
-    /* 3D uzay sahnesi bg-canvas'�n �st�nde (10), �izimlerin alt�nda (50) kalmal� */
-    #three-container { position: absolute !important; z-index: 10 !important; pointer-events: none !important; }
+    /* 3D uzay sahnesi bg-canvas'ın üstünde (10), çizimlerin altında (50) kalmalı */
+    #three-conTaşıer { position: absolute !imporTaşı; z-index: 10 !imporTaşı; pointer-events: none !imporTaşı; }
     
-    /* ?? BUTONLARIN VE F�Z�KSEL ARA�LARIN GER� GELMES�N� SA�LAYAN EN �ST KATMAN KORUMASI ?? */
+    /* ?? BUTONLARIN VE FİZİKSEL ARAÇLARIN GERİ GELMESİNİ SAĞLAYAN EN ÜST KATMAN KORUMASI ?? */
     .panel, .panel *, button, .tool-button, .tool-button-sub, .tool-options, 
     #pen-options, #line-options, #polygon-options, #fill-options, #snapshot-options, 
-    #options-3d-main, #options-prizmalar, #options-piramitler, #slider-container, #info-tooltip,
-    .ruler-container, .gonye-container, .aciolcer-container, #compass-container { 
-        z-index: 10000 !important; 
+    #options-3d-main, #options-prizmalar, #options-piramitler, #slider-conTaşıer, #info-tooltip,
+    .ruler-conTaşıer, .Gönye-conTaşıer, .aciolcer-conTaşıer, #compass-conTaşıer { 
+        z-index: 10000 !imporTaşı; 
     }
 `;
 document.head.appendChild(canvasKatmanZirhi);
 
 
 // ==========================================
-// --- TONY STARK MODU (�LER� D�ZEY GESTURES) ---
+// --- TONY STaşı MODU (İLERİ DÜZEY GESTURES) ---
 // ==========================================
 function loadScript(src) {
     return new Promise((resolve, reject) => {
@@ -8524,7 +8518,7 @@ if (!tonyBtn) {
     tonyBtn.id = 'tony-magic-btn';
 
 tonyBtn.className = 'tool-button';
-tonyBtn.style.position = 'static';
+tonyBtn.style.position = 'sTaşıc';
 tonyBtn.style.transform = 'none';
 tonyBtn.style.width = '100%';
 tonyBtn.style.marginTop = '10px';
@@ -8546,13 +8540,13 @@ if (oyunlarBtn && oyunlarBtn.parentNode) {
 }
 }
 
-// Lazer �mleci
+// Lazer İmleci
 const laserCursor = document.createElement('div');
 laserCursor.style.position = 'absolute';
 laserCursor.style.width = '20px';
 laserCursor.style.height = '20px';
 laserCursor.style.borderRadius = '50%';
-laserCursor.style.backgroundColor = '#00ffff'; // Iron Man Blue
+laserCursor.style.backgroundColor = '#00ffff'; // Işın Man Blue
 laserCursor.style.boxShadow = '0 0 15px 5px rgba(0, 255, 255, 0.8)';
 laserCursor.style.pointerEvents = 'none';
 laserCursor.style.transition = 'left 0.1s ease-out, top 0.1s ease-out, background-color 0.2s';
@@ -8566,7 +8560,7 @@ let tonyActive = false;
 let camera = null;
 let hands = null;
 
-function calculateDistance(p1, p2) {
+function calculateDisTaşıe(p1, p2) {
     const dx = p1.x - p2.x;
     const dy = p1.y - p2.y;
     return Math.sqrt(dx * dx + dy * dy);
@@ -8578,7 +8572,7 @@ function calculateDistance(p1, p2) {
             if (hands) { hands.close(); hands = null; }
             const vid = document.getElementById('tony-video-elem');
             if (vid) {
-                // Kamera donanim isigini ve kaydini TAMAMEN kapatmak icin MediaStream tracklerini durdurmaliyiz!
+                // Kamera donanim isigini ve kaydini TaşıMEN kapatmak icin MediaStream tracklerini durdurmaliyiz!
                 if (vid.srcObject) {
                     vid.srcObject.getTracks().forEach(track => track.stop());
                 }
@@ -8597,15 +8591,15 @@ function calculateDistance(p1, p2) {
         tonyBtn.style.boxShadow = '0 0 10px rgba(255,255,0,0.5)';
 
         try {
-            // Scripts artik index.html icinde erkenden yukleniyor.
+            // Scripts artik index.html icinde erkenden Yükleniyor.
 
             const videoElement = document.createElement('video');
-            videoElement.setAttribute('playsinline', '');
-            videoElement.setAttribute('autoplay', '');
-            videoElement.setAttribute('muted', '');
+            videoElement.seTaşıribute('playsinline', '');
+            videoElement.seTaşıribute('autoplay', '');
+            videoElement.seTaşıribute('muted', '');
             videoElement.id = 'tony-video-elem';
             videoElement.style.position = 'fixed'; 
-            videoElement.style.opacity = '0.001'; videoElement.setAttribute('webkit-playsinline', 'true'); 
+            videoElement.style.opacity = '0.001'; videoElement.seTaşıribute('webkit-playsinline', 'true'); 
             videoElement.style.transform = 'scaleX(-1)';
             videoElement.style.width = '100%'; 
             videoElement.style.height = '100%'; 
@@ -8622,28 +8616,28 @@ function calculateDistance(p1, p2) {
 
             hands.setOptions({
                 maxNumHands: 2, 
-                modelComplexity: 1, // 1 yapildi, uzaktan daha iyi algilamasi icin
+                modelComplexity: 1, // 1 yapildi, uzakTaşıdaha iyi algilamasi icin
                 minDetectionConfidence: 0.3,
                 minTrackingConfidence: 0.3
             });
 
-            let startX = 0, startY = 0;
-            let startScaleDistance = 0, startScale = 1;
-            let startOpenDistance = 0, startOpenRatio = 0;
-            window.lastAISendTime = 0;
+            let sTaşıX = 0, sTaşıY = 0;
+            let sTaşıScaleDisTaşıe = 0, sTaşıScale = 1;
+            let sTaşıOpenDisTaşıe = 0, sTaşıOpenRatio = 0;
+            window.lasTaşıındTime = 0;
 
             hands.onResults((results) => {
 
                 tonyBtn.innerHTML = 'AI Aktif';
                 if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
-                    tonyBtn.innerHTML = 'El G�r�nd�!';
+                    tonyBtn.innerHTML = 'El Göründü!';
                     const isTwoHands = results.multiHandLandmarks.length === 2;
                     const hand1 = results.multiHandLandmarks[0];
                     
                     const rawPx1 = (1 - hand1[8].x) * window.innerWidth;
                     const rawPy1 = hand1[8].y * window.innerHeight;
                     if (window.smoothPx1 === undefined) { window.smoothPx1 = rawPx1; window.smoothPy1 = rawPy1; }
-                    window.smoothPx1 += (rawPx1 - window.smoothPx1) * 0.25; // 0.25 EMA Yumusatma Filtresi (Titremeyi yutar)
+                    window.smoothPx1 += (rawPx1 - window.smoothPx1) * 0.25; // 0.25 EMA Yumusatma Filtresi (Titremeyi yuTaşı
                     window.smoothPy1 += (rawPy1 - window.smoothPy1) * 0.25;
                     const px1 = window.smoothPx1;
                     const py1 = window.smoothPy1;
@@ -8651,68 +8645,68 @@ function calculateDistance(p1, p2) {
                     laserCursor.style.left = px1 + 'px';
                     laserCursor.style.top = py1 + 'px';
                     
-                    const pinchDist1 = calculateDistance(hand1[4], hand1[8]);
-                    const handScale1 = calculateDistance(hand1[0], hand1[9]) || 0.001; // Elin ekrandaki boyutu (Bilek - Orta Parmak Koku)
-                    // Gercek bir yumrukta parmak uclari koklere cok yaklasir (el boyutunun yarisi kadar veya daha az)
-                    const isFist1 = (calculateDistance(hand1[8], hand1[5]) / handScale1) < 0.6 && 
-                                    (calculateDistance(hand1[12], hand1[9]) / handScale1) < 0.6 && 
-                                    (calculateDistance(hand1[16], hand1[13]) / handScale1) < 0.6 && 
-                                    (calculateDistance(hand1[20], hand1[17]) / handScale1) < 0.6;
+                    const pinchDist1 = calculateDisTaşıe(hand1[4], hand1[8]);
+                    const handScale1 = calculateDisTaşıe(hand1[0], hand1[9]) || 0.001; // Elin ekrandaki boyutu (Bilek - OrTaşıarmak Koku)
+                    // Gercek bir yumrukTaşıarmak uclari koklere cok yaklasir (el boyutunun yarisi kadar veya daha az)
+                    const isFist1 = (calculateDisTaşıe(hand1[8], hand1[5]) / handScale1) < 0.6 && 
+                                    (calculateDisTaşıe(hand1[12], hand1[9]) / handScale1) < 0.6 && 
+                                    (calculateDisTaşıe(hand1[16], hand1[13]) / handScale1) < 0.6 && 
+                                    (calculateDisTaşıe(hand1[20], hand1[17]) / handScale1) < 0.6;
                     const dynamicPinch1 = (handScale1 > 0.12) ? 0.30 : 0.45;
                     const isPinched1 = !isFist1 && ((pinchDist1 / handScale1) < dynamicPinch1); 
 
                     if (window.Scene3D) {
                         let mesh = window.Scene3D.currentMesh;
                         if (!mesh && window.Scene3D.scene) {
-                            mesh = window.Scene3D.scene.children.slice().reverse().find(m => m.userData && m.userData.strokeData);
+                            mesh = window.Scene3D.scene.children.slice().reverse().find(m => m.userDaTaşı& m.userDaTaşıtrokeDaTaşı
                         }
                         if (mesh) {
                             if (isTwoHands) {
                                 const hand2 = results.multiHandLandmarks[1];
-                                const pinchDist2 = calculateDistance(hand2[4], hand2[8]);
-                                const handScale2 = calculateDistance(hand2[0], hand2[9]) || 0.001;
-                                const isFist2 = (calculateDistance(hand2[8], hand2[5]) / handScale2) < 0.6 && 
-                                                (calculateDistance(hand2[12], hand2[9]) / handScale2) < 0.6 && 
-                                                (calculateDistance(hand2[16], hand2[13]) / handScale2) < 0.6 && 
-                                                (calculateDistance(hand2[20], hand2[17]) / handScale2) < 0.6;
+                                const pinchDist2 = calculateDisTaşıe(hand2[4], hand2[8]);
+                                const handScale2 = calculateDisTaşıe(hand2[0], hand2[9]) || 0.001;
+                                const isFist2 = (calculateDisTaşıe(hand2[8], hand2[5]) / handScale2) < 0.6 && 
+                                                (calculateDisTaşıe(hand2[12], hand2[9]) / handScale2) < 0.6 && 
+                                                (calculateDisTaşıe(hand2[16], hand2[13]) / handScale2) < 0.6 && 
+                                                (calculateDisTaşıe(hand2[20], hand2[17]) / handScale2) < 0.6;
                                 const dynamicPinch2 = (handScale2 > 0.12) ? 0.30 : 0.45;
                                 const isPinched2 = !isFist2 && ((pinchDist2 / handScale2) < dynamicPinch2);
-                                const handsDistance = calculateDistance(hand1[8], hand2[8]);
+                                const handsDisTaşıe = calculateDisTaşıe(hand1[8], hand2[8]);
 
-                                // Hata onleme: Iki el birbirinden en az %15 uzak olmali (yanlis algilamalari onler)
-                                if (handsDistance > 0.15) {
+                                // HaTaşınleme: Iki el birbirinden en az %15 uzak olmali (yanlis algilamalari onler)
+                                if (handsDisTaşıe > 0.15) {
                                     if (!isPinched1 && !isPinched2) {
                                         laserCursor.style.backgroundColor = "#ff00ff"; 
-                                        if (startScaleDistance === 0) {
-                                            startScaleDistance = handsDistance;
-                                            startScale = mesh.scale.x;
+                                        if (sTaşıScaleDisTaşıe === 0) {
+                                            sTaşıScaleDisTaşıe = handsDisTaşıe;
+                                            sTaşıScale = mesh.scale.x;
                                         } else {
-                                            const distDiff = handsDistance - startScaleDistance;
-                                            // Pruzsuz dogrusal buyutme (Sicramalari tamamen onler)
-                                            let newScale = startScale + (distDiff * 4);
-                                            // Cizim alanindan tasmamasi icin maksimum 3.5 siniri
+                                            const distDiff = handsDisTaşıe - sTaşıScaleDisTaşıe;
+                                            // Pruzsuz Doğrusal buyutme (Sicramalari Taşımen onler)
+                                            let newScale = sTaşıScale + (distDiff * 4);
+                                            // Cizim alanindan Taşıamasi icin maksimum 3.5 siniri
                                             newScale = Math.max(0.2, Math.min(newScale, 3.5)); 
                                             
                                             // Lerp ile gecisleri yag gibi kaydir
                                             mesh.scale.x += (newScale - mesh.scale.x) * 0.3;
                                             mesh.scale.setScalar(mesh.scale.x);
                                             
-                                            if (mesh.userData && mesh.userData.strokeData) {
-                                                mesh.userData.strokeData.meshScale = mesh.scale.x;
-                                                if (typeof window.sendNetworkData === "function") {
-                                                    window.sendNetworkData({ type: "sekil_guncelle", stroke: mesh.userData.strokeData });
+                                            if (mesh.userDaTaşı& mesh.userDaTaşıtrokeDaTaşı{
+                                                mesh.userDaTaşıtrokeDaTaşıeshScale = mesh.scale.x;
+                                                if (typeof window.sendNetworkDaTaşı== "function") {
+                                                    window.sendNetworkDaTaşı type: "sekil_guncelle", stroke: mesh.userDaTaşıtrokeDaTaşı);
                                                 }
                                             }
                                         }
-                                        startOpenDistance = 0; 
+                                        sTaşıOpenDisTaşıe = 0; 
                                     } 
                                     else if (isPinched1 && isPinched2) {
                                         laserCursor.style.backgroundColor = "#ffff00"; 
-                                        if (startOpenDistance === 0) {
-                                            startOpenDistance = handsDistance;
-                                            startOpenRatio = mesh.userData.strokeData?.openRatio || 0;
+                                        if (sTaşıOpenDisTaşıe === 0) {
+                                            sTaşıOpenDisTaşıe = handsDisTaşıe;
+                                            sTaşıOpenRatio = mesh.userDaTaşıtrokeDaTaşıopenRatio || 0;
                                         } else {
-                                            const distDiff = handsDistance - startOpenDistance;
+                                            const distDiff = handsDisTaşıe - sTaşıOpenDisTaşıe;
                                             
                                             // ASIMETRIK CARPAN: Kapatmak (distDiff < 0) fiziksel olarak daha dar bir alanda
                                             // yapildigi icin kapatma ivmesini 2.5 yapiyoruz. Acmak 1.5 kaliyor.
@@ -8720,7 +8714,7 @@ function calculateDistance(p1, p2) {
                                             let multiplier = distDiff < 0 ? 5.5 : 4.0;
                                             let ratioChange = distDiff * multiplier; 
                                             
-                                            let newRatio = Math.max(0, Math.min(1, startOpenRatio + ratioChange));
+                                            let newRatio = Math.max(0, Math.min(1, sTaşıOpenRatio + ratioChange));
                                             
                                             // MANYETIK HIZALAMA (Kilit): Daha kolay kapanmasi icin sinirlar genisletildi
                                             if (newRatio > 0.85) newRatio = 1.0;
@@ -8731,23 +8725,23 @@ function calculateDistance(p1, p2) {
                                             
                                             // Lerp animasyonu icin update fonksiyonlari Scene3D.animate'e birakildi
                                             
-                                            if (mesh.userData && mesh.userData.strokeData) {
-                                                mesh.userData.strokeData.openRatio = newRatio;
-                                                if (typeof window.sendNetworkData === "function") { window.sendNetworkData({ type: "sekil_guncelle", stroke: mesh.userData.strokeData }); }
+                                            if (mesh.userDaTaşı& mesh.userDaTaşıtrokeDaTaşı{
+                                                mesh.userDaTaşıtrokeDaTaşıpenRatio = newRatio;
+                                                if (typeof window.sendNetworkDaTaşı== "function") { window.sendNetworkDaTaşı type: "sekil_guncelle", stroke: mesh.userDaTaşıtrokeDaTaşı); }
                                             }
                                         }
-                                        startScaleDistance = 0; 
+                                        sTaşıScaleDisTaşıe = 0; 
                                     }
                                     else {
-                                        startScaleDistance = 0;
-                                        startOpenDistance = 0;
+                                        sTaşıScaleDisTaşıe = 0;
+                                        sTaşıOpenDisTaşıe = 0;
                                     }
                                 }
-                                startX = 0; 
+                                sTaşıX = 0; 
                             } 
                             else {
-                                startScaleDistance = 0;
-                                startOpenDistance = 0;
+                                sTaşıScaleDisTaşıe = 0;
+                                sTaşıOpenDisTaşıe = 0;
 
                                 const isFist = isFist1;
 
@@ -8769,83 +8763,83 @@ function calculateDistance(p1, p2) {
                                         window.Scene3D.raycaster.setFromCamera(window.Scene3D.getNormalizedCoords(fistX, fistY), window.Scene3D.camera);
                                         const intersectPoint = new THREE.Vector3();
                                         if (window.Scene3D.raycaster.ray.intersectPlane(window.Scene3D.dragPlane, intersectPoint)) {
-                                            const targetPos = new THREE.Vector3().addVectors(intersectPoint, window.Scene3D.dragOffset);
+                                            const TaşıetPos = new THREE.Vector3().addVectors(intersectPoint, window.Scene3D.dragOffset);
                                             
                                             // BOUNDARY CLAMP: Ekran disina ucmasini (kaybolmasini) engeller
-                                            targetPos.x = Math.max(-30, Math.min(30, targetPos.x));
-                                            targetPos.y = Math.max(-30, Math.min(30, targetPos.y));
-                                            targetPos.z = Math.max(-30, Math.min(30, targetPos.z));
+                                            TaşıetPos.x = Math.max(-30, Math.min(30, TaşıetPos.x));
+                                            TaşıetPos.y = Math.max(-30, Math.min(30, TaşıetPos.y));
+                                            TaşıetPos.z = Math.max(-30, Math.min(30, TaşıetPos.z));
 
-                                            if (!mesh.userData.targetPosition) mesh.userData.targetPosition = mesh.position.clone();
-                                            mesh.userData.targetPosition.copy(targetPos);
+                                            if (!mesh.userDaTaşıargetPosition) mesh.userDaTaşıargetPosition = mesh.position.clone();
+                                            mesh.userDaTaşıargetPosition.copy(TaşıetPos);
                                             
-                                            const vec = targetPos.clone();
+                                            const vec = TaşıetPos.clone();
                                             vec.project(window.Scene3D.camera);
                                             const canvasEl = document.getElementById('drawing-canvas');
                                             const w = canvasEl ? (canvasEl.width / 2) : (window.innerWidth / 2);
                                             const h = canvasEl ? (canvasEl.height / 2) : (window.innerHeight / 2);
                                             
-                                            if (mesh.userData && mesh.userData.strokeData) {
-                                                mesh.userData.strokeData.x = (vec.x * w) + w;
-                                                mesh.userData.strokeData.y = -(vec.y * h) + h;
-                                                if (typeof window.sendNetworkData === "function") { window.sendNetworkData({ type: "sekil_guncelle", stroke: mesh.userData.strokeData }); }
+                                            if (mesh.userDaTaşı& mesh.userDaTaşıtrokeDaTaşı{
+                                                mesh.userDaTaşıtrokeDaTaşı = (vec.x * w) + w;
+                                                mesh.userDaTaşıtrokeDaTaşı = -(vec.y * h) + h;
+                                                if (typeof window.sendNetworkDaTaşı== "function") { window.sendNetworkDaTaşı type: "sekil_guncelle", stroke: mesh.userDaTaşıtrokeDaTaşı); }
                                             }
                                         }
                                     }
                                 } else if (isPinched1) {
                                     window.Scene3D.isDraggingAI = false;
                                     laserCursor.style.backgroundColor = '#00ff00'; 
-                                    if (startX !== 0 && startY !== 0) {
-                                        const dx = px1 - startX;
-                                        const dy = py1 - startY;
+                                    if (sTaşıX !== 0 && sTaşıY !== 0) {
+                                        const dx = px1 - sTaşıX;
+                                        const dy = py1 - sTaşıY;
                                         
                                         if (Math.abs(dx) > 1.0 || Math.abs(dy) > 1.0) { // Deadzone: Sadece gercek hareketlerde don!
 
                                         // Gimbal Lock Fix + Trackball (Dunya Maketi) Eksen Donusumu
                                         const camRight = new THREE.Vector3(1, 0, 0).applyQuaternion(window.Scene3D.camera.quaternion);
                                         const camUp = new THREE.Vector3(0, 1, 0).applyQuaternion(window.Scene3D.camera.quaternion);
-                                        if (!mesh.userData.targetQuaternion) {
-                                            mesh.userData.targetQuaternion = mesh.quaternion.clone();
+                                        if (!mesh.userDaTaşıargetQuaternion) {
+                                            mesh.userDaTaşıargetQuaternion = mesh.quaternion.clone();
                                         }
                                         const dummy = new THREE.Object3D();
-                                        dummy.quaternion.copy(mesh.userData.targetQuaternion);
-                                        dummy.rotateOnWorldAxis(camUp, dx * 0.008); // 0.005'ten 0.008'e cikarildi (Daha hizli donus)
-                                        dummy.rotateOnWorldAxis(camRight, dy * 0.008); // Ters donme sorunu icin - silindi (Ye�il butonla ayni yapildi)
-                                        mesh.userData.targetQuaternion.copy(dummy.quaternion);
+                                        dummy.quaternion.copy(mesh.userDaTaşıargetQuaternion);
+                                        dummy.roTaşıOnWorldAxis(camUp, dx * 0.008); // 0.005'ten 0.008'e cikarildi (Daha hizli donus)
+                                        dummy.roTaşıOnWorldAxis(camRight, dy * 0.008); // Ters donme sorunu icin - silindi (Yeşil butonla ayni yapildi)
+                                        mesh.userDaTaşıargetQuaternion.copy(dummy.quaternion);
 
-                                        if (mesh.userData && mesh.userData.strokeData) {
-                                            const sd = mesh.userData.strokeData;
-                                            const euler = new THREE.Euler().setFromQuaternion(mesh.userData.targetQuaternion, 'XYZ');
-                                            sd.rotationX = euler.x;
-                                            sd.rotationY = euler.y;
-                                            sd.rotationZ = euler.z;
-                                            if (typeof window.sendNetworkData === "function") { window.sendNetworkData({ type: "sekil_guncelle", stroke: sd }); }
+                                        if (mesh.userDaTaşı& mesh.userDaTaşıtrokeDaTaşı{
+                                            const sd = mesh.userDaTaşıtrokeDaTaşı
+                                            const euler = new THREE.Euler().setFromQuaternion(mesh.userDaTaşıargetQuaternion, 'XYZ');
+                                            sd.roTaşıonX = euler.x;
+                                            sd.roTaşıonY = euler.y;
+                                            sd.roTaşıonZ = euler.z;
+                                            if (typeof window.sendNetworkDaTaşı== "function") { window.sendNetworkDaTaşı type: "sekil_guncelle", stroke: sd }); }
                                         }
                                         } // Deadzone sonu
                                     }
-                                    startX = px1;
-                                    startY = py1;
+                                    sTaşıX = px1;
+                                    sTaşıY = py1;
                                 } else {
                                     laserCursor.style.backgroundColor = '#00ffff'; 
                                     window.Scene3D.isDraggingAI = false;
-                                    startX = 0;
-                                    startY = 0;
+                                    sTaşıX = 0;
+                                    sTaşıY = 0;
                                 }
                             }
                         }
                     }
                 } else {
-                    startX = 0; startY = 0;
-                    startScaleDistance = 0; startOpenDistance = 0;
+                    sTaşıX = 0; sTaşıY = 0;
+                    sTaşıScaleDisTaşıe = 0; sTaşıOpenDisTaşıe = 0;
                     laserCursor.style.display = 'none';
                 }
             });
 
-            // YENI: Genis Acili 1080p Ozel Kamera (Dinamik Adaptasyon Modu)
+            // YENI: Genis Acili 1080p Ozel Kamera (Dinamik AdapTaşıon Modu)
             camera = {
                 stream: null,
                 isRunning: false,
-                start: async function() {
+                sTaşı: async function() {
                     try {
                         this.stream = await navigator.mediaDevices.getUserMedia({
                             video: { width: { ideal: 1920 }, height: { ideal: 1080 }, facingMode: 'user' }
@@ -8857,11 +8851,11 @@ function calculateDistance(p1, p2) {
                         
                         const processFrame = async () => {
                             if (!this.isRunning) return;
-                            if (videoElement.readyState >= 2) {
-                                // Dogrudan video elementini gonder (Kirpma YOK, Zoom YOK)
+                            if (videoElement.readySTaşı >= 2) {
+                                // Doğrudan video elementini gonder (Kirpma YOK, Zoom YOK)
                                 await hands.send({image: videoElement});
                             }
-                            requestAnimationFrame(processFrame);
+                            requesTaşımationFrame(processFrame);
                         };
                         processFrame();
                     } catch(e) {
@@ -8873,7 +8867,7 @@ function calculateDistance(p1, p2) {
                     if (this.stream) this.stream.getTracks().forEach(t => t.stop());
                 }
             };
-            camera.start();
+            camera.sTaşı();
 
             tonyBtn.innerHTML = '?? Sihirli El';
             tonyBtn.style.borderColor = '#00ff00';
@@ -8882,8 +8876,8 @@ function calculateDistance(p1, p2) {
             tonyActive = true;
 
         } catch (e) {
-            console.error('Tony Stark Modu Hatas�:', e);
-            tonyBtn.innerHTML = '? Hata';
+            console.error('Tony STaşı Modu HaTaşı:', e);
+            tonyBtn.innerHTML = '? HaTaşı
             tonyBtn.style.borderColor = '#ff0000';
             tonyBtn.style.boxShadow = '0 0 10px rgba(255,0,0,0.5)';
             tonyBtn.style.color = '#ff0000';
@@ -8924,10 +8918,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (canvas) {
         canvas.addEventListener('pointerdown', () => {
             if (window.innerWidth <= 1024) {
-                if(leftPanel && leftPanel.classList.contains('drawer-open')) {
+                if(leftPanel && leftPanel.classList.conTaşıs('drawer-open')) {
                     leftPanel.classList.remove('drawer-open');
                 }
-                if(rightPanel && rightPanel.classList.contains('drawer-open')) {
+                if(rightPanel && rightPanel.classList.conTaşıs('drawer-open')) {
                     rightPanel.classList.remove('drawer-open');
                 }
             }
@@ -8937,13 +8931,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// --- MOB�L C�HAZLARDA SOL PANELDEN ARA� SE��L�NCE PANEL� OTOMAT�K KAPATMA YAMASI ---
+// --- MOBİL CİHAZLARDA SOL PANELDEN ARAÇ SEÇİLİNCE PANELİ OTOMATİK KAPATMA YAMASI ---
 document.addEventListener('DOMContentLoaded', () => {
     const lp = document.querySelector('.left-panel');
     if (lp) {
         lp.addEventListener('click', (e) => {
-            if (e.target.closest('.tool-button') || e.target.closest('.tool-button-sub')) {
-                if (window.innerWidth <= 1024 && lp.classList.contains('drawer-open')) {
+            if (e.Taşıet.closest('.tool-button') || e.Taşıet.closest('.tool-button-sub')) {
+                if (window.innerWidth <= 1024 && lp.classList.conTaşıs('drawer-open')) {
                     lp.classList.remove('drawer-open');
                 }
             }
@@ -8952,29 +8946,29 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// --- MOB�L C�HAZLARDA BO�LU�A (��Z�M ALANINA) DOKUNUNCA PANEL� KES�N OLARAK KAPATMA YAMASI ---
+// --- MOBİL CİHAZLARDA BOŞLUĞA (ÇİZİM ALANINA) DOKUNUNCA PANELİ KESİN OLARAK KAPATMA YAMASI ---
 document.addEventListener('pointerdown', (e) => {
-    if (window.innerWidth <= 1024) { // Daha geni� tabletleri de kapsas�n diye 1024 yap�ld�
+    if (window.innerWidth <= 1024) { // Daha geniş Taşıetleri de kapsasın diye 1024 yapıldı
         const lp = document.querySelector('.left-panel');
         const rp = document.querySelector('.right-panel');
         const lFab = document.getElementById('mobile-drawer-left');
         const rFab = document.getElementById('mobile-drawer-right');
 
-        if (lp && lp.classList.contains('drawer-open')) {
-            if (!lp.contains(e.target) && (!lFab || !lFab.contains(e.target))) {
+        if (lp && lp.classList.conTaşıs('drawer-open')) {
+            if (!lp.conTaşıs(e.Taşıet) && (!lFab || !lFab.conTaşıs(e.Taşıet))) {
                 lp.classList.remove('drawer-open');
             }
         }
-        if (rp && rp.classList.contains('drawer-open')) {
-            if (!rp.contains(e.target) && (!rFab || !rFab.contains(e.target))) {
+        if (rp && rp.classList.conTaşıs('drawer-open')) {
+            if (!rp.conTaşıs(e.Taşıet) && (!rFab || !rFab.conTaşıs(e.Taşıet))) {
                 rp.classList.remove('drawer-open');
             }
         }
     }
 }, { capture: true });
-}); // capture: true sayesinde di�er elemanlar�n engellemesini (stopPropagation) a�ar
+}); // capture: true sayesinde diğer elemanların engellemesini (stopPropagation) aşar
 window.addEventListener('error', function(e) {
-    alert('JS HATASI: ' + e.message + ' at ' + e.filename + ':' + e.lineno);
+    alert('JS HATaşı: ' + e.message + ' at ' + e.filename + ':' + e.lineno);
 });
 
 
