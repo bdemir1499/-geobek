@@ -7706,6 +7706,7 @@ window.Scene3D = {
 
             if (this.container) {
                 this.container.appendChild(this.renderer.domElement);
+            }
         } catch(e) {
             console.error('WebGL Hatasi', e);
             if (isTablet) alert('Cihaziniz 3D cizimleri (WebGL) desteklemiyor!');
