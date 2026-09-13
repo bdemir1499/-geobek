@@ -641,6 +641,12 @@ window.OyunListesi = [
 
 // --- BURAYA YAPIŞTIR ---
 window.sendNetworkData = function (dataObj) {
+    if (dataObj && dataObj.type === 'aktif_onizleme') {
+        if (!window.lastPreviewTime) window.lastPreviewTime = 0;
+        if (Date.now() - window.lastPreviewTime < 40) return; // Limit to ~25 FPS to prevent WebRTC buffer overflow
+        window.lastPreviewTime = Date.now();
+    }
+
     // 1. Durum: Eğer bu cihaz TABLET ise (tahtaya bağlıyız)
     if (typeof myConnection !== 'undefined' && myConnection && (myConnection.open || window.isConnected)) {
         myConnection.send(dataObj);
