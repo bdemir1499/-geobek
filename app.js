@@ -7382,6 +7382,11 @@ window.mySessionId = Date.now().toString() + Math.random().toString();
 
 window.sendNetworkData = function (dataPackage) {
     if (!dataPackage) return;
+    if (dataPackage.type === 'aktif_onizleme') {
+        if (!window.lastPreviewTime) window.lastPreviewTime = 0;
+        if (Date.now() - window.lastPreviewTime < 50) return;
+        window.lastPreviewTime = Date.now();
+    }
     const boardLocalOnly = new Set(['arka_plan_resmi_aktar', 'pdf_yukle', 'resim_yukle']);
 
     // YANKI KORUMASI İÇİN KİMLİK DAMGASI
