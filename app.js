@@ -5771,7 +5771,7 @@ const teacherTokenFromUrl = new URLSearchParams(window.location.search).get('tea
 if (!isTablet) {
     window.teacherPairingToken = createSecureToken(16);
     window.teacherPairingTokenIssuedAt = Date.now();
-    window.sessionPassword = createSessionSecret();
+    window.sessionPassword = Math.floor(1000 + Math.random() * 9000).toString();
 } else if (teacherTokenFromUrl && window.history && typeof window.history.replaceState === 'function') {
     window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
 }
@@ -8943,6 +8943,7 @@ document.addEventListener('pointerdown', (e) => {
 window.addEventListener('error', function(e) {
     alert('JS HATASI: ' + e.message + ' at ' + e.filename + ':' + e.lineno);
 });
+
 
 
 
