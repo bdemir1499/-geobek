@@ -5782,15 +5782,7 @@ if (!isTablet) {
 // 🚨 SİHİRLİ DOKUNUŞ: Tarayıcının dış dünyaya (internete) çıkış yollarını kesiyoruz!
 // iceServers dizisi boş bırakıldığı için sistem NAT/Güvenlik duvarını aşamaz.
 // Kötü niyetli biri şifreyi bilse bile fiziksel olarak uzaktan veri gönderemez!
-const askeriKalkan = {
-    host: window.location.hostname || '127.0.0.1',
-    port: Number(window.GEOBEK_PEER_PORT || 9000),
-    path: '/peerjs',
-    secure: window.location.protocol === 'https:',
-    config: {
-        'iceServers': [] // İnternet kapıları mühürlendi. Sadece LocalHost (Aynı Wi-Fi) çalışır.
-    }
-};
+const askeriKalkan = { config: {} };
 
 function renderTeacherPairingQr(peerId) {
     const qrHost = document.getElementById('teacher-pairing-qr');
@@ -8948,3 +8940,10 @@ document.addEventListener('pointerdown', (e) => {
     }
 }, { capture: true });
 }); // capture: true sayesinde diğer elemanların engellemesini (stopPropagation) aşar
+window.addEventListener('error', function(e) {
+    alert('JS HATASI: ' + e.message + ' at ' + e.filename + ':' + e.lineno);
+});
+myPeer.on('error', function(err) {
+    alert('PEERJS HATASI: ' + err.type + ' - ' + err.message);
+});
+
