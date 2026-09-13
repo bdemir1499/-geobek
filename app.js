@@ -5789,7 +5789,14 @@ if (!isTablet) {
 // ?? S�H�RL� DOKUNU�: Taray�c�n�n d�� d�nyaya (internete) ��k�� yollar�n� kesiyoruz!
 // iceServers dizisi bo� b�rak�ld��� i�in sistem NAT/G�venlik duvar�n� a�amaz.
 // K�t� niyetli biri �ifreyi bilse bile fiziksel olarak uzaktan veri g�nderemez!
-const askeriKalkan = { config: { iceServers: [] } };
+const peerOptions = {
+    host: window.location.hostname || 'localhost',
+    port: 9000,
+    path: '/peerjs',
+    secure: window.location.protocol === 'https:',
+    config: { iceServers: [] }
+};
+const askeriKalkan = peerOptions;
 
 function renderTeacherPairingQr(peerId) {
     const qrHost = document.getElementById('teacher-pairing-qr');
@@ -5839,8 +5846,8 @@ if (isTablet) {
 }
 // --- 3. BA�LANTI �STEK D�NLEY�C�S� (KAPI Z�L�) ---
 myPeer.on('connection', function (conn) {
-    if (window.authorizedTeacherId && typeof myConnection !== 'undefined' && myConnection && myConnection.open) {
-        console.warn('Zaten aktif bir ogretmen var:', conn.peer);
+    if (window.firstTabletConnectionAccepted) {
+        console.warn("İlk tablet bağlantısı zaten kabul edildi. Yeni bağlantı reddedildi:", conn.peer);
         setTimeout(() => conn.close(), 100);
         return;
     }
@@ -5935,6 +5942,7 @@ myPeer.on('connection', function (conn) {
                     isConnected = true;
                     window.isConnected = true; 
                     window.baglantiOnaylandi = true;
+                    window.firstTabletConnectionAccepted = true;
                     const _np = document.getElementById('network-panel'); if (_np) _np.style.display = 'none';
                     const _mb = document.getElementById('network-mini-btn'); if (_mb) _mb.style.display = 'block';
                     const _lo = document.getElementById('language-overlay'); if (_lo) _lo.style.display = 'none';
@@ -8976,8 +8984,5 @@ document.addEventListener('pointerdown', (e) => {
 window.addEventListener('error', function(e) {
     alert('JS HATASI: ' + e.message + ' at ' + e.filename + ':' + e.lineno);
 });
-
-
-
 
 

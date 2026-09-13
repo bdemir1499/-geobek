@@ -59,13 +59,15 @@ This software is an independent educational tool developed voluntarily by a teac
 
 ## Yerel Ağda Çalıştırma
 
-Ana uygulama ve PeerJS signaling servisi aynı cihazda çalıştırılabilir:
+Windows'ta `Geobek-Baslat.bat` dosyasına çift tıklayın. Başlatıcı Node.js/npm kurulumunu ve yerel `node_modules` bağımlılıklarını kontrol eder, `server.js` dosyasını arka planda çalıştırır ve tahtayı `http://localhost:3000/` adresinde açar. Sunucu çıktısı `geobek-server.log` dosyasına yazılır.
+
+Elle çalıştırmak için:
 
 ```text
 npm install
 npm start
 ```
 
-Tahta tarayıcıda `http://TAHTA_IP:3000` adresinden açılır. Öğretmen/tablet cihazları aynı Wi-Fi ağına bağlanıp QR kodu okutabilir. Uygulamanın ders verileri için TURN/STUN sunucusu yapılandırılmamıştır; bağlantı yalnızca yerel ağ adaylarıyla kurulmaya çalışılır. `vendor/` altındaki tarayıcı kütüphaneleri uygulama ile birlikte servis edildiği için ana ekranın CDN erişimine ihtiyacı yoktur.
+Tahtayı ağdaki diğer cihazlardan açmak için `http://TAHTA_IP:3000/` adresini kullanın. Tablet ve tahta aynı Wi-Fi ağına bağlı olmalıdır. PeerJS istemcisi her zaman sayfanın bulunduğu makinenin yerel `9000/peerjs` endpoint'ine bağlanır; varsayılan PeerJS bulutu kullanılmaz. WebRTC yapılandırmasında STUN/TURN sunucusu yoktur (`iceServers: []`), bu nedenle veri aktarımı yalnızca doğrudan yerel ağ adaylarıyla denenir.
 
-Bu yapı dosyaları signaling sunucusunda depolamaz; sunucu yalnızca statik dosya ve WebRTC bağlantı kurulumu sağlar. Aynı Wi-Fi ağına bağlı ve oda bilgisine erişebilen cihazlar yine tehdit modeli içindedir. Öğrenci fotoğrafı veya PDF gönderildiğinde içerik bağlı istemcilere gösterilebilir; hassas içerikler paylaşılmadan önce öğretmen onayı ve okul politikaları dikkate alınmalıdır.
+İlk başarılı tablet bağlantısından sonra tahta, aynı oturumda gelen diğer bağlantı isteklerini otomatik reddeder. Yeni bir ders için tahta sayfasını yeniden yükleyin. PDF, fotoğraf ve çizim paketleri yalnızca kabul edilmiş tahta-tablet bağlantısı üzerinden aktarılır; sunucu bu verileri diske kaydetmez. `vendor/` ve kök dizindeki tarayıcı kütüphaneleri yereldir, ana uygulama CDN erişimine ihtiyaç duymaz. Eğitim oyunlarının harici bağlantıları bu veri aktarım kanalından bağımsızdır ve değiştirilmemiştir.

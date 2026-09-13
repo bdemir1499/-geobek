@@ -16,6 +16,9 @@ app.use((req, res, next) => {
     res.setHeader('Referrer-Policy', 'no-referrer');
     next();
 });
+app.get('/healthz', (req, res) => {
+    res.json({ ok: true, service: 'geobek-lan' });
+});
 app.use(express.static(root, { index: 'index.html', fallthrough: false }));
 
 server.listen(port, '0.0.0.0', () => {
@@ -29,6 +32,11 @@ const peerServer = PeerServer({
     path: '/peerjs',
     allow_discovery: false,
     proxied: false
+});
+
+peerServer.on('error', error => {
+    console.error('PeerJS signaling başlatılamadı:', error);
+    process.exitCode = 1;
 });
 
 peerServer.on('connection', client => {
