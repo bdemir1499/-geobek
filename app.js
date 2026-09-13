@@ -1,4 +1,4 @@
-﻿window.onerror = function(msg, url, line) { alert('HATA: ' + msg + '\nSatir: ' + line); };
+window.onerror = function(msg, url, line) { alert('HATA: ' + msg + '\nSatir: ' + line); };
 // ?? ALAN ADI K�L�D� (DOMAIN BINDING) ??
 // Sadece bdemir1499.github.io adresinde, EBA sunucular�nda ve yerel bilgisayarda �al���r!
 const gecerliAdresler = ["bdemir1499.github.io", "127.0.0.1", "localhost", "eba.gov.tr", "vercel.app"];
@@ -5923,9 +5923,9 @@ myPeer.on('connection', function (conn) {
         btnAccept.onclick = function () {
             try {
                 myConnection = conn;
+                window.authorizedTeacherId = conn.peer;
+                window.teacherConnectionStatus = 'authorized';
                 if (conn.isTeacherCandidate) {
-                    window.authorizedTeacherId = conn.peer;
-                    window.teacherConnectionStatus = 'authorized';
                     window.pendingTeacherConnections.delete(conn.peer);
                     window.teacherPairingToken = createSecureToken(16);
                     window.teacherPairingTokenIssuedAt = Date.now();
