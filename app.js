@@ -6315,7 +6315,6 @@ function setupConnectionEvents() {
         if (data.type === 'chunk') {
             if (chunkState.size >= NETWORK_LIMITS.maxPendingChunks && !chunkState.has(data.msgId)) {
                 console.warn('Ağ parça kuyruğu sınırı aşıldı:', connection.peer);
-                connection.close();
                 return;
             }
             const existing = chunkState.get(data.msgId);
