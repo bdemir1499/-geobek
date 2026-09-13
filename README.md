@@ -57,17 +57,19 @@ Lisans: MIT Lisansı ile korunmaktadır.
 ℹ️ Disclaimer (English)
 This software is an independent educational tool developed voluntarily by a teacher. It is intended solely for classroom educational purposes. It does not collect, store, or upload any personal data. It is provided "as is" under the MIT License. The developer accepts no liability for misuse.
 
-## Yerel Ağda Çalıştırma
+## Derste hızlı kullanım (önerilen)
 
-Windows'ta `Geobek-Baslat.bat` dosyasına çift tıklayın. Başlatıcı Node.js/npm kurulumunu ve yerel `node_modules` bağımlılıklarını kontrol eder, `server.js` dosyasını arka planda çalıştırır ve tahtayı `http://localhost:3000/` adresinde açar. Sunucu çıktısı `geobek-server.log` dosyasına yazılır.
+1. Tahtada GitHub Pages bağlantısını açın: `https://bdemir1499.github.io/-geobek/`
+2. Tabletlerde aynı bağlantıyı açın ve **Oda Kodu** ile tahtada görünen **Tahta Şifresi/PIN** değerini girin.
+3. Tahta üzerindeki bağlantı isteğini onaylayın. İlk başarılı tablet bağlantısından sonra aynı ders oturumundaki diğer bağlantılar otomatik reddedilir.
+4. Yeni bir ders için tahtayı yenileyin; yeni oda kodu ve PIN üretilir.
 
-Elle çalıştırmak için:
+Tablet için istenirse tahtadaki QR kod okutulabilir. Linke tıklamak ve oda kodu + PIN girmek dışında Node.js, npm, `IP:3000` veya `.bat` kullanımı gerekmez.
 
-```text
-npm install
-npm start
-```
+GitHub Pages dışında localhost ile geliştirme yapılırken `server.js` ve `Geobek-Baslat.bat` hâlâ kullanılabilir. Bu durumda uygulama yerel `9000/peerjs` signaling endpoint'ine bağlanır; GitHub Pages'te ise uygulama PeerJS'in public signaling varsayılanını otomatik seçer.
 
-Tahtayı ağdaki diğer cihazlardan açmak için `http://TAHTA_IP:3000/` adresini kullanın. Tablet ve tahta aynı Wi-Fi ağına bağlı olmalıdır. PeerJS istemcisi her zaman sayfanın bulunduğu makinenin yerel `9000/peerjs` endpoint'ine bağlanır; varsayılan PeerJS bulutu kullanılmaz. WebRTC yapılandırmasında STUN/TURN sunucusu yoktur (`iceServers: []`), bu nedenle veri aktarımı yalnızca doğrudan yerel ağ adaylarıyla denenir.
+### Gizlilik ve bağlantı modeli
 
-İlk başarılı tablet bağlantısından sonra tahta, aynı oturumda gelen diğer bağlantı isteklerini otomatik reddeder. Yeni bir ders için tahta sayfasını yeniden yükleyin. PDF, fotoğraf ve çizim paketleri yalnızca kabul edilmiş tahta-tablet bağlantısı üzerinden aktarılır; sunucu bu verileri diske kaydetmez. `vendor/` ve kök dizindeki tarayıcı kütüphaneleri yereldir, ana uygulama CDN erişimine ihtiyaç duymaz. Eğitim oyunlarının harici bağlantıları bu veri aktarım kanalından bağımsızdır ve değiştirilmemiştir.
+PDF, fotoğraf ve çizim içerikleri kabul edilmiş bağlantı üzerinden WebRTC ile cihazlar arasında P2P aktarılır; uygulama bu içerikleri signaling servisine veya diske kaydetmez. GitHub Pages akışında yalnızca PeerJS'in bağlantı kurmak için kullandığı oda/kimlik ve bağlantı metadata'sı public signaling servisinden geçebilir. Bu nedenle oda kodu ve PIN'i sınıf dışıyla paylaşmayın. Öğretmen onayı, PIN doğrulaması ve ilk bağlantı kilidi uygulama içinde korunur.
+
+`vendor/` ve kök dizindeki tarayıcı kütüphaneleri yereldir; ana ekran CDN kütüphanelerine ihtiyaç duymaz. Eğitim oyunlarının harici bağlantıları bu veri aktarım kanalından bağımsızdır ve değiştirilmemiştir.

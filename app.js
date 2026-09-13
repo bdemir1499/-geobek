@@ -5786,17 +5786,29 @@ if (!isTablet) {
 // --- 2. PEERJS BA�LANGI� VE C�HAZ MODU AYARI ---
 // --- 2. PEERJS BA�LANGI� (ASKER� D�ZEY YEREL A� K�L�D�) ---
 
-// ?? S�H�RL� DOKUNU�: Taray�c�n�n d�� d�nyaya (internete) ��k�� yollar�n� kesiyoruz!
-// iceServers dizisi bo� b�rak�ld��� i�in sistem NAT/G�venlik duvar�n� a�amaz.
-// K�t� niyetli biri �ifreyi bilse bile fiziksel olarak uzaktan veri g�nderemez!
-const peerOptions = {
+// GitHub Pages'te PeerJS varsay�lan signaling servisi kullan�l�r.
+// Sadece localhost/yerel HTTP �al��t�rmas�nda proje i�indeki signaling sunucusuna ba�lan�l�r.
+const isGitHubPages = window.location.hostname.endsWith('.github.io');
+const isLocalPeerServer = !isGitHubPages &&
+    (window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1' ||
+        window.location.hostname === '::1' ||
+        window.location.protocol === 'http:');
+const localPeerOptions = {
     host: window.location.hostname || 'localhost',
     port: 9000,
     path: '/peerjs',
-    secure: window.location.protocol === 'https:',
+    secure: false,
     config: { iceServers: [] }
 };
-const askeriKalkan = peerOptions;
+
+function createPeer(id) {
+    if (isLocalPeerServer) {
+        return id ? new Peer(id, localPeerOptions) : new Peer(localPeerOptions);
+    }
+    // PeerJS'in host/port/path/ICE varsay�lanlar� public signaling i�in kullan�l�r.
+    return id ? new Peer(id) : new Peer();
+}
 
 function renderTeacherPairingQr(peerId) {
     const qrHost = document.getElementById('teacher-pairing-qr');
@@ -5817,11 +5829,11 @@ function renderTeacherPairingQr(peerId) {
 }
 
 if (isTablet) {
-    myPeer = new Peer(askeriKalkan);
+    myPeer = createPeer();
     myPeer.on('open', (id) => { console.log("Tablet Peer Haz�r. Kimli�im:", id); });
     myPeer.on('error', (err) => { alert("Tablet Ba�lant� Hatas�: " + err); });
 } else {
-    myPeer = new Peer(myRoomCode, askeriKalkan);
+    myPeer = createPeer(myRoomCode);
     
     // Ge�ici olarak ekrana y�kleniyor yazal�m ki uygulaman�n ��kmedi�ini g�relim
     const idSaha = document.getElementById('my-peer-id');
@@ -6090,9 +6102,9 @@ function setupConnectionEvents() {
     window._lastSetupConnection = myConnection;
     window._connectionEventsBound = true;
 
-    // --- 1. G�VENL�K ONAYI (A� MOTORU ZATEN K�L�TL�) ---
-    // PeerJS ba�lang�c�nda iceServers: [] yapt���m�z i�in cihaz�n internete ��k��� YOKTUR.
-    // Dolay�s�yla buraya kadar ba�lanabilen cihaz %100 ayn� Wi-Fi/Hotspot a��ndad�r.
+    // --- 1. G�VENL�K ONAYI ---
+    // GitHub Pages ak���nda signaling metadata's� public servisten ge�ebilir;
+    // ders i�eri�i yaln�zca kabul edilmi� P2P ba�lant�da i�lenir.
     const pc = myConnection.peerConnection;
     // =========================================================
     // EKRANLAR ARASI ORANTISAL ADAPTASYON (��Z�N�RL�K SENKRONU)
@@ -8984,5 +8996,3 @@ document.addEventListener('pointerdown', (e) => {
 window.addEventListener('error', function(e) {
     alert('JS HATASI: ' + e.message + ' at ' + e.filename + ':' + e.lineno);
 });
-
-
