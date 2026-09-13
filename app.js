@@ -5674,7 +5674,7 @@ let myPeer = null;
 let myConnection = null;
 let isConnected = false;
 window.authorizedTeacherId = null;
-window.teacherConnectionStatus = 'disconnected';
+window.teacherConnectionStatus = 'disconnected'; window.firstTabletConnectionAccepted = false;
 window.teacherPairingToken = null;
 window.teacherPairingTokenIssuedAt = 0;
 window.pendingTeacherConnections = new Set();
@@ -7235,7 +7235,7 @@ if (!data || !data.type) return;
                 a.previewCtx.clearRect(0, 0, a.previewCanvas.width, a.previewCanvas.height);
                 a.previewCtx.beginPath(); a.previewCtx.moveTo(p.cx, p.cy); a.previewCtx.lineTo(p.px, p.py);
                 a.previewCtx.strokeStyle = '#FFFFFF'; a.previewCtx.lineWidth = 3; a.previewCtx.setLineDash([5, 5]); a.previewCtx.stroke(); a.previewCtx.setLineDash([]);
-                a.drawHandleLabel.style.display = 'block'; a.drawHandleLabel.innerText = `${p.angle.toFixed(0)}�`;
+                a.drawHandleLabel.style.display = 'block'; a.drawHandleLabel.innerText = `${p.angle.toFixed(0)}`;
                 a.redLine.style.transition = 'none'; a.redLine.style.transform = `rotate(${-p.angle}deg)`;
                 a.drawHandle.style.transform = `translateX(-50%) translate(${p.ldx}px, ${p.ldy + 5}px)`;
                 a.drawHandleLabel.style.transform = `translateX(-50%) translate(${p.ldx}px, ${p.ldy - 20}px)`;
@@ -7359,7 +7359,7 @@ if (!data || !data.type) return;
         window._lastSetupConnection = null;
         if (connection.isTeacherCandidate && window.authorizedTeacherId === connection.peer) {
             window.authorizedTeacherId = null;
-            window.teacherConnectionStatus = 'disconnected';
+            window.teacherConnectionStatus = 'disconnected'; window.firstTabletConnectionAccepted = false;
             window.teacherPairingToken = isTablet ? null : createSecureToken(16);
             window.teacherPairingTokenIssuedAt = isTablet ? 0 : Date.now();
         }
