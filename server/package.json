@@ -1,0 +1,12 @@
+{
+  "name": "geobek-local-server",
+  "version": "1.0.0",
+  "description": "Geobek Local P2P Signaling Server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "peer": "^1.0.2"
+  }
+}
