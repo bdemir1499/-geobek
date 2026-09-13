@@ -5724,7 +5724,7 @@ function validateStroke(stroke) {
     for (const key of ['x', 'y', 'width', 'height', 'cx', 'cy', 'radius']) {
         if (stroke[key] !== undefined && !isFiniteNumber(stroke[key], -100000, 100000)) return false;
     }
-    if (stroke.color !== undefined && (!isSafeString(stroke.color, 32) || !/^#[0-9a-f]{3,8}$/i.test(stroke.color))) return false;
+    if (stroke.color !== undefined && (!isSafeString(stroke.color, 32) || !/^(#[0-9a-f]{3,8}|rgba?\([\d\s,\.]+\)|[a-zA-Z]+)$/i.test(stroke.color))) return false;
     if (Array.isArray(stroke.points) && stroke.points.length > NETWORK_LIMITS.maxStrokePoints) return false;
     if (Array.isArray(stroke.path) && stroke.path.length > NETWORK_LIMITS.maxStrokePoints) return false;
     return true;
@@ -5917,6 +5917,9 @@ myPeer.on('connection', function (conn) {
                     isConnected = true;
                     window.isConnected = true; 
                     window.baglantiOnaylandi = true;
+                    const _np = document.getElementById('network-panel'); if (_np) _np.style.display = 'none';
+                    const _mb = document.getElementById('network-mini-btn'); if (_mb) _mb.style.display = 'block';
+                    const _lo = document.getElementById('language-overlay'); if (_lo) _lo.style.display = 'none';
 
                     const statusEl = document.getElementById('connection-status');
                     if (statusEl) {
@@ -6015,6 +6018,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     isConnected = true;
                     window.isConnected = true; 
                     window.baglantiOnaylandi = true;
+                    const _np = document.getElementById('network-panel'); if (_np) _np.style.display = 'none';
+                    const _mb = document.getElementById('network-mini-btn'); if (_mb) _mb.style.display = 'block';
+                    const _lo = document.getElementById('language-overlay'); if (_lo) _lo.style.display = 'none';
                     document.getElementById('connection-status').innerText = "BAĞLANDI 🟢";
                     document.getElementById('connection-status').style.color = "#00ffcc";
 
@@ -6265,6 +6271,9 @@ function setupConnectionEvents() {
     };
 
     window.baglantiOnaylandi = true;
+                    const _np = document.getElementById('network-panel'); if (_np) _np.style.display = 'none';
+                    const _mb = document.getElementById('network-mini-btn'); if (_mb) _mb.style.display = 'block';
+                    const _lo = document.getElementById('language-overlay'); if (_lo) _lo.style.display = 'none';
     isConnected = true;
 
     // --- 2. VERİ ALICI VE PARÇALAMA MOTORU (BARKOD SİSTEMLİ) ---
