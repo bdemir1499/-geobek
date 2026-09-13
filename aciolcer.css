@@ -1,42 +1,42 @@
-/* --- aciolcer.css (YENÄ° DOSYA) --- */
+/* --- aciolcer.css (YENİ DOSYA) --- */
 
-/* 1. Ana Konteyner (YarÄ±m Daire) */
+/* 1. Ana Konteyner (Yarım Daire) */
 .aciolcer-container {
     position: fixed;
-    /* 2. Madde: YarÄ±m daire (300px geniÅŸlik, 150px yÃ¼kseklik) */
+    /* 2. Madde: Yarım daire (300px genişlik, 150px yükseklik) */
     width: var(--width-px, 300px);
     height: var(--radius-px, 150px); 
     
-    /* BaÅŸlangÄ±Ã§ konumu */
+    /* Başlangıç konumu */
     top: 50%;
     left: 50%;
     
-    /* 1. Madde: Cetvelle aynÄ± stil */
+    /* 1. Madde: Cetvelle aynı stil */
     border: 2px solid #00ffff;
     
     box-shadow: 0 0 15px #00ffff;
     
-    /* YarÄ±m daire ÅŸekli */
+    /* Yarım daire şekli */
     border-radius: var(--radius-px, 150px) var(--radius-px, 150px) 0 0;
     
-    z-index: 5; /* Panel (10) altÄ±nda, Kanvas (0) Ã¼stÃ¼nde */
+    z-index: 5; /* Panel (10) altında, Kanvas (0) üstünde */
     display: flex;
-    transform-origin: center 100%; /* DÃ–NME MERKEZÄ°: Merkez-Alt */
+    transform-origin: center 100%; /* DÖNME MERKEZİ: Merkez-Alt */
 }
 
-/* 3. Madde: SÃ¼rÃ¼kleme iÃ§in gÃ¶vde */
+/* 3. Madde: Sürükleme için gövde */
 .aciolcer-body {
     width: 100%;
     height: 100%;
     position: relative;
     cursor: grab;
-    background: rgba(0, 100, 200, 0.1); /* Ã‡ok ÅŸeffaf yap */
+    background: rgba(0, 100, 200, 0.1); /* Çok şeffaf yap */
     background-image: linear-gradient(45deg, rgba(0, 255, 255, 0.05) 25%, transparent 25%, transparent 75%, rgba(0, 255, 255, 0.05) 75%),
                       linear-gradient(45deg, rgba(0, 255, 255, 0.05) 25%, transparent 25%, transparent 75%, rgba(0, 255, 255, 0.05) 75%);
     background-size: 30px 30px;
     background-position: 0 0, 15px 15px;
     
-    /* Kareli desenle ilgili 3 satÄ±r SÄ°LÄ°NDÄ° */
+    /* Kareli desenle ilgili 3 satır SİLİNDİ */
     
     border-radius: var(--radius-px, 150px) var(--radius-px, 150px) 0 0;
     overflow: visible; 
@@ -44,7 +44,7 @@
 .aciolcer-body:active {
     cursor: grabbing;
 }
-/* 7. Madde: AÃ§Ä± Ä°ÅŸaretleri (Dinamik JS ile eklenecek) */
+/* 7. Madde: Açı İşaretleri (Dinamik JS ile eklenecek) */
 .aciolcer-markings {
     position: absolute;
     top: 0;
@@ -60,19 +60,19 @@
     color: #00ffff;
     transform: translate(-50%, -50%); /* Etiketi ortala */
     
-    /* DÃœZELTME: TÄ±klamalarÄ± engellemesin */
+    /* DÜZELTME: Tıklamaları engellemesin */
     pointer-events: none;
 }
 
-/* 6. Madde: KÄ±rmÄ±zÄ± Hizalama Ã‡izgisi */
+/* 6. Madde: Kırmızı Hizalama Çizgisi */
 
 
-/* 4. Madde: DÃ¶ndÃ¼rme Butonu */
+/* 4. Madde: Döndürme Butonu */
 .aciolcer-rotate-handle {
     position: absolute;
     width: 20px;
     height: 20px;
-    background: rgba(0, 255, 0, 0.8); /* YeÅŸil */
+    background: rgba(0, 255, 0, 0.8); /* Yeşil */
     border: 2px solid #0f0;
     border-radius: 50%;
     cursor: crosshair;
@@ -82,14 +82,14 @@
     justify-content: center;
     line-height: 1;
     
-    /* DÃœZELTME: Konum: 90 Dereceye yakÄ±n (DÄ±ÅŸarÄ±da) */
-    bottom: auto; /* AltÄ± sÄ±fÄ±rla */
-    top: -25px; /* 150px yÃ¼ksekliÄŸin 25px Ã¼stÃ¼ */
+    /* DÜZELTME: Konum: 90 Dereceye yakın (Dışarıda) */
+    bottom: auto; /* Altı sıfırla */
+    top: -25px; /* 150px yüksekliğin 25px üstü */
     left: 50%;
     transform: translateX(-50%); /* Yatayda ortala */
 }
 .aciolcer-rotate-handle::before {
-    content: 'â†º';
+    content: '↺';
     color: #0f0;
     text-shadow: 0 0 5px #000;
     font-size: 14px;
@@ -97,17 +97,17 @@
 }
 .aciolcer-draw-handle {
     position: absolute;
-    /* DÃœZELTME: BaÅŸlangÄ±Ã§ pozisyonu merkez-alt (JS bunu 'transform' ile ezecek) */
+    /* DÜZELTME: Başlangıç pozisyonu merkez-alt (JS bunu 'transform' ile ezecek) */
     bottom: 5px; 
     left: 50%;
     transform: translateX(-50%); /* Sadece yatay ortala */
     
-    /* DÃœZELTME: 50ms animasyonu iÃ§in 'transform' eklendi */
+    /* DÜZELTME: 50ms animasyonu için 'transform' eklendi */
     transition: transform 0.05s ease-out;
     
     width: 20px;
     height: 20px;
-    background: rgba(255, 0, 0, 0.8); /* KÄ±rmÄ±zÄ± */
+    background: rgba(255, 0, 0, 0.8); /* Kırmızı */
     border: 1px solid #ffaaaa;
     border-radius: 50%;
     cursor: crosshair;
@@ -117,20 +117,20 @@
     justify-content: center;
 }
 .aciolcer-draw-handle::before {
-    content: 'âœ';
+    content: '✎';
     color: #fff;
     font-size: 12px;
 }
 
-/* aciolcer.css dosyanÄ±zÄ±n EN SONUNA ekleyin */
+/* aciolcer.css dosyanızın EN SONUNA ekleyin */
 
-/* AÃ§Ä± Ã–lÃ§er - KÃ¼Ã§Ã¼k Ã‡izgiler (Ticks) */
+/* Açı Ölçer - Küçük Çizgiler (Ticks) */
 .aciolcer-tick {
-    position: absolute; /* JS tarafÄ±ndan 'left' ve 'top' ile konumlandÄ±rÄ±lacak */
+    position: absolute; /* JS tarafından 'left' ve 'top' ile konumlandırılacak */
     width: 2px;
     background: #00ffff;
     
-    /* Kendi merkezi etrafÄ±nda dÃ¶necek */
+    /* Kendi merkezi etrafında dönecek */
     transform-origin: center center;
     
     pointer-events: none;
@@ -138,22 +138,22 @@
 }
 
 .aciolcer-tick.small {
-    height: 8px; /* KÃ¼Ã§Ã¼k Ã§izgi boyu */
+    height: 8px; /* Küçük çizgi boyu */
 }
 
 .aciolcer-tick.large {
-    height: 15px; /* BÃ¼yÃ¼k Ã§izgi boyu */
+    height: 15px; /* Büyük çizgi boyu */
 }
 
 
 .aciolcer-draw-label {
     position: absolute;
-    /* DÃœZELTME: BaÅŸlangÄ±Ã§ pozisyonu (JS bunu 'transform' ile ezecek) */
-    bottom: 25px; /* Butonun 20px Ã¼stÃ¼nde */
+    /* DÜZELTME: Başlangıç pozisyonu (JS bunu 'transform' ile ezecek) */
+    bottom: 25px; /* Butonun 20px üstünde */
     left: 50%;
     transform: translateX(-50%); /* Sadece yatay ortala */
     
-    /* DÃœZELTME: 50ms animasyonu iÃ§in 'transform' eklendi */
+    /* DÜZELTME: 50ms animasyonu için 'transform' eklendi */
     transition: transform 0.05s ease-out;
 
     background: #fff;
@@ -162,12 +162,12 @@
     border-radius: 3px;
     font-size: 12px;
     font-weight: bold;
-    display: none; /* Sadece sÃ¼rÃ¼klerken JS ile gÃ¶sterilecek */
-    pointer-events: none; /* TÄ±klanamaz */
+    display: none; /* Sadece sürüklerken JS ile gösterilecek */
+    pointer-events: none; /* Tıklanamaz */
     z-index: 1002;
 }
 
-/* aciolcer.css dosyasÄ±nÄ±n EN SONUNA ekleyin */
+/* aciolcer.css dosyasının EN SONUNA ekleyin */
 
 .aciolcer-resize-handle {
     position: absolute;
@@ -178,6 +178,6 @@
     background: rgba(255, 0, 255, 0.8); /* Pembe (Cetveldeki gibi) */
     border: 2px solid #f0f;
     border-radius: 50%;
-    cursor: nwse-resize; /* BoyutlandÄ±rma imleci */
+    cursor: nwse-resize; /* Boyutlandırma imleci */
     z-index: 1002;
 }

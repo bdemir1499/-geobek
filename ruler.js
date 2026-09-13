@@ -1,4 +1,4 @@
-// --- ruler.js (Evrensel Pointer ile ZÄ±plamayan Versiyon) ---
+// --- ruler.js (Evrensel Pointer ile Zıplamayan Versiyon) ---
 
 window.RulerTool = {
     rulerElement: null,
@@ -16,7 +16,7 @@ window.RulerTool = {
         currentHandleX: 0, 
     },
     
-    // EtkileÅŸim durumu
+    // Etkileşim durumu
     interactionMode: 'none', 
     startPos: { x: 0, y: 0 },
     startState: {}, 
@@ -33,17 +33,17 @@ window.RulerTool = {
         this.rulerElement = document.createElement('div');
         this.rulerElement.className = 'ruler-container';
         
-        // SÃ¼rÃ¼klenebilir GÃ¶vde
+        // Sürüklenebilir Gövde
         this.bodyElement = document.createElement('div');
         this.bodyElement.className = 'ruler-body';
         this.rulerElement.appendChild(this.bodyElement);
         
-        // Ä°ÅŸaretler (cm, Ã§izgiler)
+        // İşaretler (cm, çizgiler)
         this.markingsElement = document.createElement('div');
         this.markingsElement.className = 'ruler-markings';
         this.bodyElement.appendChild(this.markingsElement);
         
-        // Yeniden BoyutlandÄ±rma TutamaÃ§larÄ±
+        // Yeniden Boyutlandırma Tutamaçları
         const resizeLeft = document.createElement('div');
         resizeLeft.className = 'resize-handle left';
         this.rulerElement.appendChild(resizeLeft);
@@ -52,7 +52,7 @@ window.RulerTool = {
         resizeRight.className = 'resize-handle right';
         this.rulerElement.appendChild(resizeRight);
 
-        // DÃ¶ndÃ¼rme TutamaÃ§larÄ±
+        // Döndürme Tutamaçları
         const rotateTL = document.createElement('div');
         rotateTL.className = 'rotate-handle top-left';
         this.rulerElement.appendChild(rotateTL);
@@ -61,18 +61,18 @@ window.RulerTool = {
         rotateBR.className = 'rotate-handle bottom-right';
         this.rulerElement.appendChild(rotateBR);
         
-        // Ã‡izim TutamacÄ± (KÄ±rmÄ±zÄ±)
+        // Çizim Tutamacı (Kırmızı)
         this.drawHandleElement = document.createElement('div');
         this.drawHandleElement.className = 'draw-handle';
         this.rulerElement.appendChild(this.drawHandleElement);
 
-        // Ã‡izim Etiketi
+        // Çizim Etiketi
         this.drawHandleLabel = document.createElement('div');
         this.drawHandleLabel.className = 'draw-handle-label';
         this.drawHandleLabel.innerText = '0,0 cm';
         this.drawHandleElement.appendChild(this.drawHandleLabel);
         
-        // Ã‡izim AlanÄ± (Katman)
+        // Çizim Alanı (Katman)
         this.drawCanvas = document.createElement('canvas');
         this.drawCanvas.className = 'ruler-draw-canvas'; 
         this.drawCanvas.style.position = 'absolute';
@@ -135,7 +135,7 @@ window.RulerTool = {
         this.drawCanvas.height = 10; 
     },
 
-    // --- YENÄ° EVRENSEL POINTER LÄ°STENER'LARI ---
+    // --- YENİ EVRENSEL POINTER LİSTENER'LARI ---
     addListeners: function() {
         const body = this.bodyElement;
         const resizeLeft = this.rulerElement.querySelector('.resize-handle.left');
@@ -156,39 +156,39 @@ window.RulerTool = {
 
         window.addEventListener('pointermove', this.onPointerMove.bind(this), { passive: false });
         window.addEventListener('pointerup', this.onPointerUp.bind(this), { passive: false });
-        window.addEventListener('pointercancel', this.onPointerUp.bind(this)); // Hata durumunda da sÄ±fÄ±rla
+        window.addEventListener('pointercancel', this.onPointerUp.bind(this)); // Hata durumunda da sıfırla
     },
 
-    // TEMÄ°Z KOORDÄ°NAT OKUYUCU (ZÄ±plama dÃ¼ÅŸmanÄ±)
+    // TEMİZ KOORDİNAT OKUYUCU (Zıplama düşmanı)
     getPointerPos: function(e) {
         return { x: e.clientX, y: e.clientY };
     },
 
-    // --- DOKUNMA/TIKLAMA BAÅLANGICI ---
+    // --- DOKUNMA/TIKLAMA BAŞLANGICI ---
     onPointerDown: function(e) {
-        // TarayÄ±cÄ±nÄ±n zÄ±plamasÄ±na/sayfa kaydÄ±rmasÄ±na izin verme
+        // Tarayıcının zıplamasına/sayfa kaydırmasına izin verme
         if (e.pointerType === 'touch') e.preventDefault(); 
         e.stopPropagation();
 
 
-        // AracÄ± Ã¶ne getir
+        // Aracı öne getir
         if (window.bringToolToFront) {
              window.bringToolToFront(this.rulerElement); 
         }
 
         const target = e.target;
         
-        // KRÄ°TÄ°K: ParmaÄŸÄ± cetvele kilitle ki dÄ±ÅŸarÄ± taÅŸsa da Ã§alÄ±ÅŸsÄ±n
+        // KRİTİK: Parmağı cetvele kilitle ki dışarı taşsa da çalışsın
         target.setPointerCapture(e.pointerId);
 
         this.startPos = this.getPointerPos(e);
         this.startState = JSON.parse(JSON.stringify(this.state)); 
 
-// ğŸ‘‡ğŸ‘‡ğŸ‘‡ EKLENECEK KISIM BURASI ğŸ‘‡ğŸ‘‡ğŸ‘‡
-        // DokunmanÄ±n baÅŸladÄ±ÄŸÄ± an kanvasÄ±n konumunu dondur ve kaydet
+// 👇👇👇 EKLENECEK KISIM BURASI 👇👇👇
+        // Dokunmanın başladığı an kanvasın konumunu dondur ve kaydet
         const mainCanvas = document.getElementById('drawing-canvas');
         this.activeRect = mainCanvas ? mainCanvas.getBoundingClientRect() : { left: 0, top: 0 };
-        // ğŸ‘†ğŸ‘†ğŸ‘† ----------------------- ğŸ‘†ğŸ‘†ğŸ‘†
+        // 👆👆👆 ----------------------- 👆👆👆
         
         if (target.classList.contains('ruler-body')) {
             this.interactionMode = 'dragging';
@@ -202,9 +202,9 @@ window.RulerTool = {
         } 
         else if (target.classList.contains('rotate-handle')) {
             this.interactionMode = 'rotating';
-            // Pivotu (dÃ¶nme merkezini) hesapla
+            // Pivotu (dönme merkezini) hesapla
             this.startState.centerX = this.state.x + this.state.width / 2;
-            this.startState.centerY = this.state.y + 30; // 60px yÃ¼kseklik / 2
+            this.startState.centerY = this.state.y + 30; // 60px yükseklik / 2
         } 
         else if (target.classList.contains('draw-handle')) {
             if (window.currentTool === 'eraser') {
@@ -226,10 +226,10 @@ window.RulerTool = {
         }
     },
 
-    // --- HAREKET ETTÄ°RME ---
+    // --- HAREKET ETTİRME ---
     onPointerMove: function(e) {
         if (this.interactionMode === 'none') return;
-        if (!e.isPrimary) return; // Ä°kinci parmak sapmalarÄ±nÄ± Ã¶nle
+        if (!e.isPrimary) return; // İkinci parmak sapmalarını önle
         
         const currentPos = this.getPointerPos(e);
         const dx = currentPos.x - this.startPos.x;
@@ -254,21 +254,21 @@ window.RulerTool = {
         }
     },
 
-    // --- BIRAKMA / BÄ°TÄ°RME (ZIPLAMA SAVAR VERSÄ°YON) ---
+    // --- BIRAKMA / BİTİRME (ZIPLAMA SAVAR VERSİYON) ---
     onPointerUp: function(e) {
         if (this.interactionMode === 'none') return; 
 
-        // 1. Kilidi gÃ¼venle kaldÄ±r
+        // 1. Kilidi güvenle kaldır
         if (e.target && e.target.releasePointerCapture) {
              try { e.target.releasePointerCapture(e.pointerId); } catch(err) {}
         }
 
-        // 2. EÄŸer taÅŸÄ±ma modundaysak imleci dÃ¼zelt
+        // 2. Eğer taşıma modundaysak imleci düzelt
         if (this.interactionMode === 'dragging') {
             this.bodyElement.style.cursor = 'grab'; 
         }
         
-        // 3. EÄER Ã‡Ä°ZÄ°M YAPIYORSAK (KRÄ°TÄ°K KISIM)
+        // 3. EĞER ÇİZİM YAPIYORSAK (KRİTİK KISIM)
         if (this.isDrawingLine) { 
             // Sesi durdur
             if (window.audio_draw) {
@@ -276,24 +276,24 @@ window.RulerTool = {
                 window.audio_draw.currentTime = 0; 
             }
             
-            // --- SON POZÄ°SYON GÃœVENLÄ°ÄÄ° ---
-            // 'finalizeDraw' fonksiyonu iÃ§inde asla 'e.clientX' okuma yapmÄ±yoruz.
-            // Zaten 'handleDraw' (pointermove) sÄ±rasÄ±nda kaydedilen 'this.state.currentHandleX' 
-            // deÄŸerini kullanÄ±yoruz. Bu, parmaÄŸÄ±n kalktÄ±ÄŸÄ± anki titremeyi Ã§Ã¶pe atar.
+            // --- SON POZİSYON GÜVENLİĞİ ---
+            // 'finalizeDraw' fonksiyonu içinde asla 'e.clientX' okuma yapmıyoruz.
+            // Zaten 'handleDraw' (pointermove) sırasında kaydedilen 'this.state.currentHandleX' 
+            // değerini kullanıyoruz. Bu, parmağın kalktığı anki titremeyi çöpe atar.
             this.finalizeDraw(); 
             // ------------------------------
             
             this.drawHandleLabel.style.display = 'none';
             
-            // 4. GÃ¶rsel temizlik ve sÄ±fÄ±rlama
+            // 4. Görsel temizlik ve sıfırlama
             if(this.drawHandleElement) { 
                 this.drawHandleElement.style.transition = 'left 0.1s ease-out';
                 this.drawHandleElement.style.left = '0px'; 
                 
-                // CanvasÄ± temizle
+                // Canvası temizle
                 this.drawCtx.clearRect(0, 0, this.drawCanvas.width, this.drawCanvas.height);
                 
-                // Durumu sÄ±fÄ±rla (Ã‡izim bitti)
+                // Durumu sıfırla (Çizim bitti)
                 this.state.currentHandleX = 0; 
                 this.isDrawingLine = false; 
             }
@@ -418,12 +418,12 @@ window.RulerTool = {
         this.drawCtx.strokeStyle = '#FFFFFF'; 
         this.drawCtx.lineWidth = 4; 
         this.drawCtx.stroke();
-// ğŸ‘‡ğŸ‘‡ğŸ‘‡ Ä°ÅTE CANLI YAYIN KANCASI BURADA (En Sonda) ğŸ‘‡ğŸ‘‡ğŸ‘‡
+// 👇👇👇 İŞTE CANLI YAYIN KANCASI BURADA (En Sonda) 👇👇👇
         if (typeof window.broadcastPreview === 'function') {
             window.broadcastPreview('ruler', { handleX: handleX });
         }
 
-// Cetvel CanlÄ± YayÄ±n
+// Cetvel Canlı Yayın
         if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
             window.sendNetworkData({ type: 'aktif_onizleme', arac: 'ruler', payload: { handleX: handleX } });
         }
@@ -457,10 +457,10 @@ window.RulerTool = {
         const p2_rotated_y = e_rel_center_x * sinAngle + e_rel_center_y * cosAngle;
 
         const mainCanvas = document.getElementById('drawing-canvas');
-        // CANLI rect bilgisini alÄ±yoruz
+        // CANLI rect bilgisini alıyoruz
         const rect = mainCanvas ? mainCanvas.getBoundingClientRect() : { left: 0, top: 0, width: 1, height: 1 };
 
-        // --- KESÄ°N Ã‡Ã–ZÃœM: KANVAS ESNEME (SCALE) Ã‡ARPANI ---
+        // --- KESİN ÇÖZÜM: KANVAS ESNEME (SCALE) ÇARPANI ---
         const scaleX = mainCanvas ? (mainCanvas.width / (rect.width || 1)) : 1;
         const scaleY = mainCanvas ? (mainCanvas.height / (rect.height || 1)) : 1;
 
@@ -478,7 +478,7 @@ window.RulerTool = {
         const midPoint = { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 };
 
         if (window.drawnStrokes && window.redrawAllStrokes) {
-            // 1. Ã‡izim objesini oluÅŸtur ve ID ata
+            // 1. Çizim objesini oluştur ve ID ata
             const strokeObj = {
                 type: 'straightLine', 
                 p1: p1,
@@ -488,19 +488,19 @@ window.RulerTool = {
                 lengthLabel: cmText, 
                 lengthLabelPos: midPoint,
                 isPhysicalTool: true,
-                id: Date.now() + Math.random() // <--- Ä°ÅTE KESÄ°N Ã‡Ã–ZÃœM: ID Eklendi
+                id: Date.now() + Math.random() // <--- İŞTE KESİN ÇÖZÜM: ID Eklendi
             };
 
             // 2. Tabletin kendi listesine ekle
             window.drawnStrokes.push(strokeObj);
 
-            // 3. PC'ye (Tahtaya) gÃ¶nder
+            // 3. PC'ye (Tahtaya) gönder
             if (typeof window.sendNetworkData === 'function') {
                 window.sendNetworkData({ type: 'yeni_cizim', stroke: strokeObj });
             }
             window.redrawAllStrokes(); 
         }
     }
-}; // <--- Ä°ÅTE BURASI Ã‡OK Ã–NEMLÄ°! (RulerTool nesnesini kapatÄ±r)
+}; // <--- İŞTE BURASI ÇOK ÖNEMLİ! (RulerTool nesnesini kapatır)
 
 window.RulerTool.init();

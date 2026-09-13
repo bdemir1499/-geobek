@@ -4,18 +4,18 @@
     --polygon-glow: 0 0 10px #ff00ff, 0 0 20px rgba(255, 0, 255, 0.5);
 }
 
-/* Ã‡okgen TaÅŸÄ±yÄ±cÄ±sÄ± (Kanvas Ãœzerinde GÃ¶rÃ¼nmez KonumlandÄ±rÄ±cÄ±) */
+/* Çokgen Taşıyıcısı (Kanvas Üzerinde Görünmez Konumlandırıcı) */
 .polygon-container {
     position: fixed;
-    /* Merkezi taÅŸÄ±yÄ±cÄ±nÄ±n ortasÄ± olmalÄ± */
+    /* Merkezi taşıyıcının ortası olmalı */
     transform-origin: center center;
-    pointer-events: none; /* VarsayÄ±lan olarak tÄ±klama yok */
-    z-index: 4; /* AraÃ§larÄ±n (5) hemen altÄ±nda */
+    pointer-events: none; /* Varsayılan olarak tıklama yok */
+    z-index: 4; /* Araçların (5) hemen altında */
 }
 
-/* Ã‡okgenlerin Kendisi (SVG veya Canvas iÃ§inde Ã§izilecek, bu sadece etiketler iÃ§in) */
+/* Çokgenlerin Kendisi (SVG veya Canvas içinde çizilecek, bu sadece etiketler için) */
 
-/* KÃ¶ÅŸe TutamaÃ§larÄ± (BÃ¼yÃ¼tme/SÃ¼rÃ¼kleme) */
+/* Köşe Tutamaçları (Büyütme/Sürükleme) */
 .polygon-handle {
     position: absolute;
     width: 16px;
@@ -26,19 +26,19 @@
     box-shadow: 0 0 8px var(--polygon-color);
     transform: translate(-50%, -50%); /* Merkezi noktaya hizala */
     cursor: grab;
-    pointer-events: all; /* TÄ±klamalarÄ± yakala */
+    pointer-events: all; /* Tıklamaları yakala */
     z-index: 10;
 }
 .polygon-handle:active {
     cursor: grabbing;
 }
 
-/* DÃ¶ndÃ¼rme TutamacÄ± (Tekil) */
+/* Döndürme Tutamacı (Tekil) */
 .polygon-rotate-handle {
     position: absolute;
     width: 24px;
     height: 24px;
-    background: rgba(0, 255, 0, 0.8); /* YeÅŸil */
+    background: rgba(0, 255, 0, 0.8); /* Yeşil */
     border: 2px solid #0f0;
     border-radius: 50%;
     cursor: crosshair;
@@ -50,7 +50,7 @@
     transform: translate(-50%, -50%); /* Merkezi noktaya hizala */
 }
 .polygon-rotate-handle::before {
-    content: 'â†º';
+    content: '↺';
     color: #0f0;
     text-shadow: 0 0 5px #000;
     font-size: 16px;
@@ -58,7 +58,7 @@
 }
 
 
-/* Etiketler (Kenar UzunluÄŸu / AÃ§Ä± Ã–lÃ§Ã¼sÃ¼) */
+/* Etiketler (Kenar Uzunluğu / Açı Ölçüsü) */
 .polygon-label {
     position: fixed;
     background: #fff;
@@ -75,10 +75,10 @@
     display: none;
 }
 
-/* Ã–nizleme Etiketi (GerÃ§ek ZamanlÄ± Kenar UzunluÄŸu) */
+/* Önizleme Etiketi (Gerçek Zamanlı Kenar Uzunluğu) */
 #polygon-preview-label {
     position: fixed;
-    z-index: 1005; /* Her ÅŸeyin Ã¼stÃ¼nde */
+    z-index: 1005; /* Her şeyin üstünde */
     pointer-events: none;
     transform: translate(15px, 15px); /* Fareden biraz uzakta */
     

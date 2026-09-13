@@ -100,7 +100,7 @@ html, body {
 
 /* Premium Buton Stili (İnatçı Eski Renkleri Ezen Zırhlı Versiyon) */
 .tool-button {
-    /* 🚨 !important zırhı ile eski HTML renkleri kesin olarak ezilir 🚨 */
+    /* ?? !important zırhı ile eski HTML renkleri kesin olarak ezilir ?? */
     background: rgba(255, 255, 255, 0.05) !important; 
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     color: #cdd6f4 !important; 
@@ -373,7 +373,7 @@ body.cursor-eraser .eraser-cursor-preview {
     padding: 15px;
     border-radius: 15px;
     
-    display: flex;              /* 🔑 Burada flex ekle */
+    display: flex;              /* ?? Burada flex ekle */
     flex-direction: column;
     gap: 8px;
     width: 200px; 
@@ -460,7 +460,7 @@ body.cursor-eraser .eraser-cursor-preview {
     /* \00000a kodu CSS'de "Alt Satıra Geç" (Enter) demektir */
     content: "Resim\00000aDosya(PDFKitap)\00000aYükle";
     
-    /* 🚨 YENİ TEMA RENGİ: Mat Beyaz/Gri 🚨 */
+    /* ?? YENİ TEMA RENGİ: Mat Beyaz/Gri ?? */
     color: #cdd6f4 !important; 
     
     font-size: 10px;
@@ -1071,7 +1071,7 @@ canvas {
     width: 100%;
     cursor: pointer;
     accent-color: #ff00ff; /* Sürgü rengi pembe */
-    /* 🚨 TABLET İÇİN KRİTİK İZİNLER 🚨 */
+    /* ?? TABLET İÇİN KRİTİK İZİNLER ?? */
     touch-action: auto !important; 
     pointer-events: auto !important;
 }

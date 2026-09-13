@@ -1,38 +1,38 @@
-// --- cokgen.js (Ã‡okgen AracÄ± MantÄ±ÄŸÄ±) ---
+// --- cokgen.js (Çokgen Aracı Mantığı) ---
 
 window.PolygonTool = {
     // --- TEMEL DURUM ---
-    toolElement: null, // Kanvas Ã¼zerine eklenen Ã§okgenin ana taÅŸÄ±yÄ±cÄ±sÄ± (gerekirse)
+    toolElement: null, // Kanvas üzerine eklenen çokgenin ana taşıyıcısı (gerekirse)
     
-    // GeÃ§ici Ã§izim durumu
+    // Geçici çizim durumu
     state: {
         x: 0, 
         y: 0, 
-        sideCount: 0, // KaÃ§ kenarlÄ± (3, 4, 5, 6, 7 veya 0=Ã‡ember)
-        radius: 0,    // KÃ¶ÅŸe noktasÄ±na olan uzaklÄ±k (Poligonlar iÃ§in) veya YarÄ±Ã§ap (Ã‡ember iÃ§in)
-        angle: 0,     // DÃ¶ndÃ¼rme aÃ§Ä±sÄ± (derece)
-        isDrawing: false, // Ä°lk tÄ±klama yapÄ±ldÄ± mÄ±?
-        isDrawingCircle: false, // Ã‡ember Ã§iziminde merkez tÄ±klandÄ± mÄ±?
+        sideCount: 0, // Kaç kenarlı (3, 4, 5, 6, 7 veya 0=Çember)
+        radius: 0,    // Köşe noktasına olan uzaklık (Poligonlar için) veya Yarıçap (Çember için)
+        angle: 0,     // Döndürme açısı (derece)
+        isDrawing: false, // İlk tıklama yapıldı mı?
+        isDrawingCircle: false, // Çember çiziminde merkez tıklandı mı?
     },
     
-    // EtkileÅŸim durumu
+    // Etkileşim durumu
     interactionMode: 'none', // 'dragging', 'rotating', 'resizing'
     startPos: { x: 0, y: 0 },
     startState: {}, 
     
-    // --- SABÄ°TLER ---
-    PI_VALUE: 3, // Hesaplamalar iÃ§in sabit Pi deÄŸeri
-    PIXELS_PER_CM: 30, // cm hesaplamasÄ± iÃ§in (app.js ile uyumlu)
+    // --- SABİTLER ---
+    PI_VALUE: 3, // Hesaplamalar için sabit Pi değeri
+    PIXELS_PER_CM: 30, // cm hesaplaması için (app.js ile uyumlu)
     
-    // --- Ã‡OKGEN NOKTALARI VE HESAPLAMA ---
+    // --- ÇOKGEN NOKTALARI VE HESAPLAMA ---
     
-    // Merkez (Center), KÃ¶ÅŸe (Vertex) koordinatlarÄ±nÄ± hesaplar
+    // Merkez (Center), Köşe (Vertex) koordinatlarını hesaplar
     calculateVertices: function(center, radius, sideCount, angle) {
         const vertices = [];
         const rotationRad = angle * (Math.PI / 180);
         
         for (let i = 0; i < sideCount; i++) {
-            // DÃ¼zgÃ¼n Ã§okgenler iÃ§in her kÃ¶ÅŸe arasÄ±ndaki aÃ§Ä± (dÄ±ÅŸ aÃ§Ä±)
+            // Düzgün çokgenler için her köşe arasındaki açı (dış açı)
             const angleRad = (i * 2 * Math.PI / sideCount) + rotationRad;
             
             vertices.push({
@@ -43,33 +43,33 @@ window.PolygonTool = {
         return vertices;
     },
     
-    // --- Ã‡Ä°ZÄ°M MANTIKLARI (app.js'e gÃ¶nderilecek) ---
+    // --- ÇİZİM MANTIKLARI (app.js'e gönderilecek) ---
     
-    // GeÃ§ici Ã¶nizlemeyi Ã§izer (Åu an kullanÄ±lmÄ±yor, app.js mousemove'da yapÄ±labilir)
+    // Geçici önizlemeyi çizer (Şu an kullanılmıyor, app.js mousemove'da yapılabilir)
     drawPreview: function(pos) {
-        // Bu kÄ±sÄ±m boÅŸ bÄ±rakÄ±ldÄ±, app.js'in mousemove'u ile uyum saÄŸlamasÄ± iÃ§in
+        // Bu kısım boş bırakıldı, app.js'in mousemove'u ile uyum sağlaması için
     },
 
-    // KalÄ±cÄ± Ã§izimi baÅŸlatÄ±r/sonlandÄ±rÄ±r
+    // Kalıcı çizimi başlatır/sonlandırır
     handleDrawClick: function(pos, type) {
         
-        // TemizliÄŸi garanti et
+        // Temizliği garanti et
         this.state.isDrawing = false;
-        // this.state.isDrawingCircle = false; // (Bu satÄ±rÄ±n SÄ°LÄ°NMÄ°Å olduÄŸundan emin ol)
+        // this.state.isDrawingCircle = false; // (Bu satırın SİLİNMİŞ olduğundan emin ol)
         this.tempPoints = [];
         
-        // Ã‡okgen tipini ayarla
+        // Çokgen tipini ayarla
         this.state.sideCount = type; 
         
-        // GeÃ§ici noktalarÄ± tut (Merkezi 'null' olarak baÅŸlat)
+        // Geçici noktaları tut (Merkezi 'null' olarak başlat)
         window.tempPolygonData = {
-            center: null, // <-- KRÄ°TÄ°K DÃœZELTME: 'pos' DEÄÄ°L, 'null'
+            center: null, // <-- KRİTİK DÜZELTME: 'pos' DEĞİL, 'null'
             type: type,
             color: window.currentLineColor,
         };
     },
     
-    // Ã‡izimi tamamlar ve app.js'e kaydeder (Ã‡ember ve DÃ¼zgÃ¼n Ã‡okgenler iÃ§in 2. TÄ±klama)
+    // Çizimi tamamlar ve app.js'e kaydeder (Çember ve Düzgün Çokgenler için 2. Tıklama)
     finalizeDraw: function(radius, rotation) { 
         if (!window.tempPolygonData) return;
         
@@ -102,8 +102,8 @@ window.PolygonTool = {
                 center: centerOnCanvas,
                 radius: radius, 
                 rotation: rotation, 
-                color: window.currentLineColor, // <-- KRÄ°TÄ°K EKLENTÄ° (Renk)
-                width: 4, // <-- KRÄ°TÄ°K EKLENTÄ° (KalÄ±nlÄ±k)
+                color: window.currentLineColor, // <-- KRİTİK EKLENTİ (Renk)
+                width: 4, // <-- KRİTİK EKLENTİ (Kalınlık)
                 fillColor: 'rgba(0, 0, 0, 0.2)', 
                 label: centerLabel
             });
@@ -115,7 +115,7 @@ window.PolygonTool = {
         window.tempPolygonData = null;
     },
     
-    // Ã‡ember Ã§izimini tamamlar (2. TÄ±klama)
+    // Çember çizimini tamamlar (2. Tıklama)
     finalizeCircle: function(radius) { 
         if (!window.tempPolygonData) return;
         
@@ -146,8 +146,8 @@ window.PolygonTool = {
                 radius: radius, 
                 startAngle: 0,
                 endAngle: 359.99, 
-                color: window.currentLineColor, // <-- KRÄ°TÄ°K EKLENTÄ° (Renk)
-                width: 4, // <-- KRÄ°TÄ°K EKLENTÄ° (KalÄ±nlÄ±k)
+                color: window.currentLineColor, // <-- KRİTİK EKLENTİ (Renk)
+                width: 4, // <-- KRİTİK EKLENTİ (Kalınlık)
                 label: centerLabel
             });
             
@@ -158,7 +158,7 @@ window.PolygonTool = {
     },
     
     getRotateHandlePosition: function(polygon) {
-        const radius = polygon.radius + 35; // KÃ¶ÅŸenin biraz daha dÄ±ÅŸÄ±nda
+        const radius = polygon.radius + 35; // Köşenin biraz daha dışında
         const angleRad = polygon.rotation * (Math.PI / 180); 
         return {
             x: polygon.center.x + radius * Math.cos(angleRad),
@@ -167,7 +167,7 @@ window.PolygonTool = {
     },
 
     getResizeHandlePosition: function(polygon) {
-        const radius = polygon.radius + 15; // KÃ¶ÅŸenin hemen dÄ±ÅŸÄ±nda
+        const radius = polygon.radius + 15; // Köşenin hemen dışında
         const angleRad = polygon.rotation * (Math.PI / 180); 
         return {
             x: polygon.center.x + radius * Math.cos(angleRad),
@@ -175,32 +175,32 @@ window.PolygonTool = {
         };
     },
 
-// 1. Ã‡EMBER HESAPLAMALARI (Pi = 3)
+// 1. ÇEMBER HESAPLAMALARI (Pi = 3)
     getCircleInfo: function(radius) {
         const r_cm = (radius / (this.PIXELS_PER_CM || 30)).toFixed(1);
         
-        // Ã‡evre = 2 * pi * r
+        // Çevre = 2 * pi * r
         const circumference = (2 * this.PI_VALUE * r_cm).toFixed(1); 
         // Alan = pi * r^2
         const area = (this.PI_VALUE * r_cm * r_cm).toFixed(1);
         
-        return `YarÄ±Ã§ap: ${r_cm} cm\nÃ‡evre: ${circumference} cm\nAlan: ${area} cmÂ²`;
+        return `Yarıçap: ${r_cm} cm\nÇevre: ${circumference} cm\nAlan: ${area} cm²`;
     },
 
-    // 2. KENAR UZUNLUÄU HESAPLAMA
+    // 2. KENAR UZUNLUĞU HESAPLAMA
     getEdgeLength: function(v1, v2) {
         const dist_px = Math.sqrt(Math.pow(v1.x - v2.x, 2) + Math.pow(v1.y - v2.y, 2));
         const dist_cm = (dist_px / (this.PIXELS_PER_CM || 30)).toFixed(1);
         return `${dist_cm} cm`;
     },
 
-    // 3. Ä°Ã‡ AÃ‡I HESAPLAMA
+    // 3. İÇ AÇI HESAPLAMA
     getInternalAngle: function(sideCount) {
-        if (sideCount < 3) return "0Â°";
+        if (sideCount < 3) return "0°";
         const angle = ((sideCount - 2) * 180) / sideCount;
-        return `${angle.toFixed(0)}Â°`;
+        return `${angle.toFixed(0)}°`;
     }
 
    };
-// AraÃ§ kullanÄ±ma hazÄ±r olana kadar baÅŸlatma
-// init() fonksiyonu ÅŸu an iÃ§in gerekli deÄŸil, doÄŸrudan mantÄ±ÄŸÄ± app.js'e entegre edeceÄŸiz.
+// Araç kullanıma hazır olana kadar başlatma
+// init() fonksiyonu şu an için gerekli değil, doğrudan mantığı app.js'e entegre edeceğiz.
