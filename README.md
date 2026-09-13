@@ -56,3 +56,16 @@ Lisans: MIT Lisansı ile korunmaktadır.
 
 ℹ️ Disclaimer (English)
 This software is an independent educational tool developed voluntarily by a teacher. It is intended solely for classroom educational purposes. It does not collect, store, or upload any personal data. It is provided "as is" under the MIT License. The developer accepts no liability for misuse.
+
+## Yerel Ağda Çalıştırma
+
+Ana uygulama ve PeerJS signaling servisi aynı cihazda çalıştırılabilir:
+
+```text
+npm install
+npm start
+```
+
+Tahta tarayıcıda `http://TAHTA_IP:3000` adresinden açılır. Öğretmen/tablet cihazları aynı Wi-Fi ağına bağlanıp QR kodu okutabilir. Uygulamanın ders verileri için TURN/STUN sunucusu yapılandırılmamıştır; bağlantı yalnızca yerel ağ adaylarıyla kurulmaya çalışılır. `vendor/` altındaki tarayıcı kütüphaneleri uygulama ile birlikte servis edildiği için ana ekranın CDN erişimine ihtiyacı yoktur.
+
+Bu yapı dosyaları signaling sunucusunda depolamaz; sunucu yalnızca statik dosya ve WebRTC bağlantı kurulumu sağlar. Aynı Wi-Fi ağına bağlı ve oda bilgisine erişebilen cihazlar yine tehdit modeli içindedir. Öğrenci fotoğrafı veya PDF gönderildiğinde içerik bağlı istemcilere gösterilebilir; hassas içerikler paylaşılmadan önce öğretmen onayı ve okul politikaları dikkate alınmalıdır.

@@ -6,12 +6,10 @@
     
     <title>GEOMETRI ARAC SETI-tab-taht-aktarim</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="style.css?v=470">
     <!-- MediaPipe Yapay Zeka Kutuphaneleri (Erkenden Onbellege Alinmasi Icin Buraya Eklendi) -->
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <script src="vendor/camera_utils.js"></script>
+    <script src="vendor/hands.js"></script>
     <link rel="stylesheet" href="ruler.css">
     <link rel="stylesheet" href="gonye.css">
     <link rel="stylesheet" href="aciolcer.css">
@@ -29,7 +27,8 @@
             });
         }
     </script> 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'></script>
+    <script src='vendor/html2canvas.min.js'></script>
+    <script src='vendor/qrcode.min.js'></script>
     <script src='katla.js?v=468'></script>
 </head>
 
@@ -47,7 +46,9 @@
 
     <div style="font-size: 14px; margin-bottom: 10px; color: #fff;">
     Oda Kodun: <span id="my-peer-id" style="color: #00ffcc; font-weight: bold; font-size: 20px; letter-spacing: 2px;">...</span><br>
-    Tahta Şifresi: <span id="my-pin-code" style="color: #ff00ff; font-weight: bold; font-size: 20px; letter-spacing: 2px;">...</span>
+    Tahta Şifresi: <span id="my-pin-code" style="color: #ff00ff; font-weight: bold; font-size: 20px; letter-spacing: 2px;">...</span><br>
+    Öğretmen Eşleşme Belirteci: <span id="teacher-pairing-token" style="color: #ffd166; font-weight: bold; font-size: 12px; word-break: break-all;">...</span>
+    <div id="teacher-pairing-qr" style="background: #fff; padding: 6px; margin: 8px auto 0; width: 152px; min-height: 152px;"></div>
 </div>
 
     <div id="teacher-qr-container" style="display: none; margin-bottom: 10px; text-align: center; border: 1px dashed #ff00ff; padding: 10px; border-radius: 8px;">
@@ -315,7 +316,7 @@
     </div>
 </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="vendor/three.min.js"></script>
     <script src="peerjs.min.js"></script>    
     <script src="pdf.min.js"></script>
     <script src="qrcode.min.js"></script>
