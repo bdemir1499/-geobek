@@ -7521,11 +7521,12 @@ if (cCnv) {
 }
 
 // ?? AKILLI ZIRH: Avu� ��iyle Sayfa Kaymas�n� Engeller, Zoom'u Bozmaz!
+// ?? AKILLI ZIRH: Avu iyle Sayfa Kaymasn Engeller, Zoom'u Bozmaz!
 const smartCanvas = document.getElementById('drawing-canvas');
 if (smartCanvas) {
     smartCanvas.addEventListener('touchmove', function (e) {
-        // E�er ekrana sadece 1 temas varsa (avu� i�i veya tek parmak s�rt�nmesi)
-        // sayfan�n lastik gibi kaymas�n� kesin olarak kilitler!
+        // Eer ekrana sadece 1 temas varsa (avu ii veya tek parmak srtnmesi)
+        // sayfann lastik gibi kaymasn kesin olarak kilitler!
         if (e.touches && e.touches.length === 1 && e.cancelable) {
             e.preventDefault();
         }
@@ -7534,7 +7535,7 @@ if (smartCanvas) {
 
 
 // =========================================================
-// ?? �ZEL KON� A�INIM MOTORU (Kusursuz Yelpaze ve Kapak Sistemi)
+// ?? ZEL KON AINIM MOTORU (Kusursuz Yelpaze ve Kapak Sistemi)
 // =========================================================
 window.CustomConeEngine = {
     create: function(radius, height, mainMat, edgeMat) {
