@@ -5625,19 +5625,19 @@ window.temizleLassoVeKopyalar = function () {
             }
         }
 
-        // E�er se�ili olan �ey silinen bir �eyse se�imi iptal et
+        // Eer seili olan ey silinen bir eyse seimi iptal et
         if (typeof window.selectedItem !== 'undefined' && window.selectedItem && !window.selectedItem.isBoxCopy) {
             window.selectedItem = null;
         }
 
-        // Sadece bir �ey silindiyse ekran� tazele
+        // Sadece bir ey silindiyse ekran tazele
         if (silinenOlduMu && typeof window.redrawAllStrokes === 'function') {
             window.redrawAllStrokes();
         }
     }
 };
 
-// --- OTOMAT�K TET�KLEY�C� (G�ZLEMC�) - G�NCELLENM�� ---
+// --- OTOMATK TETKLEYC (GZLEMC) - GNCELLENM ---
 document.addEventListener('click', function (e) {
     let element = e.target.closest('button, div, a, i');
     if (element) {
@@ -5789,7 +5789,7 @@ if (!isTablet) {
 // ?? S�H�RL� DOKUNU�: Taray�c�n�n d�� d�nyaya (internete) ��k�� yollar�n� kesiyoruz!
 // iceServers dizisi bo� b�rak�ld��� i�in sistem NAT/G�venlik duvar�n� a�amaz.
 // K�t� niyetli biri �ifreyi bilse bile fiziksel olarak uzaktan veri g�nderemez!
-const askeriKalkan = {};
+const askeriKalkan = { config: { iceServers: [] } };
 
 function renderTeacherPairingQr(peerId) {
     const qrHost = document.getElementById('teacher-pairing-qr');
