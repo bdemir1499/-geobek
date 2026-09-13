@@ -73,3 +73,10 @@ GitHub Pages dışında localhost ile geliştirme yapılırken `server.js` ve `G
 PDF, fotoğraf ve çizim içerikleri kabul edilmiş bağlantı üzerinden WebRTC ile cihazlar arasında P2P aktarılır; uygulama bu içerikleri signaling servisine veya diske kaydetmez. GitHub Pages akışında yalnızca PeerJS'in bağlantı kurmak için kullandığı oda/kimlik ve bağlantı metadata'sı public signaling servisinden geçebilir. Bu nedenle oda kodu ve PIN'i sınıf dışıyla paylaşmayın. Öğretmen onayı, PIN doğrulaması ve ilk bağlantı kilidi uygulama içinde korunur.
 
 `vendor/` ve kök dizindeki tarayıcı kütüphaneleri yereldir; ana ekran CDN kütüphanelerine ihtiyaç duymaz. Eğitim oyunlarının harici bağlantıları bu veri aktarım kanalından bağımsızdır ve değiştirilmemiştir.
+
+**Teknik Sınırlar ve Kullanıcı Sorumlulukları:**
+- Uygulama oturum verilerini, PDF'leri ve çizimleri kalıcı olarak saklamaz.
+- İçerikler yalnızca yetkili P2P bağlantı sırasında cihazlar arasında geçici aktarılır.
+- Kullanıcının kendi cihazında yaptığı tarayıcı/kod değişiklikleri uygulamanın yayınlanan sürümünü veya diğer kullanıcıları değiştirmez.
+- Ekran görüntüsü, tarayıcı önbelleği ve işletim sistemi kaynaklı kayıtlar uygulamanın kontrolü dışındadır.
+- Okul ve ilgili KVKK prosedürlerine uyulmalıdır.
