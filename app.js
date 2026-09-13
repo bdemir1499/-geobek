@@ -7123,9 +7123,9 @@ if (!data || !data.type) return;
             });
 
             // Z�rh: PC arka planda yeniden a�maya �al��mas�n diye CSS ile m�h�rle
-            const m�h�r = document.createElement('style');
-            m�h�r.innerHTML = '#disclaimer-modal, .disclaimer-modal { display: none !important; opacity: 0 !important; pointer-events: none !important; z-index: -9999 !important; }';
-            document.head.appendChild(m�h�r);
+            const muhur_disclaimer = document.createElement('style');
+            muhur_disclaimer.innerHTML = '#disclaimer-modal, .disclaimer-modal { display: none !important; opacity: 0 !important; pointer-events: none !important; z-index: -9999 !important; }';
+            document.head.appendChild(muhur_disclaimer);
 
             console.log("PC: A��l�� penceresi K�K�NDEN silindi ve m�h�rlendi.");
         }
@@ -7139,9 +7139,9 @@ if (!data || !data.type) return;
             }
 
             // Taray�c� arkadan i� �evirip geri getirmesin diye CSS M�hr� bas:
-            const muhur = document.createElement('style');
-            muhur.innerHTML = '#install-popup { display: none !important; opacity: 0 !important; z-index: -9999 !important; pointer-events: none !important; }';
-            document.head.appendChild(muhur);
+            const muhur_disclaimer = document.createElement('style');
+            muhur_disclaimer.innerHTML = '#install-popup { display: none !important; opacity: 0 !important; z-index: -9999 !important; pointer-events: none !important; }';
+            document.head.appendChild(muhur_disclaimer);
 
             console.log("PC: Y�kleme penceresi yok edildi ve m�h�rlendi.");
         }
