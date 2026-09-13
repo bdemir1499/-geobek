@@ -5666,6 +5666,99 @@ document.addEventListener('click', function (e) {
 let myPeer = null;
 let myConnection = null;
 let isConnected = false;
+window.authorizedTeacherId = null;
+window.teacherConnectionStatus = 'disconnected';
+window.teacherPairingToken = null;
+window.teacherPairingTokenIssuedAt = 0;
+window.pendingTeacherConnections = new Set();
+
+const NETWORK_LIMITS = Object.freeze({
+    maxMessageBytes: 15 * 1024 * 1024,
+    maxChunkBytes: 12 * 1024,
+    maxMessagesPerSecond: 240,
+    maxPendingChunks: 64,
+    maxStrokePoints: 20000,
+    maxStringLength: 4096
+});
+
+function createSecureToken(byteLength = 16) {
+    const bytes = new Uint8Array(byteLength);
+    if (!window.crypto || typeof window.crypto.getRandomValues !== 'function') {
+        throw new Error('Güvenli rastgele sayı üreticisi desteklenmiyor.');
+    }
+    window.crypto.getRandomValues(bytes);
+    return Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+function createSessionSecret() {
+    return createSecureToken(16);
+}
+
+function byteLengthOf(value) {
+    try {
+        return new TextEncoder().encode(JSON.stringify(value)).byteLength;
+    } catch (error) {
+        console.warn('Ağ paketi boyutu hesaplanamadı, paket reddedildi.', error);
+        return Infinity;
+    }
+}
+
+function isFiniteNumber(value, min = -Infinity, max = Infinity) {
+    return typeof value === 'number' && Number.isFinite(value) && value >= min && value <= max;
+}
+
+function isSafeString(value, maxLength = NETWORK_LIMITS.maxStringLength) {
+    return typeof value === 'string' && value.length <= maxLength;
+}
+
+const CRITICAL_NETWORK_COMMANDS = new Set([
+    'hepsini_sil',
+    'pdf_yukle',
+    'resim_yukle',
+    'tahta_sil_hepsi',
+    'session-management'
+]);
+
+function validateStroke(stroke) {
+    if (!stroke || typeof stroke !== 'object' || !isSafeString(stroke.type, 64)) return false;
+    for (const key of ['x', 'y', 'width', 'height', 'cx', 'cy', 'radius']) {
+        if (stroke[key] !== undefined && !isFiniteNumber(stroke[key], -100000, 100000)) return false;
+    }
+    if (stroke.color !== undefined && (!isSafeString(stroke.color, 32) || !/^#[0-9a-f]{3,8}$/i.test(stroke.color))) return false;
+    if (Array.isArray(stroke.points) && stroke.points.length > NETWORK_LIMITS.maxStrokePoints) return false;
+    if (Array.isArray(stroke.path) && stroke.path.length > NETWORK_LIMITS.maxStrokePoints) return false;
+    return true;
+}
+
+function validateNetworkPacket(packet) {
+    if (!packet || typeof packet !== 'object' || Array.isArray(packet)) return false;
+    if (!isSafeString(packet.type, 64)) return false;
+    if (packet.type === 'chunk') {
+        return isSafeString(packet.msgId, 128) &&
+            isSafeString(packet.data, NETWORK_LIMITS.maxChunkBytes) &&
+            Number.isInteger(packet.idx) && packet.idx >= 0 &&
+            Number.isInteger(packet.total) && packet.total > 0 &&
+            packet.total <= NETWORK_LIMITS.maxPendingChunks;
+    }
+    if (packet.stroke !== undefined && !validateStroke(packet.stroke)) return false;
+    if (packet.strokes !== undefined && (!Array.isArray(packet.strokes) || packet.strokes.length > NETWORK_LIMITS.maxStrokePoints)) return false;
+    if (packet.pdfData !== undefined && !isSafeString(packet.pdfData, NETWORK_LIMITS.maxMessageBytes)) return false;
+    if (packet.sayfa !== undefined && (!Number.isInteger(packet.sayfa) || packet.sayfa < 1 || packet.sayfa > 10000)) return false;
+    return true;
+}
+
+function canProcessCriticalCommand(connection, packet) {
+    if (!CRITICAL_NETWORK_COMMANDS.has(packet.type)) return true;
+    const isAuthorizedTeacher = !isTablet &&
+        window.authorizedTeacherId &&
+        connection &&
+        connection.peer === window.authorizedTeacherId;
+    if (!isAuthorizedTeacher) {
+        console.warn('Yetkisiz kritik ağ işlemi reddedildi:', packet.type, connection && connection.peer);
+        return false;
+    }
+    return true;
+}
 
 // --- 1. AĞ AYARLARI VE KOD ÜRETİCİ ---
 const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
@@ -5674,6 +5767,14 @@ for (let i = 0; i < 5; i++) {
     myRoomCode += chars.charAt(Math.floor(Math.random() * chars.length));
 }
 const isTablet = window.location.href.includes("tablet");
+const teacherTokenFromUrl = new URLSearchParams(window.location.search).get('teacherToken');
+if (!isTablet) {
+    window.teacherPairingToken = createSecureToken(16);
+    window.teacherPairingTokenIssuedAt = Date.now();
+    window.sessionPassword = createSessionSecret();
+} else if (teacherTokenFromUrl && window.history && typeof window.history.replaceState === 'function') {
+    window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+}
 
 // --- 2. PEERJS BAŞLANGIÇ VE CİHAZ MODU AYARI ---
 // --- 2. PEERJS BAŞLANGIÇ (ASKERİ DÜZEY YEREL AĞ KİLİDİ) ---
@@ -5682,10 +5783,32 @@ const isTablet = window.location.href.includes("tablet");
 // iceServers dizisi boş bırakıldığı için sistem NAT/Güvenlik duvarını aşamaz.
 // Kötü niyetli biri şifreyi bilse bile fiziksel olarak uzaktan veri gönderemez!
 const askeriKalkan = {
+    host: window.location.hostname || '127.0.0.1',
+    port: Number(window.GEOBEK_PEER_PORT || 9000),
+    path: '/peerjs',
+    secure: window.location.protocol === 'https:',
     config: {
         'iceServers': [] // İnternet kapıları mühürlendi. Sadece LocalHost (Aynı Wi-Fi) çalışır.
     }
 };
+
+function renderTeacherPairingQr(peerId) {
+    const qrHost = document.getElementById('teacher-pairing-qr');
+    if (!qrHost || typeof QRCode === 'undefined' || isTablet) return;
+    qrHost.replaceChildren();
+    const tabletUrl = new URL(window.location.href);
+    tabletUrl.search = '';
+    tabletUrl.hash = '';
+    tabletUrl.searchParams.set('tablet', '1');
+    tabletUrl.searchParams.set('room', peerId);
+    tabletUrl.searchParams.set('teacherToken', window.teacherPairingToken);
+    new QRCode(qrHost, {
+        text: tabletUrl.toString(),
+        width: 140,
+        height: 140,
+        correctLevel: QRCode.CorrectLevel.M
+    });
+}
 
 if (isTablet) {
     myPeer = new Peer(askeriKalkan);
@@ -5693,18 +5816,21 @@ if (isTablet) {
     myPeer.on('error', (err) => { alert("Tablet Bağlantı Hatası: " + err); });
 } else {
     myPeer = new Peer(myRoomCode, askeriKalkan);
-    window.sessionPassword = Math.floor(1000 + Math.random() * 9000).toString();
     
     // Geçici olarak ekrana yükleniyor yazalım ki uygulamanın çökmediğini görelim
     const idSaha = document.getElementById('my-peer-id');
     const pinSaha = document.getElementById('my-pin-code');
+    const teacherTokenSaha = document.getElementById('teacher-pairing-token');
     if (idSaha) idSaha.innerText = "Bağlanıyor...";
     if (pinSaha) pinSaha.innerText = "...";
+    if (teacherTokenSaha) teacherTokenSaha.innerText = "Üretiliyor...";
 
     myPeer.on('open', (id) => {
         console.log("Tahta Peer Hazır. Oda Kodu:", id);
         if (idSaha) idSaha.innerText = id;
         if (pinSaha) pinSaha.innerText = window.sessionPassword;
+        if (teacherTokenSaha) teacherTokenSaha.innerText = window.teacherPairingToken;
+        renderTeacherPairingQr(id);
     });
     
     myPeer.on('error', (err) => { 
@@ -5732,7 +5858,23 @@ myPeer.on('connection', function (conn) {
         }
     }
 
-    if (!conn.metadata || conn.metadata.password !== window.sessionPassword) {
+    const isTeacherCandidate = Boolean(
+        conn.metadata &&
+        typeof conn.metadata.teacherToken === 'string' &&
+        conn.metadata.teacherToken === window.teacherPairingToken &&
+        Date.now() - window.teacherPairingTokenIssuedAt <= 5 * 60 * 1000
+    );
+
+    if (isTeacherCandidate) {
+        if (window.teacherConnectionStatus !== 'disconnected' ||
+            window.pendingTeacherConnections.size > 0) {
+            console.warn('İkinci öğretmen eşleşme isteği reddedildi:', peerId);
+            conn.close();
+            return;
+        }
+        window.pendingTeacherConnections.add(peerId);
+        conn.isTeacherCandidate = true;
+    } else if (!conn.metadata || conn.metadata.password !== window.sessionPassword) {
         console.warn("🔒 Güvenlik İhlali: Hatalı şifre denemesi reddedildi!", conn.peer);
         
         window.failedAttempts[peerId] = (window.failedAttempts[peerId] || 0) + 1;
@@ -5750,7 +5892,7 @@ myPeer.on('connection', function (conn) {
     delete window.failedAttempts[peerId];
 
 
-    console.log("Bir cihaz bağlanmak istiyor (Şifre Doğrulandı):", conn.peer);
+    console.log(isTeacherCandidate ? "Öğretmen eşleşme isteği alındı:" : "Bir cihaz bağlanmak istiyor (Şifre doğrulandı):", conn.peer);
 
     const requestModal = document.getElementById('conn-request-modal');
     const requestText = document.getElementById('request-text');
@@ -5758,7 +5900,9 @@ myPeer.on('connection', function (conn) {
     const btnReject = document.getElementById('btn-conn-reject');
 
     if (requestModal && requestText && btnAccept && btnReject) {
-        requestText.innerText = `Oda kodu "${conn.peer}" olan bir cihaz bağlanmak istiyor. Onaylıyor musun?`;
+        requestText.innerText = isTeacherCandidate
+            ? `Bir cihaz öğretmen olarak eşleşmek istiyor. Bu cihazı onaylıyor musun?`
+            : `Oda kodu "${conn.peer}" olan bir cihaz bağlanmak istiyor. Onaylıyor musun?`;
         requestModal.classList.remove('hidden');
         requestModal.style.display = 'flex';
 
@@ -5769,6 +5913,13 @@ myPeer.on('connection', function (conn) {
         btnAccept.onclick = function () {
             try {
                 myConnection = conn;
+                if (conn.isTeacherCandidate) {
+                    window.authorizedTeacherId = conn.peer;
+                    window.teacherConnectionStatus = 'authorized';
+                    window.pendingTeacherConnections.delete(conn.peer);
+                    window.teacherPairingToken = createSecureToken(16);
+                    window.teacherPairingTokenIssuedAt = Date.now();
+                }
 
                 const baglantiHazir = () => {
                     isConnected = true;
@@ -5811,6 +5962,7 @@ myPeer.on('connection', function (conn) {
         };
 
         btnReject.onclick = function () {
+            window.pendingTeacherConnections.delete(conn.peer);
             conn.close();
             requestModal.classList.add('hidden');
             requestModal.style.display = 'none';
@@ -5822,10 +5974,13 @@ myPeer.on('connection', function (conn) {
 myPeer.on('open', function (id) {
     const idSaha = document.getElementById('my-peer-id');
     const pinSaha = document.getElementById('my-pin-code');
+    const teacherTokenSaha = document.getElementById('teacher-pairing-token');
 
     if (!isTablet) {
         if (idSaha) idSaha.innerText = id;
         if (pinSaha) pinSaha.innerText = window.sessionPassword;
+        if (teacherTokenSaha) teacherTokenSaha.innerText = window.teacherPairingToken || 'Yok';
+        renderTeacherPairingQr(id);
     } else {
         const panel = document.getElementById('network-panel');
         if (panel) {
@@ -5840,10 +5995,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const connectBtn = document.getElementById('connect-btn');
     if (connectBtn) {
         connectBtn.addEventListener('click', () => {
-            const targetCode = document.getElementById('connect-input').value.trim();
+            const roomFromUrl = new URLSearchParams(window.location.search).get('room');
+            const targetCode = (roomFromUrl || document.getElementById('connect-input').value).trim();
             const passwordInput = document.getElementById('session-pass-input').value.trim();
 
-            if (targetCode.length === 5 && passwordInput.length > 0) {
+            if (targetCode.length === 5 && (passwordInput.length > 0 || teacherTokenFromUrl)) {
                 if (!myPeer || myPeer.destroyed) {
                     alert("Ağ bağlantısı henüz kurulmadı, lütfen 2 saniye bekleyip tekrar dene.");
                     return;
@@ -5854,7 +6010,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Bağlantıyı başlat (Şifreyi kriptografik metadata olarak gönderiyoruz)
                 myConnection = myPeer.connect(targetCode, {
-                    metadata: { password: window.sessionPassword }
+                    metadata: {
+                        password: window.sessionPassword,
+                        teacherToken: teacherTokenFromUrl || undefined
+                    }
                 });
 
                 // --- BAĞLANTIYI GARANTİLEMEK İÇİN İKİLİ KONTROL ---
@@ -5882,6 +6041,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert("Lütfen 5 haneli Oda Kodunu ve Tahta Şifresini eksiksiz girin.");
             }
         });
+
+        if (teacherTokenFromUrl) {
+            const roomFromUrl = new URLSearchParams(window.location.search).get('room');
+            const passwordField = document.getElementById('session-pass-input');
+            if (roomFromUrl && passwordField && !passwordField.value) {
+                passwordField.value = 'teacher-pairing';
+                setTimeout(() => connectBtn.click(), 250);
+            }
+        }
     }
 });
 
@@ -5890,6 +6058,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function setupConnectionEvents() {
     if (!myConnection) return;
     if (window._lastSetupConnection === myConnection) return;
+    const connection = myConnection;
     window._lastSetupConnection = myConnection;
     window._connectionEventsBound = true;
 
@@ -6109,7 +6278,45 @@ function setupConnectionEvents() {
     // --- 2. VERİ ALICI VE PARÇALAMA MOTORU (BARKOD SİSTEMLİ) ---
     window.chunkBuffers = {}; // 🚨 YENİ: Her mesaja özel ayrı bir kutu açıyoruz
 
-    myConnection.on('data', function (data) {
+    const packetWindow = { startedAt: Date.now(), count: 0 };
+    const chunkState = new Map();
+
+    connection.on('data', function (data) {
+        const now = Date.now();
+        if (now - packetWindow.startedAt >= 1000) {
+            packetWindow.startedAt = now;
+            packetWindow.count = 0;
+        }
+        packetWindow.count += 1;
+        if (packetWindow.count > NETWORK_LIMITS.maxMessagesPerSecond) {
+            console.warn('Aşırı hızlı ağ trafiği reddedildi:', connection.peer);
+            connection.close();
+            return;
+        }
+        if (byteLengthOf(data) > NETWORK_LIMITS.maxMessageBytes ||
+            !validateNetworkPacket(data) ||
+            !canProcessCriticalCommand(connection, data)) {
+            console.warn('Geçersiz veya yetkisiz ağ paketi reddedildi:', connection.peer);
+            return;
+        }
+        if (data.type === 'chunk') {
+            if (chunkState.size >= NETWORK_LIMITS.maxPendingChunks && !chunkState.has(data.msgId)) {
+                console.warn('Ağ parça kuyruğu sınırı aşıldı:', connection.peer);
+                connection.close();
+                return;
+            }
+            const existing = chunkState.get(data.msgId);
+            const state = existing || { total: data.total, parts: new Map(), createdAt: now };
+            if (state.total !== data.total || data.idx >= state.total) {
+                console.warn('Bozuk ağ parçası reddedildi:', connection.peer);
+                return;
+            }
+            state.parts.set(data.idx, data.data);
+            chunkState.set(data.msgId, state);
+            for (const [id, value] of chunkState) {
+                if (now - value.createdAt > 30000) chunkState.delete(id);
+            }
+        }
 
         // 🚨 NİHAİ VE MATEMATİKSEL KESİN ÇÖZÜM: CSS ve Canvas HD Uyuşmazlığını Giderici 🚨
         function veriyiIsle(d) {
@@ -6293,7 +6500,14 @@ function setupConnectionEvents() {
                 }
                 if (window.chunkBuffers[id].count === data.total) {
                     const fullStr = window.chunkBuffers[id].chunks.join('');
-                    try { veriyiIsle(JSON.parse(fullStr)); } catch (e) { }
+                    if (new TextEncoder().encode(fullStr).byteLength <= NETWORK_LIMITS.maxMessageBytes) {
+                        try {
+                            const completePacket = JSON.parse(fullStr);
+                            if (validateNetworkPacket(completePacket) && canProcessCriticalCommand(connection, completePacket)) {
+                                veriyiIsle(completePacket);
+                            }
+                        } catch (e) { console.warn('Bozuk ağ paketi reddedildi.', e); }
+                    }
                     delete window.chunkBuffers[id];
                 }
             } else {
@@ -6301,7 +6515,15 @@ function setupConnectionEvents() {
                 if (typeof window.chunkBuffers[id] === 'string') {
                     window.chunkBuffers[id] += data.data;
                     if (data.isLast) {
-                        try { veriyiIsle(JSON.parse(window.chunkBuffers[id])); } catch (e) { }
+                        const fullStr = window.chunkBuffers[id];
+                        if (new TextEncoder().encode(fullStr).byteLength <= NETWORK_LIMITS.maxMessageBytes) {
+                            try {
+                                const completePacket = JSON.parse(fullStr);
+                                if (validateNetworkPacket(completePacket) && canProcessCriticalCommand(connection, completePacket)) {
+                                    veriyiIsle(completePacket);
+                                }
+                            } catch (e) { console.warn('Bozuk ağ paketi reddedildi.', e); }
+                        }
                         delete window.chunkBuffers[id];
                     }
                 }
@@ -7092,9 +7314,16 @@ if (!data || !data.type) return;
     } // <--- processData fonksiyonu TAM BURADA kusursuzca kapanır
 
     // --- 3. BAĞLANTI KOPMASI DURUMU ---
-    myConnection.on('close', function () {
+    connection.on('close', function () {
         window._connectionEventsBound = false;
         window._lastSetupConnection = null;
+        if (connection.isTeacherCandidate && window.authorizedTeacherId === connection.peer) {
+            window.authorizedTeacherId = null;
+            window.teacherConnectionStatus = 'disconnected';
+            window.teacherPairingToken = isTablet ? null : createSecureToken(16);
+            window.teacherPairingTokenIssuedAt = isTablet ? 0 : Date.now();
+        }
+        window.pendingTeacherConnections.delete(connection.peer);
         isConnected = false;
         const statusEl = document.getElementById('connection-status');
         if (statusEl) {
@@ -7141,6 +7370,7 @@ window.mySessionId = Date.now().toString() + Math.random().toString();
 
 window.sendNetworkData = function (dataPackage) {
     if (!dataPackage) return;
+    const boardLocalOnly = new Set(['arka_plan_resmi_aktar', 'pdf_yukle', 'resim_yukle']);
 
     // YANKI KORUMASI İÇİN KİMLİK DAMGASI
     dataPackage.senderId = window.mySessionId;
@@ -7196,6 +7426,10 @@ window.sendNetworkData = function (dataPackage) {
     }
     // DURUM 2: Tahtaysak Tabletlere Gönder
     else if (typeof window.aktifBaglantilar !== 'undefined') {
+        if (boardLocalOnly.has(dataPackage.type)) {
+            console.info('Hassas dosya paketi öğrenci cihazlarına aktarılmadı:', dataPackage.type);
+            return;
+        }
         for (let id in window.aktifBaglantilar) {
             const conn = window.aktifBaglantilar[id];
             if (conn && conn.open) {
@@ -8358,7 +8592,7 @@ function calculateDistance(p1, p2) {
             document.body.appendChild(videoElement);
 
             hands = new window.Hands({
-                locateFile: (file) => 'https://cdn.jsdelivr.net/npm/@mediapipe/hands/' + file
+                locateFile: (file) => 'vendor/' + file
             });
 
             hands.setOptions({
