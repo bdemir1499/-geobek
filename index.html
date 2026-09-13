@@ -47,13 +47,13 @@
 
     <div style="font-size: 14px; margin-bottom: 10px; color: #fff;">
     Oda Kodun: <span id="my-peer-id" style="color: #00ffcc; font-weight: bold; font-size: 20px; letter-spacing: 2px;">...</span><br>
-    Taşıhta Şifresi: <span id="my-pin-code" style="color: #ff00ff; font-weight: bold; font-size: 20px; letter-spacing: 2px;">...</span><br>
+    Tahta Şifresi: <span id="my-pin-code" style="color: #ff00ff; font-weight: bold; font-size: 20px; letter-spacing: 2px;">...</span><br>
     <div id="teacher-pairing-qr" style="display: none;"></div>
 </div>
 
     <div id="teacher-qr-container" style="display: none; margin-bottom: 10px; text-align: center; border: 1px dashed #ff00ff; padding: 10px; border-radius: 8px;">
         <div style="font-size: 12px; color: #ff00ff; margin-bottom: 8px; font-weight: bold;">Öğretmen Cihazı Eşleştir</div>
-        <div id="teacher-pairing-qr" style="display: none;"></div>
+        <div id="teacher-qrcode" style="background: white; padding: 5px; display: inline-block; border-radius: 5px;"></div>
     </div>
     
     <div style="display: flex; flex-direction: column; gap: 8px;">
@@ -116,7 +116,7 @@
                 const footer = document.getElementById('footer-container');
                 if (footer) footer.style.display = 'none';
 
-                // KRİTİK KONTROL: Taşıhtada paneli KÜÇÜLTMÜYORUZ, açık kalıyor!
+                // KRİTİK KONTROL: Tahtada paneli KÜÇÜLTMÜYORUZ, açık kalıyor!
                 if (typeof isConnected !== 'undefined' && isConnected) {
                     kucult();
                 }
@@ -185,10 +185,10 @@
             <div class="color-box" style="background-color: #9400D3;"></div> 
         </div>
 
-        <button id="btn-cÇizgi" class="tool-button">ÇÇizgi</button>
+        <button id="btn-cizgi" class="tool-button">Çizgi</button>
         <div id="line-options" class="tool-options hidden">
             <button id="btn-nokta" class="tool-button-sub">Nokta</button>
-            <button id="btn-d_cÇizgi" class="tool-button-sub">Düz ÇÇizgi</button>
+            <button id="btn-d_cizgi" class="tool-button-sub">Düz Çizgi</button>
             <button id="btn-dogru" class="tool-button-sub">Doğru</button>
             <button id="btn-dogru_parcasi" class="tool-button-sub">Doğru Parçası</button>
             <button id="btn-isin" class="tool-button-sub">Işın</button>
@@ -211,10 +211,10 @@
         <button id="btn-gonye" class="tool-button">Gönye</button>
         <button id="btn-aciolcer" class="tool-button">Açı Ölçer</button>
         <button id="btn-pergel" class="tool-button">Pergel</button>
-        <button id="btn-cÇokgenler" class="tool-button">ÇÇokgenler</button> 
+        <button id="btn-cokgenler" class="tool-button">Çokgenler</button> 
         
         <div id="polygon-options" class="tool-options hidden"> 
-            <button id="btn-cÇember" class="tool-button-sub">ÇÇember</button>
+            <button id="btn-cember" class="tool-button-sub">Çember</button>
             <button id="btn-duzgun_ucgen" class="tool-button-sub" data-sides="3">Düzgün 3gen</button>
             <button id="btn-duzgun_dortgen" class="tool-button-sub" data-sides="4">Düzgün 4gen</button>
             <button id="btn-dikdortgen" class="tool-button-sub">Dikdörtgen</button>
@@ -249,7 +249,7 @@
         <button id="btn-tool-color" class="tool-button">Araç Rengi: Siyah</button>
         <button id="btn-undo" class="tool-button">Geri Al</button>
         <button id="btn-clear-all" class="tool-button">Hepsini Sil</button>
-        <button id="btn-move" class="tool-button">Taşışı</button>
+        <button id="btn-move" class="tool-button">Taşı</button>
         
         <div style="position: relative; overflow: hidden; display: flex; width: 100%; margin-bottom: 5px;">
             <button id="btn-camera" class="tool-button" style="width: 100%; margin: 0; background-color: #ffaa00; color: #000; font-weight: bold;">📸 Soru Çek</button>
@@ -292,7 +292,7 @@
             <div class="help-body">
                 <div class="video-list" id="video-list-container"></div>
                 <div class="video-player-container">
-                    <video id="main-video-player" controls>Taşırayıcınız desteklemiyor.</video>
+                    <video id="main-video-player" controls>Tarayıcınız desteklemiyor.</video>
                     <div id="video-title-label" class="video-title">Bir video seçin</div>
                 </div>
             </div>
@@ -332,7 +332,7 @@
 <div id="footer-container" style="position: fixed; bottom: 10px; left: 0; width: 100%; text-align: center; z-index: 999999; font-family: sans-serif; pointer-events: auto; background: rgba(0,0,0,0.5); padding: 5px 0;">
     
     <div id="kvkk-bilgi" style="font-size: 11px; color: #888; opacity: 0.9; margin-bottom: 5px;">
-        Bu uygulama hiçbir kişisel veri toplamaz ve dosyalarınızı sunuculara yüklemez.<br>Taşıblet - Taşıhta ba&#287;lant&#305;s&#305; sadece &ouml;&#287;retmen tableti ve ak&#305;ll&#305; tahta aras&#305;nda olmal&#305;d&#305;r.
+        Bu uygulama hiçbir kişisel veri toplamaz ve dosyalarınızı sunuculara yüklemez.<br>Tablet - Tahta ba&#287;lant&#305;s&#305; sadece &ouml;&#287;retmen tableti ve ak&#305;ll&#305; tahta aras&#305;nda olmal&#305;d&#305;r.
     </div>
 
     <a href="#" id="open-disclaimer" style="color:#00ffcc; font-size:14px; text-decoration: underline; font-weight: bold; cursor:pointer; display: block;">
