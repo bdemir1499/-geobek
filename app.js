@@ -7699,12 +7699,19 @@ window.Scene3D = {
         this.camera.lookAt(0, 0, 0);
         this.camera.up.set(0, 0, 1);
 
-        this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-        this.renderer.domElement.style.pointerEvents = 'none';
+        try {
+            this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            this.renderer.setSize(window.innerWidth, window.innerHeight);
+            this.renderer.domElement.style.pointerEvents = 'none';
 
+            if (this.container) {
+                this.container.appendChild(this.renderer.domElement);
+        } catch(e) {
+            console.error('WebGL Hatasi', e);
+            if (isTablet) alert('Cihaziniz 3D cizimleri (WebGL) desteklemiyor!');
+            return;
+        }
         if (this.container) {
-            this.container.appendChild(this.renderer.domElement);
             // ?? G�VENL�K 1: Ba�lang��ta tahtay� zorla g�r�n�r yap!
             this.container.style.display = 'block';
             this.container.classList.remove('hidden');
