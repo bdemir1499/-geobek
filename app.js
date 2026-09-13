@@ -1,4 +1,4 @@
-window.onerror = function(msg, url, line) { alert('HATA: ' + msg + '\nSatir: ' + line); };
+﻿window.onerror = function(msg, url, line) { alert('HATA: ' + msg + '\nSatir: ' + line); };
 // ?? ALAN ADI Kï¿½Lï¿½Dï¿½ (DOMAIN BINDING) ??
 // Sadece bdemir1499.github.io adresinde, EBA sunucularï¿½nda ve yerel bilgisayarda ï¿½alï¿½ï¿½ï¿½r!
 const gecerliAdresler = ["bdemir1499.github.io", "127.0.0.1", "localhost", "eba.gov.tr", "vercel.app"];

@@ -1,4 +1,4 @@
-const fs = require('fs');
+﻿const fs = require('fs');
 let appJs = fs.readFileSync('app.js', 'utf8');
 
 const startIndex = appJs.indexOf('if (isTwoHands) {');

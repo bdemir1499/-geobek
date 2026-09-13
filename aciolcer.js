@@ -1,4 +1,4 @@
-
+﻿
 
 // --- aciolcer.js (Referans Dondurma ile Zıplama Engelleyici Sürüm) ---
 

@@ -1,4 +1,4 @@
-    tonyBtn.onclick = async () => {
+﻿    tonyBtn.onclick = async () => {
         if (tonyActive) {
             if (camera) { camera.stop(); camera = null; }
             if (hands) { hands.close(); hands = null; }

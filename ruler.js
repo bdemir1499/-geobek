@@ -1,4 +1,4 @@
-// --- ruler.js (Evrensel Pointer ile Zıplamayan Versiyon) ---
+﻿// --- ruler.js (Evrensel Pointer ile Zıplamayan Versiyon) ---
 
 window.RulerTool = {
     rulerElement: null,

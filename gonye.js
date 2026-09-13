@@ -1,4 +1,4 @@
-// --- gonye.js (Zıplama Engelleyici Dondurulmuş Referans Sürümü) ---
+﻿// --- gonye.js (Zıplama Engelleyici Dondurulmuş Referans Sürümü) ---
 
 window.GonyeTool = {
     gonyeElement: null,

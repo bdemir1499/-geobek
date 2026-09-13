@@ -1,4 +1,4 @@
-// --- cokgen.js (Çokgen Aracı Mantığı) ---
+﻿// --- cokgen.js (Çokgen Aracı Mantığı) ---
 
 window.PolygonTool = {
     // --- TEMEL DURUM ---

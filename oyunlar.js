@@ -1,4 +1,4 @@
-// --- oyunlar.js ---
+﻿// --- oyunlar.js ---
 
 window.OyunListesi = [
     {

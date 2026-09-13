@@ -1,4 +1,4 @@
-// --- pergel.js (Referans Dondurma ile Zıplamayan Nihai Sürüm) ---
+﻿// --- pergel.js (Referans Dondurma ile Zıplamayan Nihai Sürüm) ---
 
 window.PergelTool = {
     // HTML Elementleri

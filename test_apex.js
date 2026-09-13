@@ -1,4 +1,4 @@
-const THREE = require('three');
+﻿const THREE = require('three');
 
 function testPyramid(sides, r, height) {
     const apothem = r * Math.cos(Math.PI / sides);

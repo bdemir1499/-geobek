@@ -1,4 +1,4 @@
-// 3D Şekillerin Açınım (Katlama) Mantığı İçin Ek Modül
+﻿// 3D Şekillerin Açınım (Katlama) Mantığı İçin Ek Modül
 window.Foldable3D = {
     createFoldableGroup: function(type, size, mainMaterial, edgeMaterial) {
         if (type === 'sphere') return null; // Küre için açınım hesaplanmaz, normal çizim için null dönüyoruz

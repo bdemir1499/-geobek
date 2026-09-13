@@ -1,4 +1,4 @@
-const fs = require('fs');
+﻿const fs = require('fs');
 let log = "";
 const r = 10;
 const height = 20;
