@@ -1,4 +1,4 @@
-﻿window.onerror = function(msg, url, line) { alert('HATA: ' + msg + '\nSatir: ' + line); };
+window.onerror = function(msg, url, line) { alert('HATA: ' + msg + '\nSatir: ' + line); };
 // ?? ALAN ADI Kï¿½Lï¿½Dï¿½ (DOMAIN BINDING) ??
 // Sadece bdemir1499.github.io adresinde, EBA sunucularï¿½nda ve yerel bilgisayarda ï¿½alï¿½ï¿½ï¿½r!
 const gecerliAdresler = ["bdemir1499.github.io", "127.0.0.1", "localhost", "eba.gov.tr", "vercel.app"];
@@ -40,7 +40,7 @@ window.sessionPassword = "";
 let currentLang = 'tr'; // Varsaylan dil
 
 const translations = {
-    tr: { sihirli_el: "âœ¨ Sihirli El", soru_cek: "ğŸ“¸ Soru Ã‡ek", yukle: "Dosya YÃ¼kle", silgi: "Silgi", kalem: "Kalem", cizgi: "Ã‡izgi", nokta: "Nokta", d_cizgi: "DÃ¼z Ã‡izgi", dogru: "DoÄŸru", dogru_parcasi: "DoÄŸru ParÃ§asÄ±", isin: "IÅŸÄ±n", cetvel: "Cetvel", gonye: "GÃ¶nye", aciolcer: "AÃ§Ä± Ã–lÃ§er", pergel: "Pergel", cokgenler: "Ã‡okgenler", cember: "Ã‡ember", d_ucgen: "DÃ¼zgÃ¼n 3gen", d_dortgen: "DÃ¼zgÃ¼n 4gen", dikdortgen: "DikdÃ¶rtgen", d_besgen: "DÃ¼zgÃ¼n 5gen", d_altigen: "DÃ¼zgÃ¼n 6gen", d_yedigen: "DÃ¼zgÃ¼n 7gen", d_sekizgen: "DÃ¼zgÃ¼n 8gen", oyunlar: "Oyunlar", arac_rengi: "AraÃ§ Rengi", geri_al: "Geri Al", hepsini_sil: "Hepsini Sil", tasi: "TaÅŸÄ±", canlandir: "CanlandÄ±r ğŸ”„", kutu: "Kutu", serbest: "Serbest", yardim: "Video YardÄ±m", ins_t: "UygulamayÄ± YÃ¼kle", ins_d: "Daha iyi performans iÃ§in uygulamayÄ± yÃ¼kle.", ins_b: "YÃ¼kle", ins_c: "Kapat", vid_cetvel: "Cetvel KullanÄ±mÄ±", vid_gonye: "GÃ¶nye KullanÄ±mÄ±", vid_aciolcer: "AÃ§Ä± Ã–lÃ§er KullanÄ±mÄ±", vid_pergel: "Pergel KullanÄ±mÄ±", vid_canlandir: "CanlandÄ±rma (Kopyalama)", vid_cizgi: "Ã‡izgi MenÃ¼sÃ¼ KullanÄ±mÄ±", vid_cokgenler: "Ã‡okgenler", vid_kalem: "Kalem", vid_kitap: "Kitap ve Resim YÃ¼kleme", vid_oyunlar: "Oyunlar", pdf_soru: "Bu PDF {0} sayfadÄ±r. KaÃ§Ä±ncÄ± sayfadan devam etmek istersiniz?", kvkk: "Bu uygulama hiÃ§bir kiÅŸisel veri toplamaz ve dosyalarÄ±nÄ±zÄ± sunuculara yÃ¼klemez." },
+    tr: { sihirli_el: "✨ Sihirli El", soru_cek: "📸 Soru Çek", yukle: "Dosya Yükle", silgi: "Silgi", kalem: "Kalem", cizgi: "Çizgi", nokta: "Nokta", d_cizgi: "Düz Çizgi", dogru: "Doğru", dogru_parcasi: "Doğru Parçası", isin: "Işın", cetvel: "Cetvel", gonye: "Gönye", aciolcer: "Açı Ölçer", pergel: "Pergel", cokgenler: "Çokgenler", cember: "Çember", d_ucgen: "Düzgün 3gen", d_dortgen: "Düzgün 4gen", dikdortgen: "Dikdörtgen", d_besgen: "Düzgün 5gen", d_altigen: "Düzgün 6gen", d_yedigen: "Düzgün 7gen", d_sekizgen: "Düzgün 8gen", oyunlar: "Oyunlar", arac_rengi: "Araç Rengi", geri_al: "Geri Al", hepsini_sil: "Hepsini Sil", tasi: "Taşı", canlandir: "Canlandır 🔄", kutu: "Kutu", serbest: "Serbest", yardim: "Video Yardım", ins_t: "Uygulamayı Yükle", ins_d: "Daha iyi performans için uygulamayı yükle.", ins_b: "Yükle", ins_c: "Kapat", vid_cetvel: "Cetvel Kullanımı", vid_gonye: "Gönye Kullanımı", vid_aciolcer: "Açı Ölçer Kullanımı", vid_pergel: "Pergel Kullanımı", vid_canlandir: "Canlandırma (Kopyalama)", vid_cizgi: "Çizgi Menüsü Kullanımı", vid_cokgenler: "Çokgenler", vid_kalem: "Kalem", vid_kitap: "Kitap ve Resim Yükleme", vid_oyunlar: "Oyunlar", pdf_soru: "Bu PDF {0} sayfadır. Kaçıncı sayfadan devam etmek istersiniz?", kvkk: "Bu uygulama hiçbir kişisel veri toplamaz ve dosyalarınızı sunuculara yüklemez." },
 
     en: { yukle: "Upload File", silgi: "Eraser", kalem: "Pen", cizgi: "Line", nokta: "Point", d_cizgi: "Straight Line", dogru: "Line", dogru_parcasi: "Segment", isin: "Ray", cetvel: "Ruler", gonye: "Set Square", aciolcer: "Protractor", pergel: "Compass", cokgenler: "Polygons", cember: "Circle", d_ucgen: "Regular Triangle", d_dortgen: "Square", dikdortgen: "Rectangle", d_besgen: "Pentagon", d_altigen: "Hexagon", d_yedigen: "Heptagon", d_sekizgen: "Octagon", oyunlar: "Games", arac_rengi: "Tool Color", geri_al: "Undo", hepsini_sil: "Clear All", tasi: "Move", canlandir: "Animate ??", kutu: "Box", serbest: "Free", yardim: "Video Help", ins_t: "Install App", ins_d: "Install app for better performance.", ins_b: "Install", ins_c: "Close", vid_cetvel: "Ruler Usage", vid_gonye: "Set Square Usage", vid_aciolcer: "Protractor Usage", vid_pergel: "Compass Usage", vid_canlandir: "Animation (Copy)", vid_cizgi: "Line Menu Usage", vid_cokgenler: "Polygons", vid_kalem: "Pen", vid_kitap: "Load Book and Image", vid_oyunlar: "Games", pdf_soru: "This PDF has {0} pages. Which page would you like to continue from?", sihirli_el: "? Magic Hand", soru_cek: "?? Take Photo", kvkk: "This application does not collect any personal data and does not upload your files to servers." },
 
@@ -95,7 +95,7 @@ let penActiveTimer = null;
 // --- ï¿½OK Dï¿½LLï¿½ OYUNLAR Lï¿½STESï¿½ (Tï¿½M Dï¿½LLER Gï¿½NCELLENDï¿½) ---
 window.OyunListesi = [
     {
-        tr: "ï¿½EMBERLERDEN ï¿½ï¿½GEN ï¿½Nï¿½ASI",
+        tr: "ÇEMBERLERDEN ÜÇGEN İNŞASI",
         en: "TRIANGLE CONSTRUCTION FROM CIRCLES",
         de: "DREIECKSKONSTRUKTION AUS KREISEN",
         ar: "???? ?????? ?? ???????",
@@ -111,7 +111,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/cemberden-ucgen-elde-etme"
     },
     {
-        tr: "Aï¿½I ï¿½Lï¿½ER YERLEï¿½Tï¿½RME OYUNU",
+        tr: "AÇI ÖLÇER YERLEŞTİRME OYUNU",
         en: "PROTRACTOR PLACEMENT GAME",
         de: "WINKELMESSER-PLATZIERUNGSSPIEL",
         ar: "???? ??? ???????",
@@ -127,7 +127,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt2507.my.canva.site/a-l-er-yar-mas"
     },
     {
-        tr: "DOï¿½RUYA DIï¿½INDAKï¿½ NOKTADAN Dï¿½KME",
+        tr: "DOĞRUYA DIŞINDAKİ NOKTADAN DİKME",
         en: "PERPENDICULAR FROM EXTERNAL POINT",
         de: "LORECHT VON EINEM EXTERNEN PUNKT",
         ar: "????? ???? ?? ???? ???? ????",
@@ -143,7 +143,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/dogruya-disindeki-noktadan-dikme-cizmek"
     },
     {
-        tr: "AYNI Dï¿½ZLEMDE ï¿½Kï¿½ DOï¿½RUNUN YOLCULUï¿½U",
+        tr: "AYNI DÜZLEMDE İKİ DOĞRUNUN YOLCULUĞU",
         en: "JOURNEY OF TWO LINES IN THE SAME PLANE",
         de: "REISE ZWEIER LINIEN IN DERSELBEN EBENE",
         ar: "???? ???? ?? ??? ???????",
@@ -159,7 +159,7 @@ window.OyunListesi = [
         link: "https://bdemir1499.github.io/ayni-duzlemde-iki-dogru/"
     },
     {
-        tr: "AYNI Dï¿½ZLEMDE 3 DOï¿½RUNUN DURUMLARI",
+        tr: "AYNI DÜZLEMDE 3 DOĞRUNUN DURUMLARI",
         en: "POSITIONS OF 3 LINES IN THE SAME PLANE",
         de: "LAGE VON 3 LINIEN IN DERSELBEN EBENE",
         ar: "????? 3 ???? ?? ??? ???????",
@@ -175,7 +175,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt2507.my.canva.site/ayniduzlemdeucdogrunundurumlari"
     },
     {
-        tr: "Aï¿½I ï¿½Eï¿½ï¿½TLERï¿½ (Tï¿½MLER/Bï¿½Tï¿½NLER/KOMï¿½U)",
+        tr: "AÇI ÇEŞİTLERİ (TÜMLER/BÜTÜNLER/KOMŞU)",
         en: "ANGLE TYPES (COMPLEMENTARY/SUPPLEMENTARY/ADJACENT)",
         de: "WINKELARTEN (KOMPLEMENTï¿½R/SUPPLEMENTï¿½R/NEBENWINKEL)",
         ar: "????? ??????? (??????/???????/???????)",
@@ -191,7 +191,7 @@ window.OyunListesi = [
         link: "https://bdemir1499.github.io/tumler-butunler-komsutumler-komsubutunler/"
     },
     {
-        tr: "Aï¿½ILARINA Gï¿½RE ï¿½ï¿½GENLER",
+        tr: "AÇILARINA GÖRE ÜÇGENLER",
         en: "TRIANGLES ACCORDING TO THEIR ANGLES",
         de: "DREIECKE NACH IHREN WINKELN",
         ar: "???????? ??? ???????",
@@ -207,7 +207,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/acilarina-gire-ucgenler"
     },
     {
-        tr: "Aï¿½I ï¿½Eï¿½ï¿½TLERï¿½ (DAR, Dï¿½K, GENï¿½ï¿½ vb.)",
+        tr: "AÇI ÇEŞİTLERİ (DAR, DİK, GENİŞ vb.)",
         en: "ANGLE TYPES (ACUTE, RIGHT, OBTUSE etc.)",
         de: "WINKELARTEN (SPITZ, RECHT, STUMPF usw.)",
         ar: "????? ??????? (????? ?????? ?????? ???)",
@@ -223,7 +223,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt2507.my.canva.site/aci-cesitleri"
     },
     {
-        tr: "TEMEL GEOMETRï¿½K ï¿½EKï¿½LLER",
+        tr: "TEMEL GEOMETRİK ŞEKİLLER",
         en: "BASIC GEOMETRIC SHAPES",
         de: "GEOMETRISCHE GRUNDFORMEN",
         ar: "??????? ???????? ????????",
@@ -239,7 +239,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/temel-geometrik-sekiller"
     },
     {
-        tr: "ï¿½OKGENLERï¿½N ELEMANLARI",
+        tr: "ÇOKGENLERİN ELEMANLARI",
         en: "ELEMENTS OF POLYGONS",
         de: "ELEMENTE VON POLYGONEN",
         ar: "????? ????????",
@@ -255,7 +255,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt2507.my.canva.site/cokgenlerin-elemanlari"
     },
     {
-        tr: "ï¿½Kï¿½ PARALEL VE KESENLE OLUï¿½AN Aï¿½ILAR (1)",
+        tr: "İKİ PARALEL VE KESENLE OLUŞAN AÇILAR (1)",
         en: "ANGLES FORMED BY TWO PARALLELS AND A TRANSVERSAL (1)",
         de: "WINKEL AN PARALLELEN UND SCHNEIDENDEN LINIEN (1)",
         ar: "??????? ??????? ?? ???????? ????? (1)",
@@ -271,7 +271,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/k-paralel-dogrunun-b-r-kesenle-yapt-g-ac-lar"
     },
     {
-        tr: "ï¿½ï¿½ DOï¿½RUNUN ï¿½Kï¿½ï¿½ER KESï¿½ï¿½MESï¿½",
+        tr: "ÜÇ DOĞRUNUN İKİŞER KESİŞMESİ",
         en: "INTERSECTION OF THREE LINES IN PAIRS",
         de: "PAARWEISE SCHNITTPUNKTE VON DREI LINIEN",
         ar: "????? ???? ???? ???? ????",
@@ -287,7 +287,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt2507.my.canva.site/ikiser-kesisen-dogru"
     },
     {
-        tr: "Dï¿½KDï¿½RTGENï¿½N ï¿½EVRE VE ALANI",
+        tr: "DİKDÖRTGENİN ÇEVRE VE ALANI",
         en: "PERIMETER AND AREA OF RECTANGLE",
         de: "UMFANG UND FLï¿½CHE DES RECHTECKS",
         ar: "???? ?????? ????????",
