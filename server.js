@@ -22,9 +22,9 @@ app.get('/healthz', (req, res) => {
 app.use(express.static(root, { index: 'index.html', fallthrough: false }));
 
 server.listen(port, '0.0.0.0', () => {
-    console.log(`Geobek LAN uygulaması: http://localhost:${port}`);
+    console.log(`Geobek LAN uygulamasÄ±: http://localhost:${port}`);
     console.log(`PeerJS signaling: ws://localhost:${peerPort}/peerjs`);
-    console.log('Dosya ve ders verisi bu sunucuya kaydedilmez; yalnızca statik dosya ve signaling sağlanır.');
+    console.log('Dosya ve ders verisi bu sunucuya kaydedilmez; yalnÄ±zca statik dosya ve signaling saÄŸlanÄ±r.');
 });
 
 const peerServer = PeerServer({
@@ -35,16 +35,16 @@ const peerServer = PeerServer({
 });
 
 peerServer.on('error', error => {
-    console.error('PeerJS signaling başlatılamadı:', error);
+    console.error('PeerJS signaling baÅŸlatÄ±lamadÄ±:', error);
     process.exitCode = 1;
 });
 
 peerServer.on('connection', client => {
-    console.log(`Peer signaling bağlantısı: ${client.getId()}`);
+    console.log(`Peer signaling baÄŸlantÄ±sÄ±: ${client.getId()}`);
 });
 
 peerServer.on('disconnect', client => {
-    console.log(`Peer signaling ayrıldı: ${client.getId()}`);
+    console.log(`Peer signaling ayrÄ±ldÄ±: ${client.getId()}`);
 });
 
 process.on('SIGINT', () => {

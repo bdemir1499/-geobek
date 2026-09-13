@@ -1,6 +1,6 @@
 
 
-// --- aciolcer.js (Referans Dondurma ile Zıplama Engelleyici Sürüm) ---
+// --- aciolcer.js (Referans Dondurma ile ZÄ±plama Engelleyici SÃ¼rÃ¼m) ---
 
 window.AciolcerTool = {
     aciolcerElement: null,
@@ -27,9 +27,9 @@ window.AciolcerTool = {
     interactionMode: 'none',
     startPos: { x: 0, y: 0 },
     startState: {},
-    activeRect: null, // Kanvas konumunu dondurmak için
+    activeRect: null, // Kanvas konumunu dondurmak iÃ§in
 
-    // --- 1. BAŞLATMA ---
+    // --- 1. BAÅLATMA ---
     init: function() {
         if (this.aciolcerElement) return;
 
@@ -100,7 +100,7 @@ window.AciolcerTool = {
 
             const label = document.createElement('div');
             label.className = 'aciolcer-label';
-            label.innerText = angle + '°';
+            label.innerText = angle + 'Â°';
             label.style.left = `${labelX}px`;
             label.style.top = `${labelY}px`;
             this.markingsElement.appendChild(label);
@@ -194,7 +194,7 @@ window.AciolcerTool = {
         return { x: e.clientX, y: e.clientY };
     },
 
-    // --- 2. DOKUNMA BAŞLANGICI (REFERANSI DONDURUYORUZ) ---
+    // --- 2. DOKUNMA BAÅLANGICI (REFERANSI DONDURUYORUZ) ---
     onPointerDown: function(e) {
         if (e.pointerType === 'touch') e.preventDefault(); 
         e.stopPropagation();
@@ -208,11 +208,11 @@ window.AciolcerTool = {
         this.startPos = this.getPointerPos(e);
         this.startState = JSON.parse(JSON.stringify(this.state));
 
-// 👇👇👇 EKLENECEK KISIM BURASI 👇👇👇
-        // Dokunmanın başladığı an kanvasın konumunu dondur ve kaydet
+// ğŸ‘‡ğŸ‘‡ğŸ‘‡ EKLENECEK KISIM BURASI ğŸ‘‡ğŸ‘‡ğŸ‘‡
+        // DokunmanÄ±n baÅŸladÄ±ÄŸÄ± an kanvasÄ±n konumunu dondur ve kaydet
         const mainCanvas = document.getElementById('drawing-canvas');
         this.activeRect = mainCanvas ? mainCanvas.getBoundingClientRect() : { left: 0, top: 0 };
-        // 👆👆👆 ----------------------- 👆👆👆
+        // ğŸ‘†ğŸ‘†ğŸ‘† ----------------------- ğŸ‘†ğŸ‘†ğŸ‘†
 
 
         if (target === this.bodyElement) {
@@ -280,7 +280,7 @@ window.AciolcerTool = {
     onPointerUp: function(e) {
         if (this.interactionMode === 'none') return;
 
-        // 1. Kilidi kaldır (Parmağı serbest bırak)
+        // 1. Kilidi kaldÄ±r (ParmaÄŸÄ± serbest bÄ±rak)
         if (e.target && e.target.releasePointerCapture) {
              try { e.target.releasePointerCapture(e.pointerId); } catch(err) {}
         }
@@ -292,16 +292,16 @@ window.AciolcerTool = {
                 window.audio_draw.currentTime = 0;
             }
 
-            // --- SON POZİSYON GÜVENLİĞİ ---
-            // finalizeDraw'ı çağırıyoruz. Bu fonksiyon asla 'e.clientX' okumaz,
-            // sadece 'handleDraw' (pointermove) anında kaydedilen 'this.state.currentDrawAngleLocal'
-            // değerini kullanır. Titreme böylece sisteme sızamaz.
+            // --- SON POZÄ°SYON GÃœVENLÄ°ÄÄ° ---
+            // finalizeDraw'Ä± Ã§aÄŸÄ±rÄ±yoruz. Bu fonksiyon asla 'e.clientX' okumaz,
+            // sadece 'handleDraw' (pointermove) anÄ±nda kaydedilen 'this.state.currentDrawAngleLocal'
+            // deÄŸerini kullanÄ±r. Titreme bÃ¶ylece sisteme sÄ±zamaz.
             this.finalizeDraw(); 
             
-            // finalizeDraw bittikten sonra çizim durumunu kapatıyoruz
+            // finalizeDraw bittikten sonra Ã§izim durumunu kapatÄ±yoruz
             this.state.isDrawing = false;
             
-            // Görsel temizlik
+            // GÃ¶rsel temizlik
             if (this.previewCtx) {
                 this.previewCtx.clearRect(0, 0, this.previewCanvas.width, this.previewCanvas.height);
             }
@@ -346,15 +346,15 @@ window.AciolcerTool = {
         this.drawHandle.style.transform = `translateX(-50%) translate(${ldx}px, ${ldy + 5}px)`;
         this.drawHandleLabel.style.transform = `translateX(-50%) translate(${ldx}px, ${ldy - 20}px)`;
         this.state.currentDrawAngleLocal = localAngleDeg;
-        this.drawHandleLabel.innerText = `${localAngleDeg.toFixed(0)}°`;
+        this.drawHandleLabel.innerText = `${localAngleDeg.toFixed(0)}Â°`;
         this.redLine.style.transition = 'none';
         this.redLine.style.transform = `rotate(${-localAngleDeg}deg)`;
-// 👇👇👇 CANLI YAYIN KANCASI 👇👇👇
+// ğŸ‘‡ğŸ‘‡ğŸ‘‡ CANLI YAYIN KANCASI ğŸ‘‡ğŸ‘‡ğŸ‘‡
         if (typeof window.broadcastPreview === 'function') {
             window.broadcastPreview('aciolcer', { angle: localAngleDeg, cx: cx, cy: cy, currPosX: currPos.x, currPosY: currPos.y });
         }
 
-// Açıölçer Canlı Yayın
+// AÃ§Ä±Ã¶lÃ§er CanlÄ± YayÄ±n
         if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
             window.sendNetworkData({ 
                 type: 'aktif_onizleme', arac: 'aciolcer', 
@@ -364,10 +364,10 @@ window.AciolcerTool = {
 
     },
 
-   // --- 3. FİNAL ÇİZİM (CANLI REFERANS VE ID İLE AĞA AKTARIM) ---
+   // --- 3. FÄ°NAL Ã‡Ä°ZÄ°M (CANLI REFERANS VE ID Ä°LE AÄA AKTARIM) ---
     finalizeDraw: function() {
         if (!this.state.isDrawing) return;
-        // Eğer çok küçük bir hareketse veya hiç sürüklenmemişse ışını çizme
+        // EÄŸer Ã§ok kÃ¼Ã§Ã¼k bir hareketse veya hiÃ§ sÃ¼rÃ¼klenmemiÅŸse Ä±ÅŸÄ±nÄ± Ã§izme
         if (Math.abs(this.state.currentDrawAngleLocal) < 0.1 && !this.state.hasDragged) return;
 
         const cx = this.state.x; 
@@ -378,17 +378,17 @@ window.AciolcerTool = {
         const mainCanvas = document.getElementById('drawing-canvas');
         const rect = mainCanvas ? mainCanvas.getBoundingClientRect() : { left: 0, top: 0, width: 1, height: 1 };
 
-        // --- KESİN ÇÖZÜM: KANVAS ESNEME (SCALE) ÇARPANI ---
+        // --- KESÄ°N Ã‡Ã–ZÃœM: KANVAS ESNEME (SCALE) Ã‡ARPANI ---
         const scaleX = mainCanvas ? (mainCanvas.width / (rect.width || 1)) : 1;
         const scaleY = mainCanvas ? (mainCanvas.height / (rect.height || 1)) : 1;
 
-        // Ekranda aracın bulunduğu ham DOM koordinatları
+        // Ekranda aracÄ±n bulunduÄŸu ham DOM koordinatlarÄ±
         const p1_dom_x = cx;
         const p1_dom_y = cy;
         const p2_dom_x = cx + Math.cos(globalAngleRad) * 1000;
         const p2_dom_y = cy + Math.sin(globalAngleRad) * 1000;
 
-        // Scale çarpanı ile esnemeyi hesaba katarak kanvasa aktarma
+        // Scale Ã§arpanÄ± ile esnemeyi hesaba katarak kanvasa aktarma
         const p1 = { 
             x: (p1_dom_x - rect.left) * scaleX, 
             y: (p1_dom_y - rect.top) * scaleY 
@@ -406,7 +406,7 @@ window.AciolcerTool = {
                 l2 = window.nextPointChar; window.nextPointChar = window.advanceChar(l2);
             }
             
-            // --- ID'Lİ VE GÜVENLİ ÇİZİM OBJESİ ---
+            // --- ID'LÄ° VE GÃœVENLÄ° Ã‡Ä°ZÄ°M OBJESÄ° ---
             const strokeObj = {
                 type: 'ray', 
                 p1, 
@@ -416,13 +416,13 @@ window.AciolcerTool = {
                 label1: l1, 
                 label2: l2,
                 isPhysicalTool: true,
-                id: Date.now() + Math.random() // <--- ZOMBİ ÇİZİMLERİ BİTİREN ID
+                id: Date.now() + Math.random() // <--- ZOMBÄ° Ã‡Ä°ZÄ°MLERÄ° BÄ°TÄ°REN ID
             };
 
-            // 1. Tabletin hafızasına ekle
+            // 1. Tabletin hafÄ±zasÄ±na ekle
             window.drawnStrokes.push(strokeObj);
 
-            // 2. PC'ye (Tahtaya) gönder
+            // 2. PC'ye (Tahtaya) gÃ¶nder
             if (typeof window.sendNetworkData === 'function') {
                 window.sendNetworkData({ type: 'yeni_cizim', stroke: strokeObj });
             }
@@ -430,6 +430,6 @@ window.AciolcerTool = {
             window.redrawAllStrokes();
         }
     }
-}; // AciolcerTool nesnesinin kapanışı
+}; // AciolcerTool nesnesinin kapanÄ±ÅŸÄ±
 
 window.AciolcerTool.init();

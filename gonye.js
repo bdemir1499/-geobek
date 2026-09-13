@@ -1,4 +1,4 @@
-// --- gonye.js (Zıplama Engelleyici Dondurulmuş Referans Sürümü) ---
+// --- gonye.js (ZÄ±plama Engelleyici DondurulmuÅŸ Referans SÃ¼rÃ¼mÃ¼) ---
 
 window.GonyeTool = {
     gonyeElement: null,
@@ -8,21 +8,21 @@ window.GonyeTool = {
     drawHandleLabel: null,
     resizeHandle: null,
     
-    // Gönyenin durumu (state)
+    // GÃ¶nyenin durumu (state)
     state: {
         x: 100,
         y: 100,
         width: 200,
-        height: 346, // 200 * 1.732 (30-60-90 oranı)
+        height: 346, // 200 * 1.732 (30-60-90 oranÄ±)
         angle: 0,
         currentHandleY: 0, 
     },
     
-    // Etkileşim durumu
+    // EtkileÅŸim durumu
     interactionMode: 'none', 
     startPos: { x: 0, y: 0 },
     startState: {}, 
-    activeRect: null, // Kanvas konumunu dondurmak için
+    activeRect: null, // Kanvas konumunu dondurmak iÃ§in
     
     PIXELS_PER_CM: 30, 
     isDrawingLine: false,
@@ -33,23 +33,23 @@ window.GonyeTool = {
     init: function() {
         if (this.gonyeElement) return;
 
-        // --- TABLET DOKUNMATİK ALAN GENİŞLETİCİ ---
+        // --- TABLET DOKUNMATÄ°K ALAN GENÄ°ÅLETÄ°CÄ° ---
         if (!document.getElementById('gonye-tablet-fix')) {
             document.head.insertAdjacentHTML('beforeend', `
             <style id="gonye-tablet-fix">
-                /* 1. Tutamacın görünmez dokunma alanını 4 kat büyütür */
+                /* 1. TutamacÄ±n gÃ¶rÃ¼nmez dokunma alanÄ±nÄ± 4 kat bÃ¼yÃ¼tÃ¼r */
                 .gonye-draw-handle::after {
                     content: ''; position: absolute;
                     top: -35px; bottom: -35px; left: -45px; right: -45px;
                     background: transparent; z-index: 10;
                 }
-                /* 2. Döndürme kulpunun da dokunma alanını devasa yapar */
+                /* 2. DÃ¶ndÃ¼rme kulpunun da dokunma alanÄ±nÄ± devasa yapar */
                 .gonye-rotate-handle::after, .gonye-resize-handle::after {
                     content: ''; position: absolute;
                     top: -30px; bottom: -30px; left: -30px; right: -30px;
                     background: transparent; z-index: 10;
                 }
-                /* 3. Etiketlerin ve yazıların senin dokunuşunu çalmasını engeller */
+                /* 3. Etiketlerin ve yazÄ±larÄ±n senin dokunuÅŸunu Ã§almasÄ±nÄ± engeller */
                 .gonye-draw-label, .gonye-corner-label, .gonye-label, .gonye-tick, .gonye-markings {
                     pointer-events: none !important; 
                 }
@@ -68,7 +68,7 @@ window.GonyeTool = {
         this.markingsElement.className = 'gonye-markings';
         this.bodyElement.appendChild(this.markingsElement);
         
-        // Köşe Etiketleri
+        // KÃ¶ÅŸe Etiketleri
         const labelA = document.createElement('div');
         labelA.className = 'gonye-corner-label'; labelA.id = 'gonye-label-a'; labelA.innerText = 'A';
         this.markingsElement.appendChild(labelA);
@@ -177,7 +177,7 @@ window.GonyeTool = {
         return { x: e.clientX, y: e.clientY };
     },
 
-    // --- 2. DOKUNMA BAŞLANGICI (BURADA REFERANSI DONDURUYORUZ) ---
+    // --- 2. DOKUNMA BAÅLANGICI (BURADA REFERANSI DONDURUYORUZ) ---
     onPointerDown: function(e) {
         if (e.pointerType === 'touch') e.preventDefault(); 
         e.stopPropagation();
@@ -191,10 +191,10 @@ window.GonyeTool = {
         this.startPos = this.getPointerPos(e);
         this.startState = JSON.parse(JSON.stringify(this.state)); 
 
-// 👇👇👇 İŞTE BURAYI EKLEMELİSİNİZ 👇👇👇
+// ğŸ‘‡ğŸ‘‡ğŸ‘‡ Ä°ÅTE BURAYI EKLEMELÄ°SÄ°NÄ°Z ğŸ‘‡ğŸ‘‡ğŸ‘‡
         const mainCanvas = document.getElementById('drawing-canvas');
         this.activeRect = mainCanvas ? mainCanvas.getBoundingClientRect() : { left: 0, top: 0 };
-        // 👆👆👆 ----------------------------- 👆👆👆
+        // ğŸ‘†ğŸ‘†ğŸ‘† ----------------------------- ğŸ‘†ğŸ‘†ğŸ‘†
         
         if (target.classList.contains('gonye-body')) {
             this.interactionMode = 'dragging';
@@ -257,7 +257,7 @@ window.GonyeTool = {
     onPointerUp: function(e) {
         if (this.interactionMode === 'none') return;
 
-        // 1. Kilidi kaldır
+        // 1. Kilidi kaldÄ±r
         if (e.target && e.target.releasePointerCapture) {
              try { e.target.releasePointerCapture(e.pointerId); } catch(err) {}
         }
@@ -266,15 +266,15 @@ window.GonyeTool = {
             this.bodyElement.style.cursor = 'grab';
         }
         
-        // 2. Çizim bitirme mantığı (Son Pozisyon Güvenliği)
+        // 2. Ã‡izim bitirme mantÄ±ÄŸÄ± (Son Pozisyon GÃ¼venliÄŸi)
         if (this.isDrawingLine) {
             if (window.audio_draw) {
                 window.audio_draw.pause();
                 window.audio_draw.currentTime = 0;
             }
 
-            // KRİTİK: Etkinlik koordinatlarını (e.clientX) hiç okumadan 
-            // sadece state içindeki son kararlı veriyi kullanarak çizimi bitiriyoruz.
+            // KRÄ°TÄ°K: Etkinlik koordinatlarÄ±nÄ± (e.clientX) hiÃ§ okumadan 
+            // sadece state iÃ§indeki son kararlÄ± veriyi kullanarak Ã§izimi bitiriyoruz.
             this.finalizeDraw();
             
             this.drawHandleLabel.style.display = 'none';
@@ -283,9 +283,9 @@ window.GonyeTool = {
                 this.drawHandleElement.style.transition = 'top 0.1s ease-out';
                 this.drawHandleElement.style.top = `${this.state.height - 20}px`; 
                 
-                // Canvas temizliği ve durum sıfırlama
+                // Canvas temizliÄŸi ve durum sÄ±fÄ±rlama
                 this.drawCtx.clearRect(0, 0, this.drawCanvas.width, this.drawCanvas.height);
-                this.isDrawingLine = false; // finalizeDraw'dan sonra kapatıyoruz
+                this.isDrawingLine = false; // finalizeDraw'dan sonra kapatÄ±yoruz
             }
         }
         
@@ -386,11 +386,11 @@ window.GonyeTool = {
         this.drawCtx.strokeStyle = '#FFFFFF'; 
         this.drawCtx.lineWidth = 4; 
         this.drawCtx.stroke();
-// 👇👇👇 CANLI YAYIN KANCASI 👇👇👇
+// ğŸ‘‡ğŸ‘‡ğŸ‘‡ CANLI YAYIN KANCASI ğŸ‘‡ğŸ‘‡ğŸ‘‡
         if (typeof window.broadcastPreview === 'function') {
             window.broadcastPreview('gonye', { handleY: handleY });
         }
-// Gönye Canlı Yayın
+// GÃ¶nye CanlÄ± YayÄ±n
         if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) {
             window.sendNetworkData({ type: 'aktif_onizleme', arac: 'gonye', payload: { handleY: handleY } });
         }
@@ -398,7 +398,7 @@ window.GonyeTool = {
 
     },
 
-    // --- 3. FİNAL ÇİZİM (CANLI REFERANS KULLANAN KISIM) ---
+    // --- 3. FÄ°NAL Ã‡Ä°ZÄ°M (CANLI REFERANS KULLANAN KISIM) ---
     finalizeDraw: function() {
         const handleY = this.state.currentHandleY || 0; 
         const startX_local = 4; const startY_local = this.state.height; 
@@ -424,7 +424,7 @@ window.GonyeTool = {
        const mainCanvas = document.getElementById('drawing-canvas');
         const rect = mainCanvas ? mainCanvas.getBoundingClientRect() : { left: 0, top: 0, width: 1, height: 1 };
 
-        // --- KESİN ÇÖZÜM: KANVAS ESNEME (SCALE) ÇARPANI ---
+        // --- KESÄ°N Ã‡Ã–ZÃœM: KANVAS ESNEME (SCALE) Ã‡ARPANI ---
         const scaleX = mainCanvas ? (mainCanvas.width / (rect.width || 1)) : 1;
         const scaleY = mainCanvas ? (mainCanvas.height / (rect.height || 1)) : 1;
 
@@ -445,7 +445,7 @@ window.GonyeTool = {
         if (window.drawnStrokes && window.redrawAllStrokes) {
             const label1 = window.nextPointChar; window.nextPointChar = window.advanceChar(label1);
             const label2 = window.nextPointChar; window.nextPointChar = window.advanceChar(label2);
-            // --- ID'Lİ VE GÜVENLİ ÇİZİM OBJESİ ---
+            // --- ID'LÄ° VE GÃœVENLÄ° Ã‡Ä°ZÄ°M OBJESÄ° ---
             const strokeObj = {
                 type: 'segment', 
                 p1, 
@@ -457,13 +457,13 @@ window.GonyeTool = {
                 lengthLabel: cmText, 
                 lengthLabelPos: midPoint,
                 isPhysicalTool: true,
-                id: Date.now() + Math.random() // <--- İŞTE BU KISIM ZOMBİ ÇİZİMLERİ BİTİRİR
+                id: Date.now() + Math.random() // <--- Ä°ÅTE BU KISIM ZOMBÄ° Ã‡Ä°ZÄ°MLERÄ° BÄ°TÄ°RÄ°R
             };
             
-            // 1. Tabletin hafızasına ekle
+            // 1. Tabletin hafÄ±zasÄ±na ekle
             window.drawnStrokes.push(strokeObj);
             
-            // 2. PC'ye (Tahtaya) gönder
+            // 2. PC'ye (Tahtaya) gÃ¶nder
             if (typeof window.sendNetworkData === 'function') {
                 window.sendNetworkData({ type: 'yeni_cizim', stroke: strokeObj });
             }

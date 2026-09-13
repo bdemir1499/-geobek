@@ -1,4 +1,4 @@
-﻿19: body.cursor-snapshot { cursor: crosshair !important; }
+19: body.cursor-snapshot { cursor: crosshair !important; }
 24: body.cursor-snapshot #drawing-canvas { cursor: crosshair !important; }
 72: let currentLassoX = 0;
 73: let currentLassoY = 0;

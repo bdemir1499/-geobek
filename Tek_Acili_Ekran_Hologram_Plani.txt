@@ -1,4 +1,4 @@
-﻿# TEK AÇILI EKRAN (HOLOGRAM) KURULUM PLANI
+# TEK AÇILI EKRAN (HOLOGRAM) KURULUM PLANI
 
 Bu doküman, "Sihirli El" destekli 3 boyutlu şekillerin sınıf ortamında hantal bir piramide ihtiyaç duyulmadan, katlanabilir ve taşınabilir bir **Holobox (Tek Açılı Ekran)** ile öğrencilere yansıtılması için hazırlanmış donanım ve kurulum senaryosudur.
 

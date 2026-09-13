@@ -1,15 +1,15 @@
-// 3D Şekillerin Açınım (Katlama) Mantığı İçin Ek Modül
+// 3D Åekillerin AÃ§Ä±nÄ±m (Katlama) MantÄ±ÄŸÄ± Ä°Ã§in Ek ModÃ¼l
 window.Foldable3D = {
     createFoldableGroup: function(type, size, mainMaterial, edgeMaterial) {
-        if (type === 'sphere') return null; // Küre için açınım hesaplanmaz, normal çizim için null dönüyoruz
+        if (type === 'sphere') return null; // KÃ¼re iÃ§in aÃ§Ä±nÄ±m hesaplanmaz, normal Ã§izim iÃ§in null dÃ¶nÃ¼yoruz
 
         const group = new THREE.Group();
         group.userData.isFoldable = true;
         group.userData.shapeType = type;
         group.userData.baseSize = size;
-        group.userData.hinges = []; // Katlanacak parçaların listesi
+        group.userData.hinges = []; // Katlanacak parÃ§alarÄ±n listesi
 
-        // Özel mesh oluşturucu (edge çizgileriyle birlikte)
+        // Ã–zel mesh oluÅŸturucu (edge Ã§izgileriyle birlikte)
         const createFaceMesh = (geometry) => {
             const mesh = new THREE.Mesh(geometry, mainMaterial);
             mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geometry), edgeMaterial));
@@ -17,14 +17,14 @@ window.Foldable3D = {
         };
 
         const createLabelMesh = (text, color, w, h) => {
-            return new THREE.Group(); // İsteğiniz üzerine etiketler kaldırıldı
+            return new THREE.Group(); // Ä°steÄŸiniz Ã¼zerine etiketler kaldÄ±rÄ±ldÄ±
         };
 
         let faceCounter = 1;
 
         const height = size * 2;
         
-        // SİLİNDİR VE PRİZMALAR (Yan yüzeyler rulo gibi açılır)
+        // SÄ°LÄ°NDÄ°R VE PRÄ°ZMALAR (Yan yÃ¼zeyler rulo gibi aÃ§Ä±lÄ±r)
         if (type.startsWith('prism_')) {
             let sides = 4;
             let heights = size * 2;
@@ -45,7 +45,7 @@ window.Foldable3D = {
             } else if (type === 'prism_rect') { 
                 sides = 4; heights = size * 2.2; isCustom = true;
                 const W = size * 3; // Uzun kenar (Front/Back)
-                const D = size * 1.5; // Kısa kenar (Left/Right)
+                const D = size * 1.5; // KÄ±sa kenar (Left/Right)
                 widths = [W, D, W, D];
                 apothems = [D/2, W/2, D/2, W/2];
             } else {
@@ -94,18 +94,18 @@ window.Foldable3D = {
 
                 let attachIndex = isCustom ? 0 : Math.floor((sides - 1) / 2);
                 if (i === attachIndex) {
-                    // Üst kapak
+                    // Ãœst kapak
                     const topHinge = new THREE.Group();
                     topHinge.position.set(actualSideWidth / 2, heights / 2, 0);
                     hinge.add(topHinge);
                     
                     let topGeo;
                     if (isCustom) {
-                        const capW = widths[0]; // Front genişliği W
-                        const capH = widths[1]; // Yan genişlik D
+                        const capW = widths[0]; // Front geniÅŸliÄŸi W
+                        const capH = widths[1]; // Yan geniÅŸlik D
                         topGeo = new THREE.PlaneGeometry(capW, capH);
                         topGeo.translate(0, -capH / 2, 0); // Pivot'u alt kenara al
-                        topGeo.rotateX(-Math.PI / 2); // Yukarıya doğru (Z eksenine) katla
+                        topGeo.rotateX(-Math.PI / 2); // YukarÄ±ya doÄŸru (Z eksenine) katla
                     } else {
                         let r = size;
                         if (type === 'prism_cylinder') {
@@ -122,7 +122,7 @@ window.Foldable3D = {
                     topHinge.add(topMesh);
                     group.userData.hinges.push({ obj: topHinge, maxAngle: -Math.PI / 2, initialAngle: 0, axis: 'x' }); 
                     
-                    const topLabel = createLabelMesh(faceCounter.toString() + " (ÜST)", '#aaffaa', size*1.5, size*1.5);
+                    const topLabel = createLabelMesh(faceCounter.toString() + " (ÃœST)", '#aaffaa', size*1.5, size*1.5);
                     topLabel.rotation.x = Math.PI / 2; 
                     topLabel.position.set(0, 0, 0);
                     topHinge.add(topLabel);
@@ -165,11 +165,11 @@ window.Foldable3D = {
                 }
             }
             
-            // Açıldığında ne kadar kaydırılacak?
+            // AÃ§Ä±ldÄ±ÄŸÄ±nda ne kadar kaydÄ±rÄ±lacak?
             let totalWidth = widths.reduce((a, b) => a + b, 0);
             group.userData.shiftX = -totalWidth / 2 + widths[0]/2;
         } 
-        // PİRAMİTLER (Yaprak gibi dışa doğru açılır)
+        // PÄ°RAMÄ°TLER (Yaprak gibi dÄ±ÅŸa doÄŸru aÃ§Ä±lÄ±r)
         else if (type.startsWith('pyramid_')) {
             let sides = 4;
             if (type === 'pyramid_3') sides = 3;
@@ -181,7 +181,7 @@ window.Foldable3D = {
             const apothem = r * Math.cos(Math.PI / sides);
             const sideWidth = 2 * r * Math.sin(Math.PI / sides);
             const slantHeight = Math.sqrt(height * height + apothem * apothem);
-            const inwardAngle = Math.atan2(apothem, height); // İçeri doğru eğim açısı
+            const inwardAngle = Math.atan2(apothem, height); // Ä°Ã§eri doÄŸru eÄŸim aÃ§Ä±sÄ±
 
             // Taban
             const baseGeo = new THREE.CircleGeometry(r, sides, Math.PI / sides);
@@ -196,19 +196,19 @@ window.Foldable3D = {
             group.add(baseLabel);
             faceCounter++;
 
-            // Yan üçgenler
+            // Yan Ã¼Ã§genler
             for (let i = 0; i < sides; i++) {
                 const angle = (i * Math.PI * 2) / sides;
                 const hinge = new THREE.Group();
                 
-                // Menteşeyi taban kenarına yerleştir
+                // MenteÅŸeyi taban kenarÄ±na yerleÅŸtir
                 hinge.position.set(
                     Math.cos(angle) * apothem,
                     -height / 2,
                     -Math.sin(angle) * apothem
                 );
-                // Kenara dik bakması için y ekseni etrafında döndür (+90 derece ile local Z içeri bakar)
-                hinge.rotation.order = 'YXZ'; // Önce X (içeri eğilme), sonra Y (yönelme) uygulanmalı
+                // Kenara dik bakmasÄ± iÃ§in y ekseni etrafÄ±nda dÃ¶ndÃ¼r (+90 derece ile local Z iÃ§eri bakar)
+                hinge.rotation.order = 'YXZ'; // Ã–nce X (iÃ§eri eÄŸilme), sonra Y (yÃ¶nelme) uygulanmalÄ±
                 hinge.rotation.y = angle + Math.PI / 2;
                 
                 const triGeo = new THREE.BufferGeometry();
@@ -230,14 +230,14 @@ window.Foldable3D = {
                 hinge.add(triLabel);
                 faceCounter++;
                 
-                // Başlangıç (0) -> Kapalı (içeri eğik), Bitiş (1) -> Açık (dışarı yatay)
+                // BaÅŸlangÄ±Ã§ (0) -> KapalÄ± (iÃ§eri eÄŸik), BitiÅŸ (1) -> AÃ§Ä±k (dÄ±ÅŸarÄ± yatay)
                 group.userData.hinges.push({ obj: hinge, maxAngle: Math.PI / 2, initialAngle: -inwardAngle, axis: 'x' });
             }
         }
-        // KONİ (Daire dilimi şeklinde açılır)
+        // KONÄ° (Daire dilimi ÅŸeklinde aÃ§Ä±lÄ±r)
         else if (type === 'pyramid_cone') {
             const r = size;
-            const l = Math.sqrt(r * r + height * height); // Ana doğru
+            const l = Math.sqrt(r * r + height * height); // Ana doÄŸru
             
             const sides = 32;
             const apothem = r;
@@ -245,7 +245,7 @@ window.Foldable3D = {
             const slantHeight = l;
             const inwardAngle = Math.atan2(apothem, height);
 
-            // Taban (Sabit değil, açıldığında yana kayacak)
+            // Taban (Sabit deÄŸil, aÃ§Ä±ldÄ±ÄŸÄ±nda yana kayacak)
             const baseHinge = new THREE.Group();
             baseHinge.position.y = -height / 2;
             group.add(baseHinge);
@@ -259,13 +259,13 @@ window.Foldable3D = {
             baseHinge.add(baseLabel);
             faceCounter++;
 
-            // Yan yüzeyler (çiçek gibi açılır)
+            // Yan yÃ¼zeyler (Ã§iÃ§ek gibi aÃ§Ä±lÄ±r)
             for (let i = 0; i < sides; i++) {
                 const angle = (i * Math.PI * 2) / sides;
                 const hinge = new THREE.Group();
                 hinge.position.set(Math.cos(angle) * apothem, -height / 2, -Math.sin(angle) * apothem);
-                hinge.rotation.order = 'YXZ'; // Önce X (içeri eğilme), sonra Y (yönelme) uygulanmalı
-                hinge.rotation.y = angle + Math.PI / 2; // İçeri bakması için yönlendirme
+                hinge.rotation.order = 'YXZ'; // Ã–nce X (iÃ§eri eÄŸilme), sonra Y (yÃ¶nelme) uygulanmalÄ±
+                hinge.rotation.y = angle + Math.PI / 2; // Ä°Ã§eri bakmasÄ± iÃ§in yÃ¶nlendirme
                 
                 const triGeo = new THREE.BufferGeometry();
                 const vertices = new Float32Array([
@@ -280,12 +280,12 @@ window.Foldable3D = {
                 hinge.add(triMesh);
                 group.add(hinge);
                 
-                // Başlangıç (0) -> Kapalı (içeri eğik), Bitiş (1) -> Açık (dışarı yatay)
+                // BaÅŸlangÄ±Ã§ (0) -> KapalÄ± (iÃ§eri eÄŸik), BitiÅŸ (1) -> AÃ§Ä±k (dÄ±ÅŸarÄ± yatay)
                 group.userData.hinges.push({ obj: hinge, maxAngle: Math.PI / 2, initialAngle: -inwardAngle, axis: 'x' });
             }
         }
 
-        // Şekil kapalıyken Z ekseni boyunca uzansın (böylece XY düzleminde dik durur)
+        // Åekil kapalÄ±yken Z ekseni boyunca uzansÄ±n (bÃ¶ylece XY dÃ¼zleminde dik durur)
         group.rotation.x = Math.PI / 2;
 
         const outerGroup = new THREE.Group();
@@ -330,15 +330,15 @@ window.Foldable3D = {
             h.obj.rotation[h.axis] = currentAngle;
         });
 
-        // Şekil açıldıkça tam karşıdan görünmesi için rotasyonu otomatik olarak düzelt
+        // Åekil aÃ§Ä±ldÄ±kÃ§a tam karÅŸÄ±dan gÃ¶rÃ¼nmesi iÃ§in rotasyonu otomatik olarak dÃ¼zelt
         const inner = group.userData.innerGroup;
         if (inner) {
             let tiltOffset = 0.25; 
             let targetAngleX = Math.PI / 2;
 
             if (group.userData.shapeType && group.userData.shapeType.startsWith('pyramid_')) {
-                // Piramitler prizmalardan farklı olarak yerel XZ düzleminde açılır.
-                // Kameraya doğru (zemine) yatması için hedef açının Math.PI olması gerekir.
+                // Piramitler prizmalardan farklÄ± olarak yerel XZ dÃ¼zleminde aÃ§Ä±lÄ±r.
+                // Kameraya doÄŸru (zemine) yatmasÄ± iÃ§in hedef aÃ§Ä±nÄ±n Math.PI olmasÄ± gerekir.
                 targetAngleX = Math.PI;
             }
 
@@ -346,25 +346,25 @@ window.Foldable3D = {
             let qOpenTarget;
 
             if (group.userData.shapeType === 'pyramid_cone') {
-                // KONİ İÇİN KESİN ÇÖZÜM:
-                // Kameraya (Y=-30, Z=20) tam dik bakması için X ekseninde atan2(20, -30) dönmesi gerekir.
+                // KONÄ° Ä°Ã‡Ä°N KESÄ°N Ã‡Ã–ZÃœM:
+                // Kameraya (Y=-30, Z=20) tam dik bakmasÄ± iÃ§in X ekseninde atan2(20, -30) dÃ¶nmesi gerekir.
                 const qOpenAbsolute = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.atan2(20, -30));
                 
-                // Koninin app.js'den gelen gerçek başlangıç eğimleri: X = -30, Z = -30.
-                // Sadece Z'yi değil, her ikisini de tersine çevirmeliyiz ki eğim kalmasın.
+                // Koninin app.js'den gelen gerÃ§ek baÅŸlangÄ±Ã§ eÄŸimleri: X = -30, Z = -30.
+                // Sadece Z'yi deÄŸil, her ikisini de tersine Ã§evirmeliyiz ki eÄŸim kalmasÄ±n.
                 const coneOuterQ = new THREE.Quaternion().setFromEuler(new THREE.Euler(-Math.PI / 6, 0, -Math.PI / 6, 'XYZ'));
                 qOpenTarget = coneOuterQ.invert().multiply(qOpenAbsolute);
             } else {
-                // Prizmalar ve Diğer Piramitler için mevcut çalışan mantık:
+                // Prizmalar ve DiÄŸer Piramitler iÃ§in mevcut Ã§alÄ±ÅŸan mantÄ±k:
                 const qOpenAbsolute = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), targetAngleX - tiltOffset);
                 const defaultOuterQ = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, -Math.PI / 6));
                 qOpenTarget = defaultOuterQ.invert().multiply(qOpenAbsolute);
             }
             
-            // Kapalıyken izometrik duruşta kal, açıldıkça kameraya dön
+            // KapalÄ±yken izometrik duruÅŸta kal, aÃ§Ä±ldÄ±kÃ§a kameraya dÃ¶n
             inner.quaternion.copy(qClosed).slerp(qOpenTarget, openRatio);
 
-            // Prizmaların açınımı yana doğru uzadığı için, açıldıkça şekli ortala
+            // PrizmalarÄ±n aÃ§Ä±nÄ±mÄ± yana doÄŸru uzadÄ±ÄŸÄ± iÃ§in, aÃ§Ä±ldÄ±kÃ§a ÅŸekli ortala
             // Pivot merkezleme (Savrulma onleyici)
             if (group.userData.foldedCenter && group.userData.unfoldedCenter) {
                 const f = group.userData.foldedCenter;

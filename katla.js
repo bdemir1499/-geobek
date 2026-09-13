@@ -1,4 +1,4 @@
-﻿// Akıllı Katlama v3.1 - Geobek
+// Akıllı Katlama v3.1 - Geobek
 // Çapraz Katlama, Arka Plan / Ön Plan Ayrımı ve Gerçek Zamanlı Senkronizasyon
 
 window.isKatlaActive = false;

@@ -1,44 +1,44 @@
-/* --- gonye.css (YENİ DOSYA) --- */
+/* --- gonye.css (YENÄ° DOSYA) --- */
 
-/* Gönye Konteyneri (Ana Kutu) */
+/* GÃ¶nye Konteyneri (Ana Kutu) */
 .gonye-container {
     position: fixed;
-    /* 30-60-90 oranını koru (h = w * 1.732) */
+    /* 30-60-90 oranÄ±nÄ± koru (h = w * 1.732) */
     width: 200px;
     height: 346px; /* 200 * 1.732 */
     
-    /* Başlangıç konumu */
+    /* BaÅŸlangÄ±Ã§ konumu */
     top: 50%;
     left: 50%;
     
-    /* DÜZELTME: Görsel stiller ve clip-path buradan kaldırıldı */
-    /* (Artık taşıyıcıyı değil, gövdeyi kesiyoruz) */
+    /* DÃœZELTME: GÃ¶rsel stiller ve clip-path buradan kaldÄ±rÄ±ldÄ± */
+    /* (ArtÄ±k taÅŸÄ±yÄ±cÄ±yÄ± deÄŸil, gÃ¶vdeyi kesiyoruz) */
     background: transparent;
     border: none;
     backdrop-filter: none;
     box-shadow: none;
     clip-path: none; 
     
-    z-index: 5; /* Panel (10) altında, Kanvas (0) üstünde */
+    z-index: 5; /* Panel (10) altÄ±nda, Kanvas (0) Ã¼stÃ¼nde */
     display: flex;
     transform-origin: center center; 
 }
 
-/* 3. Madde: Sürükleme için gövde */
+/* 3. Madde: SÃ¼rÃ¼kleme iÃ§in gÃ¶vde */
 .gonye-body {
     width: 100%;
     height: 100%;
     position: relative;
     cursor: grab;
     
-    /* DÜZELTME: Görsel stiller ve clip-path buraya taşındı */
-    background: rgba(0, 100, 200, 0.7); /* Yarı saydam mavi */
+    /* DÃœZELTME: GÃ¶rsel stiller ve clip-path buraya taÅŸÄ±ndÄ± */
+    background: rgba(0, 100, 200, 0.7); /* YarÄ± saydam mavi */
     border: 2px solid #00ffff;
     backdrop-filter: blur(5px);
     box-shadow: 0 0 15px #00ffff;
     clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
     
-    /* 2. Madde: Cetvelle aynı desen */
+    /* 2. Madde: Cetvelle aynÄ± desen */
     background-image: linear-gradient(45deg, rgba(0, 255, 255, 0.1) 25%, transparent 25%, transparent 75%, rgba(0, 255, 255, 0.1) 75%),
                       linear-gradient(45deg, rgba(0, 255, 255, 0.1) 25%, transparent 25%, transparent 75%, rgba(0, 255, 255, 0.1) 75%);
     background-size: 30px 30px;
@@ -49,7 +49,7 @@
     cursor: grabbing;
 }
 
-/* 6. Madde: İşaretler (Dikey) */
+/* 6. Madde: Ä°ÅŸaretler (Dikey) */
 .gonye-markings {
     position: absolute;
     top: 0;
@@ -77,7 +77,7 @@
     transform: translateY(-50%);
 }
 
-/* 5. Madde: Köşe Etiketleri */
+/* 5. Madde: KÃ¶ÅŸe Etiketleri */
 .gonye-corner-label {
     position: absolute;
     color: #f0f;
@@ -89,12 +89,12 @@
 #gonye-label-b { bottom: 5px; left: 5px; }
 #gonye-label-c { bottom: 5px; right: 5px; }
 
-/* 7. Madde: Döndürme Butonu */
+/* 7. Madde: DÃ¶ndÃ¼rme Butonu */
 .gonye-rotate-handle {
     position: absolute;
     width: 20px;
     height: 20px;
-    background: rgba(0, 255, 0, 0.8); /* Yeşil */
+    background: rgba(0, 255, 0, 0.8); /* YeÅŸil */
     border: 2px solid #0f0;
     border-radius: 50%;
     cursor: crosshair;
@@ -104,36 +104,36 @@
     justify-content: center;
     line-height: 1;
     
-    /* DÜZELTME: Konum: Hipotenüsün ortası (DIŞARIDA) */
+    /* DÃœZELTME: Konum: HipotenÃ¼sÃ¼n ortasÄ± (DIÅARIDA) */
     top: 50%;
     left: 50%;
     
     /* Butonu (20px/2 = 10px) merkezler VE 
-       hipotenüsten 15px DIŞARI (top-right) iter */
+       hipotenÃ¼sten 15px DIÅARI (top-right) iter */
     transform: translate(5px, -25px); 
 }
 
 
-/* 8. Madde: Çizim Tutamacı */
+/* 8. Madde: Ã‡izim TutamacÄ± */
 .gonye-draw-handle {
     position: absolute;
-    left: -10px; /* 10px Dışarıda (solda) */
-    top: 0; /* JS ile pozisyonu değişecek */
+    left: -10px; /* 10px DÄ±ÅŸarÄ±da (solda) */
+    top: 0; /* JS ile pozisyonu deÄŸiÅŸecek */
     width: 8px; 
-    height: 20px; /* Tutma alanı */
-    background: rgba(255, 0, 0, 0.8); /* Kırmızı */
+    height: 20px; /* Tutma alanÄ± */
+    background: rgba(255, 0, 0, 0.8); /* KÄ±rmÄ±zÄ± */
     border: 1px solid #ffaaaa;
     border-radius: 2px;
     cursor: n-resize; /* Dikey hareket */
     z-index: 1002;
-    transition: top 0.05s ease-out; /* 0'a dönüş animasyonu */
+    transition: top 0.05s ease-out; /* 0'a dÃ¶nÃ¼ÅŸ animasyonu */
     
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .gonye-draw-handle::before {
-    content: '✎';
+    content: 'âœ';
     color: #fff;
     font-size: 10px;
     line-height: 8px;
@@ -149,22 +149,22 @@
     border-radius: 3px;
     font-size: 12px;
     font-weight: bold;
-    display: none; /* Sadece sürüklerken JS ile gösterilecek */
+    display: none; /* Sadece sÃ¼rÃ¼klerken JS ile gÃ¶sterilecek */
 }
 .gonye-rotate-handle::before {
-    content: '↺';
+    content: 'â†º';
     color: #0f0;
     text-shadow: 0 0 5px #000;
     font-size: 14px;
     font-weight: bold;
 }
 
-/* --- gonye.css EN SONA EKLEYİN --- */
+/* --- gonye.css EN SONA EKLEYÄ°N --- */
 
-/* Yeniden Boyutlandırma Tutamacı */
+/* Yeniden BoyutlandÄ±rma TutamacÄ± */
 .gonye-resize-handle {
     position: absolute;
-    /* Sağ alt köşeye yerleştir (90 derece köşesi) */
+    /* SaÄŸ alt kÃ¶ÅŸeye yerleÅŸtir (90 derece kÃ¶ÅŸesi) */
     bottom: 5px;
     right: 5px;
     
@@ -175,20 +175,20 @@
     border: 2px solid #f0f;
     border-radius: 50%;
     
-    cursor: nwse-resize; /* Çapraz ok imleci */
+    cursor: nwse-resize; /* Ã‡apraz ok imleci */
     z-index: 1002;
     
-    /* İçine simge koymak için */
+    /* Ä°Ã§ine simge koymak iÃ§in */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .gonye-resize-handle::before {
-    content: '↔';
+    content: 'â†”';
     color: #f0f;
     text-shadow: 0 0 5px #000;
     font-size: 14px;
     font-weight: bold;
-    transform: rotate(-45deg); /* Simgeyi çapraz yap */
+    transform: rotate(-45deg); /* Simgeyi Ã§apraz yap */
 }
