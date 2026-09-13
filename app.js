@@ -6291,7 +6291,7 @@ function setupConnectionEvents() {
         packetWindow.count += 1;
         if (packetWindow.count > NETWORK_LIMITS.maxMessagesPerSecond) {
             console.warn('Aşırı hızlı ağ trafiği reddedildi:', connection.peer);
-            connection.close();
+            
             return;
         }
         if (byteLengthOf(data) > NETWORK_LIMITS.maxMessageBytes ||
