@@ -5838,6 +5838,12 @@ if (isTablet) {
 }
 // --- 3. BAÐLANTI ÝSTEK DÝNLEYÝCÝSÝ (KAPI ZÝLÝ) ---
 myPeer.on('connection', function (conn) {
+    // EÐER ZATEN AKTÝF BÝR ÖÐRETMEN BAÐLIYSA, YENÝ ÝSTEKLERÝ EKRANA BÝLE GETÝRMEDEN REDDET!
+    if (window.authorizedTeacherId && typeof myConnection !== 'undefined' && myConnection && myConnection.open) {
+        console.warn("Zaten aktif bir öðretmen cihazý baðlý. Yeni baðlantý isteði reddedildi:", conn.peer);
+        setTimeout(() => conn.close(), 100);
+        return;
+    }
     // ?? KRÝTÝK GÜVENLÝK YAMASI: ÞÝFRE (PIN) KONTROLÜ ZORUNLULUÐU VE KABA KUVVET (BRUTE-FORCE) KORUMASI ??
     if (!window.bannedPeers) window.bannedPeers = {};
     if (!window.failedAttempts) window.failedAttempts = {};
