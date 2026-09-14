@@ -884,6 +884,7 @@ const body = document.body;
 
 // 1. Sol Panel Araï¿½larï¿½
 const penButton = document.getElementById('btn-kalem');
+const akilliPenButton = document.getElementById('btn-akilli-kalem');
 const eraserButton = document.getElementById('btn-silgi');
 const lineButton = document.getElementById('btn-cizgi');
 const rulerButton = document.getElementById('btn-cetvel');
@@ -2275,6 +2276,7 @@ function setActiveTool(tool) {
 
     // Mevcut butonlarï¿½n aktifliï¿½ini temizle
     penButton.classList.remove('active');
+    if (akilliPenButton) akilliPenButton.classList.remove('active');
     eraserButton.classList.remove('active');
     lineButton.classList.remove('active');
     pointButton.classList.remove('active');
@@ -2474,6 +2476,7 @@ function setActiveTool(tool) {
 // --- BUTON OLAYLARI ---
 
 penButton.addEventListener('click', () => setActiveTool(currentTool === 'pen' ? 'none' : 'pen'));
+if (akilliPenButton) akilliPenButton.addEventListener('click', () => setActiveTool(currentTool === 'smart_pen' ? 'none' : 'smart_pen'));
 eraserButton.addEventListener('click', () => setActiveTool(currentTool === 'eraser' ? 'none' : 'eraser'));
 
 
@@ -3270,7 +3273,9 @@ canvas.addEventListener('pointerdown', (e) => {
     if (currentTool === 'snapshot') { snapshotStart = getPointerPos(e); return; }
 
     switch (currentTool) {
-        case 'pen': isDrawing = true; const pInfoDown = getPointerInfo(e); const pStroke = { type: 'pen', pointerType: pInfoDown.type, startTime: Date.now(), path: [{ x: snapPos.x, y: snapPos.y, p: pInfoDown.type === 'pen' ? pInfoDown.pressure : 1 }], color: currentPenColor, baseWidth: currentPenWidth, id: Date.now() + Math.random() }; drawnStrokes.push(pStroke); break;
+        case 'pen': 
+        case 'smart_pen': 
+            isDrawing = true; const pInfoDown = getPointerInfo(e); const pStroke = { type: 'pen', pointerType: pInfoDown.type, startTime: Date.now(), path: [{ x: snapPos.x, y: snapPos.y, p: pInfoDown.type === 'pen' ? pInfoDown.pressure : 1 }], color: currentPenColor, baseWidth: currentPenWidth, id: Date.now() + Math.random() }; drawnStrokes.push(pStroke); break;
         case 'point': isDrawing = false; const noktaObj = { type: 'point', x: snapPos.x, y: snapPos.y, label: nextPointChar, color: window.isToolThemeBlack ? '#000000' : (window.currentLineColor || '#FFFFFF'), id: Date.now() + Math.random() }; drawnStrokes.push(noktaObj); if (typeof window.sendNetworkData === 'function' && typeof isConnected !== 'undefined' && isConnected) window.sendNetworkData({ type: 'yeni_cizim', stroke: noktaObj }); nextPointChar = advanceChar(nextPointChar); if (typeof window.nextPointChar !== 'undefined') window.nextPointChar = nextPointChar; setTimeout(() => { if (typeof redrawAllStrokes === 'function') redrawAllStrokes(); }, 10); break;
         case 'eraser': isDrawing = false; break; // ?? KESï¿½N ï¿½ï¿½Zï¿½M: Silgi modunda kalem izi ï¿½izilmesi tamamen yasaklandï¿½!
         case 'straightLine': if (!isDrawingLine) { isDrawingLine = true; lineStartPoint = snapPos; } break;
@@ -3551,7 +3556,7 @@ canvas.addEventListener('pointermove', (e) => {
     if (currentTool === 'lasso') { currentMousePos = pos; if (typeof isDrawingLasso !== 'undefined' && isDrawingLasso && typeof lassoPoints !== 'undefined' && lassoPoints.length > 0) { let startPoint = lassoPoints[0]; const toleransScale = (typeof globalScale !== 'undefined' && globalScale > 0) ? globalScale : 1; window.lassoIsClosing = (Math.hypot(pos.x - startPoint.x, pos.y - startPoint.y) < (40 / toleransScale)); } redrawAllStrokes(); return; }
     if (!isDrawing) return;
 
-    if (currentTool === 'pen') {
+    if (currentTool === 'pen' || currentTool === 'smart_pen') {
         const pInfoMove = getPointerInfo(e);
         const curStroke = drawnStrokes[drawnStrokes.length - 1];
         curStroke.path.push({ x: pos.x, y: pos.y, p: pInfoMove.type === 'pen' ? pInfoMove.pressure : 1 }); 
@@ -3812,7 +3817,7 @@ canvas.addEventListener('pointerup', (e) => {
     }
 
     // --- G) AKILLI KALEM (PEN) VE ï¿½EKï¿½L TANIMA (Gï¿½VENLï¿½ Sï¿½Rï¿½M) ---
-    if (currentTool === 'pen') {
+    if (currentTool === 'pen' || currentTool === 'smart_pen') {
         let lastStroke = drawnStrokes[drawnStrokes.length - 1];
 
         if (lastStroke && lastStroke.type === 'pen') {
@@ -3828,7 +3833,7 @@ canvas.addEventListener('pointerup', (e) => {
             }
             else {
                 let correctedShape = null;
-                if (typeof akilliSekilTani === 'function') {
+                if (currentTool === 'smart_pen' && typeof akilliSekilTani === 'function') {
                     try { correctedShape = akilliSekilTani(lastStroke); } catch (err) { }
                 }
 
@@ -5206,6 +5211,7 @@ function setLanguage(lang) {
     // SOL PANEL
     update('btn-silgi', t.silgi);
     update('btn-kalem', t.kalem);
+    update('btn-akilli-kalem', t.akilli_kalem || 'Akıllı Kalem');
     update('btn-cizgi', t.cizgi);
     update('btn-nokta', t.nokta);
     update('btn-d_cizgi', t.d_cizgi);
