@@ -1,0 +1,1 @@
+$content = Get-Content -Path "app.js" -Encoding Default; [System.IO.File]::WriteAllLines("app.js", $content, [System.Text.Encoding]::UTF8); $contentHTML = Get-Content -Path "index.html" -Encoding Default; [System.IO.File]::WriteAllLines("index.html", $contentHTML, [System.Text.Encoding]::UTF8)
