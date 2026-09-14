@@ -5927,7 +5927,7 @@ myPeer.on('connection', function (conn) {
     delete window.failedAttempts[peerId];
 
 
-    console.log(isTeacherCandidate ? "ï¿½ï¿½retmen eï¿½leï¿½me isteï¿½i alï¿½ndï¿½:" : "Bir cihaz baï¿½lanmak istiyor (ï¿½ifre doï¿½rulandï¿½):", conn.peer);
+    console.log(isTeacherCandidate ? "Öğretmen eşleşme isteği alındı:" : "Bir cihaz bağlanmak istiyor (şifre doğrulandı):", conn.peer);
 
     const requestModal = document.getElementById('conn-request-modal');
     const requestText = document.getElementById('request-text');
@@ -5936,8 +5936,8 @@ myPeer.on('connection', function (conn) {
 
     if (requestModal && requestText && btnAccept && btnReject) {
         requestText.innerText = isTeacherCandidate
-            ? `Bir cihaz ï¿½ï¿½retmen olarak eï¿½leï¿½mek istiyor. Bu cihazï¿½ onaylï¿½yor musun?`
-            : `Oda kodu "${conn.peer}" olan bir cihaz baï¿½lanmak istiyor. Onaylï¿½yor musun?`;
+            ? `Bir cihaz öğretmen olarak eşleşmek istiyor. Bu cihazı onaylıyor musun?`
+            : `Oda kodu "${conn.peer}" olan bir cihaz bağlanmak istiyor. Onaylıyor musun?`;
         requestModal.classList.remove('hidden');
         requestModal.style.display = 'flex';
 
@@ -5970,7 +5970,7 @@ myPeer.on('connection', function (conn) {
 
                     const statusEl = document.getElementById('connection-status');
                     if (statusEl) {
-                        statusEl.innerText = "BAï¿½LANDI ??";
+                        statusEl.innerText = "BAĞLANDI ✔️";
                         statusEl.style.color = "#00ffcc";
                     }
 
@@ -5979,7 +5979,7 @@ myPeer.on('connection', function (conn) {
                     }
 
                     setupConnectionEvents();
-                    console.log("Cihaz baï¿½arï¿½yla baï¿½landï¿½:", conn.peer);
+                    console.log("Cihaz başarıyla bağlandı:", conn.peer);
 
                     // ?? KESï¿½N ï¿½ï¿½Zï¿½M: PC baï¿½lantï¿½yï¿½ onayladï¿½ï¿½ï¿½ an, dinlemeye baï¿½lar baï¿½lamaz tabletten 
                     // "Ekran durumunu" zorla talep eder. Bï¿½ylece kayï¿½p mesajlar tamamen ï¿½nlenir!
@@ -6069,6 +6069,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const _mb = document.getElementById('network-mini-btn'); if (_mb) _mb.style.display = 'block';
                     const _lo = document.getElementById('language-overlay'); if (_lo) _lo.style.display = 'none';
                     const _dm = document.getElementById('disclaimer-modal'); if (_dm) { _dm.style.display = 'none'; _dm.remove(); }
+                    const _fc = document.getElementById('footer-container'); if (_fc) { _fc.style.display = 'none'; _fc.remove(); }
                     const _ip = document.getElementById('install-popup'); if (_ip) { _ip.style.display = 'none'; _ip.remove(); }
                     document.getElementById('connection-status').innerText = "BAï¿½LANDI ??";
                     document.getElementById('connection-status').style.color = "#00ffcc";
@@ -6322,6 +6323,7 @@ function setupConnectionEvents() {
                     const _mb = document.getElementById('network-mini-btn'); if (_mb) _mb.style.display = 'block';
                     const _lo = document.getElementById('language-overlay'); if (_lo) _lo.style.display = 'none';
                     const _dm = document.getElementById('disclaimer-modal'); if (_dm) { _dm.style.display = 'none'; _dm.remove(); }
+                    const _fc = document.getElementById('footer-container'); if (_fc) { _fc.style.display = 'none'; _fc.remove(); }
                     const _ip = document.getElementById('install-popup'); if (_ip) { _ip.style.display = 'none'; _ip.remove(); }
     isConnected = true;
 
