@@ -5688,7 +5688,7 @@ window.pendingTeacherConnections = new Set();
 const NETWORK_LIMITS = Object.freeze({
     maxMessageBytes: 15 * 1024 * 1024,
     maxChunkBytes: 12 * 1024,
-    maxMessagesPerSecond: 240,
+    maxMessagesPerSecond: 2000,
     maxPendingChunks: 2048,
     maxStrokePoints: 20000,
     maxStringLength: 4096
