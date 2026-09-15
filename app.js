@@ -9127,38 +9127,17 @@ function calculateDistance(p1, p2) {
                 }
             });
 
-            // YENI: Genis Acili 1080p Ozel Kamera (Dinamik Adaptasyon Modu)
-            camera = {
-                stream: null,
-                isRunning: false,
-                start: async function() {
-                    try {
-                        this.stream = await navigator.mediaDevices.getUserMedia({
-                            video: { width: { ideal: 1920 }, height: { ideal: 1080 }, facingMode: 'user' }
-                        });
-                        videoElement.srcObject = this.stream;
-                        await videoElement.play();
-                        this.isRunning = true;
-                        window.isSniperModeActive = false;
-                        
-                        const processFrame = async () => {
-                            if (!this.isRunning) return;
-                            if (videoElement.readyState >= 2) {
-                                // Dogrudan video elementini gonder (Kirpma YOK, Zoom YOK)
-                                await hands.send({image: videoElement});
-                            }
-                            requestAnimationFrame(processFrame);
-                        };
-                        processFrame();
-                    } catch(e) {
-                        console.error('Kamera baslatilamadi', e);
+            // Kamera besleyiciyi başlat: her frame'de hands.send() ile sonuçları güncelle
+            camera = new window.Camera(videoElement, {
+                onFrame: async () => {
+                    if (videoElement.readyState >= 2) {
+                        await hands.send({image: videoElement});
                     }
                 },
-                stop: function() {
-                    this.isRunning = false;
-                    if (this.stream) this.stream.getTracks().forEach(t => t.stop());
-                }
-            };
+                width: 1920,
+                height: 1080,
+                facingMode: 'user'
+            });
             camera.start();
 
             tonyBtn.innerHTML = '?? Sihirli El';
