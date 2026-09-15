@@ -72,6 +72,24 @@ const translationExtras = {
 };
 Object.keys(translationExtras).forEach(lang=>Object.assign(translations[lang],translationExtras[lang]));
 const translations3D = {
+    en: {
+        menu: "3D Shapes",
+        sphere: "Sphere",
+        prisms: "Prisms",
+        pyramids: "Pyramids",
+        cube: "Cube",
+        squarePrism: "Square Prism",
+        rectangularPrism: "Rectangular Prism",
+        triangularPrism: "Triangular Prism",
+        pentagonalPrism: "Pentagonal Prism",
+        hexagonalPrism: "Hexagonal Prism",
+        cylinder: "Cylinder",
+        cone: "Cone",
+        triangularPyramid: "Triangular Pyramid",
+        squarePyramid: "Square Pyramid",
+        pentagonalPyramid: "Pentagonal Pyramid",
+        hexagonalPyramid: "Hexagonal Pyramid"
+    },
     de: {
         menu: "3D-Körper",
         sphere: "Kugel",
