@@ -67,6 +67,71 @@ const translations = {
     ja: { yukle: "ã‚¢ãƒƒãƒ—ãƒ­ãƒ¼ãƒ‰", silgi: "æ¶ˆã—ã‚´ãƒ ", kalem: "ãƒšãƒ³", cizgi: "ç·š", nokta: "ç‚¹", d_cizgi: "ç›´ç·š", dogru: "ç›´ç·š", dogru_parcasi: "ç·šåˆ†", isin: "åŠç›´ç·š", cetvel: "å®šè¦", gonye: "ä¸‰è§’å®šè¦", aciolcer: "åˆ†åº¦å™¨", pergel: "ã‚³ãƒ³ãƒ‘ã‚¹", cokgenler: "å¤šè§’å½¢", cember: "å††", d_ucgen: "æ­£ä¸‰è§’å½¢", d_dortgen: "æ­£æ–¹å½¢", dikdortgen: "é•·æ–¹å½¢", d_besgen: "äº”è§’å½¢", d_altigen: "å…­è§’å½¢", d_yedigen: "ä¸ƒè§’å½¢", d_sekizgen: "å…«è§’å½¢", oyunlar: "ã‚²ãƒ¼ãƒ ", arac_rengi: "ãƒ„ãƒ¼ãƒ«ã®è‰²", geri_al: "å…ƒã«æˆ»ã™", hepsini_sil: "ã™ã¹ã¦æ¶ˆå»", tasi: "ç§»å‹•", canlandir: "ã‚¢ãƒ‹ãƒ¡ âœ‚ï¸", kutu: "ãƒœãƒƒã‚¯ã‚¹", serbest: "è‡ªç”±", yardim: "ãƒ˜ãƒ«ãƒ—", ins_t: "ã‚¢ãƒ—ãƒªã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«", ins_d: "ãƒ‘ãƒ•ã‚©ãƒ¼ãƒãƒ³ã‚¹å‘ä¸Šã®ãŸã‚ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«", ins_b: "ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«", ins_c: "é–‰ã˜ã‚‹", vid_cetvel: "å®šè¦ã®ä½¿ã„æ–¹", vid_gonye: "ä¸‰è§’å®šè¦ã®ä½¿ã„æ–¹", vid_aciolcer: "åˆ†åº¦å™¨ã®ä½¿ã„æ–¹", vid_pergel: "ã‚³ãƒ³ãƒ‘ã‚¹ã®ä½¿ã„æ–¹", vid_canlandir: "ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ (ã‚³ãƒ”ãƒ¼)", vid_cizgi: "ç·šãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ä½¿ã„æ–¹", vid_cokgenler: "å¤šè§’å½¢", vid_kalem: "ãƒšãƒ³", vid_kitap: "æœ¬ã¨ç”»åƒã‚’èª­ã¿è¾¼ã‚€", vid_oyunlar: "ã‚²ãƒ¼ãƒ ", pdf_soru: "ã“ã®PDFã¯{0}ãƒšãƒ¼ã‚¸ã‚ã‚Šã¾ã™ã€‚ã©ã®ãƒšãƒ¼ã‚¸ã‹ã‚‰ç¶šè¡Œã—ã¾ã™ã‹ï¼Ÿ", sihirli_el: "âœ¨ Magic Hand", soru_cek: "ğŸ“¸ Take Photo", kvkk: "ã“ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã¯å€‹äººãƒ‡ãƒ¼ã‚¿ã‚’åé›†ã›ãšã€ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚µãƒ¼ãƒãƒ¼ã«ã‚¢ãƒƒãƒ—ãƒ­ãƒ¼ãƒ‰ã—ã¾ã›ã‚“ã€‚" }
 };
 
+const translations3D = {
+    de: {
+        menu: "3D-Körper",
+        sphere: "Kugel",
+        prisms: "Prismen",
+        pyramids: "Pyramiden",
+        cube: "Würfel",
+        squarePrism: "Quadratisches Prisma",
+        rectangularPrism: "Rechteckiges Prisma",
+        triangularPrism: "Dreiecksprisma",
+        pentagonalPrism: "Fünfeckiges Prisma",
+        hexagonalPrism: "Sechseckiges Prisma",
+        cylinder: "Zylinder",
+        cone: "Kegel",
+        triangularPyramid: "Dreieckspyramide",
+        squarePyramid: "Quadratische Pyramide",
+        pentagonalPyramid: "Fünfeckige Pyramide",
+        hexagonalPyramid: "Sechseckige Pyramide"
+    }
+};
+
+const default3DLabels = {
+    menu: "3D Cisimler",
+    sphere: "Küre",
+    prisms: "Prizmalar",
+    pyramids: "Piramitler",
+    cube: "Küp",
+    squarePrism: "Kare Prizma",
+    rectangularPrism: "Dikdörtgen Prizma",
+    triangularPrism: "Üçgen Prizma",
+    pentagonalPrism: "Beşgen Prizma",
+    hexagonalPrism: "Altıgen Prizma",
+    cylinder: "Silindir",
+    cone: "Koni",
+    triangularPyramid: "Üçgen Piramit",
+    squarePyramid: "Kare Piramit",
+    pentagonalPyramid: "Beşgen Piramit",
+    hexagonalPyramid: "Altıgen Piramit"
+};
+
+function update3DLabels() {
+    const labels = { ...default3DLabels, ...(translations3D[currentLang] || {}) };
+    const setText = (selector, text) => {
+        const element = document.querySelector(selector);
+        if (element) element.textContent = text;
+    };
+
+    setText('#btn-3d-menu', labels.menu);
+    setText('[data-3d="3d_kure"]', labels.sphere);
+    setText('#btn-prizmalar', `${labels.prisms} ▶`);
+    setText('#btn-piramitler', `${labels.pyramids} ▶`);
+    setText('[data-3d="3d_kup"]', labels.cube);
+    setText('[data-3d="3d_kare_prizma"]', labels.squarePrism);
+    setText('[data-3d="3d_dikdortgen_prizma"]', labels.rectangularPrism);
+    setText('[data-3d="3d_ucgen_prizma"]', labels.triangularPrism);
+    setText('[data-3d="3d_besgen_prizma"]', labels.pentagonalPrism);
+    setText('[data-3d="3d_altigen_prizma"]', labels.hexagonalPrism);
+    setText('[data-3d="3d_silindir"]', labels.cylinder);
+    setText('[data-3d="3d_koni"]', labels.cone);
+    setText('[data-3d="3d_ucgen_piramit"]', labels.triangularPyramid);
+    setText('[data-3d="3d_kare_piramit"]', labels.squarePyramid);
+    setText('[data-3d="3d_besgen_piramit"]', labels.pentagonalPyramid);
+    setText('[data-3d="3d_altigen_piramit"]', labels.hexagonalPyramid);
+}
+
 window.aktifBaglantilar = {};
 let currentLassoX = 0;
 let currentLassoY = 0;
@@ -5232,6 +5297,7 @@ function setLanguage(lang) {
     update('btn-duzgun_yedigen', t.d_yedigen);
     update('btn-duzgun_sekizgen', t.d_sekizgen);
     update('btn-oyunlar', t.oyunlar);
+    update3DLabels();
 
     // SAĞ PANEL
     update('btn-undo', t.geri_al);
@@ -8244,6 +8310,7 @@ window.addEventListener('load', () => {
         menuPiramitler.style.cssText = `position: absolute; left: 100%; margin-left: 10px; top: 40px; z-index: 21; background-color: rgba(30, 30, 46, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: 0 15px 35px rgba(0,0,0,0.4); padding: 15px; border-radius: 15px; display: flex; flex-direction: column; gap: 8px; width: 180px;`;
         menuPiramitler.innerHTML = `<button class="tool-button-sub" data-3d="3d_koni">Koni</button><button class="tool-button-sub" data-3d="3d_ucgen_piramit">Üçgen Piramit</button><button class="tool-button-sub" data-3d="3d_kare_piramit">Kare Piramit</button><button class="tool-button-sub" data-3d="3d_besgen_piramit">Beşgen Piramit</button><button class="tool-button-sub" data-3d="3d_altigen_piramit">Altıgen Piramit</button>`;
         menu3D.appendChild(menuPiramitler);
+        update3DLabels();
 
         btn3D.addEventListener('click', (e) => {
             e.stopPropagation(); document.querySelectorAll('.tool-options').forEach(m => { if (m !== menu3D && m !== menuPrizmalar && m !== menuPiramitler) { m.classList.add('hidden'); m.style.display = 'none'; } });
