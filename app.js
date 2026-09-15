@@ -458,7 +458,7 @@ window.OyunListesi = [
         link: "https://bdemir1499.github.io/tumler-butunler-komsutumler-komsubutunler/"
     },
     {
-        tr: "AÇILARINA GÖRE ÜÇGENLER",
+        tr: "AÃ‡ILARINA GÃ–RE ÃœÃ‡GENLER",
         en: "TRIANGLES ACCORDING TO THEIR ANGLES",
         de: "DREIECKE NACH IHREN WINKELN",
         ar: "???????? ??? ???????",
@@ -506,7 +506,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/temel-geometrik-sekiller"
     },
     {
-        tr: "ÇOKGENLERİN ELEMANLARI",
+        tr: "Ã‡OKGENLERÄ°N ELEMANLARI",
         en: "ELEMENTS OF POLYGONS",
         de: "ELEMENTE VON POLYGONEN",
         ar: "????? ????????",
@@ -554,7 +554,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt2507.my.canva.site/ikiser-kesisen-dogru"
     },
     {
-        tr: "DİKDÖRTGENİN ÇEVRE VE ALANI",
+        tr: "DÄ°KDÃ–RTGENÄ°N Ã‡EVRE VE ALANI",
         en: "PERIMETER AND AREA OF RECTANGLE",
         de: "UMFANG UND FLÃ¯Â¿Â½CHE DES RECHTECKS",
         ar: "???? ?????? ????????",
@@ -570,7 +570,7 @@ window.OyunListesi = [
         link: "https://bdemir1499.github.io/dikdortgen-cevre-ve-alan/"
     },
     {
-        tr: "DÖRTGENLERİN ÖZELLİKLERİ (TÜMEVARIM)",
+        tr: "DÃ¯Â¿Â½RTGENLERÃ¯Â¿Â½N Ã¯Â¿Â½ZELLÃ¯Â¿Â½KLERÃ¯Â¿Â½ (TÃ¯Â¿Â½MEVARIM)",
         en: "PROPERTIES OF QUADRILATERALS (INDUCTION)",
         de: "EIGENSCHAFTEN VON VIERECKEN (INDUKTION)",
         ar: "????? ??????? ???????? (?????????)",
@@ -586,7 +586,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/dortgenler-ve-ozellikleri-tumevarim"
     },
     {
-        tr: "DÖRTGENLERİN ÖZELLİKLERİ (TÜMDENGELİM)",
+        tr: "DÃ¯Â¿Â½RTGENLERÃ¯Â¿Â½N Ã¯Â¿Â½ZELLÃ¯Â¿Â½KLERÃ¯Â¿Â½ (TÃ¯Â¿Â½MDEN GELÃ¯Â¿Â½M)",
         en: "PROPERTIES OF QUADRILATERALS (DEDUCTION)",
         de: "EIGENSCHAFTEN VON VIERECKEN (DEDUKTION)",
         ar: "????? ??????? ???????? (?????????)",
@@ -602,7 +602,7 @@ window.OyunListesi = [
         link: "https://bdemir1499.github.io/dortgen-ve-ozellikleri-tumdengelim/"
     },
     {
-        tr: "İKİ PARALEL DOĞRUNUN BİR KESENLE YAPTIĞI AÇILAR (2)",
+        tr: "Ã¯Â¿Â½KÃ¯Â¿Â½ PARALEL DOÃ¯Â¿Â½RUNUN BÃ¯Â¿Â½R KESENLE YAPTIÃ¯Â¿Â½I AÃ¯Â¿Â½ILAR (2)",
         en: "ANGLES FORMED BY TWO PARALLEL LINES AND A TRANSVERSAL (2)",
         de: "WINKEL AN PARALLELEN UND SCHNEIDENDEN LINIEN (2)",
         ar: "??????? ??????? ?? ???????? ????? (2)",
@@ -618,7 +618,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/iki-paralel-dogrunun-bir-kesenle-yapt-g-ac-lar"
     },
     {
-        tr: "DÖNÜŞÜM GEOMETRİSİ (ÖTELEME/YANSIMA)",
+        tr: "DÃ¯Â¿Â½NÃ¯Â¿Â½Ã¯Â¿Â½Ã¯Â¿Â½M GEOMETRÃ¯Â¿Â½SÃ¯Â¿Â½ (Ã¯Â¿Â½TELEME/YANSIMA)",
         en: "TRANSFORMATION GEOMETRY (TRANSLATION/REFLECTION)",
         de: "TRANSFORMATIONSGEOMETRIE (VERSCHIEBUNG/SPIEGELUNG)",
         ar: "??????? ????????? (???????/????????)",
@@ -634,7 +634,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/oteleme-ve-yansima"
     },
     {
-        tr: "DÖRTGEN ÇEŞİTLERİ KAVRAM HARİTASI",
+        tr: "DÃ¯Â¿Â½RTGEN Ã¯Â¿Â½EÃ¯Â¿Â½Ã¯Â¿Â½TLERÃ¯Â¿Â½ KAVRAM HARÃ¯Â¿Â½TASI",
         en: "CONCEPT MAP OF QUADRILATERAL TYPES",
         de: "BEGRIFFSMAP DER VIERECKARTEN",
         ar: "????? ?????? ????? ??????? ????????",
@@ -650,7 +650,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/dortgenler-kavram-haritasi"
     },
     {
-        tr: "DÖRTGENLER GENEL ÇIKARIMLAR",
+        tr: "DÃ¯Â¿Â½RTGENLER GENEL Ã¯Â¿Â½IKARIMLAR",
         en: "GENERAL INFERENCES ABOUT QUADRILATERALS",
         de: "ALLGEMEINE SCHLUSSFOLGERUNGEN Ã¯Â¿Â½BER VIERECKE",
         ar: "??????????? ?????? ??? ??????? ????????",
@@ -666,7 +666,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/dortgenler-genel-cikarimlar"
     },
     {
-        tr: "KESİRLERİN FARKLI GÖSTERİMLERİ",
+        tr: "KESÃ¯Â¿Â½RLERÃ¯Â¿Â½N FARKLI GÃ¯Â¿Â½STERÃ¯Â¿Â½MLERÃ¯Â¿Â½",
         en: "DIFFERENT REPRESENTATIONS OF FRACTIONS",
         de: "VERSCHIEDENE DARSTELLUNGEN VON BRÃ¯Â¿Â½CHEN",
         ar: "??????? ?????? ??????",
@@ -682,7 +682,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/kesirlerin-farkl-g-sterimleri"
     },
     {
-        tr: "KÖŞEGENLERDEN DÖRTGENLERE (1)",
+        tr: "KÃ¯Â¿Â½Ã¯Â¿Â½EGENLERDEN DÃ¯Â¿Â½RTGENLERE (1)",
         en: "FROM DIAGONALS TO QUADRILATERALS (1)",
         de: "VON DIAGONALEN ZU VIERECKEN (1)",
         ar: "?? ??????? ??? ??????? ???????? (1)",
@@ -698,7 +698,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/k-egenlerden-d-rtgenlere"
     },
     {
-        tr: "CEBİRSEL İFADELER TEMEL KAVRAMLAR",
+        tr: "CEBÃ¯Â¿Â½RSEL Ã¯Â¿Â½FADELER TEMEL KAVRAMLAR",
         en: "ALGEBRAIC EXPRESSIONS BASIC CONCEPTS",
         de: "ALGEBRAISCHE AUSDRÃ¯Â¿Â½CKE - GRUNDBEGRIFFE",
         ar: "???????? ???????? ????????? ???????",
@@ -714,7 +714,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/cebirsel-ifadeler-temel-kavramlar"
     },
     {
-        tr: "CEBİRSEL İFADELER SÖZELDEN CEBİRE",
+        tr: "CEBÃ¯Â¿Â½RSEL Ã¯Â¿Â½FADELER SÃ¯Â¿Â½ZELDEN CEBÃ¯Â¿Â½RE",
         en: "ALGEBRAIC EXPRESSIONS FROM VERBAL TO ALGEBRAIC",
         de: "VON DER SPRACHE ZUR ALGEBRA",
         ar: "????????? ??????? ?? ??????? ??? ???????",
@@ -730,7 +730,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/cebirsel-ifadelerle-oyun-tasar-m-kopyas"
     },
     {
-        tr: "CEBİRSEL İFADELER CEBİRDEN SÖZELE",
+        tr: "CEBÃ¯Â¿Â½RSEL Ã¯Â¿Â½FADELER CEBÃ¯Â¿Â½RDEN SÃ¯Â¿Â½ZELE",
         en: "ALGEBRAIC EXPRESSIONS FROM ALGEBRAIC TO VERBAL",
         de: "VON DER ALGEBRA ZUR SPRACHE",
         ar: "????????? ??????? ?? ??????? ??? ???????",
@@ -746,7 +746,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/cebirsel-ifadeler-2-cebirden-s-zele"
     },
     {
-        tr: "CEBİRSEL İFADELER DEĞER HESAPLAMA",
+        tr: "CEBÃ¯Â¿Â½RSEL Ã¯Â¿Â½FADELER DEÃ¯Â¿Â½ER HESAPLAMA",
         en: "CALCULATING VALUES OF ALGEBRAIC EXPRESSIONS",
         de: "BERECHNEN VON WERTE ALGEBRAISCHER AUSDRÃ¯Â¿Â½CKE",
         ar: "???? ??? ????????? ???????",
@@ -762,7 +762,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/cebirsel-ifadelerin-degerini-hesaplamak"
     },
     {
-        tr: "ARAŞTIRMA ADIMLARI (Canva)",
+        tr: "ARAÃ¯Â¿Â½TIRMA ADIMLARI (Canva)",
         en: "RESEARCH STEPS (Canva)",
         de: "FORSCHUNGSSCHRITTE (Canva)",
         ar: "????? ????? (?????)",
@@ -778,7 +778,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/5-sinif-arastirma-adimlari"
     },
     {
-        tr: "ARAŞTIRMA ADIMLARI (GitHub)",
+        tr: "ARAÃ¯Â¿Â½TIRMA ADIMLARI (GitHub)",
         en: "RESEARCH STEPS (GitHub)",
         de: "FORSCHUNGSSCHRITTE (GitHub)",
         ar: "????? ????? (??? ???)",
@@ -794,7 +794,7 @@ window.OyunListesi = [
         link: "https://bdemir1499.github.io/5.sinif-arastirma-asamalari/"
     },
     {
-        tr: "ÜÇGENDE YARDIMCI ELEMANLAR",
+        tr: "Ã¯Â¿Â½Ã¯Â¿Â½GENDE YARDIMCI ELEMANLAR",
         en: "AUXILIARY ELEMENTS IN TRIANGLES",
         de: "HILFSELEMENTE IN DREIECKEN",
         ar: "??????? ???????? ?? ??????",
@@ -810,7 +810,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/ucgende-yardim-i-elemanlar"
     },
     {
-        tr: "ÜÇGEN ÇİZİMİ",
+        tr: "Ã¯Â¿Â½Ã¯Â¿Â½GEN Ã¯Â¿Â½Ã¯Â¿Â½ZÃ¯Â¿Â½MÃ¯Â¿Â½",
         en: "TRIANGLE DRAWING",
         de: "DREIECKE ZEICHNEN",
         ar: "??? ??????",
@@ -826,7 +826,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/ucgen-cizim-sartlari"
     },
     {
-        tr: "ÜÇGENDE EŞLİK VE BENZERLİK",
+        tr: "Ã¯Â¿Â½Ã¯Â¿Â½GENDE EÃ¯Â¿Â½LÃ¯Â¿Â½K VE BENZERLÃ¯Â¿Â½K",
         en: "CONGRUENCE AND SIMILARITY IN TRIANGLES",
         de: "KONGRUENZ UND Ã¯Â¿Â½HNLICHKEIT IN DREIECKEN",
         ar: "????? ?????? ????????",
@@ -842,7 +842,7 @@ window.OyunListesi = [
         link: "https://bdemir1499.github.io/eslikvebenzerlik/"
     },
     {
-        tr: "PRİZMALARIN ELEMANLARI",
+        tr: "PRÃ¯Â¿Â½ZMALARIN ELEMANLARI",
         en: "ELEMENTS OF PRISMS",
         de: "ELEMENTE VON PRISMEN",
         ar: "????? ?????????",
@@ -858,7 +858,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/prizmalarin-elemanlar-ve-a-inimlari"
     },
     {
-        tr: "PİRAMİT VE AÇINIMI",
+        tr: "PÃ¯Â¿Â½RAMÃ¯Â¿Â½T VE AÃ¯Â¿Â½INIMI",
         en: "PYRAMID AND ITS NET",
         de: "PYRAMIDE UND IHR NETZ",
         ar: "????? ??????",
@@ -874,7 +874,7 @@ window.OyunListesi = [
         link: "https://bekrmatmt25.my.canva.site/piramidin-elemanlar-ve-acinimi"
     },
     {
-        tr: "PRİZMA, PİRAMİT, KONİ, SİLİNDİR",
+        tr: "PRÃ¯Â¿Â½ZMA, PÃ¯Â¿Â½RAMÃ¯Â¿Â½T, KONÃ¯Â¿Â½, SÃ¯Â¿Â½LÃ¯Â¿Â½NDÃ¯Â¿Â½R",
         en: "PRISM, PYRAMID, CONE, CYLINDER",
         de: "PRISMA, PYRAMIDE, KEGEL, ZYLINDER",
         ar: "???????? ?????? ???????? ?????????",
@@ -890,7 +890,7 @@ window.OyunListesi = [
         link: "https://sites.google.com/view/uc-boyutlu-sekiller/ana-sayfa_1"
     },
     {
-        tr: "KÖŞEGENLERDEN DÖRTGENLERE (2)",
+        tr: "KÃ¯Â¿Â½Ã¯Â¿Â½EGENLERDEN DÃ¯Â¿Â½RTGENLERE (2)",
         en: "FROM DIAGONALS TO QUADRILATERALS (2)",
         de: "VON DIAGONALEN ZU VIERECKEN (2)",
         ar: "?? ??????? ??? ??????? ???????? (2)",
