@@ -8912,18 +8912,6 @@ function calculateDistance(p1, p2) {
                 minTrackingConfidence: 0.3
             });
 
-            // Kamera besleyiciyi başlat: her frame'de hands.send() ile sonuçları güncelle
-            window.camera = new window.Camera(videoElement, {
-                onFrame: async () => {
-                    if (videoElement.readyState >= 2) {
-                        await hands.send({image: videoElement});
-                    }
-                },
-                width: 640,
-                height: 480,
-                facingMode: 'user'
-            });
-            window.camera.start();
 
             let startX = 0, startY = 0;
             let startScaleDistance = 0, startScale = 1;
